@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.one.mat.chatting.dao.ChattingDAO;
-import com.one.mat.chatting.dto.MemberDTO;
-import com.one.mat.chatting.dto.ProfileDTO;
+import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class ChattingService {

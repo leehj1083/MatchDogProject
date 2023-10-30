@@ -1,4 +1,4 @@
-package com.one.mat.chatting.dto;
+package com.one.mat.member.dto;
 
 public class ProfileDTO {
 	
@@ -11,7 +11,35 @@ public class ProfileDTO {
 	private int pro_dogScore;
 	private String pro_rep; // 대표프로필 여부
 	private String photo_fileName; // 프로필에 들어갈 사진
+	private String breedType;
+	private String charType;
+	private String photos;
 	
+	
+	public String getPhoto_fileName() {
+		return photo_fileName;
+	}
+	public void setPhoto_fileName(String photo_fileName) {
+		this.photo_fileName = photo_fileName;
+	}
+	public String getBreedType() {
+		return breedType;
+	}
+	public void setBreedType(String breedType) {
+		this.breedType = breedType;
+	}
+	public String getCharType() {
+		return charType;
+	}
+	public void setCharType(String charType) {
+		this.charType = charType;
+	}
+	public String getPhotos() {
+		return photos;
+	}
+	public void setPhotos(String photos) {
+		this.photos = photos;
+	}
 	public int getPro_idx() {
 		return pro_idx;
 	}

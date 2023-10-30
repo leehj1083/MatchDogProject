@@ -1,4 +1,4 @@
-package com.one.mat.chatting.dto;
+package com.one.mat.member.dto;
 
 import java.sql.Date;
 
@@ -13,6 +13,7 @@ public class MemberDTO {
 	private String member_name;
 	private String member_roadAddr; // 도로명 주소
 	private String member_parcelAddr; // 지번 주소
+	private String member_detailAddr; //상세 주소
 	private String member_nickName; 
 	private Date member_birth;
 	private Date member_regDate; // 가입일자
@@ -20,17 +21,10 @@ public class MemberDTO {
 	private String member_renew; // 구독 연장 여부
 	private String member_loginLock; // 로그인 금지 여부
 	private String member_quit; // 탈퇴 여부
-	private int subsType_idx; // 권한 ID (관리자,구독자 여부)
+	private int subsType_code; //권한 ID (관리자,구독자 여부)
+	private String subsType;// 권한 이름
+	private int subsType_idx;
 	// private String member_profile; // 프로필 여부 체크하기 위해
-	
-	
-	
-	public int getSubsType_idx() {
-		return subsType_idx;
-	}
-	public void setSubsType_idx(int subsType_idx) {
-		this.subsType_idx = subsType_idx;
-	}
 	public int getMember_idx() {
 		return member_idx;
 	}
@@ -85,6 +79,12 @@ public class MemberDTO {
 	public void setMember_parcelAddr(String member_parcelAddr) {
 		this.member_parcelAddr = member_parcelAddr;
 	}
+	public String getMember_detailAddr() {
+		return member_detailAddr;
+	}
+	public void setMember_detailAddr(String member_detailAddr) {
+		this.member_detailAddr = member_detailAddr;
+	}
 	public String getMember_nickName() {
 		return member_nickName;
 	}
@@ -127,7 +127,26 @@ public class MemberDTO {
 	public void setMember_quit(String member_quit) {
 		this.member_quit = member_quit;
 	}
-
+	public int getSubsType_code() {
+		return subsType_code;
+	}
+	public void setSubsType_code(int subsType_code) {
+		this.subsType_code = subsType_code;
+	}
+	public String getSubsType() {
+		return subsType;
+	}
+	public void setSubsType(String subsType) {
+		this.subsType = subsType;
+	}
+	public int getSubsType_idx() {
+		return subsType_idx;
+	}
+	public void setSubsType_idx(int subsType_idx) {
+		this.subsType_idx = subsType_idx;
+	}
+	
+	
 	
 	
 

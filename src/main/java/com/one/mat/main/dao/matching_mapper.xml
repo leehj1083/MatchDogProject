@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.one.mat.main.dao.MatchingDAO">
+	<!-- <select id="matchingList" resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT
+    d.member_dongAddr
+    ,p.pro_dogName
+    ,p.pro_dogAge
+    ,p.pro_dogGender
+    ,p.pro_dogDesc
+    ,bt.breedType 
+    ,ct.charType 
+		FROM member m
+		JOIN dongaddr d ON m.member_idx = d.member_idx
+		LEFT JOIN pro p ON m.member_idx = p.member_idx
+		LEFT JOIN breed b ON p.pro_idx = b.pro_idx
+		LEFT JOIN `char` c ON p.pro_idx = c.pro_idx
+		LEFT JOIN breedtype bt ON b.breedtype_code = bt.breedtype_code
+		LEFT JOIN chartype ct ON c.chartype_code = ct.chartype_code
+		WHERE m.member_idx = 1;
+	</select> -->
+	
+	
+<select id="matchingList" resultType="map">
+    SELECT
+    m.member_dongAddr
+    ,p.pro_dogName
+    ,p.pro_dogAge
+    ,p.pro_dogGender
+    ,p.pro_dogDesc
+    ,bt.breedType 
+    ,ct.charType 
+		FROM member m
+		LEFT JOIN pro p ON m.member_idx = p.member_idx
+		LEFT JOIN breed b ON p.pro_idx = b.pro_idx
+		LEFT JOIN `char` c ON p.pro_idx = c.pro_idx
+		LEFT JOIN breedtype bt ON b.breedtype_code = bt.breedtype_code
+		LEFT JOIN chartype ct ON c.chartype_code = ct.chartype_code
+		WHERE m.member_idx = 1;
+</select>
+
+	
+
+	<!-- <insert id="join" parameterType="map">
+		INSERT INTO member(id,pw,name,age,gender,email)
+			VALUES(#{id},#{pw},#{name},#{age},#{gender},#{email})
+	</insert>
+	<insert id="setPermission">
+		INSERT INTO author(id,perm) VALUES(#{param1},#{param2})
+	</insert>
+	<select id="login" parameterType="map" resultType="map">
+		SELECT m.id, a.perm, m.name FROM member m LEFT JOIN author a ON m.id = a.id		
+		 WHERE m.id = #{id} AND m.pw = #{pw}
+	</select>
+	<select id="memberList" resultType="map">
+		SELECT id,name,email FROM member
+	</select> -->
+</mapper>

@@ -1,4 +1,4 @@
-package com.one.mat.chatting.dto;
+package com.one.mat.member.dto;
 
 import java.sql.Date;
 

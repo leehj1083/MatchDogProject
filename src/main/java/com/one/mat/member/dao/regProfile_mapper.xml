@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.one.mat.member.dao.RegProfileDAO">
+
+
+<insert id="writemyProfile" parameterType="com.one.mat.member.dto.ProfileDTO">
+
+INSERT INTO pro(member_idx,pro_dogName,pro_dogAge,pro_dogGender,pro_dogDesc,pro_dogScore,pro_rep)
+VALUES(5,#{pro_dogName},#{pro_dogAge},#{pro_dogGender},#{pro_dogDesc},1,"true")
+
+</insert>
+
+<select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT charType FROM charType 
+	</select>
+
+</mapper>

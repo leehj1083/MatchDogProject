@@ -2,8 +2,9 @@ package com.one.mat.chatting.dao;
 
 import java.util.ArrayList;
 
-import com.one.mat.chatting.dto.MemberDTO;
-import com.one.mat.chatting.dto.ProfileDTO;
+
+import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 public interface ChattingDAO {
 

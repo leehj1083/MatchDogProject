@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+  >
+  <mapper namespace="com.one.mat.member.dao.MemberDAO">
+  
+	<select id="login" resultType="com.one.mat.member.dto.MemberDTO">
+		SELECT m.member_id,m.member_subs,m.member_loginLock,m.member_quit,s.subsType_code
+			FROM member m LEFT OUTER JOIN subs s 
+				ON m.member_idx = s.member_idx WHERE m.member_id = #{param1} AND m.member_pw = #{param2}
+	</select>
+	
+	<select id="overlayId" resultType="int">
+ 		SELECT COUNT(member_id) FROM member WHERE member_id=#{param1}
+ 	</select>
+ 	
+ 	<select id="overlayNick" resultType="int">
+ 		SELECT COUNT(member_nickName) FROM member WHERE member_nickName=#{param1}
+ 	</select>
+  
+  </mapper>
