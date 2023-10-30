@@ -3,18 +3,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.one.mat.chatting.dao.ChattingDAO">
-	<select id="login" resultType="com.one.mat.member.dto.MemberDTO">
-		SELECT m.member_id,m.member_subs,m.member_loginLock,m.member_quit,s.subsType_code
-			FROM member m LEFT OUTER JOIN subs s 
-				ON m.member_idx = s.member_idx WHERE m.member_id = #{param1} AND m.member_pw = #{param2}
-	</select>
 	<!-- <select id="boardList" resultType="kr.co.gudi.dto.BoardDTO">
 		SELECT b.idx, b.subject, b.user_name, b.bHit, (SELECT count(idx) FROM photo p WHERE b.idx= p.idx) AS img FROM bbs b
 	</select> -->
+	<select id="proIdx" resultType="arraylist">
+		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
+	</select>
 	
-	<!-- <select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
+	<!-- <select id="chattingListDo" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT idx, subject, user_name, bHit, reg_date
-			FROM bbs ORDER BY idx DESC	LIMIT #{param1} OFFSET #{param2}
+			FROM bbs ORDER BY idx DESC LIMIT #{param1} OFFSET #{param2}
 	</select>
 	
 	<select id="totalPage" resultType="int">

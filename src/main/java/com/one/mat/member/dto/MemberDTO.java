@@ -4,7 +4,6 @@ import java.sql.Date;
 
 public class MemberDTO {
 	
-	private int member_idx;
 	private String member_id;
 	private String member_pw;
 	private String member_email;
@@ -22,9 +21,10 @@ public class MemberDTO {
 	private String member_loginLock; // 로그인 금지 여부
 	private String member_quit; // 탈퇴 여부
 	private int subsType_code; //권한 ID (관리자,구독자 여부)
-	private String subsType;// 권한 이름
+	private String subsType; // 권한 이름
 	private int subsType_idx;
-	// private String member_profile; // 프로필 여부 체크하기 위해
+	private int member_idx;
+	
 	public int getMember_idx() {
 		return member_idx;
 	}

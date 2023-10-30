@@ -5,7 +5,7 @@
   <mapper namespace="com.one.mat.member.dao.MemberDAO">
   
 	<select id="login" resultType="com.one.mat.member.dto.MemberDTO">
-		SELECT m.member_id,m.member_subs,m.member_loginLock,m.member_quit,s.subsType_code
+		SELECT m.member_idx, m.member_nickName,m.member_id,m.member_subs,m.member_loginLock,m.member_quit,s.subsType_code
 			FROM member m LEFT OUTER JOIN subs s 
 				ON m.member_idx = s.member_idx WHERE m.member_id = #{param1} AND m.member_pw = #{param2}
 	</select>
