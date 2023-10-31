@@ -1,5 +1,7 @@
 package com.one.mat.myPage.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +21,20 @@ public class MyPageService {
 	public MemberDTO MyPageListDo(String id) {
 		return dao.MyPageListDo(id);	
 	}
+	public int myPageModUpdateDo(Map<String, String> params) {
+		return dao.myPageModUpdateDo(params);
+		
+	}
+	public boolean myPageModNickOveraly(String nickName) {
+		boolean use = false;
+		int cnt = dao.myPageModNickOveraly(nickName);
+		if(cnt==0) {
+			use=true;
+		}		
+		return use;
+
+	}
+
+
 
 }

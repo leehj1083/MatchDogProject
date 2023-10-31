@@ -51,97 +51,47 @@
 
 
 <form action="writemyProfile" method="post">
-
-    
-    <input type="file" name="photos" multiple="multiple" value="사진 선택">
-    
+   <input type="file" name="photos" multiple="multiple" value="사진 선택">    
     <table>
-        
-        
         <tr>
             <th>내 강아지 이름</th>
-            <th><input type="text" name="pro_dogName"/></th>
+            <th>${myProfile.pro_dogName}</th>
         </tr>
         
         <tr>
             <th>내 강아지 견종</th>
-            <td>
-                <select name="breedType">
-                    <option value="코리안 믹스 도그">코리안 믹스 도그</option>
-                    <option value="코리안 믹스 도그2">코리안 믹스 도그2</option>
-                  
-                </select>
-            </td>
+            <td>${myProfile.breedType}</td>
         </tr>
         
         <tr>
             <th>내 강아지 나이</th>
-            <td>
-                <select name="pro_dogAge">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </td>
+            <td>${myProfile.pro_dogAge}</td>
         </tr>
         
         <tr>
             <th>내 강아지 성별</th>
-            <td>
-                <select name="pro_dogGender">
-                    <option value="남아">남아</option>
-                    <option value="여아">여아</option>
-                </select>
-            </td>
+            <td>${myProfile.pro_dogGender}</td>
         </tr>
         <tr>
 		<th>내 강아지 성향</th>
-		<td><button id="openModal">성향 선택</button></td>
-	</tr>
-	<tr>
-	<td colspan="2"><div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <!-- 모달 내용을 추가하세요 -->
-            내 강아지 성향을 선택해주세요
-            <p><input type = "checkbox" value = "활발함"/>활발함</p>
-            
-            <button>선택 완료</button>
-            
-            
-        </div>
-    </div></td>
+		<td>${myProfile.charType}</td>
 	</tr>
 	<tr>
 	<th>내 강아지 소개 : </th>
 	<td><textarea name="pro_dogDesc" spellcheck = "false">
 	</textarea></td>
+	<tr>
+		<th>내 강아지 상태</th>
+		<td>${myProfile.pro_dogScore}</td>
 	</tr>
-	<tr>
-	<tr>
-	<th><button>등록 완료</button></th></tr>
     </table>
+    <br></br>
+	<input type="button" onclick="location.href='./myProfileMod.go'" value="수정하기"/>
+	<br></br>
 </form>
 
 </body>
 <script>
-        // 모달 열기
-        document.getElementById("openModal").onclick = function() {
-            document.getElementById("myModal").style.display = "block";
-        }
 
-        // 모달 닫기
-        document.getElementById("closeModal").onclick = function() {
-            document.getElementById("myModal").style.display = "none";
-        }
-
-        // 모달 바깥 클릭 시 닫기
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("myModal")) {
-                document.getElementById("myModal").style.display = "none";
-            }
-        }
     </script>
 </html>

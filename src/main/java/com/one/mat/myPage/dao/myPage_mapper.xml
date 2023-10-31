@@ -12,9 +12,27 @@
 		SELECT m.member_name, m.member_id, m.member_nickName,
 		m.member_gender, m.member_pw, m.member_email, m.member_phone, 
 		m.member_roadAddr, m.member_parcelAddr, m.member_detailAddr,
+		m.member_dongAddr,
 		(SELECT s2.subsType from subs s LEFT JOIN substype s2 on s.subsType_code =s2.subsType_code
 		where member_idx =(SELECT m.member_idx from member m where member_id=#{id})) as subsType
 	FROM member m LEFT JOIN subs s ON m.member_idx=s.member_idx where member_id =#{id};
 
 	</select>
+	<update id="myPageModUpdateDo">
+  		UPDATE member SET
+  		member_nickName=#{member_nickName},
+  		member_pw=#{member_pw},
+  		member_email=#{member_email},
+  		member_phone=#{member_phone},
+  		member_roadAddr=#{member_roadAddr},
+  		member_parcelAddr=#{member_parcelAddr},
+  		member_detailAddr=#{member_detailAddr},
+  		member_dongAddr=#{member_dongAddr}
+  		WHERE member_id=#{member_id} 
+  	</update>
+  	
+  	<select id="myPageModNickOveraly" resultType="int">
+ 		SELECT COUNT(member_nickName) FROM member WHERE member_nickName=#{param1}
+ 	</select>
+
 </mapper>

@@ -70,7 +70,7 @@ public class MemberController {
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(Model model, HttpSession session, @RequestParam String id, @RequestParam String pw) {
-		String page = "home";
+		String page = "login";
 		MemberDTO dto = service.login(id, pw);
 		if (dto != null) {
 			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보
@@ -84,6 +84,7 @@ public class MemberController {
 			}
 		} else { // 로그인 실패
 			model.addAttribute("msg","아이디 또는 비밀번호를 확인해주세요.");
+			page = "login";
 		}
 		return page;
 	}

@@ -10,12 +10,12 @@
  <style></style>
 </head>
 <body>
-	<h3>${loginId} 님의 마이페이지</h3>
+	<h3>${myPage.member_name} 님의 마이페이지</h3>
 	<a href="logout">로그아웃</a>
 	<br></br>
-	<a href="myPage">회원정보</a>
+	<a href="myPageList.do">회원정보</a>
 	<br></br>
-	<a href="myProfile">프로필</a>
+	<a href="myProfileList.do">프로필</a>
 	<br></br>
 	<input type="button" onclick="location.href='./myPageMod.go'" value="수정하기"/>
 	<br></br>
@@ -68,6 +68,24 @@
  		<tr>
  			<th>구독</th>
  			<td>${myPage.subsType}</td>
+ 			
+ 			<c:if test="${myPage.subsType == 'standard'}">
+ 				<td><input type="button" onclick="location.href='./subs.go'" value="업그레이드"/></td>
+				<!-- <td colspan="1">업그레이드</td> -->
+			</c:if>
+			<c:if test="${myPage.subsType == 'plus'}">
+ 				<td><input type="button" onclick="location.href='./subs.go'" value="업그레이드"/></td>
+ 				<td><input type="button" onclick="location.href='./myPageMod.go'" value="구독취소"/></td>
+				<!-- <td colspan="1">업그레이드</td> -->
+			</c:if>
+			<c:if test="${myPage.subsType == 'premium'}">
+ 				<td><input type="button" onclick="location.href='./myPageMod.go'" value="구독취소"/></td>
+				<!-- <td colspan="1">업그레이드</td> -->
+			</c:if>
+			<c:if test="${myPage.subsType == 'admin'}">
+ 				<td><button>관리자입니다</button></td>
+				<!-- <td colspan="1">업그레이드</td> -->
+			</c:if>
  		</tr>
 	</table>
 

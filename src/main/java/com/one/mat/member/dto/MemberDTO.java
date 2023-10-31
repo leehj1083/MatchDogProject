@@ -14,6 +14,7 @@ public class MemberDTO {
 	private String member_roadAddr; // 도로명 주소
 	private String member_parcelAddr; // 지번 주소
 	private String member_detailAddr; //상세 주소
+	private String member_dongAddr; //상세 주소
 	private String member_nickName; 
 	private Date member_birth;
 	private Date member_regDate; // 가입일자
@@ -24,6 +25,8 @@ public class MemberDTO {
 	private int subsType_code; //권한 ID (관리자,구독자 여부)
 	private String subsType;// 권한 이름
 	private int subsType_idx;
+	
+	
 	// private String member_profile; // 프로필 여부 체크하기 위해
 	public int getMember_idx() {
 		return member_idx;
@@ -144,6 +147,12 @@ public class MemberDTO {
 	}
 	public void setSubsType_idx(int subsType_idx) {
 		this.subsType_idx = subsType_idx;
+	}
+	public String getMember_dongAddr() {
+		return member_dongAddr;
+	}
+	public void setMember_dongAddr(String member_dongAddr) {
+		this.member_dongAddr = member_dongAddr;
 	}
 	
 	
