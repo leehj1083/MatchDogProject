@@ -1,5 +1,7 @@
 package com.one.mat.main.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.one.mat.main.service.MatchingService;
 
@@ -24,11 +27,12 @@ public class MatchingController {
 	// 견name, 개age(비공개 가능), 개gender(비공개 가능), 개char, 소개글
 	//		/HomeMatchingList.do
 	@RequestMapping(value = "/HomeMatchingList.do")
-	public String home(Model model, HttpSession session) {
-		logger.info("index.jsp");
-		Map<String, String> list = service.matchingList();
-		model.addAttribute("list",list);
-		return "home";
+	@ResponseBody
+	public Map<String, Object> home(Model model, HttpSession session) {
+		logger.info("HomeMatchingList.do");
+		Map<String, Object> result = new HashMap<>();
+      List<Map<String, Object>> list = service.matchingList();
+      result.put("list", list);
+		return result;
 	}
-	
 }
