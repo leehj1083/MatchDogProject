@@ -11,7 +11,7 @@ public interface ChattingDAO {
 
 	int totalPage(int p);
 
-	ArrayList<ProfileDTO> proIdx(int memberIdx);
+	ArrayList<MatchingDTO> proIdx(int memberIdx);
 
 	ArrayList<MatchingDTO> matIdx(int pro_idx);
 

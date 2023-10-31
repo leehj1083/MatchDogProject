@@ -12,6 +12,7 @@ public class MemberDTO {
 	private String member_name;
 	private String member_roadAddr; // 도로명 주소
 	private String member_parcelAddr; // 지번 주소
+	private String member_dongAddr; // 지번 주소
 	private String member_detailAddr; //상세 주소
 	private String member_nickName; 
 	private Date member_birth;
@@ -25,6 +26,14 @@ public class MemberDTO {
 	private int subsType_idx;
 	private int member_idx;
 	
+	
+	
+	public String getMember_dongAddr() {
+		return member_dongAddr;
+	}
+	public void setMember_dongAddr(String member_dongAddr) {
+		this.member_dongAddr = member_dongAddr;
+	}
 	public int getMember_idx() {
 		return member_idx;
 	}

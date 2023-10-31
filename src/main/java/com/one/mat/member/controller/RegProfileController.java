@@ -22,13 +22,6 @@ public class RegProfileController {
 	RegProfileService service;
 	
 	
-	@RequestMapping("/myProfileList.do")
-	public String myProfileList() {
-		
-		return "myProfile";
-		
-		
-	}
 	@RequestMapping("/showChar")
 	public String showChar() {
 		

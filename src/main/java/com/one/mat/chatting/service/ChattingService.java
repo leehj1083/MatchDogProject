@@ -24,12 +24,12 @@ public class ChattingService {
 	public HashMap<String, Object> chattingListDo(String page, String pagePerNum, int memberIdx) {
 		
 		// memberIdx 에서 pro_idx 가지고 오기
-		ArrayList<ProfileDTO> proIdx = dao.proIdx(memberIdx);
+		ArrayList<MatchingDTO> proIdx = dao.proIdx(memberIdx);
 		ArrayList<MatchingDTO> matIdx = new ArrayList<MatchingDTO>();
 		ArrayList<Integer> matNum = new ArrayList<Integer>();
 		
 		// pro_idx 를 이용해서 매칭수락한 리스트 가지고 오기
-		Iterator<ProfileDTO> it = proIdx.iterator();
+		Iterator<MatchingDTO> it = proIdx.iterator();
 		while(it.hasNext()) {
 			matIdx = dao.matIdx(it.next().getPro_idx());
 			Iterator<MatchingDTO> its = matIdx.iterator();

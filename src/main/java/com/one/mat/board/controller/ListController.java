@@ -37,13 +37,7 @@ public class ListController {
 		
 		return service.list(pagePerNum, page);
 	}
-	
-	@RequestMapping(value="/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("loginId");
-		return "redirect:/";
-	}
-	
+
 	@RequestMapping(value="/BoardWrite")
 	public String BoardWrite() {
 		return "BoardWrite";
