@@ -6,16 +6,17 @@ public class PhotoDTO {
 	
 	private int photo_id;
 	private int board_id;
+	private String photo_type;
+	private int photo_idfNum;
+	private String photo_fileName;
+	private Date photo_uploadDate;
+	
 	public int getBoard_id() {
 		return board_id;
 	}
 	public void setBoard_id(int board_id) {
 		this.board_id = board_id;
 	}
-	private String photo_type;
-	private int photo_idfNum;
-	private String photo_fileName;
-	private Date photo_uploadDate;
 	
 	public int getPhoto_id() {
 		return photo_id;
