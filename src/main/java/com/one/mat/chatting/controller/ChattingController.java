@@ -49,9 +49,10 @@ public class ChattingController {
 	@RequestMapping(value="/chattingList.do")
 	public HashMap<String, Object> chattingListDo(@RequestParam String pagePerNum, @RequestParam String page, HttpSession session) {
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
 		logger.info(dto.getMember_idx()+","+dto.getMember_id()+","+dto.getMember_loginLock());
 		logger.info("보여줄 페이지 : "+page);
-		return service.chattingListDo(pagePerNum,page);
+		return service.chattingListDo(pagePerNum,page,memberIdx);
 	}
 	
 }
