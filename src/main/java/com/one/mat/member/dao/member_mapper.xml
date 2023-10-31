@@ -17,5 +17,18 @@
  	<select id="overlayNick" resultType="int">
  		SELECT COUNT(member_nickName) FROM member WHERE member_nickName=#{param1}
  	</select>
+ 	
+ 	<insert id="join" parameterType="hashmap">
+ 		INSERT INTO member 
+	 		(member_id, member_pw, member_birth, member_nickName, 
+	 		member_name, member_phone, member_gender, member_roadAddr, member_parcelAddr, 
+	 		member_detailAddr, member_dongAddr, member_email, member_regDate, member_subs, 
+	 		member_renew, member_loginLock, member_quit, member_)
+ 		VALUES 
+ 		(#{member_id},#{member_pw},#{member_birth},#{member_nickName},#{member_name},
+ 		#{member_phone},#{member_gender},#{member_roadAddr},#{member_parcelAddr},
+ 		#{member_detailAddr},#{member_dongAddr},#{member_email},#{member_regDate},
+ 		#{member_subs},#{member_renew},#{member_loginLock},#{member_quit},#{member_})
+ 	</insert>
   
   </mapper>

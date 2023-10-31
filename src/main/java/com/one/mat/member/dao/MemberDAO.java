@@ -1,5 +1,7 @@
 package com.one.mat.member.dao;
 
+import java.util.HashMap;
+
 import com.one.mat.member.dto.MemberDTO;
 
 public interface MemberDAO {
@@ -9,5 +11,7 @@ public interface MemberDAO {
 	int overlayId(String id);
 
 	int overlayNick(String nickName);
+
+	int join(HashMap<String, String> params);
 
 }

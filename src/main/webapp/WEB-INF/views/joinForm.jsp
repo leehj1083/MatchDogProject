@@ -25,14 +25,13 @@
      <p/>아이디<br/>  
      <input type="text" name="id"/>
      <input type="button" id="overlayId" value="중복확인"/>
+     <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해주세요</span>
      <p/><span class="idChk"></span>
-     <p/><span class="noticeId" style="font-size : 8pt"> ※ 아이디는 영문과 숫자를 혼합하여 최대 10자 까지 입력해주세요</span>
     
 
 	  <p/>비밀번호<br/>  
       <input type="password" name="pw"/>
-      <p/><span class="pwChk" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자를 혼합하여 입력해주세요</span>
-      <input type="hidden" id="pwValidation"/>
+      <p/><span class="pwValid" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자, 특수문자를 혼합하여 8자 이상 입력해주세요</span>
       <p/>비밀번호 확인<br/>
       <input type="password" name="pwCheck"/>
       <p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
@@ -43,9 +42,9 @@
 
 	  <p/>닉네임<br/>
 	  <input type="text" name="nickName"/>
-      <input type="button" id="overlayNick" value="중복확인"/>
+      <input type="button" id="overlayNick" value="중복확인"/>      
+      <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
       <p/><span class="nickChk"></span>
-     <p/><span class="noticeNick" style="font-size : 8pt"> ※ 닉네임은 2자 이상 8자 이하로 입력해주세요</span>
          
       <p/>이름<br/>    
 	  <input type="text" name="name"/>
@@ -68,15 +67,16 @@
       <p/>이메일   
       <p/><input type="text" id="usermail" name="email" placeholder="메일 주소를 입력 하세요" />@
 	  <select name="emailhost" id="mailhost">
-			<option value="naver">naver.com</option>	
-			<option value="google">gmail.com</option>
-			<option value="daum">daum.net</option>
-			<option value="nate">nate.com</option>
+			<option value="naver.com">naver.com</option>	
+			<option value="gmail.com">gmail.com</option>
+			<option value="daum.net">daum.net</option>
+			<option value="nate.com">nate.com</option>
 	  </select>
 	  <button type="button" id="identifyMail">인증요청</button>
 	  
-      <p/>&nbsp인증번호<input type="text" name= "checkNum" placeholder="인증번호를 입력해주세요" maxlength="6"/>
+      <p/>&nbsp;인증번호<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해주세요"  disabled = "disabled" maxlength="6"/>
 	  <button type="button" id="checkMail">인증하기</button>
+	  <p/><span id="mailChk"></span>
             
       <p/><input type="button" id="join" value="회원가입"/>
              
@@ -141,10 +141,8 @@ function execDaumPostcode() {
 }
 </script>
 <script>
+// ID 중복체크
 var overlayIdChk = false;
-var overlayNickChk = false;
-
-
 $('#overlayId').on('click',function(){
 	var $id = $('input[name="id"]');
 	console.log('id='+$id);
@@ -174,6 +172,9 @@ $('#overlayId').on('click',function(){
 	});	
 });
 
+
+// 닉네임 중복체크
+var overlayNickChk = false;
 $('#overlayNick').on('click',function(){
 	var $nickName = $('input[name="nickName"]');
 	console.log('nickName='+$nickName);
@@ -204,6 +205,116 @@ $('#overlayNick').on('click',function(){
 	});	
 });
 
+
+// ID 정규표현식
+$('input[name="id"]').keyup(function(){
+	var getIdCheck = RegExp(/^[a-zA-Z0-9]{4,14}$/);
+	if($(this).val()==''){
+		$('.idValid').css('color','red');
+		$('.idValid').html('아이디는 필수값 입니다.');
+	}else if(!getIdCheck.test($(this).val())){
+		$('.idValid').css('color','red');
+		$('.idValid').html('아이디가 형식에 어긋납니다.');
+	}else{
+		$('.idValid').css('color','green');
+		$('.idValid').html('적합한 아이디 형식입니다.');
+	}
+});
+
+
+// PW 정규표현식
+$('input[name="pw"]').keyup(function(){
+	var getPwCheck = RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
+	if($(this).val()==''){
+		$('.pwValid').css('color','red');
+		$('.pwValid').html('비밀번호는 필수값 입니다.');
+	}else if(!getPwCheck.test($(this).val())){
+		$('.pwValid').css('color','red');
+		$('.pwValid').html('비밀번호가 형식에 어긋납니다.');
+	}else{
+		$('.pwValid').css('color','green');
+		$('.pwValid').html('적합한 비밀번호 형식입니다.');
+	}
+});
+
+
+// PW 일치 확인(재입력)
+$('input[name="pwCheck"]').keyup(function(){
+	if($(this).val()==''){
+		$('.pwReChk').css('color','red');
+		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
+	}else if($(this).val()==$('input[name="pw"]').val()){
+		$('.pwReChk').css('color','green');
+		$('.pwReChk').html('비밀번호가 일치합니다.');
+	}else{
+		$('.pwReChk').css('color','red');
+		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
+	}	
+});
+
+
+//닉네임 정규표현식
+$('input[name="nickName"]').keyup(function(){
+	var getNickCheck = RegExp(/^[a-zA-Zㄱ-ㅎ가-힣0-9]{2,8}$/);
+	if($(this).val()==''){
+		$('.nickValid').css('color','red');
+		$('.nickValid').html('닉네임은 필수 입력입니다.');
+	}else if(!getNickCheck.test($(this).val())){
+		$('.nickValid').css('color','red');
+		$('.nickValid').html('닉네임이 형식에 어긋납니다.');
+	}else{
+		$('.nickValid').css('color','green');
+		$('.nickValid').html('적합한 닉네임 형식입니다.');
+	}
+});
+
+
+// 이메일 본인확인
+$('#identifyMail').on('click',function(){
+	var email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
+	console.log('메일주소 : '+email);
+	var checkInput = $('input[name="checkNum"]');
+	
+	$.ajax({
+		type:'get',
+		url : '<c:url value="/mailCheck?email="/>'+email,
+		success : function(data){
+			console.log("data : "+data);
+			checkInput.attr('disabled',false);
+			code=data;
+			alert('인증번호가 전송되었습니다.');
+		}		
+	});	
+	
+	$('#checkMail').on('click',function(){
+		var inputCode = $('input[name="checkNum"]').val();
+		var $resultMsg = $('#mailChk');
+		
+		if(inputCode == code){
+			$resultMsg.html('인증번호가 일치합니다.');
+			$resultMsg.css('color','green');
+			$('#identifyMail').attr('disabled',true);
+			$('#usermail').attr('readonly',true);
+			$('#mailhost').attr('readonly',true);		
+		}else{
+			$resultMsg.html('인증번호가 일치하지 않습니다.');
+			$resultMsg.css('color','red');
+		}
+	});
+		
+});
+
+
+
+
+
+
+
+
+
+
+
+// 회원가입
 $('#join').on('click',function(){
 	var $id=$('input[name="id"]');
 	var $pw=$('input[name="pw"]');
@@ -215,7 +326,13 @@ $('#join').on('click',function(){
 	var $roadAddr=$('input[name="roadAddr"]');
 	var $parcelAddr=$('input[name="parcelAddr"]');
 	var $detailAddr=$('input[name="detailAddr"]');
+	// 이메일 전체 주소 추출
 	var $email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
+	
+	// 동주소 추출
+	var regex = /([가-힣A-Za-z·\d~\-\.]+(동)\s)/i;
+	var $dongAddr=$parcelAddr.val().match(regex)[1];
+	console.log("동주소 : "+$dongAddr);
 	
 	if(overlayChk){
 		if($id.val()==''){
@@ -254,6 +371,10 @@ $('#join').on('click',function(){
 			if($auth.val() != null){
 				param.auth=$auth.val();				
 			}
+			
+			// 회원가입시에 기본적으로 권한코드를 1로 주어야 할 것
+			subsType_code = 1
+			
 			console.log(param);
 			
 			$.ajax({
@@ -279,6 +400,8 @@ $('#join').on('click',function(){
 		alert('아이디 중복 체크를 해주세요.');
 	}	
 });
+
+
 
 </script>
 </html>
