@@ -31,7 +31,8 @@ public class RegProfileService {
 		
 		dao.writemyProfile(dto);
 		
-		String page = "redirect:/myProfile";
+		
+		String page = "redirect:/regProfile";
 		
 		return page;
 	}

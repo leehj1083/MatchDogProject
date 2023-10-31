@@ -15,7 +15,7 @@ VALUES(5,#{pro_dogName},#{pro_dogAge},#{pro_dogGender},#{pro_dogDesc},1,"true")
 </insert>
 
 <select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
-		SELECT charType FROM charType 
+		SELECT charType_code,charType FROM charType
 	</select>
 
 </mapper>
