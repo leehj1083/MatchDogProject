@@ -2,6 +2,7 @@ package com.one.mat.chatting.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.one.mat.chatting.dao.ChattingDAO;
 import com.one.mat.member.dto.MemberDTO;
-import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class ChattingService {
@@ -20,31 +20,41 @@ public class ChattingService {
 	@Autowired
 	ChattingDAO dao;
 
-	public MemberDTO login(String id, String pw) {
-		return dao.login(id,pw);
-	}
-
 	public HashMap<String, Object> chattingListDo(String page, String pagePerNum) {
+		
+		// memberIdx 에서 pro_idx 가지고 오기
+		//ArrayList<Integer> proIdx = dao.proIdx(memberIdx);
+		
+		
+//		Iterator<Integer> it = proIdx.iterator();
+//		while(it.hasNext()) {
+//			int i = it.next().intValue();
+//			logger.info(i+"");
+//		}
+		
+	
+		
 		int ppn = Integer.parseInt(pagePerNum); // 페이지당 보여줄 게시글 수 5 개씩
 		int p = Integer.parseInt(page); // 현재 보여줄 페이지 1		
 		// pagePerNum 과 page 를 가지고 offset 을 계산해 내자
 		// offset : limit n 개부터 offset m 번부터 n 개 가져와라 할 때 사용.
 		// 1:0 -> 2:5 -> 3:10 -> 4:15 -> 5:20
 		int offset = (p-1)*ppn;
-		ArrayList<ProfileDTO> list = dao.chattingListDo(ppn,offset);
+		
+		// ArrayList<ChattingDTO> list = dao.chattingListDo(ppn,offset,memberIdx);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		int pages = dao.totalPage(p); // 총 페이지 개수
-		logger.info("만들수 있는 총 페이지 갯수 : "+pages);
+		//int pages = dao.totalPage(p); // 총 페이지 개수
+		//logger.info("만들수 있는 총 페이지 갯수 : "+pages);
 		
 		// 만약 현재 보고 있는 페이지가, 총 페이지 수 보다 크면 현재페이지를 총 페이지수로 변경한다.
 //		if(p>pages) {
 //			p = pages;
 //		}		
 		map.put("currPage", p);
-		map.put("pages", pages); // 만들 수 있는 총 페이지 수
-		map.put("list", list);		
+		//map.put("pages", pages); // 만들 수 있는 총 페이지 수
+		//map.put("list", list);		
 		return map;
 	}
 

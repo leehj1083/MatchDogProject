@@ -92,6 +92,7 @@ function listCall(page){
 	});
 }
 
+// (앞에서) 사진 / 닉네임 / 
 function drawList(obj){
 	/* var content ='';
 	obj.list.forEach(function(item, idx){
