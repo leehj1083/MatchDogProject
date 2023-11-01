@@ -49,7 +49,10 @@ public class MatchingController {
 	   	 // 견name, 개age(비공개 가능), 개gender(비공개 가능), 개char, 소개글
 	   	 // 사용자와 동주소, 강아지 성향이 같은 개수 순으로 리스트 나열
 	   	 List<Map<String, Object>> matchingList = service.matchingList(dongAddr, gender, memberidx);
-	   	 List<String> matchingListCharType = service.matchingListCharType(charTypes);
+	   	 List<String> matchingListCharType4 = service.matchingListCharType4(dongAddr, gender, charTypes);
+	   	 List<String> matchingListCharType3 = service.matchingListCharType3(dongAddr, gender, charTypes);
+	   	 List<String> matchingListCharType2 = service.matchingListCharType2(dongAddr, gender, charTypes);
+	   	 List<String> matchingListCharType1 = service.matchingListCharType1(dongAddr, gender, charTypes);
 	   	 map.put("list", matchingList);
 	   	 model.addAttribute("list",matchingListCharType);
 	    }
