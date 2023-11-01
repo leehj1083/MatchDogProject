@@ -3,6 +3,7 @@ package com.one.mat.member.dao;
 import java.util.HashMap;
 
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 public interface MemberDAO {
 
@@ -12,8 +13,14 @@ public interface MemberDAO {
 
 	int overlayNick(String member_nickName);
 
-	int join(HashMap<String, String> params);
+	int join(MemberDTO dto);
+	
+	void setSubsType_code(int member_idx, int subsType_code);
 
-	int setSubsType_code(int i);
+	HashMap<String, Object> idMailChk(String member_id, String member_email);
+
+	HashMap<String, Object> nameMailChk(String member_name, String member_email);
+
+	ProfileDTO loginProf(String member_id, String member_pw);
 
 }
