@@ -48,33 +48,33 @@ public class ChattingController {
 		return page;
 	}
 	
-	@RequestMapping(value="/chattingList.do")
-	public HashMap<String, Object> chattingListDo(@RequestParam String pagePerNum, @RequestParam String page, HttpSession session) {
-		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-		int memberIdx = dto.getMember_idx();
-		logger.info(dto.getMember_idx()+","+dto.getMember_id()+","+dto.getMember_loginLock());
-		logger.info("보여줄 페이지 : "+page);
-		return service.chattingListDo(pagePerNum,page,memberIdx);
-	}
-	
-	@RequestMapping(value="/chattingRoom.go")
-	public String chattingLoomGo() {
-		return "test";
-	}
-	
-	@RequestMapping(value="/chatRoomList.do")
-	public HashMap<String, Object> chatRoomListDo(){
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ChattingDTO> chatList = service.chatRoomListDo();		
-		return map;
-	}
-	
-	@RequestMapping(value="/chatSave.do")
-public HashMap<String, Object> chatSaveDo(){
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		int row = service.chatSaveDo();
-		return map;
-	}
+//	@RequestMapping(value="/chattingList.do")
+//	public HashMap<String, Object> chattingListDo(@RequestParam String pagePerNum, @RequestParam String page, HttpSession session) {
+//		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+//		int memberIdx = dto.getMember_idx();
+//		logger.info(dto.getMember_idx()+","+dto.getMember_id()+","+dto.getMember_loginLock());
+//		logger.info("보여줄 페이지 : "+page);
+//		return service.chattingListDo(pagePerNum,page,memberIdx);
+//	}
+//	
+//	@RequestMapping(value="/chattingRoom.go")
+//	public String chattingLoomGo() {
+//		return "test";
+//	}
+//	
+//	@RequestMapping(value="/chatRoomList.do")
+//	public HashMap<String, Object> chatRoomListDo(){
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//		ArrayList<ChattingDTO> chatList = service.chatRoomListDo();		
+//		return map;
+//	}
+//	
+//	@RequestMapping(value="/chatSave.do")
+//public HashMap<String, Object> chatSaveDo(){
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//		int row = service.chatSaveDo();
+//		return map;
+//	}
 	
 
 	

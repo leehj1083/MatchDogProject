@@ -24,7 +24,7 @@
 		SELECT CEIL(COUNT(idx)/#{param1}) AS pages FROM bbs
 	</select> -->
 	
-	<select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.chattingDTO">
+	<!-- <select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.chattingDTO">
 	SELECT * FROM chatmsg 
 	WHERE (pro_recvIdx = #{pro_recvIdx} AND pro_sendIdx = #{pro_sendIdx} ) 
 	OR (pro_recvIdx = #{pro_sendIdx} AND pro_sendIdx = #{pro_recvIdx} ) 
@@ -41,7 +41,7 @@
 	,chatMsg_regDate) 
 	VALUES
 	(,NOW())
-	</insert>
+	</insert> -->
  
  
  </mapper>
