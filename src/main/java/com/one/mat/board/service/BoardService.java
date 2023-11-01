@@ -1,8 +1,12 @@
 package com.one.mat.board.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +21,7 @@ import com.one.mat.board.dto.PhotoDTO;
 
 
 @Service
-public class ListService {
+public class BoardService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -48,9 +52,12 @@ public class ListService {
 		return map;
 	}
 
-	public String write(Map<String, String> params, MultipartFile[] photos) {
+	public String write(HttpSession session, Map<String, String> params, MultipartFile[] photos) {
 		// 조건 1. 파라메터는 DTO 형태로 넣어야 한다.
+		int member_idx = (int) session.getAttribute("member_idx");
+		
 		BoardDTO dto = new BoardDTO();
+		dto.setMember_idx(member_idx);
 		dto.setBoard_subject(params.get("board_subject"));
 		dto.setBoard_content(params.get("board_content"));
 		dao.writeBoard(dto);
@@ -62,7 +69,7 @@ public class ListService {
 		if(board_id>0) {
 			try {
 				saveFile(board_id,photos);
-				page = "redirect:/detail?idx="+board_id;
+				page = "redirect:/detail?board_id="+board_id;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -71,21 +78,33 @@ public class ListService {
 	}
 
 	private void saveFile(int board_id, MultipartFile[] photos) {
-		
 		for (MultipartFile photo : photos) {
 			
 			String photo_fileName = photo.getOriginalFilename();
 			logger.info("oriFileName : "+photo_fileName);
-			dao.writePhoto(board_id,photo_fileName);
+	        String uploadDirectory = "C:/uploads/"; // 실제 디렉토리 경로로 변경해야 합니다.
+
+	        try {
+	            // 파일을 지정된 디렉토리로 복사
+	            File targetFile = new File(uploadDirectory + photo_fileName);
+	            photo.transferTo(targetFile);
+
+	            // 파일을 데이터베이스에 저장
+	            dao.writePhoto(board_id, photo_fileName);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            // 파일 복사 또는 저장 중에 오류 발생 시 처리할 내용 추가
+	        }
 		}
+		
 	}
 
 	public void detail(String board_id, Model model) {
 		dao.board_bHit(board_id); // 조회수 증가
 		BoardDTO board = dao.detail(board_id); // 상세 글 보기
-		ArrayList<PhotoDTO> photos = dao.getPhoto(board_id); // 사진
+		//ArrayList<PhotoDTO> photos = dao.getPhoto(board_id); // 사진
 		model.addAttribute("board",board);
-		model.addAttribute("photos",photos);
+		//model.addAttribute("photos",photos);
 	}
 
 	public void updateForm(String board_id, Model model) {

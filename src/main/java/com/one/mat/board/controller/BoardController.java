@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.one.mat.board.service.ListService;
+import com.one.mat.board.service.BoardService;
 
 @Controller
-public class ListController {
+public class BoardController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired ListService service;
+	@Autowired BoardService service;
 	
 	@RequestMapping(value="/board")
 	public String board() {
@@ -30,24 +30,24 @@ public class ListController {
 	
 	@RequestMapping(value="/list")
 	@ResponseBody
-	public Map<String, Object> list(@RequestParam String pagePerNum,
+	public Map<String, Object> list(HttpSession session,@RequestParam String pagePerNum,
 			@RequestParam String page) {
 		logger.info("페이지당 보여줄 게시글 수 : "+pagePerNum);
 		logger.info("보여줄 페이지 : "+page);
 		
 		return service.list(pagePerNum, page);
 	}
-
+	
 	@RequestMapping(value="/BoardWrite")
 	public String BoardWrite() {
 		return "BoardWrite";
 	}
 	
 	@RequestMapping(value="/write")
-	public String write(MultipartFile[] photos, @RequestParam Map<String, String> params) {
+	public String write(HttpSession session, MultipartFile[] photos, @RequestParam Map<String, String> params) {
 		logger.info("file 갯수 : "+photos.length);
 		logger.info("params : "+params);
-		return service.write(params, photos);
+		return service.write(session, params, photos);
 	}
 	
 	@RequestMapping(value="/detail")
@@ -79,5 +79,4 @@ public class ListController {
 		return "redirect:/list";
 	}
 	*/
-
 }

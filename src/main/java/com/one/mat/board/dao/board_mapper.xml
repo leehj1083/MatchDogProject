@@ -20,13 +20,14 @@
 		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
 	</select>
 	
-	<insert 
-		useGeneratedKeys="true"
-		keyColumn="board_id"
-		keyProperty="board_id"
-	id="writeBoard" parameterType="com.one.mat.board.dto.BoardDTO">
-	INSERT INTO board(board_subject,board_content,board_bHit)VALUES(#{board_subject},#{board_content},0)
-	</insert>
+<insert 
+    useGeneratedKeys="true"
+    keyColumn="board_id"
+    keyProperty="board_id"
+    id="writeBoard" parameterType="com.one.mat.board.dto.BoardDTO">
+    INSERT INTO board (board_subject, board_content, member_idx)
+    VALUES (#{board_subject}, #{board_content}, #{member_idx})
+</insert>
 	
 	<insert id="writePhoto">
 	INSERT INTO photo (board_id, photo_type, photo_fileName, photo_uploadDate)

@@ -12,16 +12,15 @@
 <body>
 	<form action="write" method="post" enctype="multipart/form-data">
 	<table>
+		<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
+		<tr>
+			<th>작성자</th>
+			<td><input type="text" name="user_name" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
+		</tr>
 		<tr>
 			<th>제목</th>
 			<td><input type="text" name="board_subject"/></td>
-		</tr>
-		<!-- 
-		<tr>
-			<th>작성자</th>
-			<td><input type="text" name="user_name"/></td>
-		</tr>
-		 -->
+		</tr> 
 		<tr>
 			<th>내용</th>
 			<td><textarea name="board_content"></textarea></td>
