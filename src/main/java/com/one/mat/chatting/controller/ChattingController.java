@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.chatting.service.ChattingService;
@@ -56,21 +57,27 @@ public class ChattingController {
 //		logger.info("보여줄 페이지 : "+page);
 //		return service.chattingListDo(pagePerNum,page,memberIdx);
 //	}
-//	
+	
+	// 채팅방 이동하면서 세션에 저장된 member_idx 를 가져와 접속한 profile_idx 와 상대방의 idx 를 가져오기.
 	@RequestMapping(value="/chattingRoom.go")
-	public String chattingLoomGo() {
+	public String chattingLoomGo(Model model, HttpSession session) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		service.chattingLoomGo(memberIdx);
 		return "test";
 	}
-//	
-//	@RequestMapping(value="/chatRoomList.do")
-//	public HashMap<String, Object> chatRoomListDo(){
-//		HashMap<String, Object> map = new HashMap<String, Object>();
-//		ArrayList<ChattingDTO> chatList = service.chatRoomListDo();		
-//		return map;
-//	}
-//	
+	
+	@RequestMapping(value="/chatRoomList.do")
+	@ResponseBody
+	public HashMap<String, Object> chatRoomListDo(){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		ArrayList<ChattingDTO> chatRoomList = service.chatRoomListDo();
+		map.put("data", chatRoomList);
+		return map;
+	}
+	
 //	@RequestMapping(value="/chatSave.do")
-//public HashMap<String, Object> chatSaveDo(){
+// public HashMap<String, Object> chatSaveDo(){
 //		HashMap<String, Object> map = new HashMap<String, Object>();
 //		int row = service.chatSaveDo();
 //		return map;

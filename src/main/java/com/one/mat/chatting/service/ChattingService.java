@@ -21,13 +21,16 @@ public class ChattingService {
 	
 	@Autowired
 	ChattingDAO dao;
+	
+	ArrayList<ProfileDTO> proIdx = new ArrayList<ProfileDTO>();
+	ArrayList<MatchingDTO> matIdx = new ArrayList<MatchingDTO>();
+	ArrayList<Integer> matNum = new ArrayList<Integer>();
+	ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
 
 	public HashMap<String, Object> chattingListDo(String page, String pagePerNum, int memberIdx) {
 		
 		// memberIdx 에서 pro_idx 가지고 오기
-		ArrayList<ProfileDTO> proIdx = dao.proIdx(memberIdx);
-		ArrayList<MatchingDTO> matIdx = new ArrayList<MatchingDTO>();
-		ArrayList<Integer> matNum = new ArrayList<Integer>();
+		proIdx = dao.proIdx(memberIdx);
 		ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
 		
 		// pro_idx 를 이용해서 매칭수락한 리스트 가지고 오기
@@ -47,9 +50,6 @@ public class ChattingService {
 		}
 		
 		matNumIt = matNum.iterator();
-		
-		
-	
 		
 		int ppn = Integer.parseInt(pagePerNum); // 페이지당 보여줄 게시글 수 5 개씩
 		int p = Integer.parseInt(page); // 현재 보여줄 페이지 1		
@@ -74,11 +74,20 @@ public class ChattingService {
 		//map.put("list", list);		
 		return map;
 	}
+		
+		public void chattingLoomGo(int memberIdx) {
+			// TODO Auto-generated method stub		
+		}
+		
+	
+
 
 	public ArrayList<ChattingDTO> chatRoomListDo() {
 		return dao.chatRoomListDo();
 	}
 
+
+	
 	public int chatSaveDo() {
 		return dao.chatSaveDo();
 	}
