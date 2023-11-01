@@ -47,11 +47,12 @@
       <p/><span class="nickChk"></span> 
          
       <p/>이름<br/>    
-	  <input type="text" name="member_name"/>	  
+	  <input type="text" name="member_name"/>
 	  
 	  <p/>전화번호<br/>
       <input type="text" name="member_phone"/>
-      <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+       <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+      
          
 	  <p/>성별<br/>
       <input type="radio" name="member_gender" value="남"/>남자
@@ -66,7 +67,7 @@
 	  <input type="text" id="extraAddress" placeholder="참고항목">                  
       
       <p/>이메일   
-      <p/><input type="text" id="usermail" name="email" placeholder="메일 주소를 입력 하세요" />@
+      <p/><input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" />@
 	  <select name="emailhost" id="mailhost">
 			<option value="naver.com">naver.com</option>	
 			<option value="gmail.com">gmail.com</option>
@@ -269,8 +270,7 @@ $('input[name="member_nickName"]').keyup(function(){
 	}
 });
 
-
-// 전화번호 정규표현식
+//전화번호 정규표현식
 $('input[name="member_phone"]').keyup(function(){
 	var getPhoneCheck = RegExp(/^\d{2,3}-\d{3,4}-\d{4}$/);
 	if($(this).val()==''){
@@ -288,13 +288,13 @@ $('input[name="member_phone"]').keyup(function(){
 
 // 이메일 본인확인
 $('#identifyMail').on('click',function(){
-	var email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
-	console.log('메일주소 : '+email);
+	var member_email=$('input[name="member_email"]').val()+"@"+$('select[name="emailhost"]').val();
+	console.log('메일주소 : '+member_email);
 	var checkInput = $('input[name="checkNum"]');
 	
 	$.ajax({
 		type:'get',
-		url : '<c:url value="/mailCheck?email="/>'+email,
+		url : '<c:url value="/mailCheck?member_email="/>'+email,
 		success : function(data){
 			console.log("data : "+data);
 			checkInput.attr('disabled',false);
@@ -322,7 +322,7 @@ $('#identifyMail').on('click',function(){
 });
 
 
-
+/*
 // 회원가입
 $('#join').on('click',function(){
 	var $id=$('input[name="member_id"]');
@@ -339,11 +339,8 @@ $('#join').on('click',function(){
 	var regex = /([가-힣A-Za-z·\d~\-\.]+(동)\s)/i;
 	var $dongAddr=$parcelAddr.val().match(regex)[1];
 	console.log("동주소 : "+$dongAddr);
-	
 	// 이메일 전체 주소 추출
 	var $email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
-	var $member_regDate = new Date();
-	
 	
 	var param = {};
 	param.member_id=$id.val();
@@ -358,7 +355,6 @@ $('#join').on('click',function(){
 	param.member_detailAddr=$detailAddr.val();
 	param.member_dongAddr=$dongAddr;
 	param.member_email=$email;	
-	param.member_regDate = $member_regDate;
 	
 	console.log(param);
 	
@@ -411,9 +407,71 @@ $('#join').on('click',function(){
 		}	
 	}else{
 		alert('아이디 중복 체크를 해주세요.');
-	}	 */
+	}	 
+}); */
+
+$('#join').on('click',function(){
+	join();
 });
 
+function join(){
+	var member_id=$('input[name="member_id"]').val();
+	var member_pw=$('input[name="member_pw"]').val();
+	var member_birth=$('input[name="member_birth"]').val();
+	var member_nickName=$('input[name="member_nickName"]').val();
+	var member_name=$('input[name="member_name"]').val();
+	var member_phone=$('input[name="member_phone"]').val();	
+	var member_gender=$('input[name="member_gender"]:checked').val();
+	var member_roadAddr=$('input[name="member_roadAddr"]').val();
+	var member_parcelAddr=$('input[name="member_parcelAddr"]').val();
+	var member_detailAddr=$('input[name="member_detailAddr"]').val();
+	// 동주소 추출
+	var regex = /([가-힣A-Za-z·\d~\-\.]+(동)\s)/i;
+	var member_dongAddr=member_parcelAddr.match(regex)[1];
+	console.log("동주소 : "+member_dongAddr);
+	// 이메일 전체 주소 추출
+	var member_email=$('input[name="member_email"]').val()+"@"+$('select[name="emailhost"]').val();
+	var member_birth = $('input[name="member_birth"]').val();
+	var currentDate = new Date();
+	var member_regDate = currentDate.toISOString();
+	
+	
+	var memberDTO = {
+			member_id : member_id,
+			member_pw : member_pw,
+			member_email : member_email,
+			member_gender : member_gender,
+			member_phone : member_phone,
+			member_name : member_name,
+			member_roadAddr : member_roadAddr,
+			member_parcelAddr : member_parcelAddr,
+			member_dongAddr : member_dongAddr,
+			member_detailAddr : member_detailAddr,
+			member_nickName : member_nickName,
+			member_birth : member_birth,
+			member_regDate : member_regDate			
+	};
+	
+	$.ajax({
+		type:'post',
+		url :'join.do',
+		data:JSON.stringify(memberDTO),
+		contentType:'application/json; charset=utf-8',
+		dataType:'JSON',
+		success : function(data){
+			if(data.success>0){
+				alert('회원가입에 성공했습니다.');
+				location.href='./login.go';
+			}else{
+				alert('회원가입에 실패했습니다.');
+			}
+		},
+		error : function(e){
+			alert("회원가입 실패");
+		}		
+	});
+
+}
 
 </script>
 </html>
