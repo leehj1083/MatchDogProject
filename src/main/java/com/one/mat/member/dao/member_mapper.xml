@@ -18,17 +18,22 @@
  		SELECT COUNT(member_nickName) FROM member WHERE member_nickName=#{param1}
  	</select>
  	
- 	<insert id="join" parameterType="hashmap">
+ 	<insert id="join" parameterType="hashmap" 
+ 		useGeneratedKeys="true" keyColumn="member_idx" keyProperty="member_idx">
  		INSERT INTO member 
-	 		(member_id, member_pw, member_birth, member_nickName, 
+	 		(member_idx, member_id, member_pw, member_birth, member_nickName, 
 	 		member_name, member_phone, member_gender, member_roadAddr, member_parcelAddr, 
 	 		member_detailAddr, member_dongAddr, member_email, member_regDate, member_subs, 
-	 		member_renew, member_loginLock, member_quit, member_)
+	 		member_renew, member_loginLock, member_quit)
  		VALUES 
- 		(#{member_id},#{member_pw},#{member_birth},#{member_nickName},#{member_name},
+ 		(null, #{member_id},#{member_pw},#{member_birth},#{member_nickName},#{member_name},
  		#{member_phone},#{member_gender},#{member_roadAddr},#{member_parcelAddr},
  		#{member_detailAddr},#{member_dongAddr},#{member_email},#{member_regDate},
- 		#{member_subs},#{member_renew},#{member_loginLock},#{member_quit},#{member_})
+ 		default,default,default,default)
+ 	</insert>
+ 	
+ 	<insert id="setSubsType_code">
+ 		INSERT INTO subs(member_idx, subsType_code) VALUES(member_idx=(select member_idx from member), default)
  	</insert>
   
   </mapper>

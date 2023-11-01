@@ -6,12 +6,14 @@ import com.one.mat.member.dto.MemberDTO;
 
 public interface MemberDAO {
 
-	MemberDTO login(String id, String pw);
+	MemberDTO login(String member_id, String member_pw);
 
-	int overlayId(String id);
+	int overlayId(String member_id);
 
-	int overlayNick(String nickName);
+	int overlayNick(String member_nickName);
 
 	int join(HashMap<String, String> params);
+
+	int setSubsType_code(int i);
 
 }
