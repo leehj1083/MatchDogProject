@@ -23,14 +23,14 @@
      <p/>회원가입에 필요한 기본 정보를 입력해주세요<br/>
      
      <p/>아이디<br/>  
-     <input type="text" name="id"/>
+     <input type="text" name="member_id"/>
      <input type="button" id="overlayId" value="중복확인"/>
      <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해주세요</span>
      <p/><span class="idChk"></span>
     
 
 	  <p/>비밀번호<br/>  
-      <input type="password" name="pw"/>
+      <input type="password" name="member_pw"/>
       <p/><span class="pwValid" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자, 특수문자를 혼합하여 8자 이상 입력해주세요</span>
       <p/>비밀번호 확인<br/>
       <input type="password" name="pwCheck"/>
@@ -38,30 +38,31 @@
       
       
       <p/>생년월일<br/>   
-      <input type="text" name="birth"/>
+      <input type="date" name="member_birth"/>
 
 	  <p/>닉네임<br/>
-	  <input type="text" name="nickName"/>
+	  <input type="text" name="member_nickName"/>
       <input type="button" id="overlayNick" value="중복확인"/>      
       <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
-      <p/><span class="nickChk"></span>
+      <p/><span class="nickChk"></span> 
          
       <p/>이름<br/>    
-	  <input type="text" name="name"/>
+	  <input type="text" name="member_name"/>	  
 	  
 	  <p/>전화번호<br/>
-      <input type="text" name="phone"/>
+      <input type="text" name="member_phone"/>
+      <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
          
 	  <p/>성별<br/>
-      <input type="radio" name="gender" value="남"/>남자
-      <input type="radio" name="gender" value="여"/>여자
+      <input type="radio" name="member_gender" value="남"/>남자
+      <input type="radio" name="member_gender" value="여"/>여자
          
       <p/>주소<input type="text" id="postcode" placeholder="우편번호">
 	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-	  <input type="text" id="roadAddress"  name = roadAddr placeholder="도로명주소"><br/>
-	  <input type="text" id="jibunAddress" name = parcelAddr placeholder="지번주소"><br/>
+	  <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소"><br/>
+	  <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소"><br/>
 	  <span id="guide" style="color:#999;display:none"></span><br/>
-	  <input type="text" id="detailAddress" name = detailAddr placeholder="상세주소">		  
+	  <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소">		  
 	  <input type="text" id="extraAddress" placeholder="참고항목">                  
       
       <p/>이메일   
@@ -144,13 +145,13 @@ function execDaumPostcode() {
 // ID 중복체크
 var overlayIdChk = false;
 $('#overlayId').on('click',function(){
-	var $id = $('input[name="id"]');
-	console.log('id='+$id);
+	var $id = $('input[name="member_id"]');
+	console.log('member_id='+$id);
 
 	$.ajax({
 		type : 'post',
 		url : 'overlayId',
-		data : {'id':$id.val()},
+		data : {'member_id':$id.val()},
 		dataType : 'JSON',
 		success : function(data){
 			console.log(data);
@@ -176,13 +177,13 @@ $('#overlayId').on('click',function(){
 // 닉네임 중복체크
 var overlayNickChk = false;
 $('#overlayNick').on('click',function(){
-	var $nickName = $('input[name="nickName"]');
-	console.log('nickName='+$nickName);
+	var $nickName = $('input[name="member_nickName"]');
+	console.log('member_nickName='+$nickName);
 
 	$.ajax({
 		type : 'post',
 		url : 'overlayNick',
-		data : {'nickName':$nickName.val()},
+		data : {'member_nickName':$nickName.val()},
 		dataType : 'JSON',
 		success : function(data){
 			console.log(data);
@@ -207,7 +208,7 @@ $('#overlayNick').on('click',function(){
 
 
 // ID 정규표현식
-$('input[name="id"]').keyup(function(){
+$('input[name="member_id"]').keyup(function(){
 	var getIdCheck = RegExp(/^[a-zA-Z0-9]{4,14}$/);
 	if($(this).val()==''){
 		$('.idValid').css('color','red');
@@ -223,7 +224,7 @@ $('input[name="id"]').keyup(function(){
 
 
 // PW 정규표현식
-$('input[name="pw"]').keyup(function(){
+$('input[name="member_pw"]').keyup(function(){
 	var getPwCheck = RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
 	if($(this).val()==''){
 		$('.pwValid').css('color','red');
@@ -243,7 +244,7 @@ $('input[name="pwCheck"]').keyup(function(){
 	if($(this).val()==''){
 		$('.pwReChk').css('color','red');
 		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
-	}else if($(this).val()==$('input[name="pw"]').val()){
+	}else if($(this).val()==$('input[name="member_pw"]').val()){
 		$('.pwReChk').css('color','green');
 		$('.pwReChk').html('비밀번호가 일치합니다.');
 	}else{
@@ -253,8 +254,8 @@ $('input[name="pwCheck"]').keyup(function(){
 });
 
 
-//닉네임 정규표현식
-$('input[name="nickName"]').keyup(function(){
+// 닉네임 정규표현식
+$('input[name="member_nickName"]').keyup(function(){
 	var getNickCheck = RegExp(/^[a-zA-Zㄱ-ㅎ가-힣0-9]{2,8}$/);
 	if($(this).val()==''){
 		$('.nickValid').css('color','red');
@@ -265,6 +266,22 @@ $('input[name="nickName"]').keyup(function(){
 	}else{
 		$('.nickValid').css('color','green');
 		$('.nickValid').html('적합한 닉네임 형식입니다.');
+	}
+});
+
+
+// 전화번호 정규표현식
+$('input[name="member_phone"]').keyup(function(){
+	var getPhoneCheck = RegExp(/^\d{2,3}-\d{3,4}-\d{4}$/);
+	if($(this).val()==''){
+		$('.phoneValid').css('color','red');
+		$('.phoneValid').html('전화번호는 필수 입력입니다.');
+	}else if(!getPhoneCheck.test($(this).val())){
+		$('.phoneValid').css('color','red');
+		$('.phoneValid').html('전화번호가 형식에 어긋납니다.');
+	}else{
+		$('.phoneValid').css('color','green');
+		$('.phoneValid').html('적절한 전화번호 형식입니다.');
 	}
 });
 
@@ -306,35 +323,65 @@ $('#identifyMail').on('click',function(){
 
 
 
-
-
-
-
-
-
-
-
 // 회원가입
 $('#join').on('click',function(){
-	var $id=$('input[name="id"]');
-	var $pw=$('input[name="pw"]');
-	var $birth=$('input[name="birth"]');
-	var $nickName=$('input[name="nickName"]');
-	var $name=$('input[name="name"]');
-	var $phone=$('input[name="phone"]');	
-	var $gender=$('input[name="gender"]:checked');
-	var $roadAddr=$('input[name="roadAddr"]');
-	var $parcelAddr=$('input[name="parcelAddr"]');
-	var $detailAddr=$('input[name="detailAddr"]');
-	// 이메일 전체 주소 추출
-	var $email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
-	
+	var $id=$('input[name="member_id"]');
+	var $pw=$('input[name="member_pw"]');
+	var $birth=$('input[name="member_birth"]');
+	var $nickName=$('input[name="member_nickName"]');
+	var $name=$('input[name="member_name"]');
+	var $phone=$('input[name="member_phone"]');	
+	var $gender=$('input[name="member_gender"]:checked');
+	var $roadAddr=$('input[name="member_roadAddr"]');
+	var $parcelAddr=$('input[name="member_parcelAddr"]');
+	var $detailAddr=$('input[name="member_detailAddr"]');
 	// 동주소 추출
 	var regex = /([가-힣A-Za-z·\d~\-\.]+(동)\s)/i;
 	var $dongAddr=$parcelAddr.val().match(regex)[1];
 	console.log("동주소 : "+$dongAddr);
 	
-	if(overlayChk){
+	// 이메일 전체 주소 추출
+	var $email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
+	var $member_regDate = new Date();
+	
+	
+	var param = {};
+	param.member_id=$id.val();
+	param.member_pw=$pw.val();
+	param.member_birth=$birth.val();
+	param.member_nickName=$nickName.val();
+	param.member_name=$name.val();			
+	param.member_phone=$phone.val();
+	param.member_gender=$gender.val();
+	param.member_roadAddr=$roadAddr.val();
+	param.member_parcelAddr=$parcelAddr.val();
+	param.member_detailAddr=$detailAddr.val();
+	param.member_dongAddr=$dongAddr;
+	param.member_email=$email;	
+	param.member_regDate = $member_regDate;
+	
+	console.log(param);
+	
+	$.ajax({
+		type : 'post',
+		url : 'join.do',
+		data : param,
+		dataType : 'JSON',
+		success : function(data){
+			console.log(data);
+			if(data.success>0){
+				alert('회원가입에 성공했습니다.');
+				location.href='./login.go';
+			}else{
+				alert('회원가입에 실패했습니다.');
+			}
+		},
+		error : function(e){
+			console.log(e);
+		}				
+	});
+	
+	/* if(overlayChk){
 		if($id.val()==''){
 			alert('아이디를 입력해 주세요');
 			$id.focus();
@@ -344,63 +391,28 @@ $('#join').on('click',function(){
 		}else if($name.val()==''){
 			alert('이름을 입력해 주세요');
 			$name.focus();
-		}else if($age.val()==''){
-			alert('나이를 입력해 주세요');
-			$age.focus();
 		}else if($gender.val()==null){
 			alert('성별을 선택해 주세요');
 		}else if($email.val()==''){
 			alert('이메일을 입력해 주세요');
 			$email.focus();
-		}else{
-			var param = {};
-			param.id=$id.val();
-			param.pw=$pw.val();
-			param.name=$name.val();
-			
-			var regex = new RegExp('[a-zA-Zㄱ-ㅎ가-힣]');
-			var match = regex.test($age.val());  // 패턴이 일치하면 true, 아니면 false
-			console.log("match : "+match);
-			if(match){  // match=true인 경우(문자가 들어간 경우)
-				alert('숫자만 넣어 주세요');
-				return false;  // 실행않고 밖으로 빠져나가 버림
-			}			
-			param.age=$age.val();				
-			param.gender=$gender.val();
-			param.email=$email.val();			
-			if($auth.val() != null){
-				param.auth=$auth.val();				
-			}
-			
-			// 회원가입시에 기본적으로 권한코드를 1로 주어야 할 것
-			subsType_code = 1
-			
-			console.log(param);
-			
-			$.ajax({
-				type : 'post',
-				url : 'join',
-				data : param,
-				dataType : 'JSON',
-				success : function(data){
-					console.log(data);
-					if(data.success>0){
-						alert('회원가입에 성공했습니다.');
-						location.href='./';
-					}else{
-						alert('회원가입에 실패했습니다.');
-					}
-				},
-				error : function(e){
-					console.log(e);
-				}				
-			});			
-		}		
+		}else if($email.val()==''){
+			alert('이메일을 입력해 주세요');
+			$email.focus();
+		}else if($email.val()==''){
+			alert('이메일을 입력해 주세요');
+			$email.focus();
+		}else if($email.val()==''){
+			alert('이메일을 입력해 주세요');
+			$email.focus();
+		}else if($email.val()==''){
+			alert('이메일을 입력해 주세요');
+			$email.focus();
+		}	
 	}else{
 		alert('아이디 중복 체크를 해주세요.');
-	}	
+	}	 */
 });
-
 
 
 </script>
