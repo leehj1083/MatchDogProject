@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.one.mat.myPage.dao.MyProfileDAO">
+
+<select id="MyProfileListDo" resultType="com.one.mat.member.dto.ProfileDTO">
+	SELECT pro_dogName,
+	pro_dogAge, pro_dogGender, pro_dogDesc, pro_dogScore
+	from pro where member_idx =#{idx};
+
+</select>
+
+	<update id="myPageModUpdateDo">
+
+  	</update>
+  	
+
+</mapper>

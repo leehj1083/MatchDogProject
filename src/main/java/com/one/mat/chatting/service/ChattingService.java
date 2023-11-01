@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.one.mat.chatting.dao.ChattingDAO;
-import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.main.dto.MatchingDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class ChattingService {
@@ -20,17 +21,26 @@ public class ChattingService {
 	@Autowired
 	ChattingDAO dao;
 
-	public HashMap<String, Object> chattingListDo(String page, String pagePerNum) {
+	public HashMap<String, Object> chattingListDo(String page, String pagePerNum, int memberIdx) {
 		
 		// memberIdx 에서 pro_idx 가지고 오기
-		//ArrayList<Integer> proIdx = dao.proIdx(memberIdx);
+		ArrayList<MatchingDTO> proIdx = dao.proIdx(memberIdx);
+		ArrayList<MatchingDTO> matIdx = new ArrayList<MatchingDTO>();
+		ArrayList<Integer> matNum = new ArrayList<Integer>();
+		
+		// pro_idx 를 이용해서 매칭수락한 리스트 가지고 오기
+		Iterator<MatchingDTO> it = proIdx.iterator();
+		while(it.hasNext()) {
+			matIdx = dao.matIdx(it.next().getPro_idx());
+			Iterator<MatchingDTO> its = matIdx.iterator();
+			while(its.hasNext()) {
+				matNum.add(its.next().getPro_idx());
+			}
+		}
+		
+		//이 리스트들의 닉네임이랑 이거저거 불러오기
 		
 		
-//		Iterator<Integer> it = proIdx.iterator();
-//		while(it.hasNext()) {
-//			int i = it.next().intValue();
-//			logger.info(i+"");
-//		}
 		
 	
 		

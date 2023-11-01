@@ -1,7 +1,7 @@
 package com.one.mat.member.dto;
 
 public class ProfileDTO {
-	
+
 	private int pro_idx;
 	private int member_idx;
 	private String pro_dogName;
@@ -14,8 +14,21 @@ public class ProfileDTO {
 	private String breedType;
 	private String charType;
 	private String photos;
+	private String breedType_code;
+	private String charType_code;
 	
-	
+	public String getBreedType_code() {
+		return breedType_code;
+	}
+	public void setBreedType_code(String breedType_code) {
+		this.breedType_code = breedType_code;
+	}
+	public String getCharType_code() {
+		return charType_code;
+	}
+	public void setCharType_code(String charType_code) {
+		this.charType_code = charType_code;
+	}
 	public String getPhoto_fileName() {
 		return photo_fileName;
 	}
@@ -89,6 +102,4 @@ public class ProfileDTO {
 		this.pro_rep = pro_rep;
 	}
 	
-	
-
 }

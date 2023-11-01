@@ -22,47 +22,42 @@ public class RegProfileController {
 	RegProfileService service;
 	
 	
-	@RequestMapping("/myProfileList.do")
-	public String myProfileList() {
-		
-		return "myProfile";
-		
-		
-	}
 	@RequestMapping("/showChar")
 	public String showChar() {
-
+		
 		return "showChar";
 	}
 	
 
-	@RequestMapping("/myProfile")
+	@RequestMapping("/regProfile")
 	public String Home() {
 		
 		
-		return "myProfile";
+		return "regProfile";
 	}
 	
 	@RequestMapping(value = "/writemyProfile")
-	public String writemyProfile(@RequestParam Map<String,String> params) {
+	public String writemyProfile(@RequestParam Map<String,String> params, Model model) {
 		logger.info("params : "+ params);
+		ArrayList<ProfileDTO> list = service.list();
+		model.addAttribute("list",list);
+		logger.info("list"+list);
+		
 		return service.writemyProfile(params);
+		
 	}
 	
-	@RequestMapping("/ex")
+	@RequestMapping("/open")
 	public String charlist(Model model) {
 		ArrayList<ProfileDTO> list = service.list();
+		logger.info("list : "+list);
 		model.addAttribute("list",list);
 		
 		return "list";
 	}
 	
+	
+	
 
-	
-	
-	
-	
-	
-	
 	
 }
