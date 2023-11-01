@@ -15,10 +15,14 @@ public class MatchingService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MatchingDAO dao;
 	
-	
-	public List<Map<String, Object>> matchingList() {
-		logger.info("MatchingService");
+	public List<Map<String, Object>> matchingList(String dongAddr, String gender, int memberidx) {
+		logger.info("matchingList");
 		return dao.matchingList();
+	}
+
+	public List<String> matchingListCharType(List<String> charTypes) {
+		logger.info("matchingListCharType");
+		return dao.matchingListCharType();
 	}
 
 }
