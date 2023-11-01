@@ -1,5 +1,7 @@
 package com.one.mat.myPage.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.ProfileDTO;
 import com.one.mat.myPage.service.MyProfileService;
 
 
@@ -20,7 +24,7 @@ public class MyProfileController {
 	
 	@Autowired MyProfileService service;
 
-	
+	//리스트 불러오기
 	@RequestMapping(value = "/myProfileList.do")
 	public String myProfileListDo(Model model, HttpSession session) {
 		logger.info("프로필 list 요청 받음");
@@ -32,16 +36,33 @@ public class MyProfileController {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
 			logger.info("idx="+idx);
-			/*
-			 * MemberDTO profile = service.MyProfileListDo(id);
-			 * logger.info(profile.toString()); model.addAttribute("myProfile", profile);
-			 */
+
+			/*ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(idx, model);
+			logger.info("myProfile size="+myProfile.size());
+			
+			model.addAttribute("myProfile", myProfile);*/
+			service.MyProfileListDo(idx, model);
+
 		}
 		model.addAttribute("msg", msg);
 		return page;
 	}
 	
+	/*
+	// 성향 가져오기
+	@RequestMapping(value="/pro_idx.do")
+	public String pro_idxDo(Model model, HttpSession session,
+			String pro_idx) {
+		ArrayList<ProfileDTO> charlist = service.pro_idxDo(pro_idx);
+		logger.info("charlist size="+charlist.size());
+		model.addAttribute("charlist", charlist);
+		return "redirect:/myProfile";
+	}
+	*/
 	
+	
+	// 수정
+	/*
 	@RequestMapping(value = "/myProfileMod.go")
 	public String myProfileModGo(Model model, HttpSession session) {
 		String page = "login";
@@ -51,11 +72,31 @@ public class MyProfileController {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
 			/* MemberDTO member=service.MyPageListDo(id); */
-			model.addAttribute("myProfile", service.MyProfileListDo(idx));
+			/*model.addAttribute("myProfile", service.MyProfileListDo(idx));
 			page = "myProfileMod";
 		}
 		return page;
 	}
+
+	
+	*/
+	
+/*
+	@RequestMapping(value="myProfileDel.do")
+	public String myProfileDelDo(Model model, HttpSession session,
+			@RequestParam String pro_idx) {
+		
+		String page="index";
+		
+		if(session.getAttribute("loginId")==null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+		}else {		
+			service.myProfileDelDo(pro_idx);
+			page="redirect:/myProfileListDo";
+		}
+		return page;
+	}
+	*/
 	
 	
 	

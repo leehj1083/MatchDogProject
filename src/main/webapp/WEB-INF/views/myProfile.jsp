@@ -47,48 +47,81 @@
     </style>
 </head>
 <body>
+	<c:if test="${myProfile.size() <= 1 }">
+		<input type="button" onclick="location.href='./regProfile.go'" value="+" />
+	</c:if>
+	<c:if test="${myProfile.size() == 2 }">
+		<input type="button" onclick="location.href='./regProfile.go'" value="+" />
+		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" />
+	</c:if>
+	<c:if test="${myProfile.size() >= 3}">
+		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" />
+	</c:if>
 
+<c:forEach items="${myProfile}" var="Profile">
+	
+	<!-- style="display: none" -->
+<form action="pro_idx.do">
+	<input type="text"  name="pro_idx" value="${Profile.pro_idx}"/>
+</form>
 
-
-<form action="writemyProfile" method="post">
+	<form action="myProfileMod.go" method="post">
    <input type="file" name="photos" multiple="multiple" value="사진 선택">    
+    
     <table>
         <tr>
             <th>내 강아지 이름</th>
-            <th>${myProfile.pro_dogName}</th>
+            <th>${Profile.pro_dogName}</th>
         </tr>
         
         <tr>
             <th>내 강아지 견종</th>
-            <td>${myProfile.breedType}</td>
+            <td>${Profile.breedType}</td>
         </tr>
         
         <tr>
             <th>내 강아지 나이</th>
-            <td>${myProfile.pro_dogAge}</td>
+            <td>${Profile.pro_dogAge}</td>
         </tr>
         
         <tr>
             <th>내 강아지 성별</th>
-            <td>${myProfile.pro_dogGender}</td>
+            <td>${Profile.pro_dogGender}</td>
         </tr>
         <tr>
 		<th>내 강아지 성향</th>
-		<td>${myProfile.charType}</td>
+		<td>
+		<c:forEach items="${charTypeList}" var="charlist">
+		${charlist.charType}
+		</c:forEach></td>
 	</tr>
 	<tr>
 	<th>내 강아지 소개 : </th>
-	<td><textarea name="pro_dogDesc" spellcheck = "false">
-	</textarea></td>
+	<td><textarea name="pro_dogDesc" spellcheck = "false">${Profile.pro_dogDesc}</textarea></td>
 	<tr>
 		<th>내 강아지 상태</th>
-		<td>${myProfile.pro_dogScore}</td>
+		<td>
+		
+		<c:if test="${Profile.pro_dogScore >= 10}">
+			<p> 매너견이에요!</p>
+		</c:if>
+		<c:if test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
+			<p> 매너견이 되어보세요!</p>
+		</c:if>
+		<c:if test="${Profile.pro_dogScore < 0}">
+			<p> 비매너견이에요ㅜㅜ</p>
+		</c:if>
+		
+		</td>
+		
 	</tr>
     </table>
     <br></br>
 	<input type="button" onclick="location.href='./myProfileMod.go'" value="수정하기"/>
 	<br></br>
 </form>
+</c:forEach>
+
 
 </body>
 <script>
