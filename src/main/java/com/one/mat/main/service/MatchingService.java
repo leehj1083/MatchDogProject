@@ -1,5 +1,6 @@
 package com.one.mat.main.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,7 +16,8 @@ public class MatchingService {
 	@Autowired MatchingDAO dao;
 	
 	
-	public Map<String, String> matchingList() {
+	public List<Map<String, Object>> matchingList() {
+		logger.info("MatchingService");
 		return dao.matchingList();
 	}
 
