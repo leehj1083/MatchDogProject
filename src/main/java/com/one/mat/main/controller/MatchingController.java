@@ -1,5 +1,6 @@
 package com.one.mat.main.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,17 +23,23 @@ public class MatchingController {
 	Logger logger = LoggerFactory.getLogger(MatchingController.class);
 	@Autowired MatchingService service;
 
+	@RequestMapping(value = "/HomeMatchingList.do")
+	public String home() {
+		return "home";
+	}
+	
 	// 세션 체크(로그인, 비로그인 다르게)
 	// 견주 성별, 주소
 	// 견name, 개age(비공개 가능), 개gender(비공개 가능), 개char, 소개글
-	//		/HomeMatchingList.do
-	@RequestMapping(value = "/HomeMatchingList.do")
+	// 사용자와 동주소, 강아지 성향이 같은 개수 순으로 리스트 나열
+	
+	@RequestMapping(value = "/MatchingList.do")
 	@ResponseBody
-	public Map<String, Object> home(Model model, HttpSession session) {
-		logger.info("HomeMatchingList.do");
-		Map<String, Object> result = new HashMap<>();
+	public Map<String, Object> matchingList(Model model, HttpSession session) {
+		logger.info("MatchingList");
+		Map<String, Object> map = new HashMap<>();
       List<Map<String, Object>> list = service.matchingList();
-      result.put("list", list);
-		return result;
+      map.put("list", list);
+		return map;
 	}
 }

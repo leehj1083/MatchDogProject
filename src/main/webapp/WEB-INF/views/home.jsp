@@ -68,28 +68,29 @@
         <table>
         <tbody id="matchinglist"></tbody>
 				</table>
+        <input type="button" value="매칭리스트 삭제">
+        <input type="button" value="매칭요청 보내기">
     </div>
-        <input type="button">삭제</>
-        <input type="button">매칭요청보내기</>
 </body>
 <script>
 // 페이지 로딩 시 데이터 가져오기
-listcall();
+matchinglist();
 
 // 매칭 리스트 ajax
 function matchinglist() {
     $.ajax({
         type: 'get',
-        url: '/HomeMatchingList.do',
+        url: 'MatchingList.do',
         data: {},
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            location.href="home";
+            console.log("성공");
             drawList(data.list);
         },
         error: function (e) {
             console.log(e);
+       			console.log("실패");
         }
     });
 }
@@ -98,19 +99,39 @@ function drawList(list) {
     console.log(list);
     var content = '';
     list.forEach(function (item, idx) {
+   	 		/* 견주 성별, 동 주소 */
         content += '<tr>';
+      	content += '<td>';
+        content += '<td>' + item.member_gender + '</td>';
         content += '<td>' + item.member_dongAddr + '</td>';
-        content += '<td>' + item.breedTypes + '</td>';
-        content += '<td>' + item.charTypes + '</td>';
+        content += '</tr>';
+        
+        /* 강아지 이름, 견종, 강아지 나이, 강아지 성별 */
+        content += '<tr>';
         content += '<td>' + item.pro_dogName + '</td>';
+        content += '<td>' + item.breedType + '</td>';
         content += '<td>' + item.pro_dogAge + '</td>';
         content += '<td>' + item.pro_dogGender + '</td>';
-        content += '<td>' + item.pro_dogDesc + '</td>';
         content += '</tr>';
+        
+        /* 성향 */
+        content += '<tr>';
+        content += '<td>' + item.charType + '</td>';
+        content += '</td>';
+        
+        /* 소개글 */
+        content += '<tr>';
+        content += '<td>' + item.pro_dogDesc + '</td>';
+        content += '</td>';
     });
     $('#matchinglist').empty();
     $('#matchinglist').append(content);
 }
 
+
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
 </script>
 </html>
