@@ -1,5 +1,6 @@
 package com.one.mat.member.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class MemberService {
 		return dao.nameMailChk(member_name, member_email);
 	}
 
-	public ProfileDTO loginProf(String member_id, String member_pw) {
+	public ArrayList<ProfileDTO> loginProf(String member_id, String member_pw) {
 		return dao.loginProf(member_id, member_pw);
 	}
 
