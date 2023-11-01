@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.one.mat.chatting.dao.ChattingDAO;
 import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.main.dto.MatchingDTO;
-import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class ChattingService {

@@ -7,7 +7,7 @@
 <head>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메인 화면</title>
 <style>
     .sidebar {
         height: 100%;
@@ -66,49 +66,72 @@
         <h3>우리 동네 리스트</h3>
         <a href="#">매칭리스트 img</a>
         <table>
-        <tbody id="list"></tbody>
-		</table>
+        <tbody id="matchinglist"></tbody>
+				</table>
+        <input type="button" value="매칭리스트 삭제">
+        <input type="button" value="매칭요청 보내기">
     </div>
 </body>
 <script>
-list();
+// 페이지 로딩 시 데이터 가져오기
+matchinglist();
 
-function list(){
-	$.ajax({
-		type:'get',
-		url:'HomeMatchingList.do',
-		data:{},
-		dataType:'json',
-		success:function(data){
-			console.log(data);
-			drawList(data.list);
-		},
-		error:function(e){
-			console.log(e);
-		}
-	});	
+// 매칭 리스트 ajax
+function matchinglist() {
+    $.ajax({
+        type: 'get',
+        url: 'MatchingList.do',
+        data: {},
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            console.log("성공");
+            drawList(data.list);
+        },
+        error: function (e) {
+            console.log(e);
+       			console.log("실패");
+        }
+    });
+}
+
+function drawList(list) {
+    console.log(list);
+    var content = '';
+    list.forEach(function (item, idx) {
+   	 		/* 견주 성별, 동 주소 */
+        content += '<tr>';
+      	content += '<td>';
+        content += '<td>' + item.member_gender + '</td>';
+        content += '<td>' + item.member_dongAddr + '</td>';
+        content += '</tr>';
+        
+        /* 강아지 이름, 견종, 강아지 나이, 강아지 성별 */
+        content += '<tr>';
+        content += '<td>' + item.pro_dogName + '</td>';
+        content += '<td>' + item.breedType + '</td>';
+        content += '<td>' + item.pro_dogAge + '</td>';
+        content += '<td>' + item.pro_dogGender + '</td>';
+        content += '</tr>';
+        
+        /* 성향 */
+        content += '<tr>';
+        content += '<td>' + item.charType + '</td>';
+        content += '</td>';
+        
+        /* 소개글 */
+        content += '<tr>';
+        content += '<td>' + item.pro_dogDesc + '</td>';
+        content += '</td>';
+    });
+    $('#matchinglist').empty();
+    $('#matchinglist').append(content);
 }
 
 
-function drawList(list){
-	console.log(list);
-	/*for(var i=0;i<list.length;i++){}*/
-	// 배열의 값을 하나씩 빼서 함수를 실행(개별값,인덱스)
-	var content = '';
-	list.forEach(function(list, idx){
-		content += '<tr>';
-		content += '<td>'+idx.member_dongAddr+'</td>';
-		content += '<td>'+idx.breedType+'</td>';
-		content += '<td>'+idx.charType+'</td>';
-		content += '<td>'+idx.pro_dogName+'</td>';
-		content += '<td>'+idx.pro_dogAge+'</td>';
-		content += '<td>'+idx.pro_dogGender+'</td>';
-		content += '<td>'+idx.pro_dogDesc+'</td>';
-		content += '</tr>';
-	});
-	$('#list').empty();
-	$('#list').append(content);
-	
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
 }
 </script>
 </html>
