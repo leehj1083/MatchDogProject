@@ -57,10 +57,10 @@ public class ChattingController {
 //		return service.chattingListDo(pagePerNum,page,memberIdx);
 //	}
 //	
-//	@RequestMapping(value="/chattingRoom.go")
-//	public String chattingLoomGo() {
-//		return "test";
-//	}
+	@RequestMapping(value="/chattingRoom.go")
+	public String chattingLoomGo() {
+		return "test";
+	}
 //	
 //	@RequestMapping(value="/chatRoomList.do")
 //	public HashMap<String, Object> chatRoomListDo(){
