@@ -6,7 +6,7 @@
 	<!-- <select id="boardList" resultType="kr.co.gudi.dto.BoardDTO">
 		SELECT b.idx, b.subject, b.user_name, b.bHit, (SELECT count(idx) FROM photo p WHERE b.idx= p.idx) AS img FROM bbs b
 	</select> -->
-	<select id="proIdx" resultType="com.one.mat.main.dto.MatchingDTO">
+	<select id="proIdx" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
 	</select>
 	<select id="matIdx" resultType="com.one.mat.main.dto.MatchingDTO">
@@ -23,5 +23,25 @@
 	<select id="totalPage" resultType="int">
 		SELECT CEIL(COUNT(idx)/#{param1}) AS pages FROM bbs
 	</select> -->
+	
+	<!-- <select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.chattingDTO">
+	SELECT * FROM chatmsg 
+	WHERE (pro_recvIdx = #{pro_recvIdx} AND pro_sendIdx = #{pro_sendIdx} ) 
+	OR (pro_recvIdx = #{pro_sendIdx} AND pro_sendIdx = #{pro_recvIdx} ) 
+	AND chatMsg_idx > #{chatMsg_idx} ORDER BY chatMsg_regDate;
+	</select>
+	<insert id="chatSaveDo">
+	INSERT INTO chatmsg(
+	chatMsg_idx
+	,chat_idx
+	,pro_sendIdx
+	,pro_recvIdx
+	,chatMsg_msg
+	,chatMsg_read
+	,chatMsg_regDate) 
+	VALUES
+	(,NOW())
+	</insert> -->
+ 
  
  </mapper>
