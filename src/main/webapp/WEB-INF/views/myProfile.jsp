@@ -57,6 +57,7 @@
 	<c:if test="${myProfile.size() >= 3}">
 		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" />
 	</c:if>
+   <br></br>
 
 <c:forEach items="${myProfile}" var="Profile">
 	
@@ -90,10 +91,11 @@
         </tr>
         <tr>
 		<th>내 강아지 성향</th>
-		<td>
-		<c:forEach items="${charTypeList}" var="charlist">
-		${charlist.charType}
-		</c:forEach></td>
+		<td>${Profile.charTypeList}</td>
+<%-- 		<td>
+		<c:forEach items="${charType}" var="charType">
+		${charType.charType}
+		</c:forEach></td> --%>
 	</tr>
 	<tr>
 	<th>내 강아지 소개 : </th>

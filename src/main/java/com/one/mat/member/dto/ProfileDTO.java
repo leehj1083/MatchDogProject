@@ -1,5 +1,7 @@
 package com.one.mat.member.dto;
 
+import java.util.ArrayList;
+
 public class ProfileDTO {
 
 	private int pro_idx;
@@ -16,6 +18,8 @@ public class ProfileDTO {
 	private String photos;
 	private String breedType_code;
 	private String charType_code;
+	private ArrayList<String> charTypeList;
+	
 	
 	public String getBreedType_code() {
 		return breedType_code;
@@ -101,5 +105,15 @@ public class ProfileDTO {
 	public void setPro_rep(String pro_rep) {
 		this.pro_rep = pro_rep;
 	}
+	public ArrayList<String> getCharTypeList() {
+		return charTypeList;
+	}
+	public void setCharTypeList(ArrayList<String> charTypeList) {
+		this.charTypeList = charTypeList;
+	}
+
+
+
+
 	
 }

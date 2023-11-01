@@ -15,7 +15,7 @@ public interface MyProfileDAO {
 
 	void myProfileDelDo(String pro_idx);
 
-	ArrayList<ProfileDTO> charType(int idx);
+	ArrayList<String> charType(int idx);
 
 
 
