@@ -5,15 +5,25 @@
 <mapper namespace="com.one.mat.myPage.dao.MyProfileDAO">
 
 <select id="MyProfileListDo" resultType="com.one.mat.member.dto.ProfileDTO">
-	SELECT pro_dogName,
-	pro_dogAge, pro_dogGender, pro_dogDesc, pro_dogScore
-	from pro where member_idx =#{idx};
+	SELECT *
+FROM pro p
+INNER JOIN breed b ON p.pro_idx = b.pro_idx
+INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx=#{idx}
 
+</select>
+<select id="charType" resultType="com.one.mat.member.dto.ProfileDTO">
+select charType
+from pro p
+INNER JOIN `char` c ON p.pro_idx = c.pro_idx
+INNER JOIN chartype ct ON c.charType_code = ct.charType_code where p.pro_idx=2;
 </select>
 
 	<update id="myPageModUpdateDo">
 
   	</update>
   	
+  	<delete id="myProfileDelDo">
+
+</delete>
 
 </mapper>
