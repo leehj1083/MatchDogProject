@@ -20,19 +20,25 @@ public class RegProfileService {
 
 	public String writemyProfile(Map<String, String> params) {
 		ProfileDTO dto = new ProfileDTO();
-		dto.setBreedType(params.get("BreedType"));
+		
 		dto.setPro_dogName(params.get("pro_dogName"));
 		String dogAgeStr = params.get("pro_dogAge");
 		int dogAge = Integer.parseInt(dogAgeStr);
 		dto.setPro_dogAge(dogAge);
 		dto.setPro_dogGender(params.get("pro_dogGender"));
-		dto.setCharType(params.get("CharType"));
 		dto.setPro_dogDesc(params.get("pro_dogDesc"));
+		dto.setPro_idx(dogAge);
+		String breedType_codeStr = params.get("breedType_code");
+		int breedType_code = Integer.parseInt(breedType_codeStr);
+		dto.setPro_dogAge(breedType_code);
+		
+		
 		
 		dao.writemyProfile(dto);
 		
 		
-		String page = "redirect:/regProfile";
+		
+		String page = "redirect:/home2";
 		
 		return page;
 	}
@@ -41,6 +47,28 @@ public class RegProfileService {
 	
 		return dao.list();
 	}
+
+	public ArrayList<ProfileDTO> list2() {
+		
+		return dao.list2();
+	}
+
+
+
+	public void breedTypeSave(int bt_code) {
+		
+		dao.breedTypeSave(bt_code);
+		
+	}
+
+	public void charSave(Map<String, Integer> charTypeMap) {
+		dao.charSave(charTypeMap);
+		
+	}
+
+
+
+	
 
 	
 

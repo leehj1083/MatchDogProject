@@ -22,6 +22,16 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 }
 
 .modal-content {
+	display: none;
+	/* ... 다른 스타일 ... */
+}
+
+.modal.active .modal-content {
+	display: block;
+	/* 이 스타일은 .modal에 'active' 클래스가 있을 때 .modal-content를 표시합니다. */
+}
+
+.modal-content {
 	background-color: #fff;
 	margin: 15% auto;
 	padding: 20px;
@@ -48,15 +58,17 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 
 
 
-	<form action="writemyProfile" method="post" id="myForm">
+	<form action="profileSave.do" method="post" id="myForm">
+	
+	
 
 
 		<input type="file" name="photos" multiple="multiple" value="사진 선택">
 
 		<table>
-		
-		
-		
+
+
+
 
 
 			<tr>
@@ -66,16 +78,17 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 
 			<tr>
 				<th>내 강아지 견종</th>
-				<td><select name="breedType">
-						<option value="1">코리안 믹스 도그</option>
-						<option value="2">코리안 믹스 도그2</option>
-
+				<td><select name="breedType_code">
+						<c:forEach items="${list2}" var="breed">
+							<option value="${breed.breedType_code}">${breed.breedType}</option>
+						</c:forEach>
 				</select></td>
 			</tr>
 
 			<tr>
 				<th>내 강아지 나이</th>
 				<td><select name="pro_dogAge">
+						<option value="0">0</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -120,75 +133,51 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 				<th>내 강아지 성향</th>
 				<td>
 					<button type="button" id="openModal">성향 선택</button>
-						
+
 				</td>
 
 			</tr>
-			
+
 			<tr>
-				<td colspan="2"><div id="myModal" class="modal">
-						<div id="myModal" class="modal">
-							<div class="modal-content">
-								<span class="close" id="closeModal">&times;</span> 내 강아지 성향을
-								선택해주세요
+				<td colspan="2">
+
+					<div id="myModal" class="modal">
+						<div class="modal-content">
+							<span class="close" id="closeModal">&times;</span> 내 강아지 성향을
+							선택해주세요
+							<c:forEach items="${list}" var="myChar">
 								<p>
-									<input type="checkbox" value="1" />활발함
+									<input type="checkbox" value="${myChar.charType_code}" />
+									${myChar.charType}
 								</p>
-								<p>
-									<input type="checkbox" value="2" />장난끼
-								</p>
-								<p>
-									<input type="checkbox" value="3" />기운없음
-								</p>
-								<p>
-									<input type="checkbox" value="4" />겁쟁이
-								</p>
-								<p>
-									<input type="checkbox" value="5" />극소심
-								</p>
-								<p>
-									<input type="checkbox" value="6" />핵인싸
-								</p>
-								<p>
-									<input type="checkbox" value="7" />애교많음
-								</p>
-								<p>
-									<input type="checkbox" value="8" />낯가림
-								</p>
-								<p>
-									<input type="checkbox" value="9" />공놀이
-								</p>
-								<p>
-									<input type="checkbox" value="10" />독립적
-								</p>
-								<p>
-									<input type="checkbox" value="11" />밀당천재
-								</p>
-								<p>
-									<input type="checkbox" value="12" />잘 짖음
-								</p>
+							</c:forEach>
 							<button type="button" id="submitForm">선택 완료</button>
-							</div>
 						</div>
-						
-						</td>
+					</div>
+
+				</td>
 			</tr>
 			<tr>
-			<td><div id="selectedOptions"></div></td>
-			<div id="imageContainer"></div>
+				<td><div id="selectedOptions"></div></td>
+				<div id="imageContainer"></div>
 			</tr>
 			<tr>
 				<th>내 강아지 소개 :</th>
 				<td><textarea name="pro_dogDesc" spellcheck="false">
+				<td><input type = "hidden" name = "member_idx" value=""/></td>
 	</textarea></td>
 			</tr>
 			<tr>
 			<tr>
 				<th><button>등록 완료</button></th>
+				<c:forEach items="${Idx}" var="memidx"><td>
+			<input type = "button" name = "member_idx"/>${memidx.memberIdx}
+			</td></c:forEach>
 			</tr>
-			<input type="hidden" name="CharType" id="CharType" value="" />
+			<input type="hidden" name="charType_code" id="charType_code" value="" />
+			
 		</table>
-		
+
 	</form>
 
 </body>
@@ -200,6 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectedOptionsDiv = document.getElementById("selectedOptions"); // 추가: 선택된 성향을 표시할 div
 
     // "성향 선택" 버튼을 클릭했을 때 모달 창 열기
+    
     openModalButton.addEventListener("click", function () {
         document.getElementById("myModal").style.display = "block";
     });
@@ -208,14 +198,24 @@ document.addEventListener("DOMContentLoaded", function () {
     closeModalButton.addEventListener("click", function () {
         document.getElementById("myModal").style.display = "none";
         
+        
         // 선택된 체크박스 항목들을 가져와서 화면에 표시
         var selectedOptions = document.querySelectorAll('input[type="checkbox"]:checked');
         var selectedLabels = Array.from(selectedOptions).map(option => option.parentElement.textContent.trim());
         selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(", ");
         
         // 추가: 선택된 성향의 value 값을 CharType에 설정
-        var charTypeInput = document.getElementById("CharType");
+        var charTypeInput = document.getElementById("charType_code");
         charTypeInput.value = selectedOptions.length > 0 ? selectedOptions.map(option => option.value).join(", ") : "";
+    });
+ // 모달을 표시하려면 .modal 요소에 'active' 클래스를 추가합니다.
+    openModalButton.addEventListener("click", function () {
+        document.getElementById("myModal").classList.add('active');
+    });
+
+    // 모달을 숨기려면 .modal 요소에서 'active' 클래스를 제거합니다.
+    closeModalButton.addEventListener("click", function () {
+        document.getElementById("myModal").classList.remove('active');
     });
 
     // "선택 완료" 버튼을 클릭했을 때 모달 창 닫기
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("성향을 4개 선택해주세요");
         } else {
             // 추가: 선택된 성향의 value 값을 CharType에 설정
-            var charTypeInput = document.getElementById("CharType");
+            var charTypeInput = document.getElementById("charType_code");
             charTypeInput.value = selectedOptions.length > 0 ? Array.from(selectedOptions).map(option => option.value).join(",") : "";
 
             // 추가: 선택된 성향의 내용을 selectedOptions div에 표시

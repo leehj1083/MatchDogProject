@@ -7,15 +7,33 @@
 <mapper namespace="com.one.mat.member.dao.RegProfileDAO">
 
 
-<insert id="writemyProfile" parameterType="com.one.mat.member.dto.ProfileDTO">
-
-INSERT INTO pro(member_idx,pro_dogName,pro_dogAge,pro_dogGender,pro_dogDesc,pro_dogScore,pro_rep)
-VALUES(5,#{pro_dogName},#{pro_dogAge},#{pro_dogGender},#{pro_dogDesc},1,"true")
-
+<insert id="writemyProfile" parameterType="map">
+    INSERT INTO pro (member_idx, pro_dogName, pro_dogAge, pro_dogGender, pro_dogDesc, pro_dogScore, pro_rep)
+    VALUES (#{memberIdx}, #{param1.dto.pro_dogName}, #{param1.dto.pro_dogAge}, #{param1.dto.pro_dogGender}, #{param1.dto.pro_dogDesc}, 1, 'true');
 </insert>
 
+ <insert id="breedTypeSave" parameterType="int">
+        INSERT INTO breed (pro_idx, breedType_code)
+        SELECT MAX(pro_idx), #{bt_code} FROM pro
+    </insert>
+    
+    <insert id="charSave" parameterType="java.util.Map">
+    INSERT INTO `char` (pro_idx, charType_code)
+    SELECT MAX(pro_idx), #{charType1} FROM pro
+    UNION
+    SELECT MAX(pro_idx), #{charType2} FROM pro
+    UNION
+    SELECT MAX(pro_idx), #{charType3} FROM pro
+    UNION
+    SELECT MAX(pro_idx), #{charType4} FROM pro;
+</insert>
+
+
 <select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
-		SELECT charType_code,charType FROM charType
+		SELECT charType_code,charType FROM chartype
+	</select>
+	<select id="list2" resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT breedType_code,breedType FROM breedtype
 	</select>
 
 </mapper>
