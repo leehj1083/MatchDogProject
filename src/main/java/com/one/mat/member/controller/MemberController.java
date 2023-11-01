@@ -89,7 +89,7 @@ public class MemberController {
 				page = "./dashBoard.go";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
 			}else {
-				page = "./home.go"; // 서비스 메인 페이지로 이동
+				page = "main"; // 서비스 메인 페이지로 이동
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
 			}
 		} else { // 로그인 실패
