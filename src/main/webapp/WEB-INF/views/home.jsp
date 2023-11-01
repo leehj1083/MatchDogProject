@@ -114,11 +114,6 @@ function drawList(list) {
         content += '<td>' + item.pro_dogGender + '</td>';
         content += '</tr>';
         
-        /* 성향 */
-        content += '<tr>';
-        content += '<td>' + item.charType + '</td>';
-        content += '</td>';
-        
         /* 소개글 */
         content += '<tr>';
         content += '<td>' + item.pro_dogDesc + '</td>';
