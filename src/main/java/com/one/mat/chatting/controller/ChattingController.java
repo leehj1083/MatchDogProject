@@ -1,5 +1,6 @@
 package com.one.mat.chatting.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.chatting.service.ChattingService;
 import com.one.mat.member.dto.MemberDTO;
 
@@ -54,5 +56,26 @@ public class ChattingController {
 		logger.info("보여줄 페이지 : "+page);
 		return service.chattingListDo(pagePerNum,page,memberIdx);
 	}
+	
+	@RequestMapping(value="/chattingRoom.go")
+	public String chattingLoomGo() {
+		return "test";
+	}
+	
+	@RequestMapping(value="/chatRoomList.do")
+	public HashMap<String, Object> chatRoomListDo(){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		ArrayList<ChattingDTO> chatList = service.chatRoomListDo();		
+		return map;
+	}
+	
+	@RequestMapping(value="/chatSave.do")
+public HashMap<String, Object> chatSaveDo(){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int row = service.chatSaveDo();
+		return map;
+	}
+	
+
 	
 }

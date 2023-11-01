@@ -53,7 +53,8 @@
                     <span class="time">2:09 PM</span>
                     <span class="preview">Wasup for the third time like is you blind bitch</span>
                 </li>
-            </ul>	
+            </ul>
+            <input type="button" onclick="location.href='./chattingRoom.go'" value="마이프로필" />
 			<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
 			<div class="container">									
 				<nav aria-label="Page navigation" style="text-align:center">

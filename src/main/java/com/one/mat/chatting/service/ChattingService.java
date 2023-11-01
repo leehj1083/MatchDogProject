@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.one.mat.chatting.dao.ChattingDAO;
+import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.main.dto.MatchingDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
@@ -24,12 +25,13 @@ public class ChattingService {
 	public HashMap<String, Object> chattingListDo(String page, String pagePerNum, int memberIdx) {
 		
 		// memberIdx 에서 pro_idx 가지고 오기
-		ArrayList<MatchingDTO> proIdx = dao.proIdx(memberIdx);
+		ArrayList<ProfileDTO> proIdx = dao.proIdx(memberIdx);
 		ArrayList<MatchingDTO> matIdx = new ArrayList<MatchingDTO>();
 		ArrayList<Integer> matNum = new ArrayList<Integer>();
+		ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
 		
 		// pro_idx 를 이용해서 매칭수락한 리스트 가지고 오기
-		Iterator<MatchingDTO> it = proIdx.iterator();
+		Iterator<ProfileDTO> it = proIdx.iterator();
 		while(it.hasNext()) {
 			matIdx = dao.matIdx(it.next().getPro_idx());
 			Iterator<MatchingDTO> its = matIdx.iterator();
@@ -39,7 +41,12 @@ public class ChattingService {
 		}
 		
 		//이 리스트들의 닉네임이랑 이거저거 불러오기
+		Iterator<Integer> matNumIt = matNum.iterator();
+		while(matNumIt.hasNext()) {
+			//chatList = dao.chatList(matNumIt.next());
+		}
 		
+		matNumIt = matNum.iterator();
 		
 		
 	
@@ -66,6 +73,14 @@ public class ChattingService {
 		//map.put("pages", pages); // 만들 수 있는 총 페이지 수
 		//map.put("list", list);		
 		return map;
+	}
+
+	public ArrayList<ChattingDTO> chatRoomListDo() {
+		return dao.chatRoomListDo();
+	}
+
+	public int chatSaveDo() {
+		return dao.chatSaveDo();
 	}
 
 
