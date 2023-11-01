@@ -1,5 +1,6 @@
 package com.one.mat.member.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.one.mat.member.dto.MemberDTO;
@@ -21,6 +22,6 @@ public interface MemberDAO {
 
 	HashMap<String, Object> nameMailChk(String member_name, String member_email);
 
-	ProfileDTO loginProf(String member_id, String member_pw);
+	ArrayList<ProfileDTO> loginProf(String member_id, String member_pw);
 
 }
