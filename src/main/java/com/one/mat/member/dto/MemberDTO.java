@@ -21,9 +21,8 @@ public class MemberDTO {
 	private String member_renew; // 구독 연장 여부
 	private String member_loginLock; // 로그인 금지 여부
 	private String member_quit; // 탈퇴 여부
-	private int subsType_code; //권한 ID (관리자,구독자 여부)
+	private int subsType_code; //권한 ID (일반사용자1, 플러스 2, 프리미엄 3, 관리자4)
 	private String subsType; // 권한 이름
-	private int subsType_idx;
 	private int member_idx;
 	
 	
@@ -148,12 +147,7 @@ public class MemberDTO {
 	public void setSubsType(String subsType) {
 		this.subsType = subsType;
 	}
-	public int getSubsType_idx() {
-		return subsType_idx;
-	}
-	public void setSubsType_idx(int subsType_idx) {
-		this.subsType_idx = subsType_idx;
-	}
+
 	
 	
 	
