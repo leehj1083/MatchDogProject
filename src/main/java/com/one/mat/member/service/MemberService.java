@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.one.mat.member.dao.MemberDAO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class MemberService {
@@ -38,17 +39,28 @@ public class MemberService {
 		return use;
 	}
 
-	public int join(HashMap<String, String> params) {
-		
-		int row = 0;
-		row = dao.join(params);
-		setSubsType_code(params);
-			
-		return row;
+	public int join(MemberDTO dto) {
+		int cnt = dao.join(dto);
+		int member_idx = dto.getMember_idx();
+		int subsType_code = dto.getSubsType_code();
+		setSubsType_code(member_idx, subsType_code);		
+		return cnt;
+	}
+	
+	private void setSubsType_code(int member_idx, int subsType_code) {
+		dao.setSubsType_code(member_idx, subsType_code);
 	}
 
-	private void setSubsType_code(HashMap<String, String> params) {
-		dao.setSubsType_code(Integer.parseInt(String.valueOf(params.get("member_idx"))));
+	public HashMap<String, Object> idMailChk(String member_id, String member_email) {		
+		return dao.idMailChk(member_id, member_email);
+	}
+
+	public HashMap<String, Object> nameMailChk(String member_name, String member_email) {
+		return dao.nameMailChk(member_name, member_email);
+	}
+
+	public ProfileDTO loginProf(String member_id, String member_pw) {
+		return dao.loginProf(member_id, member_pw);
 	}
 
 	

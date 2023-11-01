@@ -20,10 +20,10 @@
 	<div class="findForm">
 		<h2>비밀번호 찾기</h2>
 		<p/>&nbsp<h3>아이디</h3>
-		<p/><input type="text" name="id" placeholder="아이디를 입력 하세요" />
+		<p/><input type="text" name="member_id" placeholder="아이디를 입력 하세요" />
 		<p/>&nbsp<h3>이메일</h3>
 		<div>
-			<p/><input type="text" id="usermail" name="email" placeholder="메일 주소를 입력 하세요" />@
+			<p/><input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" />@
 			<select name="emailhost" id="mailhost">
 				<option value="naver.com">naver.com</option>	
 				<option value="gmail.com">gmail.com</option>
@@ -37,24 +37,21 @@
 		<p/><input type="text" name= "checkNum" placeholder="인증번호를 입력해주세요" maxlength="6"/>
 		<button type="button" id="checkMail">인증하기</button>
 		
-		<c:if test="${checkNum=''}" scope="session" var="accCheck">
-			<p/><span id="informId">임시 비밀번호를 이메일로 보내드렸습니다.</span>
-		</c:if>
-		<p/><input type="button" id="login" value="로그인"/>
-		<hr/>
-		<a href="./idFind.go">아이디 찾기</a> / <a href="./joinAgree.go">회원가입</a>
+		<p/><span id="informPw"></span><br/><hr/>
+		
+		<a href="./login.go">로그인</a> / <a href="./idFind.go">아이디 찾기</a> / <a href="./joinAgree.go">회원가입</a>
 	</div>
 </body>
 <script>
 $('#identifymail').on('click',function(){
-	var $name = $('input[name="name"]').val();
-	var $email = $('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
-	console.log('name='+$name+"/"+'email='+$email);
+	var member_id = $('input[name="member_id"]').val();
+	var member_email = $('input[name="member_email"]').val()+"@"+$('select[name="emailhost"]').val();
+	console.log('id='+member_id+"/"+'email='+member_email);
 	
 	$.ajax({
 		type : 'post',
 		url : 'identifymail',
-		data : {'name':$name,'email':$email},
+		data : {'member_id':member_id,'member_email':member_email},
 		dataType : 'JSON',
 		success : function(data){
 			console.log(data);
@@ -63,6 +60,23 @@ $('#identifymail').on('click',function(){
 			console.log(e);
 		}		
 	});
+	
+	$('#checkMail').on('click',function(){
+		var inputCode = $('input[name="checkNum"]').val();
+		var $resultMsg = $('#informPw');
+		
+		if(inputCode == code){
+			$resultMsg.html('임시 비밀번호를 이메일로 보내드렸습니다.');
+			$resultMsg.css('color','green');
+			$('#identifyMail').attr('disabled',true);
+			$('#usermail').attr('readonly',true);
+			$('#mailhost').attr('readonly',true);		
+		}else{
+			$resultMsg.html('인증번호가 일치하지 않습니다.');
+			$resultMsg.css('color','red');
+		}
+	});	
+	
 });
 
 </script>

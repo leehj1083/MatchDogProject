@@ -10,6 +10,12 @@
 				ON m.member_idx = s.member_idx WHERE m.member_id = #{param1} AND m.member_pw = #{param2}
 	</select>
 	
+	<select id="loginProf" resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT m.member_idx, m.member_id, p.pro_idx, p.pro_dogName, p.pro_dogAge, p.pro_dogGender, p.pro_dogDesc, p.pro_dogScore, p.pro_rep
+			FROM member m LEFT OUTER JOIN pro p 
+				ON m.member_idx = p.member_idx WHERE m.member_id = #{param1} AND m.member_pw = #{param2}
+	</select>
+	
 	<select id="overlayId" resultType="int">
  		SELECT COUNT(member_id) FROM member WHERE member_id=#{param1}
  	</select>
@@ -18,7 +24,7 @@
  		SELECT COUNT(member_nickName) FROM member WHERE member_nickName=#{param1}
  	</select>
  	
- 	<insert id="join" parameterType="hashmap" 
+ 	<insert id="join" parameterType="com.one.mat.member.dto.MemberDTO" 
  		useGeneratedKeys="true" keyColumn="member_idx" keyProperty="member_idx">
  		INSERT INTO member 
 	 		(member_idx, member_id, member_pw, member_birth, member_nickName, 
@@ -29,11 +35,22 @@
  		(null, #{member_id},#{member_pw},#{member_birth},#{member_nickName},#{member_name},
  		#{member_phone},#{member_gender},#{member_roadAddr},#{member_parcelAddr},
  		#{member_detailAddr},#{member_dongAddr},#{member_email},#{member_regDate},
- 		default,default,default,default)
+ 		#{member_subs},#{member_renew},#{member_loginLock},#{member_quit}) 		
+ 	</insert> 	
+ 	
+ 	<insert id="setSubsType_code" parameterType="com.one.mat.member.dto.MemberDTO">
+ 		INSERT INTO subs(member_idx, subsType_code) VALUES
+ 		(#{param1}, #{param2})
  	</insert>
  	
- 	<insert id="setSubsType_code">
- 		INSERT INTO subs(member_idx, subsType_code) VALUES(member_idx=(select member_idx from member), default)
- 	</insert>
+ 	<select id="nameMailChk" resultType="hashmap">
+ 		SELECT member_name, member_email FROM member 
+ 		WHERE member_name=#{param1} AND member_email=#{param2}
+ 	</select>
+ 	
+ 	<select id="idMailChk" resultType="hashmap">
+ 		SELECT member_id, member_email FROM member 
+ 		WHERE member_id=#{param1} AND member_email=#{param2}
+ 	</select>
   
   </mapper>
