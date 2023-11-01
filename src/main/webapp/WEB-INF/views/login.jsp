@@ -21,16 +21,13 @@
 </style>
 </head>
 <body>
-	<div class="container">
-		<a href="./home.go"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
-	</div>
 	<form action="login.do" method="post">
 		<div class="loginForm">
 			<h2>로그인</h2>
 			<p/><h3>아이디</h3>
-			<p/><input type="text" name="id" placeholder="아이디를 입력 하세요" />
+			<p/><input type="text" name="member_id" placeholder="아이디를 입력 하세요" />
 			<h3>비밀번호</h3>
-			<p/><input type="password" name="pw" placeholder="비밀번호를 입력 하세요" /><hr/>
+			<p/><input type="password" name="member_pw" placeholder="비밀번호를 입력 하세요" /><hr/>
 					
 			<input type="submit" id="login" value="로그인"/>
 			<hr/>
