@@ -24,4 +24,5 @@ public interface MemberDAO {
 
 	ArrayList<ProfileDTO> loginProf(String member_id, String member_pw);
 
+
 }
