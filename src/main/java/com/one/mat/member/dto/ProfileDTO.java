@@ -15,7 +15,7 @@ public class ProfileDTO {
 	private String pro_rep; // 대표프로필 여부
 	private String photo_fileName; // 프로필에 들어갈 사진
 	private String breedType;
-	private List<ProfileDTO> charType;
+	private String charType;
 	private String photos;
 	private String breedType_code;
 	private String charType_code;
