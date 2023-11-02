@@ -53,6 +53,7 @@ public class MemberController {
 	@RequestMapping(value="/overlayNick", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> overlayNick(@RequestParam String member_nickName){
+		logger.info("member_nickName"+member_nickName);
 		boolean use = service.overlayNick(member_nickName);
 		logger.info("사용 가능 여부 : "+use);
 		HashMap<String, Object> map = new HashMap<String, Object>();

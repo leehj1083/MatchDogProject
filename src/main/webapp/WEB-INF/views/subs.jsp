@@ -11,15 +11,13 @@
 </head>
 <body>
 	<a href="logout">로그아웃</a>
-	<input type="button" onclick="location.href='./myPageList.do'" value="마이페이지"/>
 	<br></br>
  	<br></br>
 	<main>
 		<c:if test="${myPage.subsType == 'standard'}">
 
 			<div class="col">
-				<input type="button" onclick="location.href='./myPageList.do'"
-					value="x" />
+				<input type="button" onclick="location.href='./myPageList.do'" value="x" />
 				<div class="card mb-4 rounded-3 shadow-sm">
 					<div class="card-header py-3">
 						<h4 class="my-0 fw-normal">plus</h4>
@@ -32,8 +30,9 @@
 							<li>내가 받은 요청을 무제한으로 볼 수 있어요!</li>
 							<li>플러스 업그레이드로 더 많은 산책 요청을 받아보세요.</li>
 						</ul>
-						<button type="button" class="w-100 btn btn-lg btn-primary">구독
-							시작하기</button>
+						<input type="submit" id="plusSubs" value="PLUS 구독 시작하기" />
+						<button type="button" class="plus" name= "plus">구독 시작하기</button>
+
 					</div>
 				</div>
 			</div>
@@ -54,8 +53,8 @@
 						<li>채팅을 마음껏 보낼 수 있어요!</li>
 						<li>프리미엄 업그레이드로 더 많은 대화를 나눠보세요.</li>
 					</ul>
-					<button type="button" class="w-100 btn btn-lg btn-primary">구독
-						시작하기</button>
+					<input type="submit" id="premiumSubs" value="PREMIUM 구독 시작하기" />
+					<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button>
 				</div>
 			</div>
 		</div>
@@ -80,8 +79,8 @@
 							<li>채팅을 마음껏 보낼 수 있어요!</li>
 							<li>프리미엄 업그레이드로 더 많은 대화를 나눠보세요.</li>
 						</ul>
-						<button type="button" class="w-100 btn btn-lg btn-primary">구독
-							시작하기</button>
+						<input type="submit" id="premiumSubs" value="PREMIUM 구독 시작하기" />
+						<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button>
 					</div>
 				</div>
 			</div>
@@ -90,6 +89,25 @@
 
 </body>
 <script>
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+
+$('#plusSubs').click(function(){
+        if(confirm('PLUS 구독하시겠습니까?')){
+        	location.href="./plusSubs.do";
+        	alert('PLUS 구독이 시작되었습니다.');
+        }
+    }); 
+    
+    $('#premiumSubs').click(function(){
+    	if(confirm('PREMIUM 구독하시겠습니까?')){
+        	location.href="./premiumSubs.do";
+        	alert('PREMIUM 구독이 시작되었습니다.');
+        }
+    }); 
+
 var msg = "${msg}";
 if(msg != ""){
 	alert(msg);

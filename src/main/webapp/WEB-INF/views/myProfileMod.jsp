@@ -50,7 +50,7 @@
 
 
 
-<form action="writemyProfile" method="post">
+<form action="myProfileModUpdate.do" method="post">
 
     
     <input type="file" name="photos" multiple="multiple" value="사진 선택">
@@ -120,9 +120,10 @@
 	</textarea></td>
 	</tr>
 	<tr>
-	<tr>
-	<th><button>등록 완료</button></th></tr>
     </table>
+    <br></br>
+    <input type="button" onclick="location.href='./myProfileList.do'" value="수정 취소"/>
+ 		<input type="submit" value="수정 완료"/>
 </form>
 
 </body>
