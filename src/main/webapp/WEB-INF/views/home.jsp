@@ -1,3 +1,5 @@
+<%@page import="com.one.mat.member.dto.ProfileDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
@@ -48,6 +50,7 @@
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+
  <!-- Sidebar -->
     <div class="sidebar">
         <h2>매칭해주개</h2>
@@ -115,7 +118,6 @@ function drawList(list) {
         /* 강아지 이름, 견종, 강아지 나이, 강아지 성별 */
         content += '<tr>';
         content += '<td>' + item.pro_dogName + '</td>';
-        content += '<td>' + item.breedType + '</td>';
         content += '<td>' + item.pro_dogAge + '</td>';
         content += '<td>' + item.pro_dogGender + '</td>';
         content += '</tr>';
