@@ -15,7 +15,7 @@
 		<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
 		<tr>
 			<th>작성자</th>
-			<td><input type="text" name="user_name" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
+			<td><input type="text" name="member_nickName" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
 		</tr>
 		<tr>
 			<th>제목</th>
@@ -31,8 +31,8 @@
 		</tr>
 		<tr>
 			<th colspan="2">
-				<input type="button" onclick="location.href='./board'" value="리스트"/>
-				<button>저장</button>
+				<input type="button" onclick="location.href='./board'" value="취소"/>
+				<button>작성</button>
 			</th>
 		</tr>
 	</table>

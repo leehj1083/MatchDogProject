@@ -42,19 +42,25 @@ public class BoardController {
 	public String BoardWrite() {
 		return "BoardWrite";
 	}
-	
+	////////////////////////////////////////////////////
 	@RequestMapping(value="/write")
-	public String write(HttpSession session, MultipartFile[] photos, @RequestParam Map<String, String> params) {
+	public String write(MultipartFile[] photos, @RequestParam Map<String, String> params) {
 		logger.info("file 갯수 : "+photos.length);
 		logger.info("params : "+params);
-		return service.write(session, params, photos);
+		return service.write(params, photos);
 	}
 	
 	@RequestMapping(value="/detail")
 	public String detail(Model model, @RequestParam String board_id) {
-		// model - bbs 의 내용 & photo 내용
 		service.detail(board_id,model); // model 에 서비스에서 호출한 내용을 넣도록 한다.
 		return "detail";
+	}
+	
+	@RequestMapping(value="/del")
+	public String del(@RequestParam String board_id) {
+		logger.info("board_id="+board_id);
+		service.del(board_id);
+		return "redirect:/board";
 	}
 	
 	@RequestMapping(value="/updateForm")
@@ -71,12 +77,5 @@ public class BoardController {
 		return service.update(params, photos);
 	}
 	
-	/*
-	@RequestMapping(value="/del")
-	public String del(@RequestParam String idx) {
-		logger.info("idx="+idx);
-		service.del(idx);
-		return "redirect:/list";
-	}
-	*/
+
 }

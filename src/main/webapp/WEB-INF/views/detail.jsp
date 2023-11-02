@@ -13,6 +13,10 @@
 	<form action="detail" method="post">
 	<table>
 		<tr>
+			<th>작성자</th>
+			<td>${member.member_nickName}</td>
+		</tr>	
+		<tr>
 			<th>제목</th>
 			<td>${board.board_subject}</td>
 		</tr>
@@ -20,12 +24,6 @@
 			<th>조회수</th>
 			<td>${board.board_bHit}</td>
 		</tr>
-		<!-- 
-		<tr>
-			<th>작성자</th>
-			<td>${bbs.user_name}</td>
-		</tr>		
-		 -->
 		<tr>
 			<th>내용</th>
 			<td>${board.board_content}</td>
