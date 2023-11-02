@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -139,6 +140,10 @@ public class MemberController {
 		return page;
 	}
 		
+	@RequestMapping(value="/idFind.go")
+	public String idFind() {
+		return "idFind";
+	}
 	
 	@RequestMapping(value="/nameMailChk.do")
 	@ResponseBody
@@ -155,10 +160,13 @@ public class MemberController {
 		return result;
 	}
 	
-	@RequestMapping(value="/idFind.go")
-	public String idFind() {
-		return "idFind";
-	}
+	
+	
+	
+	@RequestMapping(value="/pwFind.go")
+	public String pwFind() {
+		return "pwFind";
+	}	
 	
 	@RequestMapping(value="/idMailChk.do")
 	@ResponseBody
@@ -167,13 +175,25 @@ public class MemberController {
 		
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result = service.idMailChk(member_id, member_email);
+		logger.info("result: "+result);
+		if(result==null) {
+			result = new HashMap<String, Object>();
+			result.put("msg", "해당하는 정보의 유저가 없습니다.");
+		}
 		return result;
 	}	
 	
-	@RequestMapping(value="/pwFind.go")
-	public String pwFind() {
-		return "pwFind";
+	@RequestMapping(value="/sendPw.do")
+	@ResponseBody
+	public String sendPw(@RequestParam String member_id, 
+			@RequestParam String member_email, HttpServletRequest request) {
+		
+		mailService.sendPw(member_id, member_email, request);
+		
+		return "sendPw.do";
 	}
+	
+	
 	
 	@RequestMapping(value="/dashBoard.go")
 	public String dashBoard() {
