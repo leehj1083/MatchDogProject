@@ -31,7 +31,7 @@
 		<option value="20">20</option>
 	</select>
 	<div>
-	안녕하세요 ${sessionScope.loginId} 님
+	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="logout">로그아웃</a>  
 	</div>
@@ -42,8 +42,8 @@
 			<th>번호</th>			
 			<th>제목</th>
 			<th>작성자</th>
-			<th>조회수</th>
 			<th>작성일</th>
+			<th>조회수</th>
 		</tr>
 		</thead>
 		<tbody id="list">		
@@ -96,8 +96,10 @@ function drawList(obj){
 		content +='<td>'+item.board_id+'</td>';
 		content +='<td>'+'<a href="detail?board_id=item.board_id">'+item.board_subject+'</a>'+'</td>';
 		content +='<td>'+item.member_nickName+'</td>';
-		content +='<td>'+item.board_regDate+'</td>';
-		content +='<td>'+item.board_bHit+'</td>';
+		var regDate = new Date(item.board_regDate);
+		var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
+		content +='<td>'+formattedRegDate+'</td>'; // 날짜 형식 변경
+		content +='<td>'+item.board_bHit.toLocaleString()+'</td>';
 		content +='</tr>';
 	});
 	$('#list').empty();

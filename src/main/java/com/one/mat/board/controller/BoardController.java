@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.one.mat.board.service.ListService;
+import com.one.mat.board.service.BoardService;
 
 @Controller
-public class ListController {
+public class BoardController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired ListService service;
+	@Autowired BoardService service;
 	
 	@RequestMapping(value="/board")
 	public String board() {
@@ -30,19 +30,19 @@ public class ListController {
 	
 	@RequestMapping(value="/list")
 	@ResponseBody
-	public Map<String, Object> list(@RequestParam String pagePerNum,
+	public Map<String, Object> list(HttpSession session,@RequestParam String pagePerNum,
 			@RequestParam String page) {
 		logger.info("페이지당 보여줄 게시글 수 : "+pagePerNum);
 		logger.info("보여줄 페이지 : "+page);
 		
 		return service.list(pagePerNum, page);
 	}
-
+	
 	@RequestMapping(value="/BoardWrite")
 	public String BoardWrite() {
 		return "BoardWrite";
 	}
-	
+	////////////////////////////////////////////////////
 	@RequestMapping(value="/write")
 	public String write(MultipartFile[] photos, @RequestParam Map<String, String> params) {
 		logger.info("file 갯수 : "+photos.length);
@@ -52,9 +52,15 @@ public class ListController {
 	
 	@RequestMapping(value="/detail")
 	public String detail(Model model, @RequestParam String board_id) {
-		// model - bbs 의 내용 & photo 내용
 		service.detail(board_id,model); // model 에 서비스에서 호출한 내용을 넣도록 한다.
 		return "detail";
+	}
+	
+	@RequestMapping(value="/del")
+	public String del(@RequestParam String board_id) {
+		logger.info("board_id="+board_id);
+		service.del(board_id);
+		return "redirect:/board";
 	}
 	
 	@RequestMapping(value="/updateForm")
@@ -71,13 +77,5 @@ public class ListController {
 		return service.update(params, photos);
 	}
 	
-	/*
-	@RequestMapping(value="/del")
-	public String del(@RequestParam String idx) {
-		logger.info("idx="+idx);
-		service.del(idx);
-		return "redirect:/list";
-	}
-	*/
 
 }

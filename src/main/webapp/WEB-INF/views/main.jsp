@@ -15,6 +15,7 @@
 <input type="button" onclick="location.href='./myProfileList.do'" value="마이프로필리스트" />
 <input type="button" onclick="location.href='./showChar'" value="성향팝업" />
 <input type="button" onclick="location.href='./regProfile'" value="마이프로필" />
+<input type="button" onclick="location.href='./board'" value="게시판" />
 
 <%-- <c:url value='/resources/img/no_image.png'/> --%>
 
