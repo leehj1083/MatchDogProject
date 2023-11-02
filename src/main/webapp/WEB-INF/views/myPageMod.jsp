@@ -34,7 +34,7 @@
  			<th>닉네임</th>
  			<td>
  			<input type="text" name="member_nickName"  placeholder="${myPage.member_nickName}"/>
-     		 <input type="button" id="myPageModNickOveraly" value="중복확인"/>
+     		 <input type="button" id="overlayNick" value="중복확인"/>
       <p/><span class="nickChk"></span>
      <p/><span class="noticeNick" style="font-size : 8pt"> ※ 닉네임은 2자 이상 8자 이하로 입력해주세요</span>
      </td>
@@ -146,15 +146,15 @@ function execDaumPostcode() {
 }
 
 
-var myPageModNickOveraly = false;
-$('#myPageModNickOveraly').on('click',function(){
-	var $nickName = $('input[name="nickName"]');
-	console.log('nickName='+$nickName);
+var overlayNickChk = false;
+$('#overlayNick').on('click',function(){
+	var $nickName = $('input[name="member_nickName"]');
+	console.log('member_nickName='+$nickName);
 
 	$.ajax({
 		type : 'post',
-		url : 'myPageModNickOveraly',
-		data : {'nickName':$nickName.val()},
+		url : 'overlayNick',
+		data : {'member_nickName':$nickName.val()},
 		dataType : 'JSON',
 		success : function(data){
 			console.log(data);

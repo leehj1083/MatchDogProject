@@ -14,7 +14,12 @@ INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx
 <select id="charType" resultType = "String">
 select ct.charType
 from `char` c
-INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx};
+INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
+</select>
+<select id="photo_fileName" resultType = "String">
+SELECT pt.photo_fileName
+FROM pro p 
+INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_idx};
 </select>
 
 	<update id="myPageModUpdateDo">

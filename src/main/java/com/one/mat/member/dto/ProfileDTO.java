@@ -19,6 +19,7 @@ public class ProfileDTO {
 	private String breedType_code;
 	private String charType_code;
 	private ArrayList<String> charTypeList;
+	private ArrayList<String> photo_fileNameList;
 	
 	
 	public String getBreedType_code() {
@@ -110,6 +111,12 @@ public class ProfileDTO {
 	}
 	public void setCharTypeList(ArrayList<String> charTypeList) {
 		this.charTypeList = charTypeList;
+	}
+	public ArrayList<String> getPhoto_fileNameList() {
+		return photo_fileNameList;
+	}
+	public void setPhoto_fileNameList(ArrayList<String> photo_fileNameList) {
+		this.photo_fileNameList = photo_fileNameList;
 	}
 
 
