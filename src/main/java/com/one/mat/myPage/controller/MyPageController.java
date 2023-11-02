@@ -90,17 +90,6 @@ public class MyPageController {
 
 		return page;
 	}
-
-
-	@RequestMapping(value = "/myPageModNickOveraly", method = RequestMethod.POST)
-	@ResponseBody
-	public HashMap<String, Object> myPageModNickOveraly(@RequestParam String nickName) {
-		boolean use = service.myPageModNickOveraly(nickName);
-		logger.info("사용 가능 여부 : " + use);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("use", use);
-		return map;
-	}
 	
 	@RequestMapping(value= "/subs.go")
 	public String subsGo(Model model, HttpSession session) {
@@ -115,7 +104,29 @@ public class MyPageController {
 		return "subs";
 	}
 	
+	@RequestMapping(value= "/plusSubs.do")
+	public String plusSubsDo(Model model, HttpSession session) {
+		if (session.getAttribute("loginInfo") == null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+		} else {
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			String id = dto.getMember_id();
+			service.plusSubsDo(id);
+		}
+		return "redirect:/myPageList.do";
+	}
 	
+	@RequestMapping(value= "/premiumSubs.do")
+	public String premiumSubs(Model model, HttpSession session) {
+		if (session.getAttribute("loginInfo") == null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+		} else {
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			String id = dto.getMember_id();
+			service.premiumSubs(id);
+		}
+		return "main";
+	}
 	
 	
 	@RequestMapping(value="/logout")
