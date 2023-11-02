@@ -158,14 +158,12 @@ p {
         <tr>
             <th>내 강아지 나이</th>
             <td>${Profile.pro_dogAge}</td>
-            <td> 
-            
-            <label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span>
-</label>
-<p>OFF</p><p style="display:none;">ON</p>
-<!--             <button type="button" id="toggleButton" value="Y">ON</button>
+            <td><label class="switch"> <input type="checkbox">
+							<span class="slider round"></span>
+					</label>
+						<p>ON</p>
+						<p style="display: none;">OFF</p>
+						<!--             <button type="button" id="toggleButton" value="Y">ON</button>
             <button type="button" id="toggleButton" value="N">OFF</button> -->
         	</td>
         </tr>
