@@ -76,17 +76,13 @@ $.ajax({
 	data:{},
 	dataType:'JSON',
 	success:function(data){
-		console.log(data); // 3. 그 다음 그려야 한다.
-
+		console.log(data); 
 	},
 	error:function(e){
 		console.log(e);
 	}
 });
 
-function submitFunction(){
-	var 
-}
 
 /* 
 
