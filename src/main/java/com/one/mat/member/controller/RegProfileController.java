@@ -74,15 +74,8 @@ public class RegProfileController {
 		ArrayList<ProfileDTO> list2 = service.list2();
 		model.addAttribute("list2", list2);
 		
-		  MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
-		    int memberIdx = memberDTO.getMember_idx();
-		    logger.info("Member Index: " + memberIdx);
-		    
-		   
 		  
-		
-		
-		
+		    
 		
 
 		return "regProfile";
@@ -90,7 +83,7 @@ public class RegProfileController {
 
 	@RequestMapping(value = "/profileSave.do")
 	public String writemyProfile(@RequestParam Map<String, String> params,Model model, HttpSession session) {
-		logger.info("params : " + params);
+		
 		
 		  String charTypeValues = params.get("charType_code");
 		  p_fileName = params.get("photos");
@@ -109,9 +102,15 @@ public class RegProfileController {
 		    String breedTypeCode = params.get("breedType_code");
 		    bt_code = Integer.parseInt(breedTypeCode);
 		    
+		    MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+		    int memberIdx = memberDTO.getMember_idx();
+		    logger.info("Member Index: " + memberIdx);
+		    
 		 
           
-		    
+		    params.put("memberIdx", String.valueOf(memberIdx));
+		    logger.info("params : " + params);
+		   
 		    
 		return service.writemyProfile(params);
 		

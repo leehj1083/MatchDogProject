@@ -28,9 +28,15 @@ public class RegProfileService {
 		dto.setPro_dogGender(params.get("pro_dogGender"));
 		dto.setPro_dogDesc(params.get("pro_dogDesc"));
 		dto.setPro_idx(dogAge);
+		
 		String breedType_codeStr = params.get("breedType_code");
 		int breedType_code = Integer.parseInt(breedType_codeStr);
 		dto.setPro_dogAge(breedType_code);
+		
+		String memberIdxStr = params.get("memberIdx");
+		int memberIdx = Integer.parseInt(memberIdxStr);
+		dto.setMember_idx(memberIdx);
+		
 		
 		
 		

@@ -7,9 +7,9 @@
 <mapper namespace="com.one.mat.member.dao.RegProfileDAO">
 
 
-<insert id="writemyProfile" parameterType="map">
+<insert id="writemyProfile" parameterType="com.one.mat.member.dto.ProfileDTO">
     INSERT INTO pro (member_idx, pro_dogName, pro_dogAge, pro_dogGender, pro_dogDesc, pro_dogScore, pro_rep)
-    VALUES (#{memberIdx}, #{param1.dto.pro_dogName}, #{param1.dto.pro_dogAge}, #{param1.dto.pro_dogGender}, #{param1.dto.pro_dogDesc}, 1, 'true');
+    VALUES (#{member_idx}, #{pro_dogName}, #{pro_dogAge}, #{pro_dogGender}, #{pro_dogDesc}, 1, 'Y');
 </insert>
 
  <insert id="breedTypeSave" parameterType="int">

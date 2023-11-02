@@ -8,7 +8,19 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
-<
+
+
+#imgtable {
+border: 1px solid black;
+}
+#imgtable td,tr{
+border: 1px solid black;
+}
+#imgtable td{
+width: 200px;
+height: 200px;
+}
+
 textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 	display: none;
 	position: fixed;
@@ -62,8 +74,55 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 	
 	
 
-
-		<input type="file" name="photos" multiple="multiple" value="사진 선택">
+         <input type="button" name="imgBtn" value="사진 선택">
+         
+         <div id="newModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeNewModal">&times;</span>
+        <!-- 모달 내용 추가 -->
+        <h3>사진 추가 팝업창 입니다.</h3>
+        <table id = "imgtable">
+        
+        <tr>
+        <td><div id="imageContainer"></div>
+        <input type="file" name="photos" multiple="multiple" value="사진 추가">
+        </td>
+        <td><div id="imageContainer2"></div>
+        <input type="file" name="photos2" multiple="multiple" value="사진 추가">
+        </td>
+        <td><div id="imageContainer3"></div>
+        <input type="file" name="photos3" multiple="multiple" value="사진 추가">
+        </td>
+        </tr>
+        
+        <tr>
+        <td><div id="imageContainer4"></div>
+        <input type="file" name="photos4" multiple="multiple" value="사진 추가">
+        </td>
+        <td><div id="imageContainer5"></div>
+        <input type="file" name="photos5" multiple="multiple" value="사진 추가">
+        </td>
+        <td><div id="imageContainer6"></div>
+        <input type="file" name="photos6" multiple="multiple" value="사진 추가">
+        </td>
+        </tr>
+        
+        <tr>
+        <td><div id="imageContainer7"></div>
+        <input type="file" name="photos7" multiple="multiple" value="사진 추가">
+        </td>
+        <td><div id="imageContainer8"></div>
+        <input type="file" name="photos8" multiple="multiple" value="사진 추가">
+        </td>
+        <td> <div id="imageContainer9"></div>
+        <input type="file" name="photos9" multiple="multiple" value="사진 추가">
+        </td>
+        </tr>
+        </table>
+    </div>
+</div>
+         
+		
 
 		<table>
 
@@ -159,20 +218,16 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 			</tr>
 			<tr>
 				<td><div id="selectedOptions"></div></td>
-				<div id="imageContainer"></div>
+				
 			</tr>
 			<tr>
 				<th>내 강아지 소개 :</th>
 				<td><textarea name="pro_dogDesc" spellcheck="false">
-				<td><input type = "hidden" name = "member_idx" value=""/></td>
 	</textarea></td>
 			</tr>
 			<tr>
 			<tr>
 				<th><button>등록 완료</button></th>
-				<c:forEach items="${Idx}" var="memidx"><td>
-			<input type = "button" name = "member_idx"/>${memidx.memberIdx}
-			</td></c:forEach>
 			</tr>
 			<input type="hidden" name="charType_code" id="charType_code" value="" />
 			
@@ -188,6 +243,23 @@ document.addEventListener("DOMContentLoaded", function () {
     var imageInput = document.getElementById("imageInput");
     var selectedOptionsDiv = document.getElementById("selectedOptions"); // 추가: 선택된 성향을 표시할 div
 
+    
+    
+    var newModal = document.getElementById("newModal");
+    var openNewModalButton = document.getElementsByName("imgBtn")[0];
+    var closeNewModalButton = document.getElementById("closeNewModal");
+    
+    
+    // 새로운 모달을 열기, 닫기 위한 이벤트 핸들러 추가
+   openNewModalButton.addEventListener("click", function () {
+	   document.getElementById("newModal").style.display = "block";
+    
+});
+
+    closeNewModalButton.addEventListener("click", function () {
+    	 document.getElementById("newModal").style.display = "none";
+    });
+    
     // "성향 선택" 버튼을 클릭했을 때 모달 창 열기
     
     openModalButton.addEventListener("click", function () {
@@ -208,6 +280,18 @@ document.addEventListener("DOMContentLoaded", function () {
         var charTypeInput = document.getElementById("charType_code");
         charTypeInput.value = selectedOptions.length > 0 ? selectedOptions.map(option => option.value).join(", ") : "";
     });
+    
+    openNewModalButton.addEventListener("click", function () {
+        document.getElementById("newModal").classList.add('active');
+    });
+
+    // 모달을 숨기려면 .modal 요소에서 'active' 클래스를 제거합니다.
+    closeNewModalButton.addEventListener("click", function () {
+        document.getElementById("newModal").classList.remove('active');
+    });
+    
+    
+    
  // 모달을 표시하려면 .modal 요소에 'active' 클래스를 추가합니다.
     openModalButton.addEventListener("click", function () {
         document.getElementById("myModal").classList.add('active');
@@ -239,6 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("myModal").style.display = "none";
         }
     });
+ //-----------------------------------------여기서 부터 이미지 파일 관련 script 문 입니다...-------------------------------------------------   
 
     // 이미지 업로드 변경 시 이미지를 화면에 표시
     var imageInput = document.querySelector('input[name="photos"]');
@@ -252,12 +337,138 @@ document.addEventListener("DOMContentLoaded", function () {
             var imageElement = document.createElement("img");
             imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
           
-            imageElement.style.maxWidth = "250px";
-            imageElement.style.maxHeight = "250px";
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
             
             imageContainer.appendChild(imageElement);
         }
     });
+    var imageInput2 = document.querySelector('input[name="photos2"]');
+    var imageContainer2 = document.getElementById("imageContainer2");
+    imageInput2.addEventListener("change", function () {
+        imageContainer2.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput2.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer2.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput3 = document.querySelector('input[name="photos3"]');
+    var imageContainer3 = document.getElementById("imageContainer3");
+    imageInput3.addEventListener("change", function () {
+        imageContainer3.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput3.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer3.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput4 = document.querySelector('input[name="photos4"]');
+    var imageContainer4 = document.getElementById("imageContainer4");
+
+    imageInput4.addEventListener("change", function () {
+        imageContainer4.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput4.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer4.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput5 = document.querySelector('input[name="photos5"]');
+    var imageContainer5 = document.getElementById("imageContainer5");
+
+    imageInput5.addEventListener("change", function () {
+        imageContainer5.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput5.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer5.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput6 = document.querySelector('input[name="photos6"]');
+    var imageContainer6 = document.getElementById("imageContainer6");
+
+    imageInput6.addEventListener("change", function () {
+        imageContainer6.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput6.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer6.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput7 = document.querySelector('input[name="photos7"]');
+    var imageContainer7 = document.getElementById("imageContainer7");
+
+    imageInput7.addEventListener("change", function () {
+        imageContainer7.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput7.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer7.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput8 = document.querySelector('input[name="photos8"]');
+    var imageContainer8 = document.getElementById("imageContainer8");
+
+    imageInput8.addEventListener("change", function () {
+        imageContainer8.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput8.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer8.appendChild(imageElement);
+        }
+    });
+    
+    var imageInput9 = document.querySelector('input[name="photos9"]');
+    var imageContainer9 = document.getElementById("imageContainer9");
+
+    imageInput9.addEventListener("change", function () {
+        imageContainer9.innerHTML = ""; // 이미지 컨테이너 초기화
+        var files = imageInput9.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(file); // 이미지 파일을 URL로 변환하여 표시
+            imageElement.style.maxWidth = "150px";
+            imageElement.style.maxHeight = "150px";
+            imageContainer9.appendChild(imageElement);
+        }
+    });
+    
 });
 </script>
 </html>
