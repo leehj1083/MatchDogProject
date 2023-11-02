@@ -117,7 +117,10 @@ input:checked + .slider:before {
 
 	<a href="logout">로그아웃</a>
 	<br></br>
-
+	<a href="myPageList.do">회원정보</a>
+	<br></br>
+	<a href="myProfileList.do">프로필</a>
+<br></br>
 	<c:if test="${myProfile.size() <= 1 }">
 		<input type="button" onclick="location.href='./regProfile.go'" value="+" />
 	</c:if>
@@ -158,75 +161,132 @@ input:checked + .slider:before {
         <tr>
             <th>내 강아지 나이</th>
             <td>${Profile.pro_dogAge}</td>
-            <td><label class="switch"> <input type="checkbox">
-							<span class="slider round"></span>
-					</label>
+            <td>
+            	<label class="switch">
+            		<input type="checkbox" id="ageOpen" checked>
+            		<span class="slider round"></span>
+				</label>
 <!-- 						<p>ON</p>
 						<p style="display: none;">OFF</p> -->
 						<!--             <button type="button" id="toggleButton" value="Y">ON</button>
             <button type="button" id="toggleButton" value="N">OFF</button> -->
         	</td>
         </tr>
-        
         <tr>
-            <th>내 강아지 성별</th>
-            <td>${Profile.pro_dogGender}</td>
-            <td><label class="switch"> <input type="checkbox">
-							<span class="slider round"></span>
-					</label>
-						<p>ON</p>
-						<p style="display: none;">OFF</p>
-        	</td>
-        </tr>
-        <tr>
-		<th>내 강아지 성향</th>
-		<td>${Profile.charTypeList}</td>
-<%-- 		<td>
+			<th>내 강아지 성별</th>
+			<td>${Profile.pro_dogGender}</td>
+			<td>
+				<label class="switch">
+					<input type="checkbox" id="genderOpen" checked>
+					<span class="slider round"></span>
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<th>내 강아지 성향</th>
+			<td>${Profile.charTypeList}</td>
+					<%-- 		<td>
 		<c:forEach items="${charType}" var="charType">
 		${charType.charType}
 		</c:forEach></td> --%>
-	</tr>
-	<tr>
-	<th>내 강아지 소개 : </th>
-	<td><textarea name="pro_dogDesc" spellcheck = "false">${Profile.pro_dogDesc}</textarea></td>
-	<tr>
-		<th>내 강아지 상태</th>
-		<td>
-		
-		<c:if test="${Profile.pro_dogScore >= 10}">
-			<td> 매너견이에요!</td>
-		</c:if>
-		<c:if test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
-			<td> 매너견이 되어보세요!</td>
-		</c:if>
-		<c:if test="${Profile.pro_dogScore < 0}">
-			<td> 비매너견이에요ㅜㅜ</td>
-		</c:if>
-		
-		</td>
-		
-	</tr>
+		</tr>
+		<tr>
+			<th>내 강아지 소개 : </th>
+			<td><textarea name="pro_dogDesc" spellcheck = "false">${Profile.pro_dogDesc}</textarea></td>
+		<tr>
+			<th>내 강아지 상태</th>
+			<td>
+				<c:if test="${Profile.pro_dogScore >= 10}">
+				<td> 매너견이에요!</td>
+				</c:if>
+				<c:if test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
+				<td> 매너견이 되어보세요!</td>
+				</c:if>
+				<c:if test="${Profile.pro_dogScore < 0}">
+				<td> 비매너견이에요ㅜㅜ</td>
+				</c:if>
+			</td>
+		</tr>
     </table>
     <br></br>
 	<input type="submit" id="myProfileMod" value="수정하기"/>
 	<br></br>
 </form>
 </c:forEach>
-
-
 </body>
 <script>
-var check = $("input[type='checkbox']");
+
+$('input[type="checkbox"]').on("change", function (e) {
+	var isChecked = $(this).is(":checked");
+	console.log(isChecked);
+    var checkboxId = $(this).attr("id");
+    console.log(checkboxId);
+    var toggleValue = isChecked ? "Y" : "N";
+    console.log(toggleValue);
+    
+
+    /* $.ajax({
+        type: "POST",
+        url: "/updateDogGender", // 서버로 요청을 보낼 엔드포인트를 지정
+        data: { dogGender: dogGenderValue },
+        success: function (data) {
+            // 서버로부터의 응답을 처리
+        },
+        error: function () {
+            // 오류 처리
+        } 
+    });*/
+});
+
+
+
+/*$('input[type="checkbox"]').on("change", function (e) {
+    var ageOpenisChecked = $(this).is(":checked");
+    console.log(ageOpenisChecked);
+    var ageOpen = ageOpenisChecked ? "Y" : "N";
+    console.log(ageOpen);
+     $.ajax({
+        type: "POST",
+        url: "/updateDogGender", // 서버로 요청을 보낼 엔드포인트를 지정
+        data: { dogGender: dogGenderValue },
+        success: function (data) {
+            // 서버로부터의 응답을 처리
+        },
+        error: function () {
+            // 오류 처리
+        } 
+    });
+});*/
+
+/*
+$('#genderOpen').on("change", function (e) {
+    var genderOpenisChecked = $(this).is(":checked");
+    console.log(genderOpenisChecked);
+    var genderOpen = genderOpenisChecked ? "Y" : "N";
+    console.log(genderOpen);
+     $.ajax({
+        type: "POST",
+        url: "/updateDogGender", // 서버로 요청을 보낼 엔드포인트를 지정
+        data: { dogGender: dogGenderValue },
+        success: function (data) {
+            // 서버로부터의 응답을 처리
+        },
+        error: function () {
+            // 오류 처리
+        } 
+    });
+});
+*/
+
+/* var check = $("input[type='checkbox']");
 check.click(function(e){
 	$("this").toggle();
-});
+}); */
 
 $('#myProfileMod').on('click',function(){
 	location.href='./myProfileMod.go';
 });
 
-$('#toggleButton').on('click',function(){
-	location.href='./myPageList.do';
-});
+
     </script>
 </html>
