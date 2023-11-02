@@ -1,6 +1,7 @@
 package com.one.mat.member.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileDTO {
 
@@ -14,7 +15,7 @@ public class ProfileDTO {
 	private String pro_rep; // 대표프로필 여부
 	private String photo_fileName; // 프로필에 들어갈 사진
 	private String breedType;
-	private String charType;
+	private List<ProfileDTO> charType;
 	private String photos;
 	private String breedType_code;
 	private String charType_code;
@@ -46,10 +47,10 @@ public class ProfileDTO {
 	public void setBreedType(String breedType) {
 		this.breedType = breedType;
 	}
-	public String getCharType() {
+	public List<ProfileDTO> getCharType() {
 		return charType;
 	}
-	public void setCharType(String charType) {
+	public void setCharType(List<ProfileDTO> charType) {
 		this.charType = charType;
 	}
 	public String getPhotos() {
