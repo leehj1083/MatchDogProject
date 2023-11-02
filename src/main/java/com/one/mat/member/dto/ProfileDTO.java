@@ -47,7 +47,6 @@ public class ProfileDTO {
 	public void setBreedType(String breedType) {
 		this.breedType = breedType;
 	}
-	
 	public String getCharType() {
 		return charType;
 	}
