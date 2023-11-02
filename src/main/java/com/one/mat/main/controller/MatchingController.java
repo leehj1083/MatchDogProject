@@ -46,7 +46,7 @@ public class MatchingController {
 	   	 // 사용자의 거주지, 강아지 성향을 가지고 매칭 리스트 보여주기
 	   	 String dongAddr = memberdto.getMember_dongAddr();
 	   	 String gender = memberdto.getMember_gender();
-	   	 int memberidx = memberdto.getMember_idx();
+	   	 int pro_idx = profiledto.getPro_idx();
 	   	 List<ProfileDTO> charTypes = profiledto.getCharType();
 	   
 	   	 // 견name, 개age(비공개 가능), 개gender(비공개 가능), 개char, 소개글
