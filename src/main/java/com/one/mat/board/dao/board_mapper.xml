@@ -65,7 +65,7 @@
 	        photo_id,
 	        photo_fileName
 	    FROM photo
-	    WHERE photo_idxNum = (SELECT board_id FROM board WHERE board_id = #{param1})
+	    WHERE photo_idfNum = #{param1} AND photo_type = 1
 	</select>
 	  
 	

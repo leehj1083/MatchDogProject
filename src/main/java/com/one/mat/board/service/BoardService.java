@@ -101,7 +101,9 @@ public class BoardService {
 	public void detail(String board_id, Model model) {
 		dao.bHit(board_id); // 조회수 증가
 		BoardDTO board = dao.detail(board_id); // 상세 글 보기
-		ArrayList<PhotoDTO> photos = dao.getPhoto(board_id); // 사진
+		logger.info("DTO형식의 board 값: "+board);
+		ArrayList<PhotoDTO> photos = dao.getPhoto(String.valueOf(board.getBoard_id())); // 사진
+		logger.info("사진board_id=photos: "+photos);
 		model.addAttribute("board",board);
 		model.addAttribute("photos",photos);
 	}
