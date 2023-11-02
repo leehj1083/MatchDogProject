@@ -3,8 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
 >
 <mapper namespace="com.one.mat.main.dao.MatchingDAO">
- <select id="matchingList" resultType="map">
-    <![CDATA[
+ <select id="matchingList" parameterType="map"  resultType="map">
         SELECT
             m.member_gender,
             m.member_dongAddr,
@@ -14,29 +13,28 @@
             p.pro_dogDesc
         FROM member AS m
         INNER JOIN pro AS p ON m.member_idx = p.member_idx
-        WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = 1)
+        WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{member_idx})
         AND p.pro_rep = 'Y'
         AND p.pro_idx IN (
             SELECT pro_idx FROM `char` WHERE charType_code IN (
                 SELECT charType_code
                 FROM `char`
-                WHERE pro_idx = 2
+                WHERE pro_idx = #{pro_idx}
             )
             GROUP BY pro_idx
             HAVING COUNT(*) = 4
         )
         ORDER BY RAND()
-        LIMIT 2;
-    ]]>
+        LIMIT 10
 </select>
 
 
-<select id="matchingListCharType" resultType="String">
+<!-- <select id="matchingListCharType" resultType="String">
 select charType
 from pro p
 INNER JOIN `char` c ON p.pro_idx = c.pro_idx
 INNER JOIN chartype ct ON c.charType_code = ct.charType_code where p.pro_idx=1;
-</select>
+</select> -->
 
 
 	<!-- <insert id="join" parameterType="map">
