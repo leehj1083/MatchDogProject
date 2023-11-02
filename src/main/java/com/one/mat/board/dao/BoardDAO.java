@@ -14,14 +14,19 @@ public interface BoardDAO {
 
 	void writeBoard(BoardDTO dto);
 
-	void writePhoto(int board_id, String photo_fileName);
-
-	ArrayList<PhotoDTO> getPhoto(String board_id);
+	void bHit(String board_id);
 
 	BoardDTO detail(String board_id);
 
-	void board_bHit(String board_id);
+	int del(String board_id);
 
 	void update(Map<String, String> params);
 
+	ArrayList<PhotoDTO> getPhoto(String board_id);
+
+	void writePhoto(int board_id, String photo_fileName);
+
+	
+	
+	
 }
