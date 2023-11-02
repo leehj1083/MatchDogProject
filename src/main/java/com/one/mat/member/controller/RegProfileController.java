@@ -3,6 +3,7 @@ package com.one.mat.member.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -71,11 +72,15 @@ public class RegProfileController {
 	public String Home(Model model, HttpSession session) {
 		ArrayList<ProfileDTO> list = service.list();
 		model.addAttribute("list", list);
+		logger.info("list  ="+list);
+		
+		
+		
 		ArrayList<ProfileDTO> list2 = service.list2();
 		model.addAttribute("list2", list2);
+		logger.info("list2 : "+list2);
 		
-		  
-		    
+		
 		
 
 		return "regProfile";
@@ -121,9 +126,7 @@ public class RegProfileController {
 
 	@RequestMapping("/open")
 	public String charlist(Model model) {
-		ArrayList<ProfileDTO> list = service.list();
-		logger.info("list : " + list);
-		model.addAttribute("list", list);
+		
 
 		return "list";
 	}

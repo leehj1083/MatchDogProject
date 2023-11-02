@@ -35,5 +35,8 @@
 	<select id="list2" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT breedType_code,breedType FROM breedtype
 	</select>
+	
+	
+	
 
 </mapper>

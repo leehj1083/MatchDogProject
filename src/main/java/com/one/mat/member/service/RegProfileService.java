@@ -1,6 +1,7 @@
 package com.one.mat.member.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -48,12 +49,13 @@ public class RegProfileService {
 		
 		return page;
 	}
-
-	public ArrayList<ProfileDTO> list() {
 	
+	public ArrayList<ProfileDTO> list() {
 		return dao.list();
+		
 	}
 
+	
 	public ArrayList<ProfileDTO> list2() {
 		
 		return dao.list2();
@@ -71,6 +73,11 @@ public class RegProfileService {
 		dao.charSave(charTypeMap);
 		
 	}
+
+	
+
+
+	
 
 
 
