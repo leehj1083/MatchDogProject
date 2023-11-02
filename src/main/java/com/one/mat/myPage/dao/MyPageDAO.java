@@ -13,7 +13,9 @@ public interface MyPageDAO {
 
 	int myPageModUpdateDo(Map<String, String> params);
 
-	int myPageModNickOveraly(String nickName);
+	void plusSubsDo(String id);
+
+	void premiumSubs(String id);
 
 
 

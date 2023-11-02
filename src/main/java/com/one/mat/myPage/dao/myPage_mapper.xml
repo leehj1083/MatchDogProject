@@ -31,8 +31,11 @@
   		WHERE member_id=#{member_id} 
   	</update>
   	
-  	<select id="myPageModNickOveraly" resultType="int">
- 		SELECT COUNT(member_nickName) FROM member WHERE member_nickName=#{param1}
- 	</select>
+  <update id="plusSubsDo">
+  UPDATE subs set
+subsType_code=2 where member_idx = #{param1}
+  </update>
+  	
+  	
 
 </mapper>

@@ -44,21 +44,8 @@ public class MyProfileController {
 		return page;
 	}
 	
-	/*
-	// 성향 가져오기
-	@RequestMapping(value="/pro_idx.do")
-	public String pro_idxDo(Model model, HttpSession session,
-			String pro_idx) {
-		ArrayList<ProfileDTO> charlist = service.pro_idxDo(pro_idx);
-		logger.info("charlist size="+charlist.size());
-		model.addAttribute("charlist", charlist);
-		return "redirect:/myProfile";
-	}
-	*/
+
 	
-	
-	// 수정
-	/*
 	@RequestMapping(value = "/myProfileMod.go")
 	public String myProfileModGo(Model model, HttpSession session) {
 		String page = "login";
@@ -67,15 +54,13 @@ public class MyProfileController {
 		} else {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
-			/* MemberDTO member=service.MyPageListDo(id); */
-			/*model.addAttribute("myProfile", service.MyProfileListDo(idx));
+			service.MyProfileListDo(idx, model);
+			
 			page = "myProfileMod";
 		}
 		return page;
 	}
 
-	
-	*/
 	
 /*
 	@RequestMapping(value="myProfileDel.do")

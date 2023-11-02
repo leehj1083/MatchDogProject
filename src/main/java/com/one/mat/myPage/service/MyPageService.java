@@ -25,15 +25,16 @@ public class MyPageService {
 		return dao.myPageModUpdateDo(params);
 		
 	}
-	public boolean myPageModNickOveraly(String nickName) {
-		boolean use = false;
-		int cnt = dao.myPageModNickOveraly(nickName);
-		if(cnt==0) {
-			use=true;
-		}		
-		return use;
 
+	public void plusSubsDo(String id) {
+		dao.plusSubsDo(id);
+		
 	}
+	public void premiumSubs(String id) {
+		dao.premiumSubs(id);
+		
+	}
+
 
 
 
