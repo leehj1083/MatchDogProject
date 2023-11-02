@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -28,9 +29,9 @@ public class MailSendService {
 	
 	public String joinEmail(String email) {
 		makeRandomNumber();
-		String setFrom = "leehj1083@naver.com";
+		String setFrom = "leehjtest1@gmail.com";
 		String toMail = email;
-		String title = "회원가입 인증 이메일입니다.";
+		String title = "매칭해주게 메일 인증번호 발송.";
 		String content = 
 				"매칭해주게 서비스를 이용해주셔서 감사합니다." +
 		"<br><br>" +
@@ -53,6 +54,11 @@ public class MailSendService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	public void sendPw(String member_id, String member_email, HttpServletRequest request) {
+		// TODO Auto-generated method stub
 		
 	}
 

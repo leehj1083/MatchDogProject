@@ -17,11 +17,11 @@ public class MemberDTO {
 	private String member_nickName; 
 	private Date member_birth;
 	private Date member_regDate; // 가입일자
-	private String member_subs; // 구독 여부
-	private String member_renew; // 구독 연장 여부
-	private String member_loginLock; // 로그인 금지 여부
-	private String member_quit; // 탈퇴 여부
-	private int subsType_code; //권한 ID (일반사용자1, 플러스 2, 프리미엄 3, 관리자4)
+	private String member_subs = "N"; // 구독 여부
+	private String member_renew = "N"; // 구독 연장 여부
+	private String member_loginLock = "N"; // 로그인 금지 여부
+	private String member_quit = "N"; // 탈퇴 여부
+	private int subsType_code=1; //권한 ID (일반사용자1, 플러스 2, 프리미엄 3, 관리자4)
 	private String subsType; // 권한 이름
 	private int member_idx;
 	
