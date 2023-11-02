@@ -48,7 +48,7 @@ public class MatchingController {
 	   	 String gender = memberdto.getMember_gender();
 	   	 int memberidx = memberdto.getMember_idx();
 	   	 List<ProfileDTO> charTypes = profiledto.getCharType();
-	   
+	   	 
 	   	 // 견name, 개age(비공개 가능), 개gender(비공개 가능), 개char, 소개글
 	   	 // 자신의 동주소를 기준으로 성향이 4,3,2,1 개가 일치하는 순으로 리스트 나열
 	   	 List<Map<String, Object>> matchingList = service.matchingList(dongAddr, pro_idx);

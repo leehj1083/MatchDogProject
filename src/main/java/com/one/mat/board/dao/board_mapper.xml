@@ -42,11 +42,11 @@
 		SELECT * FROM board WHERE board_id = #{param1}
 	</select>	
 	 -->
-	 <select id="detail" resultType="com.one.mat.board.dto.BoardDTO">
+	<select id="detail" resultType="com.one.mat.board.dto.BoardDTO">
 	    SELECT
 	        board_id,
 	        board_subject,
-	        m.member_nickName,
+	        m.member_nickName,	
 	        board_regDate,  
 	        board_bHit,
 	        board_content

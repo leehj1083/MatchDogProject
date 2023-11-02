@@ -94,7 +94,7 @@ function drawList(obj){
 	obj.list.forEach(function(item, board_id){
 		content +='<tr>';
 		content +='<td>'+item.board_id+'</td>';
-		content +='<td>'+'<a href="detail?board_id=item.board_id">'+item.board_subject+'</a>'+'</td>';
+		content +='<td>'+'<a href="detail?board_id=${item.board_id}">'+item.board_subject+'</a>'+'</td>';
 		content +='<td>'+item.member_nickName+'</td>';
 		var regDate = new Date(item.board_regDate);
 		var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
