@@ -47,10 +47,10 @@ public class ProfileDTO {
 	public void setBreedType(String breedType) {
 		this.breedType = breedType;
 	}
-	public List<ProfileDTO> getCharType() {
+	public String getCharType() {
 		return charType;
 	}
-	public void setCharType(List<ProfileDTO> charType) {
+	public void setCharType(String charType) {
 		this.charType = charType;
 	}
 	public String getPhotos() {
