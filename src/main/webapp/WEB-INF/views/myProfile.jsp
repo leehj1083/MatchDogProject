@@ -46,7 +46,7 @@
             text-decoration: none;
             cursor: pointer;
         }
-        .switch {
+.switch {
   position: relative;
   display: inline-block;
   width: 60px;
@@ -105,12 +105,12 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-p {
+/* p {
 	margin:0px;
 	display:inline-block;
 	font-size:15px;
 	font-weight:bold;
-}
+} */
     </style>
 </head>
 <body>
@@ -161,8 +161,8 @@ p {
             <td><label class="switch"> <input type="checkbox">
 							<span class="slider round"></span>
 					</label>
-						<p>ON</p>
-						<p style="display: none;">OFF</p>
+<!-- 						<p>ON</p>
+						<p style="display: none;">OFF</p> -->
 						<!--             <button type="button" id="toggleButton" value="Y">ON</button>
             <button type="button" id="toggleButton" value="N">OFF</button> -->
         	</td>
@@ -171,6 +171,12 @@ p {
         <tr>
             <th>내 강아지 성별</th>
             <td>${Profile.pro_dogGender}</td>
+            <td><label class="switch"> <input type="checkbox">
+							<span class="slider round"></span>
+					</label>
+						<p>ON</p>
+						<p style="display: none;">OFF</p>
+        	</td>
         </tr>
         <tr>
 		<th>내 강아지 성향</th>
@@ -211,8 +217,8 @@ p {
 </body>
 <script>
 var check = $("input[type='checkbox']");
-check.click(function(){
-	$("p").toggle();
+check.click(function(e){
+	$("this").toggle();
 });
 
 $('#myProfileMod').on('click',function(){
