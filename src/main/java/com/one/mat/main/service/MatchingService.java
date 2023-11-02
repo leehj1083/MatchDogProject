@@ -20,9 +20,20 @@ public class MatchingService {
 		return dao.matchingList();
 	}
 
-	public List<String> matchingListCharType(List<String> charTypes) {
-		logger.info("matchingListCharType");
-		return dao.matchingListCharType();
+	public List<String> matchingListCharType4(String dongAddr, String gender, List<String> charTypes) {
+		return dao.matchingListCharType4();
+	}
+
+	public List<String> matchingListCharType3(String dongAddr, String gender, List<String> charTypes) {
+		return dao.matchingListCharType3();
+	}
+
+	public List<String> matchingListCharType2(String dongAddr, String gender, List<String> charTypes) {
+		return dao.matchingListCharType2();
+	}
+
+	public List<String> matchingListCharType1(String dongAddr, String gender, List<String> charTypes) {
+		return dao.matchingListCharType1();
 	}
 
 }

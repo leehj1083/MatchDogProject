@@ -7,6 +7,12 @@ public interface MatchingDAO {
 
 	List<Map<String, Object>> matchingList();
 
-	List<String> matchingListCharType();
+	List<String> matchingListCharType4();
+
+	List<String> matchingListCharType3();
+
+	List<String> matchingListCharType2();
+
+	List<String> matchingListCharType1();
 
 }
