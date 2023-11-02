@@ -14,30 +14,31 @@ public class ChattingDTO {
 	private String pro_dogName = "";
 	private String msgTime = "";
 	
+	// == null ? "":msgTime;
 	
 	public String getMsgTime() {
 		return msgTime;
 	}
 	public void setMsgTime(String msgTime) {
-		this.msgTime = msgTime;
+		this.msgTime = msgTime ;
 	}
 	public String getPhoto_fileName() {
 		return photo_fileName;
 	}
 	public void setPhoto_fileName(String photo_fileName) {
-		this.photo_fileName = photo_fileName;
+		this.photo_fileName = photo_fileName ;
 	}
 	public String getBreedType() {
 		return breedType;
 	}
 	public void setBreedType(String breedType) {
-		this.breedType = breedType;
+		this.breedType = breedType ;
 	}
 	public String getPro_dogName() {
 		return pro_dogName;
 	}
 	public void setPro_dogName(String pro_dogName) {
-		this.pro_dogName = pro_dogName;
+		this.pro_dogName = pro_dogName ;
 	}
 
 	public int getPro_idx() {
@@ -74,13 +75,13 @@ public class ChattingDTO {
 		return chatMsg_msg;
 	}
 	public void setChatMsg_msg(String chatMsg_msg) {
-		this.chatMsg_msg = chatMsg_msg;
+		this.chatMsg_msg = chatMsg_msg ;
 	}
 	public String getChatMsg_read() {
 		return chatMsg_read;
 	}
 	public void setChatMsg_read(String chatMsg_read) {
-		this.chatMsg_read = chatMsg_read;
+		this.chatMsg_read = chatMsg_read ;
 	}
 
 	

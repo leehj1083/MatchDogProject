@@ -3,6 +3,7 @@ package com.one.mat.chatting.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.one.mat.chatting.dao.ChattingDAO;
 import com.one.mat.chatting.dto.ChattingDTO;
-import com.one.mat.main.dto.MatchingDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 @Service
@@ -27,7 +27,6 @@ public class ChattingService {
 	ArrayList<ChattingDTO> chatProIdx = new ArrayList<ChattingDTO>();
 	ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
 	ChattingDTO chatDTO = new ChattingDTO();
-	ChattingDTO chatInfoDTO = new ChattingDTO();
 	ChattingDTO chatProInfo = new ChattingDTO();
 	ChattingDTO chatPhotoInfo = new ChattingDTO();
 	ChattingDTO chatMsgInfo = new ChattingDTO();
@@ -64,45 +63,54 @@ public class ChattingService {
 		Iterator<ChattingDTO> chatProIt = chatProIdx.iterator();
 		while(chatProIt.hasNext()) {
 			chatDTO = chatProIt.next(); // 요소 하나 하나 가져오기
-			logger.info("Chat_idx: " +chatDTO.getChat_idx()+", pro_idx"+chatDTO.getPro_idx());
+//			logger.info("Chat_idx: " +chatDTO.getChat_idx()+", pro_idx"+chatDTO.getPro_idx());
 			chatProInfo = dao.chatProInfo(chatDTO.getPro_idx());
 			chatPhotoInfo = dao.chatPhotoInfo(chatDTO.getPro_idx());
 			chatMsgInfo = dao.chatMsgInfo(chatDTO.getChat_idx());
-			logger.info(
-				chatPhotoInfo.getPhoto_fileName()+","+
-				chatProInfo.getBreedType()+","+
-				chatProInfo.getPro_dogName()
-			);
 			
-//			if(
-//				chatMsgInfo.getMsgTime().equals("") || 
-//				chatMsgInfo.getChatMsg_msg().equals("") || 
-//				chatMsgInfo.getChatMsg_read().equals("")) {
-//				logger.info("nullPointerException 발생");
-//			} else {
-//				logger.info(
-//					chatMsgInfo.getMsgTime()+","+
-//					chatMsgInfo.getChatMsg_msg()+","+
-//					chatMsgInfo.getChatMsg_read()
-//						);
-//			}
+//			logger.info("dto"+chatMsgInfo); -- 가져오는 것 자체가 null 이 떴던 것.. 데이터가 null 인줄
+//			logger.info("dto"+chatMsgInfo.getMsgTime());
+//			logger.info(
+//				chatPhotoInfo.getPhoto_fileName()+","+
+//				chatProInfo.getBreedType()+","+
+//				chatProInfo.getPro_dogName()
+//			);
 			
-//			// 프로필 데이터와 메세지 데이터로 나눠서 가져온 걸 붙여서 다시 ChattingDTO 에 집어넣기
-//			if(chatProInfo.getPhoto_fileName() != '') {
-//				chatDTO.setPhoto_fileName(chatProInfo.getPhoto_fileName());
-//			}
-//			else {
-//				chatDTO.setPhoto_fileName("basic.png");
-//			}
-//			chatDTO.setBreedType(chatProInfo.getBreedType());
-//			chatDTO.setPro_dogName(chatProInfo.getPro_dogName());
-//			chatDTO.setMsgTime(chatMsgInfo.getMsgTime());
-//			chatDTO.setChatMsg_msg(chatMsgInfo.getChatMsg_msg());
-//			chatDTO.setChatMsg_read(chatMsgInfo.getChatMsg_read());
-//			chatDTO.setChatMsg_regDate(chatMsgInfo.getChatMsg_regDate());
-//			chatList.add(chatDTO);
+			chatDTO = new ChattingDTO();
+			
+			chatDTO.setPhoto_fileName(chatPhotoInfo.getPhoto_fileName());
+			chatDTO.setBreedType(chatProInfo.getBreedType());
+			chatDTO.setPro_dogName(chatProInfo.getPro_dogName());
+			if (chatMsgInfo != null) {
+				chatDTO.setMsgTime("");
+				chatDTO.setChatMsg_msg("");
+				chatDTO.setChatMsg_read("");
+			}else {
+				chatDTO.setMsgTime(chatMsgInfo.getMsgTime());
+				chatDTO.setChatMsg_msg(chatMsgInfo.getChatMsg_msg());
+				chatDTO.setChatMsg_read(chatMsgInfo.getChatMsg_read());
+			}
+			chatList.add(chatDTO);
 		}
+		
+		logger.info("chatList : " + chatList);
+		logger.info("chatList : " + chatList.size());
+		logger.info("chatList : " + chatList.size());
+		
+		Iterator<ChattingDTO> finall = chatProIdx.iterator();
+		while(finall.hasNext()) {
+			ChattingDTO c = finall.next(); // 요소 하나 하나 가져오기
+			logger.info(
+					c.getPhoto_fileName()+","+
+					c.getBreedType()+","+
+					c.getPro_dogName()
+					);
 
+				
+			
+		}
+		
+		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("currPage", p);
