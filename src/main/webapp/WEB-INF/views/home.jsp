@@ -53,21 +53,27 @@
         <h2>매칭해주개</h2>
         <ul>
             <li><a href="">홈</a></li>
+            <li><a href="chattingList.go">채팅</a></li>
+            <li><a href="myProfileList.do">마이프로필리스트</a>
+            <li><a href="regProfile">마이프로필</a>
+            <li><a href="showChar">성향팝업</a>
+            <li><a href="myPageList.do">마이페이지</a></li>
             <li><a href="#">매칭리스트</a></li>
-            <li><a href="#">채팅</a></li>
             <li><a href="#">커뮤니티</a></li>
-            <li><a href="#">마이페이지</a></li>
             <li><a href="#">관리자페이지</a></li>
         </ul>
     </div>
 
-    <!-- Page Content -->
     <div class="content">
         <h3>우리 동네 리스트</h3>
         <a href="#">매칭리스트 img</a>
         <table>
         <tbody id="matchinglist"></tbody>
 				</table>
+        <c:forEach var="item" items="${list}">
+				    <c:out value="${item}" />
+				</c:forEach>
+
         <input type="button" value="매칭리스트 삭제">
         <input type="button" value="매칭요청 보내기">
     </div>
@@ -114,11 +120,6 @@ function drawList(list) {
         content += '<td>' + item.pro_dogGender + '</td>';
         content += '</tr>';
         
-        /* 성향 */
-        content += '<tr>';
-        content += '<td>' + item.charType + '</td>';
-        content += '</td>';
-        
         /* 소개글 */
         content += '<tr>';
         content += '<td>' + item.pro_dogDesc + '</td>';
@@ -126,12 +127,6 @@ function drawList(list) {
     });
     $('#matchinglist').empty();
     $('#matchinglist').append(content);
-}
-
-
-var msg = "${msg}";
-if(msg != ""){
-	alert(msg);
 }
 </script>
 </html>
