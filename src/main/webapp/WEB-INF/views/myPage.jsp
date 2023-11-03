@@ -7,7 +7,31 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
- <style></style>
+ <style>
+ /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+ 
+ 
+ </style>
 </head>
 <body>
 	<h3>${myPage.member_name} 님의 마이페이지</h3>
@@ -19,7 +43,7 @@
 	<br></br>
 	<input type="button" onclick="location.href='./myPageMod.go'" value="수정하기"/>
 	<br></br>
- 	<br></br>
+
 	 	<table>	
  		<tr>
  			<th>이름</th>
@@ -70,11 +94,13 @@
  			<td>${myPage.subsType}</td>
  			
  			<c:if test="${myPage.subsType == 'standard'}">
- 				<td><input type="button" onclick="location.href='./subs.go'" value="업그레이드"/></td>
-				<!-- <td colspan="1">업그레이드</td> -->
+ 				<td><button id="openSubsModal">업그레이드</button></td>
+<!--  				<input type="button" id="openSubsModal" onclick="location.href='./subs.go'" value="업그레이드"/> -->
+
 			</c:if>
 			<c:if test="${myPage.subsType == 'plus'}">
- 				<td><input type="button" onclick="location.href='./subs.go'" value="업그레이드"/></td>
+<!--  				<td><input type="button" onclick="location.href='./subs.go'" value="업그레이드"/></td> -->
+				<td><button id="openSubsModal">업그레이드</button></td>
  				<td><input type="button" onclick="location.href='./myPageMod.go'" value="구독취소"/></td>
 				<!-- <td colspan="1">업그레이드</td> -->
 			</c:if>
@@ -87,10 +113,58 @@
 				<!-- <td colspan="1">업그레이드</td> -->
 			</c:if>
  		</tr>
+ 		
+<!-- <button id="openSubsModal">모달 열기</button> -->
+	<!-- 모달 창 -->
+	<div id="subsModal" class="modal">
+		<div class="modal-content">
+			<span id="closeSubsModal" style="float: right; cursor: pointer;">&times;</span>
+			<div id="subSmodalContent"></div>
+		</div>
+	</div>
+ 		
 	</table>
 
 </body>
 <script>
+
+var subsModal = $("#subsModal");
+var subSmodalContent = $("#subSmodalContent");
+var openSubsModal = $("#openSubsModal");
+var closeSubsModal = $("#closeSubsModal");
+
+openSubsModal.click(function() {
+    // JSP 파일을 가져와서 모달 창에 표시
+    $.get("./subs.go", function(data) {
+    	subSmodalContent.html(data);
+        subsModal.css("display", "block");
+    });
+});
+
+closeSubsModal.click(function() {
+	subsModal.css("display", "none");
+});
+
+
+/* var subsModal = document.getElementById("subsModal");
+var modalContent = document.getElementById("modalContent");
+var openBtn = document.getElementById("openSubsModal");
+var closeBtn = document.getElementById("closeModal");
+
+openBtn.onclick = function() {
+    // JSP 파일을 가져와서 모달 창에 표시
+    fetch("./subs.go")
+        .then(response => response.text())
+        .then(data => {
+            modalContent.innerHTML = data;
+            subsModal.style.display = "block";
+        });
+}
+
+closeBtn.onclick = function() {
+	subsModal.style.display = "none";
+} */
+
 var msg = "${msg}";
 if(msg != ""){
 	alert(msg);

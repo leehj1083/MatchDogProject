@@ -38,12 +38,24 @@ public class MyProfileService {
 		    ArrayList<String> photo_fileNameList = dao.photo_fileName(pro_idx);
 		    // 해당 프로필의 사진 정보를 프로필에 추가해야 함
 		    profileDTO.setPhoto_fileNameList(photo_fileNameList);
+		    
+		    // 나이 오픈 정보 가져오기
+		    String pro_dogAgeOpen=dao.pro_dogAgeOpen(pro_idx);
+		    profileDTO.setPro_dogAgeOpen(pro_dogAgeOpen);
+		    
+		    // 성별 오픈 정보 가져오기
+		    String pro_dogGenderOpen=dao.pro_dogGenderOpen(pro_idx);
+		    profileDTO.setPro_dogGenderOpen(pro_dogGenderOpen);
+
+
 
 		    // 수정된 프로필을 myProfileList에 추가
 		    myProfileList.add(profileDTO);
 
 		    logger.info("성향들:" + charTypeList);
 		    logger.info("성향들:" + photo_fileNameList);
+		    logger.info("나이 오픈:" + pro_dogAgeOpen);
+		    logger.info("성별 오픈:" + pro_dogGenderOpen);
 		    logger.info("br");
 		}
 		
@@ -51,6 +63,12 @@ public class MyProfileService {
 		/* model.addAttribute("charType", charTypeList); */
 	
 	}
+
+	public void myProfileOpenDo(int pro_idx, int openType_code, String toggleValue) {
+		dao.myProfileOpenDo(pro_idx, openType_code, toggleValue);
+		
+	}
+
 
 	}
 

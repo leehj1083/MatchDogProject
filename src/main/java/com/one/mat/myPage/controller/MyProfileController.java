@@ -1,5 +1,7 @@
 package com.one.mat.myPage.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.myPage.service.MyProfileService;
@@ -32,18 +36,32 @@ public class MyProfileController {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
 			logger.info("idx="+idx);
-
-			/*ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(idx, model);
-			logger.info("myProfile size="+myProfile.size());
-			
-			model.addAttribute("myProfile", myProfile);*/
 			service.MyProfileListDo(idx, model);
-
 		}
 		model.addAttribute("msg", msg);
 		return page;
 	}
 	
+@RequestMapping(value="/myProfileOpen.do")
+@ResponseBody
+public HashMap<String, Object> myProfileOpenDo(HttpSession session,
+		@RequestParam int openType_code, @RequestParam String toggleValue,
+		@RequestParam int pro_idx){
+	HashMap<String, Object> result = new HashMap<String, Object>();
+	logger.info("pro_idx:"+pro_idx);
+	logger.info("openType_code:"+openType_code);
+	logger.info(toggleValue);
+	
+	if(session.getAttribute("loginInfo") == null) {
+		result.put("login", false);
+	}else {
+		result.put("login", true);
+		service.myProfileOpenDo(pro_idx, openType_code, toggleValue);
+
+	}
+	
+	return result;
+}
 
 	
 	@RequestMapping(value = "/myProfileMod.go")

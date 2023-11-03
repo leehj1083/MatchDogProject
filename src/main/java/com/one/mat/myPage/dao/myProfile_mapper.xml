@@ -16,11 +16,39 @@ select ct.charType
 from `char` c
 INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
 </select>
+
+
+<select id="pro_dogAgeOpen" resultType = "String">
+SELECT po.open_hide
+from proopen po
+INNER JOIN pro p ON p.pro_idx = po.pro_idx
+where openType_code=1 and p.pro_idx=#{pro_idx}
+</select>
+
+
+<select id="pro_dogGenderOpen" resultType = "String">
+SELECT po.open_hide
+from proopen po
+INNER JOIN pro p ON p.pro_idx = po.pro_idx
+where openType_code=2 and p.pro_idx=#{pro_idx}
+</select>
+
+
+
 <select id="photo_fileName" resultType = "String">
 SELECT pt.photo_fileName
 FROM pro p 
-INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_idx};
+INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_idx}
 </select>
+
+
+
+
+<update id="myProfileOpenDo">
+UPDATE proopen
+set open_hide=#{param3} where pro_idx = #{param1} and openType_code=#{param2}
+</update>
+
 
 	<update id="myPageModUpdateDo">
 

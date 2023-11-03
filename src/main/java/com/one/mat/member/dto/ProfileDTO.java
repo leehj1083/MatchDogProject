@@ -21,6 +21,8 @@ public class ProfileDTO {
 	private String charType_code;
 	private ArrayList<String> charTypeList;
 	private ArrayList<String> photo_fileNameList;
+	private String pro_dogAgeOpen;
+	private String pro_dogGenderOpen;
 	
 	
 	public String getBreedType_code() {
@@ -119,6 +121,19 @@ public class ProfileDTO {
 	public void setPhoto_fileNameList(ArrayList<String> photo_fileNameList) {
 		this.photo_fileNameList = photo_fileNameList;
 	}
+	public String getPro_dogAgeOpen() {
+		return pro_dogAgeOpen;
+	}
+	public void setPro_dogAgeOpen(String pro_dogAgeOpen) {
+		this.pro_dogAgeOpen = pro_dogAgeOpen;
+	}
+	public String getPro_dogGenderOpen() {
+		return pro_dogGenderOpen;
+	}
+	public void setPro_dogGenderOpen(String pro_dogGenderOpen) {
+		this.pro_dogGenderOpen = pro_dogGenderOpen;
+	}
+
 
 
 
