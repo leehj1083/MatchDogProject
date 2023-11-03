@@ -43,7 +43,6 @@ public class MatchingController {
 	public Map<String, Object> matching(Model model, HttpSession session) {
 		logger.info("MatchingList");
 		
-<<<<<<< HEAD
 		Map<String, Object> map = new HashMap<>();
 		Map<String, Object> temp = new HashMap<>();
 		
