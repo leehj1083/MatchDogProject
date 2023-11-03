@@ -323,10 +323,10 @@ input:checked+.slider:before {
 
 /* 프로필 삭제 스크립트 */
  
- var RepdoModal = $("#RepdoModal");
+/*  var RepdoModal = $("#RepdoModal");
 var myProfileRepdo = $("#myProfileRepdo");
 var RepdoConfirmYes = $("#RepdoConfirmYes");
-var RepdoConfirmNo = $("#RepdoConfirmNo");
+var RepdoConfirmNo = $("#RepdoConfirmNo"); */
  
 $('.profileDelDo').on("click", function (e) {
 	
