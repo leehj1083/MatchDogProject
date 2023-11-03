@@ -10,14 +10,18 @@
 		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
 	</select>
 	<select id="chatIdx" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT chat_idx , pro_recvIdx AS pro_idx, pro_recvIdx, pro_sendIdx FROM chat c 
+		SELECT c.chat_idx , m.pro_recvIdx AS pro_you, m.pro_sendIdx AS pro_me, m.pro_recvIdx AS pro_idx FROM chat c 
 		INNER JOIN `match` m ON c.match_idx = m.match_idx 
 		WHERE m.pro_sendIdx = #{param1}
 		UNION ALL
-		SELECT chat_idx , pro_sendIdx AS pro_idx, pro_recvIdx, pro_sendIdx FROM chat c 
+		SELECT c.chat_idx , m.pro_sendIdx AS pro_you, m.pro_recvIdx AS pro_me, m.pro_sendIdx AS pro_idx FROM chat c 
 		INNER JOIN `match` m ON c.match_idx = m.match_idx 
 		WHERE m.pro_recvIdx = #{param1}
 		ORDER BY chat_idx DESC
+	</select>
+	
+	<select id="myDogName" resultType="String">
+		SELECT pro_dogName FROM pro WHERE pro_idx = #{param1}
 	</select>
 	
 	<select id="chatPhotoInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
@@ -55,7 +59,17 @@
 	</select>
 	
 	<select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT * FROM chatmsg
+		SELECT * FROM chatmsg WHERE chat_idx = #{param1}
+	</select>
+	
+	<select id="toFrom" resultType="com.one.mat.chatting.dto.ChattingDTO">
+		SELECT m.pro_recvIdx AS pro_you, m.pro_sendIdx AS pro_me FROM chat c 
+		INNER JOIN `match` m ON c.match_idx = m.match_idx 
+		WHERE m.pro_sendIdx = #{param1} AND c.chat_idx = #{param2}
+		UNION ALL
+		SELECT m.pro_sendIdx AS pro_you, m.pro_recvIdx AS pro_me FROM chat c 
+		INNER JOIN `match` m ON c.match_idx = m.match_idx 
+		WHERE m.pro_recvIdx = #{param1} AND c.chat_idx = #{param2};
 	</select>
 	
 	<!-- <select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.chattingDTO">

@@ -61,35 +61,25 @@ function listCall(page){
 function drawList(obj){
 	
 	var content = '';
-	var pro_recvIdx = [];
-	var pro_sendIdx = [];
-	var chat_idx=[];
+
 	obj.list.forEach(function(item, idx){
 		content +='<li class="person">';
 		content +='<a href="./chattingRoom.go?chat_idx='+item.chat_idx+'">';
+		content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭입니다.</div>';
 		content +='<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/michael-jordan.jpg"/>';
-		content +='<span class="name">'+item.pro_dogName+'</span>';
+		content +='<span class="name">'+item.pro_dogName+'</span> ';
 		content +='<span>'+item.breedType+'</span>';
 		content +='<span class="time">'+item.msgTime+'</span>';
 		content +='<span>'+item.chatMsg_read+'</span>';
 		content +='<span class="preview">'+item.chatMsg_msg+'</span>';
 		content +='</a>'
 		content +='</li>';
-
-		pro_recvIdx[idx] = item.pro_recvIdx;
-		pro_sendIdx[idx] = item.pro_sendIdx;
-		chat_idx[idx] = item.chat_idx;
-		
-		console.log('pro_recvIdx : '+pro_recvIdx+'/ pro_sendIdx : '+ pro_sendIdx);
-		console.log('idx : '+idx);
-		console.log('chat_idx : '+chat_idx);
 		
 	});
 	$('.people').empty();
 	$('.people').append(content);
 	
-	
-	
+
 	// 페이징 처리 UI 그리기(플러그인 사용)
 	$('#pagination').twbsPagination({
 		startPage:obj.currPage, // 보여줄 페이지
@@ -104,12 +94,6 @@ function drawList(obj){
 			}
 		}
 	});
-	
-//$('.person[chat_room_idx="1"]').on('click',function(){
-//	location.href='./chattingRoom.go';
-//});
-
-	
 }
 
 </script>

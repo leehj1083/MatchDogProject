@@ -15,17 +15,22 @@ public interface ChattingDAO {
 	
 	ChattingDTO chatPhotoInfo(int chat_idx);
 	
+	String myDogName(int pro_me);
+	
 	ArrayList<ProfileDTO> proIdx(int memberIdx);
 
 	ArrayList<ChattingDTO> chatIdx(int pro_idx);
 
-	ArrayList<ChattingDTO> chatRoomListDo();
-
+	ChattingDTO chattingRoomGo(int chat_id);
+	
 	int chatSaveDo();
 
-	ArrayList<ChattingDTO> chatRoomList(int chat_id);
+	ArrayList<ChattingDTO> chatRoomListDo(int chat_id);
 
-	ChattingDTO chattingRoomGo(int chat_id);
+	ChattingDTO toFrom(int pro_idx, int chat_id);
+
+
+
 
 	
 
