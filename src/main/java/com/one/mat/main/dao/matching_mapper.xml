@@ -3,7 +3,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
 >
 <mapper namespace="com.one.mat.main.dao.MatchingDAO">
- <select id="matchingList" parameterType="map"  resultType="map">
+
+<!-- pro_idx 사용하기 위한 쿼리  -->
+<select id="MyProfileListDo" resultType="com.one.mat.member.dto.ProfileDTO">
+	SELECT *
+FROM pro p
+INNER JOIN breed b ON p.pro_idx = b.pro_idx
+INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx=#{member_idx}
+</select>
+
+<!-- 랜덤매칭 쿼리(동주소가 같고, 성향이 4개 모두 같을 경우 select) -->
+<select id="matchingList" resultType="map">
         SELECT
             m.member_gender,
             m.member_dongAddr,
@@ -13,13 +23,13 @@
             p.pro_dogDesc
         FROM member AS m
         INNER JOIN pro AS p ON m.member_idx = p.member_idx
-        WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{member_idx})
+        WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{param1})
         AND p.pro_rep = 'Y'
         AND p.pro_idx IN (
             SELECT pro_idx FROM `char` WHERE charType_code IN (
                 SELECT charType_code
                 FROM `char`
-                WHERE pro_idx = #{pro_idx}
+                WHERE pro_idx = #{param2}
             )
             GROUP BY pro_idx
             HAVING COUNT(*) = 4
@@ -28,6 +38,18 @@
         LIMIT 10
 </select>
 
+<!-- 4가지의 성향을 가져오는 쿼리 -->
+<select id="matchingCharType" resultType = "String">
+	select ct.charType
+	from `char` c
+	INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
+</select>
+<!-- <select id="matchingPhotoFileName" resultType = "String">
+	SELECT pt.photo_fileName
+	FROM pro p 
+	INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_idx};
+</select>
+ -->
 
 <!-- <select id="matchingListCharType" resultType="String">
 select charType
@@ -36,19 +58,4 @@ INNER JOIN `char` c ON p.pro_idx = c.pro_idx
 INNER JOIN chartype ct ON c.charType_code = ct.charType_code where p.pro_idx=1;
 </select> -->
 
-
-	<!-- <insert id="join" parameterType="map">
-		INSERT INTO member(id,pw,name,age,gender,email)
-			VALUES(#{id},#{pw},#{name},#{age},#{gender},#{email})
-	</insert>
-	<insert id="setPermission">
-		INSERT INTO author(id,perm) VALUES(#{param1},#{param2})
-	</insert>
-	<select id="login" parameterType="map" resultType="map">
-		SELECT m.id, a.perm, m.name FROM member m LEFT JOIN author a ON m.id = a.id		
-		 WHERE m.id = #{id} AND m.pw = #{pw}
-	</select>
-	<select id="memberList" resultType="map">
-		SELECT id,name,email FROM member
-	</select> -->
 </mapper>

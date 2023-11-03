@@ -63,7 +63,7 @@ public class MemberService {
 	public ArrayList<ProfileDTO> loginProf(String member_id, String member_pw) {
 		return dao.loginProf(member_id, member_pw);
 	}
-
+	
 	
 
 	
