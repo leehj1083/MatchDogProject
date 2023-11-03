@@ -1,18 +1,24 @@
 package com.one.mat.main.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.one.mat.member.dto.ProfileDTO;
+
 public interface MatchingDAO {
 
-	List<Map<String, Object>> matchingList();
+	List<Map<String, Object>> matchingList(int member_idx, int pro_idx);
 
-	List<String> matchingListCharType4();
+	ArrayList<ProfileDTO> MyProfileListDo(int member_idx);
 
-	List<String> matchingListCharType3();
+	ArrayList<String> matchingCharType(int pro_idx);
 
-	List<String> matchingListCharType2();
+	ArrayList<String> photo_fileName(int pro_idx);
 
-	List<String> matchingListCharType1();
+
+
+	
+
 
 }
