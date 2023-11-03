@@ -18,11 +18,15 @@ public interface MemberDAO {
 	
 	void setSubsType_code(int member_idx, int subsType_code);
 
-	HashMap<String, Object> idMailChk(String member_id, String member_email);
-
-	HashMap<String, Object> nameMailChk(String member_name, String member_email);
-
 	ArrayList<ProfileDTO> loginProf(String member_id, String member_pw);
+
+	int nameMailChk(MemberDTO dto);
+
+	int userMailChk(MemberDTO dto);
+
+	String informId(MemberDTO dto);
+
+	void updatePw(String member_pw, String member_email);
 
 
 }

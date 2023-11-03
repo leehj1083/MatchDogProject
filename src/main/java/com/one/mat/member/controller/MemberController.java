@@ -3,6 +3,7 @@ package com.one.mat.member.controller;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ public class MemberController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MemberService service;
 	@Autowired MailSendService mailService;
+	@Autowired BCryptPasswordEncoder encoder;
 	
 	@RequestMapping(value="/joinForm.go")
 	public String joinForm() {
@@ -61,12 +64,12 @@ public class MemberController {
 		return map;
 	}
 
-	@RequestMapping(value="/mailCheck", method=RequestMethod.GET)
+	@RequestMapping(value="/joinMailCheck", method=RequestMethod.POST)
 	@ResponseBody
-	public String mailCheck(String email) {
+	public String joinMailCheck(@RequestParam String member_email) {
 		System.out.println("이메일 인증 요청이 들어옴.");
-		System.out.println("이메일주소 : "+email);
-		return mailService.joinEmail(email);			
+		System.out.println("이메일주소 : "+member_email);
+		return mailService.joinMailCheck(member_email);	
 	}
 	
 	
@@ -76,7 +79,9 @@ public class MemberController {
 		logger.info("params : "+dto.getMember_id());		
 						
 		String member_id = dto.getMember_id();
-		String member_pw = dto.getMember_pw();
+		String member_pw = encoder.encode(dto.getMember_pw());
+		dto.setMember_pw(member_pw);
+		
 		String member_name = dto.getMember_name();
 		String member_nickName = dto.getMember_nickName();
 		Date member_birth = dto.getMember_birth();
@@ -146,56 +151,76 @@ public class MemberController {
 		return "idFind";
 	}
 	
-	@RequestMapping(value="/nameMailChk.do")
-	@ResponseBody
-	public HashMap<String, Object> nameMailChk(@RequestParam String member_name, 
-			@RequestParam String member_email) {
 		
+	@RequestMapping(value="/nameMailChk.do", method=RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> sendFindIdMail(@RequestBody MemberDTO dto){
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		result = service.nameMailChk(member_name, member_email);		
-		logger.info("result: "+result);
-		if(result==null) {
+		int row = service.nameMailChk(dto);
+		logger.info("해당 데이터 개수 : "+row);
+					
+		if(row==0) {
 			result = new HashMap<String, Object>();
 			result.put("msg", "해당하는 정보의 유저가 없습니다.");
-		}
+		}else {
+			result = new HashMap<String, Object>();					
+			int authNumber = mailService.sendFindIdMail(dto);
+			
+			String member_name = dto.getMember_name();
+			String member_email = dto.getMember_email();
+			String member_id=service.informId(dto);
+			result.put("member_id", member_id);
+			result.put("member_name", member_name);
+			result.put("member_email", member_email);
+			logger.info("인증번호 : "+authNumber);
+			result.put("msg", "인증번호를 보냈습니다.");
+			result.put("authNumber", authNumber);			
+		}		
 		return result;
 	}
-	
-	
-	
+		
 	
 	@RequestMapping(value="/pwFind.go")
 	public String pwFind() {
 		return "pwFind";
 	}	
 	
-	@RequestMapping(value="/idMailChk.do")
+	
+	@RequestMapping(value="/userMailChk.do", method=RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> idMailChk(@RequestParam String member_id, 
-			@RequestParam String member_email) {
+	public HashMap<String, Object> sendFindPwMail(@RequestBody MemberDTO dto){
+		HashMap<String, Object> result = new HashMap<String, Object>();		
+		int row = service.userMailChk(dto);		
+		logger.info("해당 데이터 개수 :"+row);
 		
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		result = service.idMailChk(member_id, member_email);
-		logger.info("result: "+result);
-		if(result==null) {
+		if(row==0) {
 			result = new HashMap<String, Object>();
 			result.put("msg", "해당하는 정보의 유저가 없습니다.");
-		}
+		}else {
+			result = new HashMap<String, Object>();		
+			int authNumber = mailService.sendFindPwMail(dto);
+			
+			String member_id = dto.getMember_id();
+			String member_email = dto.getMember_email();
+			result.put("member_id", member_id);
+			result.put("member_email", member_email);			
+			logger.info("인증번호 : "+authNumber);
+			result.put("msg", "인증번호를 보냈습니다.");
+			result.put("authNumber", authNumber);			
+		}		
 		return result;
 	}	
 	
-	@RequestMapping(value="/sendPw.do")
+	
+	@RequestMapping(value="/sendPwMail.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String sendPw(@RequestParam String member_id, 
-			@RequestParam String member_email, HttpServletRequest request) {
-		
-		mailService.sendPw(member_id, member_email, request);
-		
-		return "sendPw.do";
+	public HashMap<String, Object> sendPwMail(@RequestParam String member_id, @RequestParam String member_email) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		MemberDTO dto = mailService.sendPwMail(member_id, member_email);		
+		result.put("dto", dto);
+		return result;
 	}
-	
-	
-	
+		
 	@RequestMapping(value="/dashBoard.go")
 	public String dashBoard() {
 		return "dashBoard";

@@ -67,6 +67,8 @@
 	</beans:bean>
 	
 	
+	<!-- 비밀번호 암호화 관련 빈 -->
+	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 	
 	
 </beans:beans>
