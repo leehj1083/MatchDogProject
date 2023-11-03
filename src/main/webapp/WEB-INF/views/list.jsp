@@ -58,26 +58,46 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="5" style="text-align:center">
+				<div id="searchDIV">
+					<select id="searchType">
+						<option value="board_subject">제목</option>
+						<option value="board_content">글내용</option>
+						<option value="member_nickName">작성자</option>
+					</select>
+					 <input type="text" id="searchKey" placeholder="검색어 입력">
+	  				 <button id="search">검색</button>
+  				 </div>
+			</td>
+		</tr>
 		
 	</table>
 </body>
 <script>
 var showPage = 1;
+var searchType = '';
+var searchKeyword = '';
 
-listCall(showPage);
+listCall(showPage, searchType, searchKeyword);
 
 $('#pagePerNum').change(function(){
 	// 페이지당 보여줄 게시물 갯수가 변경되면 페이징 처리 UI 를 지우고 다시 그려 준다.
 	// 안그럼 처음에 계산한 페이지 값을 그대로 들고 있게 된다.
 	$('#pagination').twbsPagination('destroy');
-	listCall(showPage);
+	listCall(showPage, searchType, searchKeyword);
 });
 
-function listCall(page){
+function listCall(page, searchType, searchKeyword){
 	$.ajax({
 		type:'get',
 		url:'list',
-		data:{'pagePerNum':$('#pagePerNum').val(), 'page':page},
+		data:{
+			'pagePerNum':$('#pagePerNum').val(),
+			'page':page,
+			'searchType': searchType,
+            'searchKeyword': searchKeyword
+		},
 		dataType:'json',
 		success:function(data){
 			console.log(data);
@@ -89,36 +109,47 @@ function listCall(page){
 	});
 }
 
-function drawList(obj){
-	var content ='';
-	obj.list.forEach(function(item, board_id){
-		content +='<tr>';
-		content +='<td>'+item.board_id+'</td>';
-		content +='<td>'+'<a href="detail?board_id=item.board_id">'+item.board_subject+'</a>'+'</td>';
-		content +='<td>'+item.member_nickName+'</td>';
-		var regDate = new Date(item.board_regDate);
-		var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
-		content +='<td>'+formattedRegDate+'</td>'; // 날짜 형식 변경
-		content +='<td>'+item.board_bHit.toLocaleString()+'</td>';
-		content +='</tr>';
-	});
-	$('#list').empty();
-	$('#list').append(content);
-	
-	// 페이징 처리 UI 그리기(플러그인 사용)
-	$('#pagination').twbsPagination({
-		startPage:obj.currPage, // 보여줄 페이지
-		totalPages:obj.pages,// 총 페이지 수(총갯수/페이지당보여줄게시물수) : 서버에서 계산해서 가져와야함
-		visiblePages:5,//[1][2][3][4][5]
-		onPageClick:function(e,page){ // 번호 클릭시 실행할 내용
-			//console.log(e);
-			if(showPage != page){
-				console.log(page);
-				showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
-				listCall(page);
-			}
-		}
-	});		
+$('#search').click(function () {
+    searchType = $('#searchType').val();
+    searchKeyword = $('#searchKey').val();
+    listCall(showPage, searchType, searchKeyword);
+});
+
+function drawList(obj) {
+    var content = '';
+    var totalItems = obj.list.length;
+
+    if (totalItems === 0) {
+    		content = '<tr><td colspan="5">검색 결과가 없습니다.</td></tr>';
+    } else {
+        obj.list.forEach(function (item, board_id) {
+            content += '<tr>';
+            content += '<td>' + item.board_id + '</td>';
+            content += '<td>' + '<a href="detail?board_id=' + item.board_id + '">' + item.board_subject + '</a>' + '</td>';
+            content += '<td>' + item.member_nickName + '</td>';
+            var regDate = new Date(item.board_regDate);
+            var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
+            content += '<td>' + formattedRegDate + '</td>'; // 날짜 형식 변경
+            content += '<td>' + item.board_bHit.toLocaleString() + '</td>';
+            content += '</tr>';
+        });
+
+        // 검색 결과가 있으면 페이징 UI 그리기
+        $('#pagination').twbsPagination({
+            startPage: obj.currPage, // 보여줄 페이지
+            totalPages: obj.pages, // 총 페이지 수 (총 갯수 / 페이지당 보여줄 게시물 수): 서버에서 계산해서 가져와야함
+            visiblePages: 5, // [1][2][3][4][5]
+            onPageClick: function (e, page) {
+                if (showPage != page) {
+                    console.log(page);
+                    showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
+                    listCall(page, searchType, searchKeyword);
+                }
+            }
+        });
+    }
+    $('#list').empty();
+    $('#list').append(content);
 }
 </script>
 </html>

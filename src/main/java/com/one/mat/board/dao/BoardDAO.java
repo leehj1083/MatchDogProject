@@ -26,7 +26,13 @@ public interface BoardDAO {
 
 	void writePhoto(int board_id, String photo_fileName);
 
-	
-	
+	void delphoto(int photo_id);
+
+	void upbHit(String board_id);
+
+	ArrayList<BoardDTO> search(int ppn, int offset, String searchType, String searchKeyword);
+
+	int totalPageWithSearch(int ppn, String searchType, String searchKeyword);
+
 	
 }
