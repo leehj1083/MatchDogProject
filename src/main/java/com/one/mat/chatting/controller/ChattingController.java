@@ -31,7 +31,7 @@ public class ChattingController {
 		return "login";
 	}
 	
-	// 채팅방 페이지로 이동
+	// 채팅방 리스트 페이지로 이동 ( 세션 체크 )
 	@RequestMapping(value="/chattingList.go")
 	public String chattingListGo(Model model,HttpSession session) {
 		String page = "login";
@@ -49,32 +49,55 @@ public class ChattingController {
 		return page;
 	}
 	
+	// 채팅방 리스트 뿌려주기
 	@RequestMapping(value="/chattingList.do")
+	@ResponseBody
 	public HashMap<String, Object> chattingListDo(@RequestParam String pagePerNum, @RequestParam String page, HttpSession session) {
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		int memberIdx = dto.getMember_idx();
 		// logger.info(dto.getMember_idx()+","+dto.getMember_id()+","+dto.getMember_loginLock());
-		// logger.info("보여줄 페이지 : "+page);
+		 logger.info("보여줄 페이지 : "+page+"/"+"pagePerNum : " + pagePerNum);
+		 
 		return service.chattingListDo(pagePerNum,page,memberIdx);
 	}
 	
-	// 채팅방 이동하면서 세션에 저장된 member_idx 를 가져와 접속한 profile_idx 와 상대방의 idx 를 가져오기.
 	@RequestMapping(value="/chattingRoom.go")
-	public String chattingLoomGo(Model model, HttpSession session) {
-		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-		int memberIdx = dto.getMember_idx();
-		service.chattingLoomGo(memberIdx);
-		return "test";
+	public String chattingRoomGo(Model model, HttpSession session, String chat_idx) {
+		
+		String page = "login";
+		int memberIdx = 0;
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo"); // 세션의 로그인 정보를 가져오기
+		boolean result = service.chattingRoomGo(chat_idx, memberIdx);
+		
+		if(dto != null) {
+			memberIdx = dto.getMember_idx();
+		}
+		// 로그인 안했을 때
+		if(dto == null) {
+			model.addAttribute("msg","로그인해주세요.");
+		}else if(dto.getMember_loginLock().equals("Y")) { // 제재당한 회원일 때
+			model.addAttribute("msg","제재당한 회원입니다.");
+		}else if(dto.getMember_quit().equals("Y")) { // 탈퇴한 회원일 때
+			model.addAttribute("msg","탈퇴한 회원입니다.");
+		}else if(result) {
+			model.addAttribute("msg","접근할 수 없는 회원입니다.");
+		}else { // 정상 로그인 시
+			model.addAttribute("chat_idx",chat_idx);
+			page = "test";
+		}
+		return page;
 	}
 	
+	// 채팅방 주고받은 정보 띄우기
 	@RequestMapping(value="/chatRoomList.do")
-	@ResponseBody
-	public HashMap<String, Object> chatRoomListDo(){
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ChattingDTO> chatRoomList = service.chatRoomListDo();
-		map.put("data", chatRoomList);
-		return map;
+	public HashMap<String, Object> chatRoomListDo(Model model, HttpSession session, @RequestParam String chat_idx) {
+		logger.info("chat_idx : "+ chat_idx);
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		return service.chatRoomListDo(memberIdx,chat_idx);
 	}
+	
+
 	
 //	@RequestMapping(value="/chatSave.do")
 // public HashMap<String, Object> chatSaveDo(){

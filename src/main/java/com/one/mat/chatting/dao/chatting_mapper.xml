@@ -10,50 +10,52 @@
 		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
 	</select>
 	<select id="chatIdx" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT chat_idx , pro_recvIdx AS pro_idx FROM chat c 
+		SELECT chat_idx , pro_recvIdx AS pro_idx, pro_recvIdx, pro_sendIdx FROM chat c 
 		INNER JOIN `match` m ON c.match_idx = m.match_idx 
 		WHERE m.pro_sendIdx = #{param1}
 		UNION ALL
-		SELECT chat_idx , pro_sendIdx AS pro_idx FROM chat c 
+		SELECT chat_idx , pro_sendIdx AS pro_idx, pro_recvIdx, pro_sendIdx FROM chat c 
 		INNER JOIN `match` m ON c.match_idx = m.match_idx 
 		WHERE m.pro_recvIdx = #{param1}
+		ORDER BY chat_idx DESC
 	</select>
 	
 	<select id="chatPhotoInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-	SELECT pt.photo_fileName
-	FROM pro p 
-	INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
-	WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1;
+		SELECT pt.photo_fileName
+		FROM pro p 
+		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
+		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1;
 	</select>
 	
 	<select id="chatProInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-	SELECT bt.breedType, p.pro_dogName
-	FROM pro p 
-	INNER JOIN breed b ON p.pro_idx = b.pro_idx
-	INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code
-	WHERE p.pro_idx = #{param1}
+		SELECT bt.breedType, p.pro_dogName
+		FROM pro p 
+		INNER JOIN breed b ON p.pro_idx = b.pro_idx
+		INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code
+		WHERE p.pro_idx = #{param1}
 	</select>
 	
 	<select id="chatMsgInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-	SELECT
-	CASE
-	WHEN DATE(c.chatMsg_regDate) = DATE(NOW()) THEN TIME_FORMAT(c.chatMsg_regDate, '%H:%i')
-	ELSE DATE_FORMAT(c.chatMsg_regDate , '%Y-%m-%d')
-	END AS msgTime
-	,CASE 
-	WHEN CHAR_LENGTH(c.chatMsg_msg) > 20 THEN CONCAT(SUBSTRING(c.chatMsg_msg, 1, 20), '...')
-	ELSE c.chatMsg_msg
-	END AS chatMsg_msg
-	,(SELECT count(chatMsg_read) from chatmsg where chat_idx=#{param1} and chatMsg_read ='N') as chatMsg_read
-	FROM chatmsg c WHERE chat_idx =#{param1} ORDER BY chatMsg_regDate DESC LIMIT 1
+		SELECT
+		CASE
+		WHEN DATE(c.chatMsg_regDate) = DATE(NOW()) THEN TIME_FORMAT(c.chatMsg_regDate, '%H:%i')
+		ELSE DATE_FORMAT(c.chatMsg_regDate , '%Y-%m-%d')
+		END AS msgTime
+		,CASE 
+		WHEN CHAR_LENGTH(c.chatMsg_msg) > 20 THEN CONCAT(SUBSTRING(c.chatMsg_msg, 1, 20), '...')
+		ELSE c.chatMsg_msg
+		END AS chatMsg_msg
+		,(SELECT count(chatMsg_read) from chatmsg where chat_idx=#{param1} and chatMsg_read ='N') as chatMsg_read
+		FROM chatmsg c WHERE chat_idx =#{param1} ORDER BY chatMsg_regDate DESC LIMIT 1
 	</select>
 	
-	<!-- <select id="totalPage" resultType="int">
-		SELECT CEIL(COUNT(idx)/#{param1}) AS pages FROM bbs
-	</select> -->
+	<select id="chattingRoomGo" resultType="com.one.mat.chatting.dto.ChattingDTO">
+		SELECT pro_sendIdx, pro_recvIdx FROM `match` m INNER JOIN chat c
+		ON m.match_idx = c.match_idx WHERE chat_idx = #{param1}
+	</select>
 	
 	<select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-	SELECT * FROM chatmsg
+		SELECT * FROM chatmsg
 	</select>
 	
 	<!-- <select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.chattingDTO">

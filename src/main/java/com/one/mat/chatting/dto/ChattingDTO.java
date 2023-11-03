@@ -1,5 +1,7 @@
 package com.one.mat.chatting.dto;
 
+import java.sql.Date;
+
 public class ChattingDTO {
 	
 	private int pro_idx = 0; // 프로필 id
@@ -9,13 +11,21 @@ public class ChattingDTO {
 	private int pro_recvIdx = 0;
 	private String chatMsg_msg = "";
 	private String chatMsg_read = "";
+	private Date chatMsg_regDate;
 	private String photo_fileName = "";
 	private String breedType = "";
 	private String pro_dogName = "";
 	private String msgTime = "";
 	
+	
 	// == null ? "":msgTime;
 	
+	public Date getChatMsg_regDate() {
+		return chatMsg_regDate;
+	}
+	public void setChatMsg_regDate(Date chatMsg_regDate) {
+		this.chatMsg_regDate = chatMsg_regDate;
+	}
 	public String getMsgTime() {
 		return msgTime;
 	}
