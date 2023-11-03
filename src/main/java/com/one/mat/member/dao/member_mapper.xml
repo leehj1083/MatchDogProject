@@ -43,14 +43,26 @@
  		(#{param1}, #{param2})
  	</insert>
  	
- 	<select id="nameMailChk" resultType="hashmap">
- 		SELECT member_name, member_email FROM member 
- 		WHERE member_name=#{param1} AND member_email=#{param2}
+ 	<select id="nameMailChk" resultType="int" parameterType="com.one.mat.member.dto.MemberDTO">
+ 		SELECT count(member_id) FROM member 
+ 		WHERE member_name=#{member_name} AND member_email=#{member_email}
  	</select>
  	
- 	<select id="idMailChk" resultType="hashmap">
- 		SELECT member_id, member_email FROM member 
- 		WHERE member_id=#{param1} AND member_email=#{param2}
+ 	<select id="informId" resultType="String" parameterType="com.one.mat.member.dto.MemberDTO">
+ 		SELECT member_id FROM member
+ 		WHERE member_name=#{member_name} AND member_email=#{member_email}
  	</select>
+ 	
+ 	<select id="userMailChk" resultType="int" parameterType="com.one.mat.member.dto.MemberDTO">
+ 		SELECT count(member_id) FROM member 
+ 		WHERE member_id=#{member_id} AND member_email=#{member_email}
+ 	</select>
+ 	
+ 	<update id="updatePw">
+ 		UPDATE member SET member_pw = #{param1} WHERE member_email=#{param2}
+ 	</update>
+ 	
+ 	
+ 	
   
   </mapper>
