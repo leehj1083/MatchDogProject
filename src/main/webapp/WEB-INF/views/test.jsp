@@ -12,20 +12,6 @@
 <body>
 	<div class="wrapper">
     <div class="container">
-        <!-- <div class="left">
-            <div class="top">
-                <input type="text" placeholder="Search" />
-                <a href="javascript:;" class="search"></a>
-            </div>
-            <ul class="people">
-                <li class="person" data-chat="person2">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/dog.png" alt="" />
-                    <span class="name">Dog Woofson</span>
-                    <span class="time">1:44 PM</span>
-                    <span class="preview">I've forgotten how it felt before</span>
-                </li>
-            </ul>
-        </div> -->
         <div class="right">
             <div class="top">
             	<span>
@@ -70,19 +56,71 @@
 </body>
 <script>
 
+var chat_idx = ${chat_idx};
+
+console.log(chat_idx);
+
 $.ajax({
 	type:'post',
 	url:'chatRoomList.do',
-	data:{},
+	data:{'chat_idx' : chat_idx},
 	dataType:'JSON',
 	success:function(data){
-		console.log(data); 
+		console.log('to:'+data.toFrom.pro_you+'/ from :'+data.toFrom.pro_me);
+		drawList(data);
 	},
 	error:function(e){
 		console.log(e);
 	}
 });
 
+/*  function drawList(obj){
+	
+	var content = '';
+	
+	if(obj.chatMsg.length == 0){
+		console.log('채팅방이 생성되었습니다.');
+		content += '<div class="conversation-start">';
+		content += '<span> 채팅방이 생성되었습니다 </span>';
+		content += '</div>';
+	}else{
+		obj.chatMsg.forEach(function(item,idx){
+			if(obj.toFrom.pro_you == item.pro_recvIdx){
+				
+			}else{
+				
+			}
+			
+			
+		});
+	}
+	
+	
+}
+
+<div class="chat active-chat" data-chat="person2">
+<div class="conversation-start">
+    <span>Today, 5:38 PM</span>
+</div>
+<div class="bubble you">
+    Hello, can you hear me?
+</div>
+<div class="bubble you">
+    I'm in California dreaming
+</div>
+<div class="bubble me">
+    ... about who we used to be.
+</div>
+<div class="bubble me">
+    Are you serious?
+</div>
+<div class="bubble you">
+    When we were younger and free...
+</div>
+<div class="bubble you">
+    I've forgotten how it felt before
+</div>
+</div> */
 
 /* 
 

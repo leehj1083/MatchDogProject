@@ -25,6 +25,10 @@ public class ChattingService {
 	private String root = "C:/upload/";
 	
 	ArrayList<ProfileDTO> proIdx = new ArrayList<ProfileDTO>();
+	ChattingDTO chatDTO = new ChattingDTO();
+	ChattingDTO chatProInfo = new ChattingDTO();
+	ChattingDTO chatPhotoInfo = new ChattingDTO();
+	ChattingDTO chatMsgInfo = new ChattingDTO();
 	
 	public HashMap<String, Object> chattingListDo(String pagePerNum, String page, int memberIdx) {
 		
@@ -33,24 +37,19 @@ public class ChattingService {
 		ArrayList<ChattingDTO> chatIdx = new ArrayList<ChattingDTO>();
 		ArrayList<ChattingDTO> chatProIdx = new ArrayList<ChattingDTO>();
 		ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
-		ChattingDTO chatDTO = new ChattingDTO();
-		ChattingDTO chatProInfo = new ChattingDTO();
-		ChattingDTO chatPhotoInfo = new ChattingDTO();
-		ChattingDTO chatMsgInfo = new ChattingDTO();
 		
 		
 		
 		// memberIdx 에서 pro_idx 가지고 오기
 		proIdx = dao.proIdx(memberIdx);
 		
-		// pro_idx 를 이용해서 
-		// chat_idx 와 pro_idx, pro_recvIdx, pro_sendIdx 를 한꺼번에 가지고 오기.
+		// pro_idx 1과 2 를 넣어서 chat_idx, pro_you, pro_me, pro_idx 담긴 ArrayList chatIdx 에 넣기
 		Iterator<ProfileDTO> it = proIdx.iterator();
 		while(it.hasNext()) {
-			chatIdx = dao.chatIdx(it.next().getPro_idx()); // pro_idx 를 넣어서
-			Iterator<ChattingDTO> its = chatIdx.iterator();
+			chatIdx = dao.chatIdx(it.next().getPro_idx()); 
+			Iterator<ChattingDTO> its = chatIdx.iterator(); // chatIdx 읽기
 			while(its.hasNext()) {
-				chatProIdx.add(its.next()); // 값을 가져와 chatProIdx 에 넣기.
+				chatProIdx.add(its.next()); // 프로필 1과 2 합친거 chatProIdx 에 넣기.
 			}
 		}
 		
@@ -59,18 +58,20 @@ public class ChattingService {
 		Iterator<ChattingDTO> chatProIt = chatProIdx.iterator();
 		while(chatProIt.hasNext()) {
 			chatDTO = chatProIt.next(); // 요소 하나 하나 가져오기
-			logger.info("Chat_idx: " +chatDTO.getChat_idx()+", pro_idx"+chatDTO.getPro_idx());
+			// logger.info("Chat_idx: " +chatDTO.getChat_idx()+", pro_idx"+chatDTO.getPro_idx());
 			chatProInfo = dao.chatProInfo(chatDTO.getPro_idx());
 			chatPhotoInfo = dao.chatPhotoInfo(chatDTO.getPro_idx());
 			chatMsgInfo = dao.chatMsgInfo(chatDTO.getChat_idx());
+			String myDogName = dao.myDogName(chatDTO.getPro_me());
 			
 //			logger.info("dto"+chatMsgInfo); -- 가져오는 것 자체가 null 이 떴던 것.. 데이터가 null 인줄
 //			logger.info("dto"+chatMsgInfo.getMsgTime());
 	
-			ChattingDTO chatInfoDTO = new ChattingDTO();
+			ChattingDTO chatInfoDTO = new ChattingDTO(); // 하나의 DTO 에 담기
 			
-			chatInfoDTO.setPro_recvIdx(chatDTO.getPro_recvIdx());
-			chatInfoDTO.setPro_sendIdx(chatDTO.getPro_sendIdx());
+			chatInfoDTO.setMyDogName(myDogName);
+			chatInfoDTO.setPro_me(chatDTO.getPro_me());
+			chatInfoDTO.setPro_you(chatDTO.getPro_you());
 			chatInfoDTO.setChat_idx(chatDTO.getChat_idx());
 			chatInfoDTO.setPhoto_fileName(chatPhotoInfo.getPhoto_fileName());
 			chatInfoDTO.setBreedType(chatProInfo.getBreedType());
@@ -124,9 +125,15 @@ public class ChattingService {
 		
 		map.put("currPage", p);
 		map.put("pages", pages); // 만들 수 있는 총 페이지 수
-		map.put("list", list);		
+		map.put("list", list);
+		
+		
+		
 		return map;
 	}
+	
+	
+	
 	
 	// 로그인 제제때문에 정보 가져오기
 	public boolean chattingRoomGo(String chat_idx, int memberIdx) {
@@ -138,22 +145,19 @@ public class ChattingService {
 		logger.info("chat_DTO : " + chatDTO);
 		
 		if(chatDTO == null) {
-			result = true;
+			result = false; // false 면 접근 불가능 
 		}else {
 			Iterator<ProfileDTO> it = proIdx.iterator();
 			while(it.hasNext()) {
 				ProfileDTO dto = it.next();
 				logger.info("ProfileDTO : " + dto);
-				int pro_idx = dto.getPro_idx();
-				logger.info("getPro_idx : " + pro_idx);
-				logger.info("getPro_recvIdx : " + chatDTO.getPro_recvIdx());
-				logger.info("getPro_sendIdx : " + chatDTO.getPro_sendIdx());
-				
-//				if(pro_idx == chatDTO.getPro_recvIdx() || pro_idx == chatDTO.getPro_sendIdx()) {
-//					result = false;
-//				}else {
-//					result = true;
-//				}
+				int pro_idx = dto.getPro_idx(); // 1,2
+//				logger.info("getPro_idx : " + pro_idx);
+//				logger.info("getPro_recvIdx : " + chatDTO.getPro_recvIdx());
+//				logger.info("getPro_sendIdx : " + chatDTO.getPro_sendIdx()); 
+				// 내가 회원 1이고 받거나 보내는 프로필이 1이면 true 아니면 false 		
+				if(pro_idx == chatDTO.getPro_recvIdx() || pro_idx == chatDTO.getPro_sendIdx()) {
+					result = true; }
 			}
 		}
 		return result;
@@ -162,11 +166,31 @@ public class ChattingService {
 	// chat_idx 로 채팅방 대화창 가지고 오기
 	public HashMap<String, Object> chatRoomListDo(int memberIdx, String chat_idx) {
 		
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		int chat_id = Integer.parseInt(chat_idx);
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		// memberIdx 에서 pro_idx 가지고 오기 -- 1,2
+		proIdx = dao.proIdx(memberIdx);
+		ArrayList<ChattingDTO> chatMsg = dao.chatRoomListDo(chat_id); // 채팅방 메세지 담기
+		// 채팅에 참여하는 나와 상대 불러오기
+		ChattingDTO toFrom = new ChattingDTO();
+		Iterator<ProfileDTO> it = proIdx.iterator();
+		while(it.hasNext()) {
+			ProfileDTO proDTO = it.next();
+			int pro_idx = proDTO.getPro_idx();
+			toFrom = dao.toFrom(pro_idx,chat_id);
+			logger.info("toFrom : " +toFrom);
+			if(toFrom != null) {
+				map.put("toFrom", toFrom);
+			}
+		}
+
+		logger.info("chatMsg : " +chatMsg);
 		
-		ArrayList<ChattingDTO> chatMsgs = dao.chatRoomList(chat_id);
+		map.put("chatMsg", chatMsg);
+		
+		// toFrom 은 dto
+		// chatMsg 는 ArrayList
 		
 		return map;
 	}

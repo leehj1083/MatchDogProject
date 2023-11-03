@@ -5,6 +5,9 @@ import java.sql.Date;
 public class ChattingDTO {
 	
 	private int pro_idx = 0; // 프로필 id
+	private int pro_you = 0;
+	private int pro_me = 0;
+	private String myDogName = "";
 	private int chatMsg_idx = 0;
 	private int chat_idx = 0;
 	private int pro_sendIdx = 0;
@@ -19,6 +22,26 @@ public class ChattingDTO {
 	
 	
 	// == null ? "":msgTime;
+	
+	
+	public String getMyDogName() {
+		return myDogName;
+	}
+	public void setMyDogName(String myDogName) {
+		this.myDogName = myDogName;
+	}
+	public int getPro_you() {
+		return pro_you;
+	}
+	public void setPro_you(int pro_you) {
+		this.pro_you = pro_you;
+	}
+	public int getPro_me() {
+		return pro_me;
+	}
+	public void setPro_me(int pro_me) {
+		this.pro_me = pro_me;
+	}
 	
 	public Date getChatMsg_regDate() {
 		return chatMsg_regDate;

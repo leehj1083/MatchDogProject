@@ -1,6 +1,5 @@
 package com.one.mat.chatting.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.chatting.service.ChattingService;
 import com.one.mat.member.dto.MemberDTO;
 
@@ -61,6 +59,9 @@ public class ChattingController {
 		return service.chattingListDo(pagePerNum,page,memberIdx);
 	}
 	
+	// ----------------------------------------------------- 채팅룸 -------------------------------------------------------------------
+	
+	// 채팅방 접근권한
 	@RequestMapping(value="/chattingRoom.go")
 	public String chattingRoomGo(Model model, HttpSession session, String chat_idx) {
 		
@@ -79,7 +80,7 @@ public class ChattingController {
 			model.addAttribute("msg","제재당한 회원입니다.");
 		}else if(dto.getMember_quit().equals("Y")) { // 탈퇴한 회원일 때
 			model.addAttribute("msg","탈퇴한 회원입니다.");
-		}else if(result) {
+		}else if(!(result)) { // 다른 채팅방에 멋대로 접근할 때 막기
 			model.addAttribute("msg","접근할 수 없는 회원입니다.");
 		}else { // 정상 로그인 시
 			model.addAttribute("chat_idx",chat_idx);
@@ -90,7 +91,8 @@ public class ChattingController {
 	
 	// 채팅방 주고받은 정보 띄우기
 	@RequestMapping(value="/chatRoomList.do")
-	public HashMap<String, Object> chatRoomListDo(Model model, HttpSession session, @RequestParam String chat_idx) {
+	@ResponseBody
+	public HashMap<String, Object> chatRoomListDo(HttpSession session, @RequestParam String chat_idx) {
 		logger.info("chat_idx : "+ chat_idx);
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		int memberIdx = dto.getMember_idx();
