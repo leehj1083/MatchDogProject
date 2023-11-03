@@ -4,28 +4,69 @@
 >
 <mapper namespace="com.one.mat.board.dao.BoardDAO">	
 	<select id="list" resultType="com.one.mat.board.dto.BoardDTO">
-    SELECT
-        board_id,
-        board_subject,
-        m.member_nickName,
-        board_regDate,  
-        board_bHit
-    FROM board b
-    INNER JOIN member m ON b.member_idx = m.member_idx
-    ORDER BY board_id DESC
-    LIMIT #{param1} OFFSET #{param2}
+	    SELECT
+	        board_id,
+	        board_subject,
+	        m.member_nickName,
+	        board_regDate,  
+	        board_bHit
+	    FROM board b
+	    INNER JOIN member m ON b.member_idx = m.member_idx
+	    ORDER BY board_id DESC
+	    LIMIT #{param1} OFFSET #{param2}
 	</select>
 	
 	<select id="totalPage" resultType="int">
 		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
+	</select>
+	<!-- search 부분 -->
+	<select id="search" resultType="com.one.mat.board.dto.BoardDTO">
+    SELECT
+        board_id,
+        board_subject,
+        m.member_nickName,
+        board_regDate,
+        board_bHit
+    FROM board b
+    INNER JOIN member m ON b.member_idx = m.member_idx
+    WHERE
+        <choose>
+            <when test="searchType == 'board_subject'">
+                b.board_subject LIKE '%' || #{searchKeyword} || '%'
+            </when>
+            <when test="searchType == 'board_content'">
+                b.board_content LIKE '%' || #{searchKeyword} || '%'
+            </when>
+            <when test="searchType == 'member_nickName'">
+                m.member_nickName LIKE '%' || #{searchKeyword} || '%'
+            </when>
+        </choose>
+    ORDER BY board_id DESC
+    LIMIT #{param1} OFFSET #{param2}
+</select>
+	
+	<select id="totalPageWithSearch" resultType="int">
+	    SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
+	    WHERE
+	    <choose>
+	        <when test="searchType == 'board_subject'">
+	            board_subject LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	        <when test="searchType == 'board_content'">
+	            board_content LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	        <when test="searchType == 'member_nickName'">
+	            member_nickName LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	    </choose>
 	</select>
 	
 	<insert 
 		useGeneratedKeys="true"
 		keyColumn="board_id"
 		keyProperty="board_id"
-	id="writeBoard" parameterType="com.one.mat.board.dto.BoardDTO">
-	INSERT INTO board(board_subject,member_idx,board_content)VALUES(#{board_subject},#{member_idx},#{board_content})
+		id="writeBoard" parameterType="com.one.mat.board.dto.BoardDTO">
+		INSERT INTO board(board_subject,member_idx,board_content)VALUES(#{board_subject},#{member_idx},#{board_content})
 	</insert>
 	
 	<insert id="writePhoto">
@@ -47,7 +88,7 @@
 	        board_id,
 	        board_subject,
 	        m.member_nickName,
-	        board_regDate,  
+	        board_regDate,
 	        board_bHit,
 	        board_content
 	    FROM board b
@@ -55,27 +96,27 @@
 	    WHERE board_id = #{param1}
 	</select>
 	 
-	 <!-- 
 	<select id="getPhoto" resultType="com.one.mat.board.dto.PhotoDTO">
-	    SELECT * FROM photo WHERE board_id = #{param1}
-	</select>
-	  -->
-	<select id="getPhoto" resultType="com.one.mat.board.dto.PhotoDTO">
-	    SELECT
-	        photo_id,
-	        photo_fileName
-	    FROM photo
-	    WHERE photo_idfNum = #{param1} AND photo_type = 1
+	    SELECT * FROM photo
+	    	WHERE photo_idfNum = #{param1} AND photo_type = 1
 	</select>
 	  
-	
 	<delete id="del">
 		DELETE FROM board WHERE board_id = #{param1}
 	</delete>
 	
 	<update id="update" parameterType="map">
-	    UPDATE board SET board_subject = #{subject}, member_idx = #{member_idx}, board_content = #{content}
-	    WHERE board_id = #{board_id} 
+	    UPDATE board SET board_subject = #{board_subject}, board_content = #{board_content}, board_modDate = now()
+	    	WHERE board_id = #{board_id}
+	</update>
+	
+	<update id="upbHit">
+	    UPDATE board SET board_bHit = board_bHit - 1 WHERE board_id = #{param1}
+	</update>
+	
+	<update id="delphoto" parameterType="int">
+    	DELETE FROM photo
+    		WHERE photo_id = #{photo_id}
 	</update>
 	
 </mapper>
