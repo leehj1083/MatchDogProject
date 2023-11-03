@@ -16,6 +16,8 @@ public interface MatchingDAO {
 
 	ArrayList<String> photo_fileName(int pro_idx);
 
+	int homeSend(int pro_idx, Map<String, Object> pro_recvIdx);
+
 
 
 	
