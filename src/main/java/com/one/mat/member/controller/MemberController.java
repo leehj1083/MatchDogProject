@@ -43,7 +43,7 @@ public class MemberController {
 		return "joinAgree";
 	}
 	
-	@RequestMapping(value="/overlayId", method=RequestMethod.POST)
+	@RequestMapping(value="/overlayId.do", method=RequestMethod.POST)
 	@ResponseBody // ajax에서 반환하는 값을 response에 그려주는 역할을 한다.
 	public HashMap<String,Object> overlayId(@RequestParam String member_id) {
 		boolean use = service.overlayId(member_id);
@@ -53,7 +53,7 @@ public class MemberController {
 		return map;
 	}
 		
-	@RequestMapping(value="/overlayNick", method=RequestMethod.POST)
+	@RequestMapping(value="/overlayNick.do", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> overlayNick(@RequestParam String member_nickName){
 		logger.info("member_nickName"+member_nickName);
@@ -64,9 +64,13 @@ public class MemberController {
 		return map;
 	}
 
-	@RequestMapping(value="/joinMailCheck", method=RequestMethod.POST)
+	@RequestMapping(value="/joinMailCheck.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String joinMailCheck(@RequestParam String member_email) {
+		int idx = member_email.indexOf("@");
+		String mailId = member_email.substring(0, idx);
+		
+		System.out.println("메일 앞쪽 주소 : "+mailId);
 		System.out.println("이메일 인증 요청이 들어옴.");
 		System.out.println("이메일주소 : "+member_email);
 		return mailService.joinMailCheck(member_email);	
@@ -133,8 +137,8 @@ public class MemberController {
 			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보
 			session.setAttribute("loginInfo", dto);
 			session.setAttribute("loginProInfo", pdto);
-			if(dto.getSubsType_code()=='4') {
-				page = "./dashBoard.go";
+			if(dto.getSubsType_code()==4) {
+				page = "dashBoard";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
 			}else {
 				page = "main"; // 서비스 메인 페이지로 이동

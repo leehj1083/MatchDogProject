@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.one.mat.admin.dao.memberListDAO">
+	<select id="memberList" resultType="com.one.mat.member.dto.MemberDTO">
+  		SELECT m.member_id, m.member_name, m.member_phone, m.member_email, 
+  		m.member_dongAddr, m.member_subs, m.member_renew, m.member_loginLock, 
+  		(SELECT s.subsType_code FROM subs s WHERE s.member_idx = m.member_idx) FROM member m
+  	</select>
+</mapper>  
