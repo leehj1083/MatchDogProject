@@ -19,46 +19,71 @@
 	<select id="totalPage" resultType="int">
 		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
 	</select>
-	<!-- search 부분 -->
+	<!-- search 부분 	
 	<select id="search" resultType="com.one.mat.board.dto.BoardDTO">
-    SELECT
-        board_id,
-        board_subject,
-        m.member_nickName,
-        board_regDate,
-        board_bHit
-    FROM board b
-    INNER JOIN member m ON b.member_idx = m.member_idx
-    WHERE
-        <choose>
-            <when test="searchType == 'board_subject'">
-                b.board_subject LIKE '%' || #{searchKeyword} || '%'
-            </when>
-            <when test="searchType == 'board_content'">
-                b.board_content LIKE '%' || #{searchKeyword} || '%'
-            </when>
-            <when test="searchType == 'member_nickName'">
-                m.member_nickName LIKE '%' || #{searchKeyword} || '%'
-            </when>
-        </choose>
-    ORDER BY board_id DESC
-    LIMIT #{param1} OFFSET #{param2}
-</select>
+	    SELECT
+	        board_id,
+	        board_subject,
+	        m.member_nickName,
+	        board_regDate,
+	        board_bHit
+	    FROM board b
+	    INNER JOIN member m ON b.member_idx = m.member_idx
+	    WHERE
+	        <choose>
+	            <when test="searchType == 'board_subject'">
+	                b.board_subject LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchType == 'board_content'">
+	                b.board_content LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchType == 'member_nickName'">
+	                m.member_nickName LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	        </choose>
+	    ORDER BY board_id DESC
+	    LIMIT #{param1} OFFSET #{param2}
+	</select>
+	-->
+	<select id="search" resultType="com.one.mat.board.dto.BoardDTO">
+	    SELECT
+	    board_id,
+	    board_subject,
+	    m.member_nickName,
+	    board_regDate,
+	    board_bHit
+	    FROM board b
+	    LEFT OUTER JOIN member m ON b.member_idx = m.member_idx
+	    WHERE
+	    <choose>
+	        <when test="searchType == 'board_subject'">
+	            b.board_subject LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	        <when test="searchType == 'board_content'">
+	            b.board_content LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	        <when test="searchType == 'member_nickName'">
+	            m.member_nickName LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	    </choose>
+	    ORDER BY board_id DESC
+	    LIMIT #{param1} OFFSET #{param2}
+	</select>
 	
 	<select id="totalPageWithSearch" resultType="int">
 	    SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
 	    WHERE
-	    <choose>
-	        <when test="searchType == 'board_subject'">
-	            board_subject LIKE '%' || #{searchKeyword} || '%'
-	        </when>
-	        <when test="searchType == 'board_content'">
-	            board_content LIKE '%' || #{searchKeyword} || '%'
-	        </when>
-	        <when test="searchType == 'member_nickName'">
-	            member_nickName LIKE '%' || #{searchKeyword} || '%'
-	        </when>
-	    </choose>
+    <choose>
+        <when test="searchType == 'board_subject'">
+            b.board_subject LIKE '%' || #{searchKeyword} || '%'
+        </when>
+        <when test="searchType == 'board_content'">
+            b.board_content LIKE '%' || #{searchKeyword} || '%'
+        </when>
+        <when test="searchType == 'member_nickName'">
+            m.member_nickName LIKE '%' || #{searchKeyword} || '%'
+        </when>
+    </choose>
 	</select>
 	
 	<insert 

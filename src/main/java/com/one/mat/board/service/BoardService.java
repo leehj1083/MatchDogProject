@@ -49,6 +49,15 @@ public class BoardService {
 		map.put("list", list);		
 		return map;
 	}
+	public Map<String, Object> list(int page, int pagePerNum, String searchType, String searchKeyword) {
+		int ppn = pagePerNum;
+		int p = page;		
+		int offset = (p-1)*ppn;		
+		ArrayList<BoardDTO> list = dao.list(ppn,offset);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		return null;
+	}
 	//////////////////////////////////////////////////
 	public String write(Map<String, String> params, MultipartFile[] photos) {
 		BoardDTO dto = new BoardDTO();
@@ -150,7 +159,7 @@ public class BoardService {
 	    int ppn = Integer.parseInt(pagePerNum);
 	    int p = Integer.parseInt(page);
 	    int offset = (p - 1) * ppn;
-	    ArrayList<BoardDTO> list = dao.search(ppn, offset, searchType, searchKeyword); // 검색 기능 추가
+	    ArrayList<BoardDTO> list = dao.search(ppn, offset, searchType, searchKeyword);
 
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    int pages = dao.totalPageWithSearch(ppn, searchType, searchKeyword); // 검색 결과에 대한 페이지 수
