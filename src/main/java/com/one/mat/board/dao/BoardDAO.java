@@ -30,9 +30,11 @@ public interface BoardDAO {
 
 	void upbHit(String board_id);
 
+	int totalPageWithSearch(int ppn, String searchType, String searchKeyword);
+
 	ArrayList<BoardDTO> search(int ppn, int offset, String searchType, String searchKeyword);
 
-	int totalPageWithSearch(int ppn, String searchType, String searchKeyword);
+
 
 	
 }
