@@ -130,6 +130,11 @@ public class RegProfileService {
 		
 	}
 
+	public ArrayList<ProfileDTO> compList() {
+		
+		return dao.compList();
+	}
+
 
 
 	
