@@ -7,12 +7,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<link rel="stylesheet" href="resources/css/common.css" type="text/css">
+<link rel="stylesheet" href="resources/css/boardw.css" type="text/css">
 </head>
 <body>
 	<form action="write" method="post" enctype="multipart/form-data">
 	<table>
 		<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
+		<h2>글쓰기</h2>
+		<hr>
 		<tr>
 			<th>작성자</th>
 			<td><input type="text" name="member_nickName" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
@@ -20,14 +22,14 @@
 		<tr>
 			<th>제목</th>
 			<td><input type="text" name="board_subject"/></td>
-		</tr> 
-		<tr>
-			<th>내용</th>
-			<td><textarea name="board_content"></textarea></td>
 		</tr>
 		<tr>
 			<th>사진</th>
 			<td><input type="file" name="photos" multiple="multiple"/></td>
+		</tr> 
+		<tr>
+			<th>내용</th>
+			<td><textarea name="board_content"></textarea></td>
 		</tr>
 		<tr>
 			<th colspan="2">
