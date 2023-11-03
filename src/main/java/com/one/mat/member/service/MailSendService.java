@@ -1,6 +1,7 @@
 package com.one.mat.member.service;
 
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -39,23 +40,18 @@ public class MailSendService {
 	
 	
 	public String joinMailCheck(String member_email) {
-		
-		if(member_email.substring(0, member_email.indexOf("@"))==""){
-			logger.info("잘못된 이메일 주소 입력");
-		}else {
-			makeRandomNumber();
-			String setFrom = "leehjtest1@gmail.com";
-			String toMail = member_email;
-			String title = "매칭해주게 가입 메일 인증번호 발송.";
-			String content = 
-					"매칭해주게 서비스를 이용해주셔서 감사합니다." +
-			"<br><br>" +
-					"인증번호는 "+ authNumber + "입니다." +
-			"<br>"+
-					"해당 인증번호를 인증번호 확인란에 기입하여 주세요";
-			mailSend(setFrom, toMail, title, content);
-		}
-		
+		makeRandomNumber();
+		String setFrom = "leehjtest1@gmail.com";
+		String toMail = member_email;
+		String title = "매칭해주게 가입 메일 인증번호 발송.";
+		String content = 
+				"매칭해주게 서비스를 이용해주셔서 감사합니다." +
+		"<br><br>" +
+				"인증번호는 "+ authNumber + "입니다." +
+		"<br>"+
+				"해당 인증번호를 인증번호 확인란에 기입하여 주세요";
+		mailSend(setFrom, toMail, title, content);
+				
 		return Integer.toString(authNumber);
 	}
 
