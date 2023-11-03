@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="container">
-		<a href="./home.go"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
 	</div>
 	
 	<div class="inputForm">
@@ -293,15 +293,19 @@ $('#identifyMail').on('click',function(){
 	var checkInput = $('input[name="checkNum"]');
 	
 	$.ajax({
-		type:'get',
-		url : '<c:url value="/mailCheck?member_email="/>'+email,
+		type:'post',
+		url : '<c:url value="/joinMailCheck?member_email="/>'+member_email,
 		success : function(data){
-			console.log("data : "+data);
-			checkInput.attr('disabled',false);
-			code=data;
-			alert('인증번호가 전송되었습니다.');
-		}		
-	});	
+			if($('input[name="member_email"]').val()==''){
+				alert('이메일을 입력해주세요');
+			}else{
+				console.log("data : "+data);
+				checkInput.attr('disabled',false);
+				code=data;
+				alert('인증번호가 전송되었습니다.');				
+			}
+		}
+	});
 	
 	$('#checkMail').on('click',function(){
 		var inputCode = $('input[name="checkNum"]').val();
@@ -322,97 +326,66 @@ $('#identifyMail').on('click',function(){
 });
 
 
-/*
-// 회원가입
+// 회원 가입
 $('#join').on('click',function(){
-	var $id=$('input[name="member_id"]');
-	var $pw=$('input[name="member_pw"]');
-	var $birth=$('input[name="member_birth"]');
-	var $nickName=$('input[name="member_nickName"]');
-	var $name=$('input[name="member_name"]');
-	var $phone=$('input[name="member_phone"]');	
-	var $gender=$('input[name="member_gender"]:checked');
-	var $roadAddr=$('input[name="member_roadAddr"]');
-	var $parcelAddr=$('input[name="member_parcelAddr"]');
-	var $detailAddr=$('input[name="member_detailAddr"]');
-	// 동주소 추출
-	var regex = /([가-힣A-Za-z·\d~\-\.]+(동)\s)/i;
-	var $dongAddr=$parcelAddr.val().match(regex)[1];
-	console.log("동주소 : "+$dongAddr);
-	// 이메일 전체 주소 추출
-	var $email=$('input[name="email"]').val()+"@"+$('select[name="emailhost"]').val();
 	
-	var param = {};
-	param.member_id=$id.val();
-	param.member_pw=$pw.val();
-	param.member_birth=$birth.val();
-	param.member_nickName=$nickName.val();
-	param.member_name=$name.val();			
-	param.member_phone=$phone.val();
-	param.member_gender=$gender.val();
-	param.member_roadAddr=$roadAddr.val();
-	param.member_parcelAddr=$parcelAddr.val();
-	param.member_detailAddr=$detailAddr.val();
-	param.member_dongAddr=$dongAddr;
-	param.member_email=$email;	
+	var member_id=$('input[name="member_id"]').val();
+	var member_pw=$('input[name="member_pw"]').val();
+	var member_birth=$('input[name="member_birth"]').val();
+	var member_nickName=$('input[name="member_nickName"]').val();
+	var member_name=$('input[name="member_name"]').val();
+	var member_phone=$('input[name="member_phone"]').val();	
+	var member_gender=$('input[name="member_gender"]:checked').val();
+	var member_roadAddr=$('input[name="member_roadAddr"]').val();
+	var member_parcelAddr=$('input[name="member_parcelAddr"]').val();
+	var member_detailAddr=$('input[name="member_detailAddr"]').val();
+	var member_preMail=$('input[name="member_email"]').val();
+	var member_birth = $('input[name="member_birth"]').val();
 	
-	console.log(param);
-	
-	$.ajax({
-		type : 'post',
-		url : 'join.do',
-		data : param,
-		dataType : 'JSON',
-		success : function(data){
-			console.log(data);
-			if(data.success>0){
-				alert('회원가입에 성공했습니다.');
-				location.href='./login.go';
-			}else{
-				alert('회원가입에 실패했습니다.');
-			}
-		},
-		error : function(e){
-			console.log(e);
-		}				
-	});
-	
-	/* if(overlayChk){
-		if($id.val()==''){
+	if(overlayIdChk&&$('.pwReChk').html=='비밀번호가 일치합니다'&&overlayNickChk&&$('#mailChk').html=='인증번호가 일치합니다'){		
+		if(member_id==''){
 			alert('아이디를 입력해 주세요');
-			$id.focus();
-		}else if($pw.val()==''){
+			member_id.focus();
+		}else if($('.idValid').html!='적합한 아이디 형식입니다.'){
+			alert('아이디를 정확히 입력해 주세요');
+			member_pw.focus();			
+		}else if(member_pw==''){
 			alert('비밀번호를 입력해 주세요');
-			$pw.focus();
-		}else if($name.val()==''){
+			member_pw.focus();			
+		}else if($('.pwValid').html!='적합한 비밀번호 형식입니다.'){
+			alert('비밀번호를 정확히 입력해 주세요');
+			member_pw.focus();		
+		}else if(member_name==''){
 			alert('이름을 입력해 주세요');
-			$name.focus();
-		}else if($gender.val()==null){
+			member_name.focus();
+		}else if(member_birth==''){
+			alert('생일을 입력해 주세요');
+			member_birth.focus();
+		}else if(member_gender==null){
 			alert('성별을 선택해 주세요');
-		}else if($email.val()==''){
+		}else if(member_phone==''){
+			alert('전화번호를 입력해 주세요');
+			member_phone.focus();
+		}else if($('.phoneValid').html!='적절한 전화번호 형식입니다.'){
+			alert('전화번호를 정확히 입력해 주세요');
+			member_phone.focus();
+		}else if(member_nickName==''){
+			alert('닉네임을 입력해 주세요');
+			member_nickName.focus();
+		}else if(member_preMail==''){
 			alert('이메일을 입력해 주세요');
-			$email.focus();
-		}else if($email.val()==''){
-			alert('이메일을 입력해 주세요');
-			$email.focus();
-		}else if($email.val()==''){
-			alert('이메일을 입력해 주세요');
-			$email.focus();
-		}else if($email.val()==''){
-			alert('이메일을 입력해 주세요');
-			$email.focus();
-		}else if($email.val()==''){
-			alert('이메일을 입력해 주세요');
-			$email.focus();
-		}	
+			member_preMail.focus();
+		}else if(member_roadAddr==''){
+			alert('주소를 입력해 주세요');
+			member_roadAddr.focus();
+		}else{
+			join();
+		}
 	}else{
-		alert('아이디 중복 체크를 해주세요.');
-	}	 
-}); */
-
-$('#join').on('click',function(){
-	join();
-});
+		alert('중복확인 및 이메일 인증을 해주세요.');
+	}		
+	
+});	
 
 function join(){
 	var member_id=$('input[name="member_id"]').val();
