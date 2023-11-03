@@ -82,11 +82,11 @@
     <table>
         <tbody id="matchingList"></tbody>
     </table>
-    <div id="charList"></div>
+    <!-- <div id="charList"></div> -->
     <button id="nextButton">다음</button>
     <button id="prevButton">이전</button>
     <button id="matchingdel">매칭리스트 삭제</button>
-    <button id="matchingreq">매칭요청 보내기</button>
+    <button id="matchingreq" >매칭요청 보내기</button>
 </div>
       
 </body>
@@ -97,7 +97,7 @@ var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
 
 // 페이지 로딩 시 데이터 가져오기
 matchinglist();
-matchingCharList();
+// matchingCharList();
 
 // 매칭 리스트
 function matchinglist() {
@@ -140,18 +140,51 @@ $('#prevButton').click(function () {
    	 showMatchingData(currentIndex);
     }
 });
+
 // 삭제 버튼 클릭시 리스트에서 삭제
 $('#matchingdel').click(function () {
 	matchingData.splice(currentIndex,1);
 	showMatchingData(currentIndex);
 	
 });
+
+
 // 매칭요청 버튼 클릭시 매칭요청 보내기
-$('#matchingreq').click(function(){
-	
+$('#matchingreq').click(function () {
+	console.log("매칭 버튼 클릭");
+    if (currentIndex >= 0 && currentIndex < matchingData.length) {
+   	 
+        var currentMatch = matchingData[currentIndex];
+        var request = {
+      		  pro_idx: currentMatch.pro_idx
+        };
+
+         $.ajax({
+            type: 'get',  // HTTP 요청 방식 선택 (GET, POST 등)
+            url: 'HomeSend.do',  // 서버로 요청을 보낼 URL
+            data: JSON.stringify(request),  // 데이터를 JSON 형식으로 변환하여 보냅니다
+            contentType: 'application/json',  // 보내는 데이터의 유형 (JSON)
+            dataType: 'Json',  // 서버로부터의 응답 데이터 타입 (JSON)
+            success: function (response) {
+                console.log('매칭 요청 성공:', response);
+                alert("매칭 요청이 발송되었습니다");
+            },
+            error: function (e) {
+                // 오류 발생 시 처리하는 로직을 작성합니다
+                console.error('매칭 요청 실패:', e);
+            }
+        }); 
+    }
+      else {
+        console.error('유효하지 않은 currentIndex입니다.');
+    } 
 });
 
-
+// 매칭요청 확인창
+/* function popup(){
+   console.log('매칭요청');
+   alert("매칭 요청이 발송되었습니다");
+} */
 function showMatchingData(index) {
     var currentMatch = matchingData[index];
     $('#pro_dogName').text('강아지 이름: ' + currentMatch.pro_dogName);
@@ -161,18 +194,19 @@ function showMatchingData(index) {
     $('#member_dongAddr').text('동 주소: ' + currentMatch.member_dongAddr);
 }
 
+
 // 성향 리스트
-function matchingCharList() {
+/* function matchingCharList() {
    $.ajax({
        type: 'get',
-       url: 'CharTypeList.do',
+       url: 'matchingCharList.do',
        data: {},
        dataType: 'json',
        success: function (data) {
            console.log(data);
            console.log("성공");
 
-           // 성향 정보 표시
+           
            charList(data);
        },
        error: function (e) {
@@ -183,7 +217,7 @@ function matchingCharList() {
 }
 
 //성향 정보 표시
-function charList(charTypeList) {
+/* function charList(charTypeList) {
    var content = '';
    charTypeList.forEach(function (charType) {
        content += charType + '<br>';
@@ -191,7 +225,7 @@ function charList(charTypeList) {
 
    // 결과를 원하는 위치에 표시
    $('#charList').html(content);
-}
+}  */
 
 
 

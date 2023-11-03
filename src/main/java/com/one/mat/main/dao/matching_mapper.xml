@@ -12,38 +12,50 @@ INNER JOIN breed b ON p.pro_idx = b.pro_idx
 INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx=#{member_idx}
 </select>
 
-<!-- 랜덤매칭 쿼리(동주소가 같고, 성향이 4개 모두 같을 경우 select) -->
+<!-- 랜덤매칭 쿼리(자신의 pro_idx 는 제외하며 동주소가 같고, 
+			제재여부=N,탈퇴여부=N 이고 성향이 4개 모두 같을 경우 select) -->
 <select id="matchingList" resultType="map">
-        SELECT
-            m.member_gender,
-            m.member_dongAddr,
-            p.pro_dogName,
-            p.pro_dogAge,
-            p.pro_dogGender,
-            p.pro_dogDesc
-        FROM member AS m
-        INNER JOIN pro AS p ON m.member_idx = p.member_idx
-        WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{param1})
-        AND p.pro_rep = 'Y'
-        AND p.pro_idx IN (
-            SELECT pro_idx FROM `char` WHERE charType_code IN (
-                SELECT charType_code
-                FROM `char`
-                WHERE pro_idx = #{param2}
-            )
-            GROUP BY pro_idx
-            HAVING COUNT(*) = 4
+  SELECT
+    m.member_gender,
+    m.member_dongAddr,
+    p.pro_dogName,
+    p.pro_dogAge,
+    p.pro_dogGender,
+    p.pro_dogDesc
+FROM member AS m
+INNER JOIN pro AS p ON m.member_idx = p.member_idx
+WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{param1})
+    AND m.member_quit = 'N'
+    AND m.member_loginLock = 'N'
+    AND p.pro_idx NOT IN (
+        SELECT pro_idx FROM pro WHERE member_idx = #{param1}
+    )
+    AND p.pro_idx IN (
+        SELECT pro_idx
+        FROM `char`
+        WHERE charType_code IN (
+            SELECT charType_code
+            FROM `char`
+            WHERE pro_idx = #{param2}
         )
-        ORDER BY RAND()
-        LIMIT 10
+        GROUP BY pro_idx
+        HAVING COUNT(DISTINCT charType_code) = 4
+    )
+    AND m.member_idx != #{param1}
+ORDER BY RAND()
+LIMIT 10
 </select>
 
-<!-- 4가지의 성향을 가져오는 쿼리 -->
+<!-- 4가지의 성향 모두 일치하는 성향들을 가져오는 쿼리 -->
 <select id="matchingCharType" resultType = "String">
 	select ct.charType
 	from `char` c
 	INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
 </select>
+
+<insert id="homeSend" parameterType="int">
+	INSERT INTO `match` (pro_sendIdx ,pro_recvIdx) VALUES(#{pro_idx},#{pro_recvIdx})
+</insert>
 <!-- <select id="matchingPhotoFileName" resultType = "String">
 	SELECT pt.photo_fileName
 	FROM pro p 
