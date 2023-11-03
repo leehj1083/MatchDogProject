@@ -39,17 +39,16 @@ public class BoardController {
 		return service.list(pagePerNum, page);
 	}
 	
-	@RequestMapping(value="/search")
+	@RequestMapping(value ="/search")
 	@ResponseBody
-    public Map<String, Object> search(HttpSession session, @RequestParam String pagePerNum,
-            @RequestParam String page, @RequestParam String searchType, @RequestParam String searchKeyword) {
-        logger.info("페이지당 보여줄 게시글 수: " + pagePerNum);
-        logger.info("보여줄 페이지: " + page);
-        logger.info("검색타입: " + searchType);
-        logger.info("검색내용: " + searchKeyword);
-        
-        return service.search(pagePerNum, page, searchType, searchKeyword);
-    }
+	public Map<String, Object> search(HttpSession session, @RequestParam String pagePerNum,
+	        @RequestParam String page, @RequestParam String searchType, @RequestParam String searchKeyword) {
+	    logger.info("페이지당 보여줄 게시글 수: " + pagePerNum);
+	    logger.info("보여줄 페이지: " + page);
+	    logger.info("검색타입: " + searchType);
+	    logger.info("검색내용: " + searchKeyword);
+	    return service.search(pagePerNum, page, searchType, searchKeyword);
+	}
 	
 	@RequestMapping(value="/BoardWrite")
 	public String BoardWrite() {

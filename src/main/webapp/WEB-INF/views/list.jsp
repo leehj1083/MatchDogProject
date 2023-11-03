@@ -112,13 +112,35 @@ function listCall(page, searchType, searchKeyword){
 $('#search').click(function () {
     searchType = $('#searchType').val();
     searchKeyword = $('#searchKey').val();
-    listCall(showPage, searchType, searchKeyword);
+    showPage=1;
+    searchCall(showPage, searchType, searchKeyword);
 });
+
+function searchCall(page, searchType, searchKeyword){
+	$.ajax({
+		type:'get',
+		url:'search',
+		data:{
+			'pagePerNum':$('#pagePerNum').val(),
+			'page':page,
+			'searchType': searchType,
+            'searchKeyword': searchKeyword
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			drawList(data);
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});
+}
 
 function drawList(obj) {
     var content = '';
     var totalItems = obj.list.length;
-
+	
     if (totalItems === 0) {
     		content = '<tr><td colspan="5">검색 결과가 없습니다.</td></tr>';
     } else {
