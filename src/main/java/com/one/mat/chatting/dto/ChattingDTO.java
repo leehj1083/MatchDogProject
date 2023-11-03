@@ -1,5 +1,7 @@
 package com.one.mat.chatting.dto;
 
+import java.sql.Date;
+
 public class ChattingDTO {
 	
 	private int pro_idx = 0; // 프로필 id
@@ -9,35 +11,44 @@ public class ChattingDTO {
 	private int pro_recvIdx = 0;
 	private String chatMsg_msg = "";
 	private String chatMsg_read = "";
+	private Date chatMsg_regDate;
 	private String photo_fileName = "";
 	private String breedType = "";
 	private String pro_dogName = "";
 	private String msgTime = "";
 	
 	
+	// == null ? "":msgTime;
+	
+	public Date getChatMsg_regDate() {
+		return chatMsg_regDate;
+	}
+	public void setChatMsg_regDate(Date chatMsg_regDate) {
+		this.chatMsg_regDate = chatMsg_regDate;
+	}
 	public String getMsgTime() {
 		return msgTime;
 	}
 	public void setMsgTime(String msgTime) {
-		this.msgTime = msgTime;
+		this.msgTime = msgTime ;
 	}
 	public String getPhoto_fileName() {
 		return photo_fileName;
 	}
 	public void setPhoto_fileName(String photo_fileName) {
-		this.photo_fileName = photo_fileName;
+		this.photo_fileName = photo_fileName ;
 	}
 	public String getBreedType() {
 		return breedType;
 	}
 	public void setBreedType(String breedType) {
-		this.breedType = breedType;
+		this.breedType = breedType ;
 	}
 	public String getPro_dogName() {
 		return pro_dogName;
 	}
 	public void setPro_dogName(String pro_dogName) {
-		this.pro_dogName = pro_dogName;
+		this.pro_dogName = pro_dogName ;
 	}
 
 	public int getPro_idx() {
@@ -74,13 +85,13 @@ public class ChattingDTO {
 		return chatMsg_msg;
 	}
 	public void setChatMsg_msg(String chatMsg_msg) {
-		this.chatMsg_msg = chatMsg_msg;
+		this.chatMsg_msg = chatMsg_msg ;
 	}
 	public String getChatMsg_read() {
 		return chatMsg_read;
 	}
 	public void setChatMsg_read(String chatMsg_read) {
-		this.chatMsg_read = chatMsg_read;
+		this.chatMsg_read = chatMsg_read ;
 	}
 
 	

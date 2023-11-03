@@ -9,8 +9,12 @@ public interface ChattingDAO {
 	
 	ArrayList<ChattingDTO> chattingListDo(int ppn, int offset, int memberIdx);
 
-	int totalPage(int p);
-
+	ChattingDTO chatProInfo(int pro_idx);
+	
+	ChattingDTO chatMsgInfo(int chat_idx);
+	
+	ChattingDTO chatPhotoInfo(int chat_idx);
+	
 	ArrayList<ProfileDTO> proIdx(int memberIdx);
 
 	ArrayList<ChattingDTO> chatIdx(int pro_idx);
@@ -18,12 +22,12 @@ public interface ChattingDAO {
 	ArrayList<ChattingDTO> chatRoomListDo();
 
 	int chatSaveDo();
+
+	ArrayList<ChattingDTO> chatRoomList(int chat_id);
+
+	ChattingDTO chattingRoomGo(int chat_id);
+
 	
-	ChattingDTO chatProInfo(int pro_idx);
-
-	ChattingDTO chatMsgInfo(int chat_idx);
-
-	ChattingDTO chatPhotoInfo(int chat_idx);
 
 
 }
