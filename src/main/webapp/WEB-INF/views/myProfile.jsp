@@ -322,7 +322,16 @@ input:checked+.slider:before {
 <script>
 
 /* 프로필 삭제 스크립트 */
+ 
+ var RepdoModal = $("#RepdoModal");
+var myProfileRepdo = $("#myProfileRepdo");
+var RepdoConfirmYes = $("#RepdoConfirmYes");
+var RepdoConfirmNo = $("#RepdoConfirmNo");
+ 
 $('.profileDelDo').on("click", function (e) {
+	
+	profileDelDoModal.css("display", "block");
+});
 	console.log("삭제");
 	var pro_idx = $(this).attr("value");
 	console.log(pro_idx);
