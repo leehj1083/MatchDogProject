@@ -1,40 +1,43 @@
-package com.one.mat.board.service;
+package com.one.mat.board.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.one.mat.board.dao.ReplyDAO;
-import com.one.mat.board.dto.ReplyDTO;
+import com.one.mat.board.service.ReplyService;
 
-@Service
-public class ReplyService {
+@Controller
+public class ReplyController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
-
-	@Autowired ReplyDAO dao;
+	
+	@Autowired ReplyService service;
+	
 	/*
-	public Map<String, Object> replyWrite(String member_idx, String reply_content, String board_id) {
-		int memberIdx = Integer.parseInt(member_idx);
-		String replyContent = reply_content;
-		logger.info("memberIdx: "+member_idx,"replyContent: "+replyContent);
-		return dao.replyWrite(memberIdx, replyContent);
+	@RequestMapping("/replyWrite")
+	@ResponseBody
+	public Map<String, Object> replyWrite(HttpSession session, 
+            String member_idx, String reply_content, String board_id){
+		
+		Map<String, Object> result = service.replyWrite(board_id, member_idx, reply_content);
+		
+		return result;
 	}
 	*/
-
-	public Map<String, Object> replyList(String boardId) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		int board_id = Integer.parseInt(boardId);
-		logger.info("board_id: "+board_id);
-		ArrayList<ReplyDTO> replyList = dao.replyList(board_id);
-		map.put("replyList", replyList);
-		return map;
-	}
-
 	
+	@RequestMapping(value = "/replyList")
+    @ResponseBody
+    public Map<String, Object> replyList(HttpSession session,@RequestParam String boardId) {
+		logger.info("컨트롤러boardId: " + boardId);
+        return service.replyList(boardId);
+    }
+
 }
