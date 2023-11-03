@@ -8,8 +8,8 @@
 
 
 <insert id="writemyProfile" parameterType="com.one.mat.member.dto.ProfileDTO">
-    INSERT INTO pro (member_idx, pro_dogName, pro_dogAge, pro_dogGender, pro_dogDesc, pro_dogScore, pro_rep)
-    VALUES (#{member_idx}, #{pro_dogName}, #{pro_dogAge}, #{pro_dogGender}, #{pro_dogDesc}, 1, 'Y');
+    INSERT INTO pro (member_idx, pro_dogName, pro_dogAge, pro_dogGender, pro_dogDesc,pro_rep)
+    VALUES (#{member_idx}, #{pro_dogName}, #{pro_dogAge}, #{pro_dogGender}, #{pro_dogDesc},'N');
 </insert>
 
  <insert id="breedTypeSave" parameterType="int">
@@ -35,5 +35,52 @@
 	<select id="list2" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT breedType_code,breedType FROM breedtype
 	</select>
+	
+	<insert id="photos1" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_1},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos2" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_2},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos3" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_3},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos4" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_4},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos5" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_5},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos6" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_6},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos7" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_7},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos8" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_8},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	<insert id="photos9" parameterType="String">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(4,(select MAX(pro_idx) from pro),#{ph_9},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
+	
+	<update id="proReq" parameterType="com.one.mat.member.dto.MemberDTO">
+  UPDATE pro
+  SET pro_rep = 'Y'
+  WHERE member_idx = #{member_idx}
+  AND (SELECT COUNT(*) FROM pro WHERE member_idx = #{member_idx}) = 1;
+</update>
+	
+	
+	
 
 </mapper>
