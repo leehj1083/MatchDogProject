@@ -36,27 +36,26 @@
       <input type="password" name="pwCheck"/>
       <p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
       
+      <p/>이름<br/>    
+	  <input type="text" name="member_name"/>
       
       <p/>생년월일<br/>   
       <input type="date" name="member_birth"/>
+
+	  <p/>성별<br/>
+      <input type="radio" name="member_gender" value="남"/>남자
+      <input type="radio" name="member_gender" value="여"/>여자
+
+	  <p/>전화번호<br/>
+      <input type="text" name="member_phone"/>
+       <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
 
 	  <p/>닉네임<br/>
 	  <input type="text" name="member_nickName"/>
       <input type="button" id="overlayNick" value="중복확인"/>      
       <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
-      <p/><span class="nickChk"></span> 
-         
-      <p/>이름<br/>    
-	  <input type="text" name="member_name"/>
+      <p/><span class="nickChk"></span>    
 	  
-	  <p/>전화번호<br/>
-      <input type="text" name="member_phone"/>
-       <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
-      
-         
-	  <p/>성별<br/>
-      <input type="radio" name="member_gender" value="남"/>남자
-      <input type="radio" name="member_gender" value="여"/>여자
          
       <p/>주소<input type="text" id="postcode" placeholder="우편번호">
 	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
@@ -77,8 +76,8 @@
 	  <button type="button" id="identifyMail">인증요청</button>
 	  
       <p/>&nbsp;인증번호<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해주세요"  disabled = "disabled" maxlength="6"/>
-	  <button type="button" id="checkMail">인증하기</button>
-	  <p/><span id="mailChk"></span>
+	  <button type="button" id="checkMail" >인증하기</button>
+	  <p/><span class="mailChk"></span>
             
       <p/><input type="button" id="join" value="회원가입"/>
              
@@ -151,21 +150,32 @@ $('#overlayId').on('click',function(){
 
 	$.ajax({
 		type : 'post',
-		url : 'overlayId',
+		url : 'overlayId.do',
 		data : {'member_id':$id.val()},
 		dataType : 'JSON',
 		success : function(data){
 			console.log(data);
 			overlayIdChk = data.use;
-			if(data.use){
-				$('.idChk').text("사용 가능한 아이디 입니다.");
-				$('.idChk').css("color", "green");
-				$('.idChk').css("font-size", "10px");
-			}else{
-				$('.idChk').text("이미 사용중인 아이디 입니다.");
+						
+			if($id.val()==""){
+				$('.idChk').text("아이디는 두글자 이상 넣어주세요");
 				$('.idChk').css("color", "red");
 				$('.idChk').css("font-size", "10px");
-				$id.val('');
+			}else if($('.idValid').html()!='적합한 아이디 형식입니다.'){
+				$('.idChk').text("아이디를 정확히 입력해주세요.");
+				$('.idChk').css("color", "red");
+				$('.idChk').css("font-size", "10px");
+			}else{
+				if(data.use){
+					$('.idChk').text("사용 가능한 아이디 입니다.");
+					$('.idChk').css("color", "green");
+					$('.idChk').css("font-size", "10px");
+				}else{
+					$('.idChk').text("이미 사용중인 아이디 입니다.");
+					$('.idChk').css("color", "red");
+					$('.idChk').css("font-size", "10px");
+					$id.val('');
+				}				
 			}
 		},
 		error : function(e){
@@ -183,22 +193,31 @@ $('#overlayNick').on('click',function(){
 
 	$.ajax({
 		type : 'post',
-		url : 'overlayNick',
+		url : 'overlayNick.do',
 		data : {'member_nickName':$nickName.val()},
 		dataType : 'JSON',
 		success : function(data){
 			console.log(data);
 			overlayNickChk = data.use;
-			if(data.use){
-				$('.nickChk').text("사용 가능한 닉네임 입니다.");
-				$('.nickChk').css("color", "green");
-				$('.nickChk').css("font-size", "10px");
-				
-			}else{
-				$('.nickChk').text("이미 사용중인 닉네임 입니다.");
+			if($nickName.val()==""){
+				$('.nickChk').text("닉네임은 두글자 이상 넣어주세요");
 				$('.nickChk').css("color", "red");
 				$('.nickChk').css("font-size", "10px");
-				$nickName.val('');
+			}else if($('.nickValid').html()!='적합한 닉네임 형식입니다.'){
+				$('.nickChk').text("닉네임을 정확히 입력해주세요.");
+				$('.nickChk').css("color", "red");
+				$('.nickChk').css("font-size", "10px");
+			}else{
+				if(data.use){
+					$('.nickChk').text("사용 가능한 닉네임 입니다.");
+					$('.nickChk').css("color", "green");
+					$('.nickChk').css("font-size", "10px");
+				}else{
+					$('.nickChk').text("이미 사용중인 닉네임 입니다.");
+					$('.nickChk').css("color", "red");
+					$('.nickChk').css("font-size", "10px");
+					$nickName.val('');
+				}
 			}
 		},
 		error : function(e){
@@ -267,6 +286,7 @@ $('input[name="member_nickName"]').keyup(function(){
 	}else{
 		$('.nickValid').css('color','green');
 		$('.nickValid').html('적합한 닉네임 형식입니다.');
+		console.log($('.nickValid').html());
 	}
 });
 
@@ -290,14 +310,18 @@ $('input[name="member_phone"]').keyup(function(){
 $('#identifyMail').on('click',function(){
 	var member_email=$('input[name="member_email"]').val()+"@"+$('select[name="emailhost"]').val();
 	console.log('메일주소 : '+member_email);
-	var checkInput = $('input[name="checkNum"]');
+	var checkInput = $('input[name="checkNum"]');	
+	$('.identifyMail').attr('disabled', true);
+	var pattern =/[\s]/g;
 	
 	$.ajax({
 		type:'post',
-		url : '<c:url value="/joinMailCheck?member_email="/>'+member_email,
+		url : '<c:url value="/joinMailCheck.do?member_email="/>'+member_email,
 		success : function(data){
 			if($('input[name="member_email"]').val()==''){
 				alert('이메일을 입력해주세요');
+			}else if(pattern.test(member_email)==true){
+				alert('공백을 입력하지 마세요');
 			}else{
 				console.log("data : "+data);
 				checkInput.attr('disabled',false);
@@ -309,18 +333,23 @@ $('#identifyMail').on('click',function(){
 	
 	$('#checkMail').on('click',function(){
 		var inputCode = $('input[name="checkNum"]').val();
-		var $resultMsg = $('#mailChk');
+		var $resultMsg = $('.mailChk');
 		
-		if(inputCode == code){
-			$resultMsg.html('인증번호가 일치합니다.');
-			$resultMsg.css('color','green');
-			$('#identifyMail').attr('disabled',true);
-			$('#usermail').attr('readonly',true);
-			$('#mailhost').attr('readonly',true);		
+		if(inputCode==''){
+			$resultMsg.html('인증번호를 입력해주세요.');
 		}else{
-			$resultMsg.html('인증번호가 일치하지 않습니다.');
-			$resultMsg.css('color','red');
-		}
+			if(inputCode == code){
+				$resultMsg.html('인증번호가 일치합니다.');
+				$resultMsg.css('color','green');
+				$('#usermail').attr('readonly',true);
+				$('#mailhost').attr('readonly',true);		
+			}else{
+				$resultMsg.html('인증번호가 일치하지 않습니다.');
+				$resultMsg.css('color','red');
+				$('#usermail').attr('readonly',false);
+				$('#mailhost').attr('readonly',false);	
+			}			
+		}		
 	});
 		
 });
@@ -341,49 +370,114 @@ $('#join').on('click',function(){
 	var member_detailAddr=$('input[name="member_detailAddr"]').val();
 	var member_preMail=$('input[name="member_email"]').val();
 	var member_birth = $('input[name="member_birth"]').val();
-	
-	if(overlayIdChk&&$('.pwReChk').html=='비밀번호가 일치합니다'&&overlayNickChk&&$('#mailChk').html=='인증번호가 일치합니다'){		
-		if(member_id==''){
-			alert('아이디를 입력해 주세요');
-			member_id.focus();
-		}else if($('.idValid').html!='적합한 아이디 형식입니다.'){
-			alert('아이디를 정확히 입력해 주세요');
-			member_pw.focus();			
-		}else if(member_pw==''){
-			alert('비밀번호를 입력해 주세요');
-			member_pw.focus();			
-		}else if($('.pwValid').html!='적합한 비밀번호 형식입니다.'){
-			alert('비밀번호를 정확히 입력해 주세요');
-			member_pw.focus();		
-		}else if(member_name==''){
-			alert('이름을 입력해 주세요');
-			member_name.focus();
-		}else if(member_birth==''){
-			alert('생일을 입력해 주세요');
-			member_birth.focus();
-		}else if(member_gender==null){
-			alert('성별을 선택해 주세요');
-		}else if(member_phone==''){
-			alert('전화번호를 입력해 주세요');
-			member_phone.focus();
-		}else if($('.phoneValid').html!='적절한 전화번호 형식입니다.'){
-			alert('전화번호를 정확히 입력해 주세요');
-			member_phone.focus();
-		}else if(member_nickName==''){
-			alert('닉네임을 입력해 주세요');
-			member_nickName.focus();
-		}else if(member_preMail==''){
-			alert('이메일을 입력해 주세요');
-			member_preMail.focus();
-		}else if(member_roadAddr==''){
-			alert('주소를 입력해 주세요');
-			member_roadAddr.focus();
-		}else{
-			join();
-		}
-	}else{
-		alert('중복확인 및 이메일 인증을 해주세요.');
-	}		
+				
+	// 아이디 검사
+	if(member_id == '') {
+	    alert('아이디를 입력해 주세요');
+	    $('input[name="member_id"]').focus();
+	    return false;
+	}
+	if($('.idValid').html() != '적합한 아이디 형식입니다.') {
+	    alert('아이디를 정확히 입력해 주세요');
+	    $('input[name="member_id"]').focus();
+	    return false;
+	}
+	if(overlayIdChk != true) {
+	    alert('아이디 중복 체크를 진행해주세요');
+	    return false;
+	}
+	if($('.idChk').html() != '사용 가능한 아이디 입니다.') {
+	    alert('아이디 중복 체크를 다시 진행해주세요');
+	    $('input[name="member_id"]').focus();
+	    return false;
+
+	}
+
+	// 비밀번호 검사
+	if(member_pw == '') {
+	    alert('비밀번호를 입력해 주세요');
+	    $('input[name="member_pw"]').focus();
+	    return false;
+	}
+	if($('.pwValid').html() != '적합한 비밀번호 형식입니다.') {
+	    alert('비밀번호를 정확히 입력해 주세요');
+	    $('input[name="member_pw"]').focus();
+	    return false;
+	}
+	if($('input[name="pwCheck"]').val() == '') {
+	    alert('비밀번호 확인을 위해 재입력해 주세요');
+	    $('input[name="pwCheck"]').focus();
+	    return false;
+	}
+	if($('.pwReChk').html() != '비밀번호가 일치합니다.') {
+	    alert('비밀번호를 정확히 입력해 주세요');
+	    $('input[name="pwCheck"]').focus();
+	    return false;
+
+	}
+
+	// 이름 검사
+	if(member_name == '') {
+	    alert('이름을 입력해 주세요');
+	    $('input[name="member_name"]').focus();
+	    return false;
+	}
+
+	// 생일 검사
+	if(member_birth == '') {
+	    alert('생일을 입력해 주세요');
+	    return false;
+	}
+
+	// 성별 검사
+	if(member_gender == null) {
+	    alert('성별을 선택해 주세요');
+	    return false;
+	}
+
+	// 전화번호 검사
+	if(member_phone == '') {
+	    alert('전화번호를 입력해 주세요');
+	    $('input[name="member_phone"]').focus();
+	    return false;
+	}
+	if($('.phoneValid').html() != '적절한 전화번호 형식입니다.') {
+	    alert('전화번호를 정확히 입력해 주세요');
+	    $('input[name="member_phone"]').focus();
+	    return false;
+	}
+
+	// 닉네임 검사
+	if(member_nickName == '') {
+	    alert('닉네임을 입력해 주세요');
+	    $('input[name="member_nickName"]').focus();
+	    return false;
+	}
+	if($('.nickValid').html() == '닉네임이 형식에 어긋납니다.') {
+	    alert('닉네임을 정확히 입력해 주세요');
+	    $('input[name="member_nickName"]').focus();
+	    return false;
+	}
+	if(overlayNickChk != true) {
+	    alert('닉네임 중복체크를 진행해주세요');
+	    return false;
+	}
+
+	// 주소 검사
+	if(member_roadAddr == '') {
+	    alert('주소를 입력해 주세요');
+	    return false;
+	}
+
+	// 메일 검사
+		
+	if($('.mailChk').html() != '인증번호가 일치합니다.') {
+	    alert('인증번호가 일치하지 않습니다.');
+	    return false;
+	}	
+	// 모든 검사를 통과하면 회원가입을 수행
+	join();
+			
 	
 });	
 
