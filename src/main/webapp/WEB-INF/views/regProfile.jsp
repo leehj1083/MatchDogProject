@@ -9,6 +9,38 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
 
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 80px;
+    color: #999999;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    width: 55px;
+    height: 10px;
+    margin-left: 10px;
+    font-size: small;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
 
 #imgtable {
 border: 1px solid black;
@@ -17,11 +49,11 @@ border: 1px solid black;
 border: 1px solid black;
 }
 #imgtable td{
-width: 200px;
+width: 300px;
 height: 200px;
 }
 
-textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
+textarea style ="resize: both ;"> </textarea>.modal {
 	display: none;
 	position: fixed;
 	z-index: 1;
@@ -35,12 +67,12 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 
 .modal-content {
 	display: none;
-	/* ... 다른 스타일 ... */
+
 }
 
 .modal.active .modal-content {
 	display: block;
-	/* 이 스타일은 .modal에 'active' 클래스가 있을 때 .modal-content를 표시합니다. */
+	
 }
 
 .modal-content {
@@ -51,7 +83,7 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
 	width: 70%;
 }
 
-/* 닫기 버튼 스타일 */
+
 .close {
 	color: #888;
 	float: right;
@@ -84,41 +116,87 @@ textarea style ="resize: both ;"> </textarea> /* 모달 스타일 */ .modal {
         <table id = "imgtable">
         
         <tr>
-        <td><div id="imageContainer"></div>
-        <input type="file" name="photos" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos">
+</div>
         </td>
-        <td><div id="imageContainer2"></div>
-        <input type="file" name="photos2" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer2"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos2">
+</div>
         </td>
-        <td><div id="imageContainer3"></div>
-        <input type="file" name="photos3" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer3"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos3">
+</div>
         </td>
         </tr>
         
         <tr>
-        <td><div id="imageContainer4"></div>
-        <input type="file" name="photos4" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer4"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos4">
+</div>
         </td>
-        <td><div id="imageContainer5"></div>
-        <input type="file" name="photos5" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer5"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos5">
+</div>
         </td>
-        <td><div id="imageContainer6"></div>
-        <input type="file" name="photos6" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer6"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos6">
+</div>
         </td>
         </tr>
         
         <tr>
-        <td><div id="imageContainer7"></div>
-        <input type="file" name="photos7" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer7"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos7">
+</div>
         </td>
-        <td><div id="imageContainer8"></div>
-        <input type="file" name="photos8" multiple="multiple" value="사진 추가">
+        <td>
+        <div id="imageContainer8"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos8">
+</div>
         </td>
-        <td> <div id="imageContainer9"></div>
-        <input type="file" name="photos9" multiple="multiple" value="사진 추가">
+        <td>
+         <div id="imageContainer9"></div>
+        <div class="filebox">
+    <input class="upload-name" value="image name" placeholder="image name">
+    <label for="file">사진추가</label> 
+    <input type="file" id="file" name="photos9">
+</div>
         </td>
         </tr>
         </table>
+        <button type="button" id="selectComplete">선택 완료</button>
     </div>
 </div>
          
@@ -258,6 +336,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     closeNewModalButton.addEventListener("click", function () {
     	 document.getElementById("newModal").style.display = "none";
+    	 
+    	 // 모든 이미지 컨테이너들을 초기화
+         var imageContainers = document.querySelectorAll(".modal-content div[id^='imageContainer']");
+         imageContainers.forEach(function (container) {
+             container.innerHTML = "";
+         });
+
+         // 이미지 업로드 입력 필드도 초기화
+         var imageInputs = document.querySelectorAll(".modal-content input[type='file']");
+         imageInputs.forEach(function (input) {
+             input.value = "";
+         });
+    	 
+    		 var fileInputs = document.querySelectorAll('input[type="file"]');
+         for (var i = 0; i < fileInputs.length; i++) {
+             fileInputs[i].value = "";
+         }
+        
+    	 
+    });
+    
+    var selectCompleteButton = document.getElementById("selectComplete");
+    selectCompleteButton.addEventListener("click", function () {
+        document.getElementById("newModal").style.display = "none";
     });
     
     // "성향 선택" 버튼을 클릭했을 때 모달 창 열기
@@ -325,6 +427,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
  //-----------------------------------------여기서 부터 이미지 파일 관련 script 문 입니다...-------------------------------------------------   
 
+ // 이미지 및 파일 업로드 입력 필드 초기화 함수
+
+ 
+ 
     // 이미지 업로드 변경 시 이미지를 화면에 표시
     var imageInput = document.querySelector('input[name="photos"]');
     imageInput.addEventListener("change", function () {
