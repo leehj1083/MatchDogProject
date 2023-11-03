@@ -143,7 +143,7 @@ input:checked + .slider:before {
  <!--   <input type="file" name="photos" multiple="multiple" value="사진 선택">     -->
     
     <c:if test="${Profile.pro_rep == 'Y'}">
-    <h3>☆대표프로필임☆</h3>
+    <h2>☆대표프로필임☆</h2>
     </c:if>
     <c:if test="${Profile.pro_rep == 'N'}">
     <button id='myProfileRepdo'>대표프로필 지정</button>
@@ -230,6 +230,7 @@ input:checked + .slider:before {
 $('#myProfileRepdo').on('click', function(e){
 	
 })
+
 
 $('input[type="checkbox"]').on("change", function (e) {
 	var pro_idx = $(this).closest('table').attr('pro_idx');

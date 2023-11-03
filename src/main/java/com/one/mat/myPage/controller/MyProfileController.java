@@ -63,6 +63,9 @@ public HashMap<String, Object> myProfileOpenDo(HttpSession session,
 	return result;
 }
 
+
+
+
 	
 	@RequestMapping(value = "/myProfileMod.go")
 	public String myProfileModGo(Model model, HttpSession session) {
