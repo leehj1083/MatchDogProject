@@ -69,6 +69,12 @@ public class MyProfileService {
 		
 	}
 
+	public void myProfileRepDo(int pro_idx, int idx) {
+		dao.myProfileRepDel(pro_idx, idx);
+		dao.myProfileRepDo(pro_idx, idx);
+		
+	}
+
 
 	}
 

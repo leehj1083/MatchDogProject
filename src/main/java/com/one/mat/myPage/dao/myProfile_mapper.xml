@@ -42,11 +42,20 @@ INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p
 </select>
 
 
-
-
 <update id="myProfileOpenDo">
 UPDATE proopen
 set open_hide=#{param3} where pro_idx = #{param1} and openType_code=#{param2}
+</update>
+
+<update id="myProfileRepDel">
+UPDATE pro
+SET pro_rep = 'N'
+WHERE member_idx =  #{param2}
+</update>
+<update id="myProfileRepDo">
+UPDATE pro
+SET pro_rep = 'Y'
+WHERE pro_idx = #{param1}
 </update>
 
 

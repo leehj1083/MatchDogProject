@@ -64,7 +64,26 @@ public HashMap<String, Object> myProfileOpenDo(HttpSession session,
 }
 
 
+@RequestMapping(value="/myProfileRep.do")
+@ResponseBody
+public HashMap<String, Object> myProfileRepDo(HttpSession session,
+		@RequestParam int pro_idx){
+	HashMap<String, Object> result = new HashMap<String, Object>();
+	logger.info("pro_idx:"+pro_idx);
+	
+	if(session.getAttribute("loginInfo") == null) {
+		result.put("login", false);
+	}else {
+		result.put("login", true);
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int idx = dto.getMember_idx();
+		logger.info("idx="+idx);
+		service.myProfileRepDo(pro_idx, idx);
 
+	}
+	
+	return result;
+}
 
 	
 	@RequestMapping(value = "/myProfileMod.go")
@@ -83,7 +102,7 @@ public HashMap<String, Object> myProfileOpenDo(HttpSession session,
 	}
 
 	
-/*
+
 	@RequestMapping(value="myProfileDel.do")
 	public String myProfileDelDo(Model model, HttpSession session,
 			@RequestParam String pro_idx) {
@@ -93,12 +112,13 @@ public HashMap<String, Object> myProfileOpenDo(HttpSession session,
 		if(session.getAttribute("loginId")==null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
 		}else {		
-			service.myProfileDelDo(pro_idx);
+			/* service.myProfileDelDo(pro_idx); */
+			logger.info("pro_idx:"+pro_idx);
 			page="redirect:/myProfileListDo";
 		}
 		return page;
 	}
-	*/
+
 	
 	
 	

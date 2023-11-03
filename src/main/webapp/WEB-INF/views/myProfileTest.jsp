@@ -53,30 +53,6 @@
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* 프로필 삭제 모달 */
-.profileDelDoModal {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.7);
-	z-index: 1;
-}
-
-.profileDelDoModal-content {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #fff;
-	padding: 20px;
-	border: 1px solid #ccc;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-
 
 
 <textarea style ="resize: both ;"> </textarea>
@@ -185,41 +161,31 @@ input:checked+.slider:before {
     <hr>
     ${Profile.pro_idx}
      <c:if test="${myProfile.size() <= 1 }">
-    	 <button class='regProfileGo'>+</button>
-    	 <div class="regProfileGoModal">
+    	 <button id='regProfileGo'>+</button>
+    	 <div id="regProfileGoModal" class="regProfileGoModal">
   		  <div class="regProfileGoModal-content">
         	<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-        	<button class="regProfileGoConfirmYes" value="${Profile.pro_idx}">예</button>
-        	<button class="regProfileGoConfirmNo">아니오</button>
+        	<button id="regProfileGoConfirmYes" value="${Profile.pro_idx}">예</button>
+        	<button id="regProfileGoConfirmNo">아니오</button>
    		 </div>
 		</div>
 <!-- 		<input type="button" onclick="location.href='./regProfile.go'" value="+" /> -->
 	</c:if>
 	<c:if test="${myProfile.size() == 2 }">
 <!-- 		<input type="button" onclick="location.href='./regProfile.go'" value="+" /> -->
-		<button class='regProfileGo' value="${Profile.pro_idx}">+</button>
-    	 <div class="regProfileGoModal">
+		<button id='regProfileGo'>+</button>
+    	 <div id="regProfileGoModal" class="regProfileGoModal">
   		  <div class="regProfileGoModal-content">
        		 <h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-     	   <button class="regProfileGoConfirmYes">예</button>
-        	<button class="regProfileGoConfirmNo">아니오</button>
-   		 </div>
-		</div>
-		
-		<!-- 프로필 삭제 버튼  -->
-		<button class='profileDelDo' value="${Profile.pro_idx}">-</button>
-    	 <div class="profileDelDoModal">
-  		  <div class="profileDelDoModal-content">
-       		 <h2>정말 프로필을<br/>삭제하시겠습니까?</h2>
-     	   <button class="profileDelDoConfirmYes">예</button>
-        	<button class="profileDelDoConfirmNo">아니오</button>
+     	   <button id="regProfileGoConfirmYes" value="${Profile.pro_idx}">예</button>
+        	<button id="regProfileGoConfirmNo">아니오</button>
    		 </div>
 		</div>
 
 
 
-<%-- 		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" /> --%>
-		
+
+		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" />
 	</c:if>
 	<c:if test="${myProfile.size() >= 3}">
 		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" />
@@ -320,75 +286,14 @@ input:checked+.slider:before {
 
 </body>
 <script>
-
-/* 프로필 삭제 스크립트 */
-$('.profileDelDo').on("click", function (e) {
-	console.log("삭제");
-	var pro_idx = $(this).attr("value");
-	console.log(pro_idx);
-	
-/*     $.ajax({
-        type: 'get',
-        url: 'myProfileDel.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx},
-        success: function (data) {
-        	console.log(data);
-        	console.log("프로필 데이터가 삭제되었습니다.");
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    });
-	
-    RepdoModal.css("display", "none");
-    
-});
-
-RepdoConfirmNo.click(function() {
-    // '아니오'를 선택한 경우, 모달 창 닫기
-    RepdoModal.css("display", "none"); */
-});
-
-
-/* 프로필 생성 이동 스크립트 */
-$('.regProfileGo').on("click", function (e) {
-	console.log("생성");
-	var pro_idx = $(this).attr("value");
-	console.log(pro_idx);
-/* 
-    $.ajax({
-        type: 'get',
-        url: 'myProfileOpen.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx},
-        success: function (data) {
-        	console.log(data);
-        	console.log("데이터가 서버에 저장되었습니다.");
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    }); */
-
-});
-
-
-
-/* // 프로필 생성 이동 스크립트
+// 프로필 생성 이동 스크립트
 var regProfileGoModal = $("#regProfileGoModal");
 var regProfileGo = $("#regProfileGo");
 var regProfileGoConfirmYes = $("#regProfileGoConfirmYes");
 var regProfileGoConfirmNo = $("#regProfileGoConfirmNo");
 
 regProfileGo.click(function() {
-
+    // 대표 프로필 설정 모달 표시
     regProfileGoModal.css("display", "block");
 });
 
@@ -416,16 +321,14 @@ regProfileGoConfirmYes.click(function(e) {
     });
 /*     location.href='./myProfileRep.do'; */    
     // 모달 닫기
-/*     regProfileGoModal.css("display", "none");
+    regProfileGoModal.css("display", "none");
     
 });
 
 regProfileGoConfirmNo.click(function() {
     // '아니오'를 선택한 경우, 모달 창 닫기
     regProfileGoModal.css("display", "none");
-}); */
-
-
+});
 
 // 프로필 삭제(숨김) 스크립트
 

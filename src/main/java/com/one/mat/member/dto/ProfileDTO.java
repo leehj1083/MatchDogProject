@@ -23,6 +23,7 @@ public class ProfileDTO {
 	private ArrayList<String> photo_fileNameList;
 	private String pro_dogAgeOpen;
 	private String pro_dogGenderOpen;
+	private String pro_quit;
 	
 	
 	public String getBreedType_code() {
@@ -132,6 +133,12 @@ public class ProfileDTO {
 	}
 	public void setPro_dogGenderOpen(String pro_dogGenderOpen) {
 		this.pro_dogGenderOpen = pro_dogGenderOpen;
+	}
+	public String getPro_quit() {
+		return pro_quit;
+	}
+	public void setPro_quit(String pro_quit) {
+		this.pro_quit = pro_quit;
 	}
 
 

@@ -25,6 +25,11 @@ public interface MyProfileDAO {
 
 	void myProfileOpenDo(int pro_idx, int openType_code, String toggleValue);
 
+	void myProfileRepDel(int pro_idx, int idx);
+	void myProfileRepDo(int pro_idx, int idx);
+
+
+
 
 
 
