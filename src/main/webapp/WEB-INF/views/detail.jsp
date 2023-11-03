@@ -53,11 +53,12 @@
 	</form>
 	<h2>댓글</h2>
 	<hr width="500px" align="left">
-    <form id="commentForm">
+    <form id="replyForm">
     	<table>
     		<tr>
-    			<td>	
-        			<textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
+    			<td>
+    				<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
+        			<textarea id="reply_content" placeholder="댓글을 입력하세요"></textarea>
         		</td>
         		<td>
         			<input type="submit" value="댓글 작성">
@@ -65,47 +66,67 @@
         	</tr>
     	</table>
     </form>
-    <div id="commentList">
+    <div id="replyList">
         <ul>
-            <c:forEach var="comment" items="${comments}">
-                <li>${comment.reply_content}</li>
+            <c:forEach var="reply" items="${replys}">
+                <li>${reply.reply_content}</li>
             </c:forEach>
         </ul>
     </div>
 </body>
 <script>
-<script>
-$(document).ready(function() {
-    // 댓글 폼 제출 시 Ajax를 사용하여 댓글 추가
-    $("#commentForm").submit(function(e) {
-        e.preventDefault(); // 기본 폼 제출 동작 막기
-        var commentContent = $("#commentContent").val();
-        var boardId = ${board.board_id}; // 게시물 ID
+loadReplyList();
 
-        $.ajax({
-            type: "POST",
-            url: "AddCommentServlet", // 댓글 추가 서블릿 URL
-            data: {
-                boardId: boardId,
-                replyContent: commentContent
-            },
-            dataType: "json",
-            success: function(data) {
-                if (data.success) {
-                    // 댓글 추가 성공 시 화면에 추가
-                    var comment = data.comment;
-                    $("#commentList ul").append("<li>" + comment.reply_content + "</li>");
-                    $("#commentContent").val(""); // 댓글 입력 필드 비우기
-                } else {
-                    alert("댓글 추가에 실패했습니다.");
-                }
-            },
-            error: function(err) {
-                console.log(err);
-            }
-        });
+/*
+$('#replyForm').submit(function() {
+	
+    var memberIdx = $('#member_idx').val();
+    var replyContent = $('#reply_content').val();
+    var boardId = '${board.board_id}';
+
+    $.ajax({
+        type: 'POST',
+        url: 'replyWrite', // 실제 서버 URL로 대체해야 합니다.
+        data: {
+            member_idx: memberIdx,
+            reply_content: replyContent,
+            board_id: boardId
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log('댓글 작성 성공:', data);
+            // 댓글 작성 후, 댓글 목록을 다시 불러오는 함수 호출
+            loadReplyList();
+        },
+        error: function(e) {
+            console.log('댓글 작성 실패:', e);
+        }
     });
 });
-</script>
+*/
+
+function loadReplyList() {
+    $.ajax({
+        type: 'GET',
+        url: 'replyList',
+        dataType: 'json',
+        data: {'boardId': ${board.board_id}},
+        success: function(data) {
+            console.log('댓글 목록 불러오기 성공:', data);
+
+            // 댓글 목록을 표시하는 부분
+            var replyList = $('#replyList ul');
+            replyList.empty(); // 기존 목록을 지우고 새로운 목록을 생성
+            $.each(data, function(index, reply_id) {
+            	replyList.append('<li>' + index.member_nickName + '</li>');
+                replyList.append('<li>' + index.reply_content + '</li>');
+            });
+        },
+        error: function(e) {
+            console.log('댓글 목록 불러오기 실패:', e);
+        }
+    });
+}
+
 </script>
 </html>

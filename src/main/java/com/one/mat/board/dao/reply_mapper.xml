@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
 >
-<mapper namespace="com.one.mat.board.dao.BoardDAO">
+<mapper namespace="com.one.mat.board.dao.ReplyDAO">
+	
+	<select id="replyList" resultType="com.one.mat.board.dto.ReplyDTO">
+    	SELECT * FROM reply WHERE board_id = #{param1}
+	</select>
+	
 	
 </mapper>
