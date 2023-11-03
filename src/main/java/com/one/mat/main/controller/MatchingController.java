@@ -114,6 +114,9 @@ public class MatchingController {
 	
 	// 매칭보내기 요청 /HomeSend.do
 	// 프로필상세보기 이동 요청 /memberDetailList.go
-
+	@RequestMapping(value="/recvMatchingList.jsp")
+	public String recvMatchingList() {
+		return "recvMatchingList";
+	}
 }
 

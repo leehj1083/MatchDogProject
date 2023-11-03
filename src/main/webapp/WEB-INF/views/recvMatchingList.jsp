@@ -11,7 +11,7 @@
 <style></style>
 </head>
 <body>
-	<h3>매칭리스트</h3>
+	<h3>받은 매칭리스트</h3>
 </body>
 <script></script>
 </html>
