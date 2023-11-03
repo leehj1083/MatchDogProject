@@ -1,5 +1,6 @@
 package com.one.mat.board.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -37,6 +38,18 @@ public class BoardController {
 		
 		return service.list(pagePerNum, page);
 	}
+	
+	@RequestMapping(value="/search")
+	@ResponseBody
+    public Map<String, Object> search(HttpSession session, @RequestParam String pagePerNum,
+            @RequestParam String page, @RequestParam String searchType, @RequestParam String searchKeyword) {
+        logger.info("페이지당 보여줄 게시글 수: " + pagePerNum);
+        logger.info("보여줄 페이지: " + page);
+        logger.info("검색타입: " + searchType);
+        logger.info("검색내용: " + searchKeyword);
+        
+        return service.search(pagePerNum, page, searchType, searchKeyword);
+    }
 	
 	@RequestMapping(value="/BoardWrite")
 	public String BoardWrite() {
@@ -77,5 +90,18 @@ public class BoardController {
 		return service.update(params, photos);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/delphoto")
+	public Map<String, Object> delPhoto(@RequestParam("photo_id") int photo_id) {
+	    Map<String, Object> resultMap = new HashMap<>();
+	    try {
+	        // 사진 삭제 로직 추가 (서비스와 DAO 작성 필요)
+	        service.delphoto(photo_id);
+	        resultMap.put("success", true);
+	    } catch (Exception e) {
+	        resultMap.put("success", false);
+	    }
+	    return resultMap;
+	}
 
 }

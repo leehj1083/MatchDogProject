@@ -43,6 +43,7 @@ public class MatchingController {
 	public Map<String, Object> matching(Model model, HttpSession session) {
 		logger.info("MatchingList");
 		
+<<<<<<< HEAD
 		Map<String, Object> map = new HashMap<>();
 		Map<String, Object> temp = new HashMap<>();
 		
@@ -83,7 +84,6 @@ public class MatchingController {
 	 			}
 	 			map.putAll(temp);
 	 		}
-	    
 	    return map;    
 	}
 	// 성향 리스트 요청
