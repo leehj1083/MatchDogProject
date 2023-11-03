@@ -23,8 +23,25 @@ public class ProfileDTO {
 	private ArrayList<String> photo_fileNameList;
 	private String pro_dogAgeOpen;
 	private String pro_dogGenderOpen;
+	private int compType_code;
+	private String compType;
 	
 	
+	
+	
+	
+	public int getCompType_code() {
+		return compType_code;
+	}
+	public void setCompType_code(int compType_code) {
+		this.compType_code = compType_code;
+	}
+	public String getCompType() {
+		return compType;
+	}
+	public void setCompType(String compType) {
+		this.compType = compType;
+	}
 	public String getBreedType_code() {
 		return breedType_code;
 	}

@@ -46,6 +46,8 @@ public class RegProfileController {
 	RegProfileService service;
 	
 
+	
+
 	@RequestMapping("/home2")
 	public String home2(@RequestParam Map<String, String> params,HttpSession session) {
 		Map<String, Integer> charTypeMap = new HashMap<>();
@@ -100,6 +102,7 @@ public class RegProfileController {
    
 	@RequestMapping("/regProfile")
 	public String Home(Model model, HttpSession session) {
+		
 		ArrayList<ProfileDTO> list = service.list();
 		model.addAttribute("list", list);
 		logger.info("list  ="+list);
@@ -178,11 +181,14 @@ public class RegProfileController {
 
 	}
 
-	@RequestMapping("/open")
-	public String charlist(Model model) {
+	@RequestMapping("/compTypeList.do")
+	public String compTypeList(Model model) {
 		
+		ArrayList<ProfileDTO> compList = service.compList();
+		model.addAttribute("compList", compList);
+		logger.info("compList : "+compList);
 
-		return "list";
+		return "comp";
 	}
 
 }

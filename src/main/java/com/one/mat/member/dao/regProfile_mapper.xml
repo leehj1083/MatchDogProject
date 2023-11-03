@@ -36,6 +36,10 @@
 		SELECT breedType_code,breedType FROM breedtype
 	</select>
 	
+	<select id="compList" resultType="com.one.mat.member.dto.ProfileDTO">
+	SELECT compType_code,compType  FROM comptype;
+	</select>
+	
 	<insert id="photos1" parameterType="String">
 	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
 value(4,(select MAX(pro_idx) from pro),#{ph_1},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));

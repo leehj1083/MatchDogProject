@@ -41,6 +41,8 @@ public interface RegProfileDAO {
 
 	void proReq(MemberDTO memberDTO);
 
+	ArrayList<ProfileDTO> compList();
+
 	
 
 
