@@ -16,12 +16,14 @@ INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx
 			제재여부=N,탈퇴여부=N 이고 성향이 4개 모두 같을 경우 select) -->
 <select id="matchingList" resultType="map">
   SELECT
+  	m.member_nickName,
     m.member_gender,
     m.member_dongAddr,
     p.pro_dogName,
     p.pro_dogAge,
     p.pro_dogGender,
-    p.pro_dogDesc
+    p.pro_dogDesc,
+    p.pro_idx
 FROM member AS m
 INNER JOIN pro AS p ON m.member_idx = p.member_idx
 WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{param1})
@@ -53,7 +55,7 @@ LIMIT 10
 	INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
 </select>
 
-<insert id="homeSend" parameterType="int">
+<insert id="homeSend" parameterType="map" >
 	INSERT INTO `match` (pro_sendIdx ,pro_recvIdx) VALUES(#{pro_idx},#{pro_recvIdx})
 </insert>
 <!-- <select id="matchingPhotoFileName" resultType = "String">

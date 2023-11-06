@@ -9,15 +9,13 @@
 </head>
 <body>
 
-
-
-
-
-
-
-
-
-
-
+<div class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <p>모달 내용</p>
+    </div>
+</div>
 </body>
+<script>
+</script>
 </html>
