@@ -112,26 +112,26 @@ public class MatchingController {
 //	}
 	
 	// 매칭보내기 요청 /HomeSend.do
-	@RequestMapping(value="/HomeSend.do")
-	@ResponseBody
-	public String homeSend(HttpSession session, @RequestBody Map<String, Object> pro_recvIdx) {
-		logger.info("HomeSend.do");
-		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-		int member_idx = dto.getMember_idx();
-		int pro_idx = 0;
-		logger.info("member_idx : "+member_idx);
+		@RequestMapping(value="/HomeSend.do")
+		@ResponseBody
+		public String homeSend(HttpSession session, @RequestBody Map<String, Object> pro_recvIdx) {
+			logger.info("HomeSend.do");
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			int member_idx = dto.getMember_idx();
+			int pro_idx = 0;
+			logger.info("member_idx : "+member_idx);
 
-	 	    if (dto != null) {
-	 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-	 			for (ProfileDTO profileDTO : myProfile) {
-	 				 if(profileDTO.getPro_rep().equals("Y")) {
-		 			    pro_idx = profileDTO.getPro_idx();
-		 			    logger.info("pro_idx : "+pro_idx);
-		 				 }
-	 				}
-	 		}
-	 	    return  service.homeSend(pro_idx, pro_recvIdx);
-	}
+		 	    if (dto != null) {
+		 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
+		 			for (ProfileDTO profileDTO : myProfile) {
+		 				 if(profileDTO.getPro_rep().equals("Y")) {
+			 			    pro_idx = profileDTO.getPro_idx();
+			 			    logger.info("pro_idx : "+pro_idx);
+			 				 }
+		 				}
+		 		}
+		 	    return  service.homeSend(pro_idx, pro_recvIdx);
+		}
 	// 프로필상세보기 이동 요청 /memberDetailList.go
 	@RequestMapping(value="/recvMatchingList.go")
 	public String recvMatchingList() {

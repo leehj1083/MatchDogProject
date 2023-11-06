@@ -11,6 +11,28 @@
     INSERT INTO pro (member_idx, pro_dogName, pro_dogAge, pro_dogGender, pro_dogDesc,pro_rep)
     VALUES (#{member_idx}, #{pro_dogName}, #{pro_dogAge}, #{pro_dogGender}, #{pro_dogDesc},'N');
 </insert>
+<insert id="chattingcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
+
+INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_content) VALUES(#{member_idx},#{compType_code},3,#{comp_content});
+</insert>
+
+<insert id="compPhoto" parameterType="com.one.mat.admin.dto.CompDTO">
+	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
+value(3,#{member_idx},#{photo},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+
+</insert>
+
+<insert id="boardcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
+
+INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_content) VALUES(#{member_idx},#{compType_code},1,#{comp_content});
+</insert>
+
+<insert id="commentcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
+
+INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_content) VALUES(#{member_idx},#{compType_code},2,#{comp_content});
+</insert>
+
+
 
  <insert id="breedTypeSave" parameterType="int">
         INSERT INTO breed (pro_idx, breedType_code)
@@ -27,7 +49,12 @@
     UNION
     SELECT MAX(pro_idx), #{charType4} FROM pro;
 </insert>
-
+<select id="charlist" resultType="com.one.mat.member.dto.ProfileDTO">
+SELECT chartype.charType
+FROM `char`
+JOIN chartype ON `char`.charType_code = chartype.charType_code
+WHERE `char`.pro_idx = 13;
+</select>
 
 <select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT charType_code,charType FROM chartype
@@ -36,7 +63,7 @@
 		SELECT breedType_code,breedType FROM breedtype
 	</select>
 	
-	<select id="compList" resultType="com.one.mat.member.dto.ProfileDTO">
+	<select id="compList" resultType="com.one.mat.admin.dto.CompDTO">
 	SELECT compType_code,compType  FROM comptype;
 	</select>
 	
@@ -85,6 +112,29 @@ value(4,(select MAX(pro_idx) from pro),#{ph_9},(select DATE_FORMAT(now(),'%Y-%m-
 </update>
 	
 	
+  <select id="memberDetail" resultType="com.one.mat.member.dto.MemberDTO">
+  SELECT member.member_gender, member.member_dongAddr, member.member_nickName
+FROM member
+JOIN pro ON member.member_idx = pro.member_idx
+WHERE pro.pro_idx = 13;
+  </select>
+  
+  <select id="proDetail" resultType="com.one.mat.member.dto.ProfileDTO">
+  SELECT
+    pro.pro_dogName,
+    pro.pro_dogAge,
+    pro.pro_dogGender,
+    pro.pro_dogDesc,
+    pro.pro_dogScore,
+    breedType.breedType
+FROM pro
+LEFT JOIN breed ON pro.pro_idx = breed.pro_idx
+LEFT JOIN breedType ON breed.breedType_code = breedType.breedType_code
+WHERE pro.pro_idx = 13;
+  </select>
+	<select id="memberDetailPhoto" resultType="com.one.mat.member.dto.ProfileDTO">
+	select photo_fileName  from photo p where photo_idfNum = 61;
+	</select>
 	
 
 </mapper>

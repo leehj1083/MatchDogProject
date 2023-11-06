@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
@@ -41,7 +42,25 @@ public interface RegProfileDAO {
 
 	void proReq(MemberDTO memberDTO);
 
-	ArrayList<ProfileDTO> compList();
+	ArrayList<CompDTO> compList();
+
+	void chattingcompSave(CompDTO dto);
+
+	void compPhoto(CompDTO dto);
+
+	void boardcompSave(CompDTO dto);
+
+	void commentcompSave(CompDTO dto);
+
+	ArrayList<ProfileDTO> charlist();
+
+	MemberDTO memberDetail();
+
+	ProfileDTO proDetail();
+
+	ProfileDTO memberDetailPhoto();
+
+
 
 	
 
