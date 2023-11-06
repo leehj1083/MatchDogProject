@@ -21,23 +21,37 @@ public class ReplyController {
 	
 	@Autowired ReplyService service;
 	
-	/*
-	@RequestMapping("/replyWrite")
-	@ResponseBody
-	public Map<String, Object> replyWrite(HttpSession session, 
-            String member_idx, String reply_content, String board_id){
-		
-		Map<String, Object> result = service.replyWrite(board_id, member_idx, reply_content);
-		
-		return result;
-	}
-	*/
-	
 	@RequestMapping(value = "/replyList")
     @ResponseBody
     public Map<String, Object> replyList(HttpSession session,@RequestParam String boardId) {
 		logger.info("컨트롤러boardId: " + boardId);
         return service.replyList(boardId);
     }
-
+	
+	@RequestMapping(value = "/replyWrite")
+	@ResponseBody
+	public Map<String, Object> replyWrite(HttpSession session, @RequestParam Map <String, String> params){
+		logger.info("댓글작성parmas: "+params);
+	    return service.replyWrite(params);
+	}
+	
+	@RequestMapping(value = "/compReply")
+	public String compReply(HttpSession session, @RequestParam String reply_id) {
+		return "compReply";
+	}
+	
+	@RequestMapping(value = "/replyUpdate")
+	@ResponseBody
+	public Map<String, Object> replyUpdate(HttpSession session, @RequestParam Map <String, String> params) {
+	    logger.info("수정할댓글params: " + params);
+	    return service.replyUpdate(params);
+	}
+	
+	@RequestMapping(value = "/replyDel")
+	@ResponseBody
+	public Map<String, Object> replyDel(HttpSession session, @RequestParam String reply_id){
+		logger.info("수정삭제id: "+ reply_id);
+		return service.replyDel(reply_id);
+	}
+	
 }
