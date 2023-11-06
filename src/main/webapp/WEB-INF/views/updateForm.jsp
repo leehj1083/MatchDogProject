@@ -52,36 +52,36 @@
 	</form>
 </body>
 <script>
-$(document).ready(function() {
-    // 삭제 버튼 클릭 시 사진 삭제 처리
-    $('.delphoto').click(function() {
-        var photoId = $(this).data('photo-id');
-        deletePhoto(photoId);
-    });
-    $('#cancel').click(function() {
-        if (confirm('변경내용이 저장되지않습니다.')) {
-            location.href = './detail?board_id=${board.board_id}';
-        }
-    });
-    function deletePhoto(photoId) {
-        $.ajax({
-            type: 'POST',
-            url: 'delphoto', // 삭제 처리를 수행하는 서버 경로
-            data: { photo_id: photoId },
-            dataType: 'json',
-            success: function(data) {
-                if (data.success) {
-                    // 사진 삭제 후 해당 사진 요소를 제거
-                    location.reload();
-                } else {
-                    alert('사진 삭제에 실패했습니다.');
-                }
-            },
-            error: function(e) {
-                console.log(e);
-            }
-        });
+
+// 삭제 버튼 클릭 시 사진 삭제 처리
+$('.delphoto').click(function() {
+    var photoId = $(this).data('photo-id');
+    deletePhoto(photoId);
+});
+$('#cancel').click(function() {
+    if (confirm('변경내용이 저장되지않습니다.')) {
+        location.href = './detail?board_id=${board.board_id}';
     }
 });
+function deletePhoto(photoId) {
+    $.ajax({
+        type: 'POST',
+        url: 'delphoto', // 삭제 처리를 수행하는 서버 경로
+        data: { photo_id: photoId },
+        dataType: 'json',
+        success: function(data) {
+            if (data.success) {
+                // 사진 삭제 후 해당 사진 요소를 제거
+                location.reload();
+            } else {
+                alert('사진 삭제에 실패했습니다.');
+            }
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
+}
+
 </script>
 </html>

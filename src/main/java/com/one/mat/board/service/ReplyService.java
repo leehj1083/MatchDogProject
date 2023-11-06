@@ -18,14 +18,6 @@ public class ReplyService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired ReplyDAO dao;
-	/*
-	public Map<String, Object> replyWrite(String member_idx, String reply_content, String board_id) {
-		int memberIdx = Integer.parseInt(member_idx);
-		String replyContent = reply_content;
-		logger.info("memberIdx: "+member_idx,"replyContent: "+replyContent);
-		return dao.replyWrite(memberIdx, replyContent);
-	}
-	*/
 
 	public Map<String, Object> replyList(String boardId) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -33,8 +25,50 @@ public class ReplyService {
 		logger.info("board_id: "+board_id);
 		ArrayList<ReplyDTO> replyList = dao.replyList(board_id);
 		map.put("replyList", replyList);
+		logger.info("replyList: "+replyList);
 		return map;
 	}
 
-	
+	public Map<String, Object> replyWrite(Map<String, String> params) {
+		ReplyDTO dto = new ReplyDTO();
+		dto.setReply_content(params.get("reply_content"));
+		String memberIdx = params.get("member_idx");
+		String boardId = params.get("board_id");
+		int member_idx = Integer.parseInt(memberIdx);
+		int board_id = Integer.parseInt(boardId);
+		dto.setMember_idx(member_idx);
+		dto.setBoard_id(board_id);
+		dao.replyWrite(dto);
+		
+		int reply_id = dto.getReply_id();
+		logger.info("reply_id: " + reply_id);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("board_id", board_id);
+
+		return map;
+	}
+
+	public Map<String, Object> replyUpdate(Map<String, String> params) {
+		ReplyDTO dto = new ReplyDTO();
+		dto.setReply_content(params.get("editedContent"));
+		String replyId = params.get("reply_id");
+		int reply_id = Integer.parseInt(replyId);
+		dto.setReply_id(reply_id);
+		dao.replyUpdate(dto);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("reply_id", reply_id);
+		
+		return map;
+	}
+
+	public Map<String, Object> replyDel(String reply_id) {
+		
+		dao.replyDel(reply_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("reply_id", reply_id);
+		return map;
+	}
+
 }

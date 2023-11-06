@@ -13,7 +13,7 @@
 	<form action="detail" method="post">
 	<table>
 		<tr>
-			<th>제목</th>
+			<th width="50px">제목</th>
 			<td>${board.board_subject}</td>
 		</tr>
 		<tr>
@@ -45,14 +45,17 @@
 		<tr>
 			<th colspan="2">
 				<input type="button" onclick="location.href='./board'" value="리스트"/>
-				<input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/>
-				<input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
+				<c:if test="${board.member_idx == sessionScope.loginInfo.member_idx}">
+				    <input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/>
+				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
+				</c:if>
+				<input type="button" onclick="location.href='./compBoard?board_id=${board.board_id}'" value="신고"/>
 			</th>
 		</tr>
 	</table>
 	</form>
 	<h2>댓글</h2>
-	<hr width="500px" align="left">
+	<hr width="800px" align="left">
     <form id="replyForm">
     	<table>
     		<tr>
@@ -60,27 +63,29 @@
     				<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
         			<textarea id="reply_content" placeholder="댓글을 입력하세요"></textarea>
         		</td>
-        		<td>
-        			<input type="submit" value="댓글 작성">
+        		<td width="60px">
+        			<input type="submit" value="댓글 작성"/>
         		</td>
         	</tr>
     	</table>
     </form>
-    <div id="replyList">
-        <ul>
-            <c:forEach var="reply" items="${replys}">
-                <li>${reply.reply_content}</li>
-            </c:forEach>
-        </ul>
+    <div>
+	    <table>
+	    	</thead>
+			<tbody id="replyList">		
+			</tbody>
+	    </table>
     </div>
 </body>
 <script>
 loadReplyList();
 
-/*
+var obj = {};
+
 $('#replyForm').submit(function() {
+	event.preventDefault(); // 기본 폼 제출 동작을 중지
 	
-    var memberIdx = $('#member_idx').val();
+	var memberIdx = $('[name="member_idx"]').val();
     var replyContent = $('#reply_content').val();
     var boardId = '${board.board_id}';
 
@@ -95,15 +100,16 @@ $('#replyForm').submit(function() {
         dataType: 'json',
         success: function(data) {
             console.log('댓글 작성 성공:', data);
+            
             // 댓글 작성 후, 댓글 목록을 다시 불러오는 함수 호출
             loadReplyList();
+            $('#reply_content').val('');
         },
         error: function(e) {
             console.log('댓글 작성 실패:', e);
         }
     });
 });
-*/
 
 function loadReplyList() {
     $.ajax({
@@ -112,20 +118,119 @@ function loadReplyList() {
         dataType: 'json',
         data: {'boardId': ${board.board_id}},
         success: function(data) {
-            console.log('댓글 목록 불러오기 성공:', data);
-
-            // 댓글 목록을 표시하는 부분
-            var replyList = $('#replyList ul');
-            replyList.empty(); // 기존 목록을 지우고 새로운 목록을 생성
-            $.each(data, function(index, reply_id) {
-            	replyList.append('<li>' + index.member_nickName + '</li>');
-                replyList.append('<li>' + index.reply_content + '</li>');
-            });
+            obj = data; // 불러온 데이터를 obj에 할당
+            console.log(obj);
+            drawList(obj);
         },
         error: function(e) {
-            console.log('댓글 목록 불러오기 실패:', e);
+            console.log(e);
         }
     });
+}
+
+function drawList(obj) {
+    var replyList = '';
+
+    if (obj) {
+        obj.replyList.forEach(function(item, reply_id) {
+            replyList += '<tr>';
+            replyList += '<td width="80px">' + item.member_nickName + '</td>';
+            if (item.editing) {
+                replyList += '<td><textarea id="editContent' + item.reply_id + '">' + item.reply_content + '</textarea></td>';
+                replyList += '<td><input type="button" onclick="saveEdit(' + item.reply_id + ')" value="저장" />';
+                replyList += '<input type="button" onclick="cancelEdit(' + item.reply_id + ')" value="취소" /></td>';
+            }else {
+                replyList += '<td>' + item.reply_content;
+                if (item.reply_modDate !== null) {
+                    replyList += ' (수정됨)';
+                }
+                replyList += '</td>';
+                replyList += '<td width="100px">' + item.reply_regDate + '</td>';
+                if (item.member_idx === ${sessionScope.loginInfo.member_idx}) {
+                    replyList += '<td width="40px"><input type="button" onclick="deleteReply(' + item.reply_id + ')" value="삭제"/></td>';
+                    replyList += '<td width="40px"><input type="button" onclick="editReply(' + item.reply_id + ')" value="수정"/></td>';
+                }else{            	
+                	replyList += '<td colspan="2" width="40px"><input type="button" onclick="reportReply(' + item.reply_id + ')" value="신고"/></td>';
+                }
+            }
+            replyList += '</tr>';
+        });
+    } else {
+        replyList = '<tr><td colspan="5">댓글이 없습니다.</td></tr>';
+    }
+
+    $('#replyList').empty();
+    $('#replyList').append(replyList);
+}
+
+function reportReply(reply_id) {
+    var url = './compReply?reply_id=' + reply_id;
+    location.href = url;
+}
+
+// 댓글 수정 함수
+function editReply(reply_id) {
+    var replyItem = obj.replyList.find(function(item) {
+        return item.reply_id === reply_id;
+    });
+
+    if (replyItem) {
+        replyItem.editing = true;
+        drawList(obj);
+    }
+}
+
+// 수정 저장
+function saveEdit(reply_id) {
+    var editedContent = $('#editContent' + reply_id).val();
+
+    $.ajax({
+        type: 'POST',
+        url: 'replyUpdate',
+        data: {
+            reply_id: reply_id,
+            editedContent: editedContent
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log('댓글 수정 성공:', data);
+            loadReplyList();
+        },
+        error: function(e) {
+            console.log('댓글 수정 실패:', e);
+        }
+    });
+}
+
+// 수정 취소하는 함수
+function cancelEdit(reply_id) {
+    var replyItem = obj.replyList.find(function(item) {
+        return item.reply_id === reply_id;
+    });
+
+    if (replyItem) {
+        replyItem.editing = false;
+        drawList(obj);
+    }
+}
+
+function deleteReply(reply_id) {
+    if (confirm("댓글을 삭제하시겠습니까?")) {
+        $.ajax({
+            type: 'POST',
+            url: 'replyDel',
+            data: {
+                reply_id: reply_id
+            },
+            dataType: 'json',
+            success: function(data) {
+                loadReplyList();
+            },
+            error: function(e) {
+                console.log('댓글 삭제 요청 실패:', e);
+            }
+        });
+    }
 }
 
 </script>
