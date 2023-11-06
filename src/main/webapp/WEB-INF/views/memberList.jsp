@@ -12,76 +12,145 @@
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
+	.whole{
+		width:auto;
+		height : 100%;
+		margin :0px auto;
+		padding : 20px;
+		border : 1px solid black;
+	}
+	.header{
+		height : 100px;
+		padding : 20px;
+		margin-bottom: 20px;
+		border:1px solid black;
+	}
+	.headerRight{
+		text-align: right;
+	}
+    .sidebar {
+        width: auto;
+        height : auto;
+        float : left;
+        margin-right : 20px;
+        background-color: #255,255,255;
+        padding-top: 20px;
+        border : 1px solid black;
+    }
+
+    .sidebar h2, h3 {
+        color: black;
+        text-align: center;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .content {
+    	width : auto;
+        float: right;
+    }
+	
 	table, th, td{
 		border: 1px solid black;
 		border-collapse: collapse;
 		padding: 5px 10px;
-	}
+		font-size: 15px;
+	}	
+	
 	select{
 		margin: 5px 0px;
 	}
 
 </style>
 </head>
-<body>
-	<select id="pagePerNum">
-		<option value="5">5</option>
-		<option value="10">10</option>
-		<option value="15">15</option>
-		<option value="20">20</option>
-	</select>
-	<div>
-	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="logout">로그아웃</a>  
+<body>	
+	<div class="whole">
+		<div class="header">
+			<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+			<div class ="headerRight">
+				안녕하세요 ${sessionScope.loginInfo.member_nickName} 님&nbsp;&nbsp;&nbsp;&nbsp;		
+				<a href="logout">로그아웃</a>
+			</div>
+		</div>
+		<div class="sidebar">
+	        <ul>
+	            <li><h3 style="font-weight: bold; ">관리자 페이지</h3></li>
+	            <li><a href="./dashBoard.go">DASH BOARD</a></li>
+	            <li><a href="./memberList.go">회원관리</a></li>
+	            <li><a href="./compList.go">신고관리</a><br><hr/>	            
+	            <li><a href="./home.go">서비스 페이지</a></li>
+	        </ul>
+	    </div>
+		<div class="title">
+		  <h2>매칭해주개 회원 리스트</h2><hr/>
+		  <select id="pagePerNum" style="float: right;">
+				<option value="10">10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+			</select>
+		</div>
+		<div class="content">	
+			<table>
+				<thead>
+					<tr>
+						<th>번호</th>			
+						<th>아이디</th>
+						<th>이름</th>
+						<th>전화번호</th>
+						<th>이메일</th>
+						<th>거주지(동)</th>
+						<th>구독여부</th>
+						<th>구독연장여부</th>
+						<th>제재여부</th>
+						<th>권한등급</th>
+					</tr>
+				</thead>
+				<tbody id="list">		
+				</tbody>
+				<tr>
+					<td colspan="10" id="paging">	
+						<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
+						<div class="container">									
+							<nav aria-label="Page navigation" style="text-align:center">
+								<ul class="pagination" id="pagination"></ul>
+							</nav>					
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="10" style="text-align:center">
+						<div id="searchDIV">
+							<select id="searchType" name="searchType">
+								<option value="member_id">아이디</option>
+								<option value="member_name">이름</option>
+								<option value="member_dongAddr">거주지(동)</option>
+							</select>
+							 <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력">
+			  				 <button id="search">검색</button>
+			  				 <button id="authorization">권한관리</button>
+		  				 </div>
+					</td>
+				</tr>			
+			</table>
+		</div>
 	</div>
-	<button onclick="location.href='BoardWrite'">글쓰기</button>
-	<table>
-		<thead>
-		<tr>
-			<th>번호</th>			
-			<th>아이디</th>
-			<th>이름</th>
-			<th>전화번호</th>
-			<th>이메일</th>
-			<th>거주지(동)</th>
-			<th>구독여부</th>
-			<th>구독연장여부</th>
-			<th>제재여부</th>
-			<th>권한등급</th>
-		</tr>
-		</thead>
-		<tbody id="list">		
-		</tbody>
-		<tr>
-			<td colspan="6" id="paging">	
-				<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
-				<div class="container">									
-					<nav aria-label="Page navigation" style="text-align:center">
-						<ul class="pagination" id="pagination"></ul>
-					</nav>					
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="5" style="text-align:center">
-				<div id="searchDIV">
-					<select id="searchType">
-						<option value="board_subject">제목</option>
-						<option value="board_content">글내용</option>
-						<option value="member_nickName">작성자</option>
-					</select>
-					 <input type="text" id="searchKey" placeholder="검색어 입력">
-	  				 <button id="search">검색</button>
-  				 </div>
-			</td>
-		</tr>
-		
-	</table>
 </body>
 <script>
 var showPage = 1;
-var searchType = '';
+var searchType ='';
 var searchKeyword = '';
 
 listCall(showPage, searchType, searchKeyword);
@@ -93,10 +162,49 @@ $('#pagePerNum').change(function(){
 	listCall(showPage, searchType, searchKeyword);
 });
 
+$('#search').click(function(){	
+	searchType = $('#searchType').val();
+    searchKeyword = $('input[name="searchKeyword"]').val();
+    console.log(searchType);
+    console.log(searchKeyword);
+	showPage =1;
+    searchCall(showPage, searchType, searchKeyword);
+});
+
+
 function listCall(page, searchType, searchKeyword){
 	$.ajax({
 		type:'get',
-		url:'list',
+		url:'memberList.do',
+		data:{
+			'pagePerNum':$('#pagePerNum').val(),
+			'page':page,
+			'searchType': searchType,
+            'searchKeyword': searchKeyword
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			if(data.success == -1){
+				alert('이 페이지에 접근할 수 없습니다.');
+				location.href="./";
+			}else{
+				drawList(data);
+			}
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});
+}
+
+function searchCall(page, searchType, searchKeyword){
+	searchType = $('#searchType').val();
+    searchKeyword = $('input[name="searchKeyword"]').val();
+	
+	$.ajax({
+		type:'get',
+		url:'memberSearch.do',
 		data:{
 			'pagePerNum':$('#pagePerNum').val(),
 			'page':page,
@@ -114,41 +222,28 @@ function listCall(page, searchType, searchKeyword){
 	});
 }
 
-$('#search').click(function () {
-    searchType = $('#searchType').val();
-    searchKeyword = $('#searchKey').val();
-    listCall(showPage, searchType, searchKeyword);
-});
 
 function drawList(obj) {
     var content = '';
-    var totalItems = obj.list.length;
+    var totalUser = obj.list.length;
 
-    if (totalItems === 0) {
-    		content = '<tr><td colspan="5">검색 결과가 없습니다.</td></tr>';
-    } else {
-        obj.list.forEach(function (item, board_id) {
+    if (totalUser == 0) {
+    		content = '<tr><td colspan="10">회원 리스트가 없습니다.</td></tr>';
+    }else {
+        obj.list.forEach(function (item) {
             content += '<tr>';
-            content += '<td>' + item.board_id + '</td>';
-            content += '<td>' + '<a href="detail?board_id=' + item.board_id + '">' + item.board_subject + '</a>' + '</td>';
-            content += '<td>' + item.member_nickName + '</td>';
-            var regDate = new Date(item.board_regDate);
-            var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
-            content += '<td>' + formattedRegDate + '</td>'; // 날짜 형식 변경
-            content += '<td>' + item.board_bHit.toLocaleString() + '</td>';
+            content += '<td>' + item.member_idx + '</td>';
+            content += '<td>' + item.member_id + '</td>';
+            content += '<td>' + '<a href="./memberDetail?member_idx='+item.member_idx+'">'+ item.member_name +'</a>'+'</td>';
+            content += '<td>' + item.member_phone + '</td>';
+            content += '<td>' + item.member_email + '</td>';
+            content += '<td>' + item.member_dongAddr + '</td>';
+            content += '<td>' + item.member_subs + '</td>';
+            content += '<td>' + item.member_renew + '</td>';           
+            content += '<td>' + item.member_loginLock + '</td>';  
+            content += '<td>' + item.subsType_code + '</td>';  
             content += '</tr>';
-        });
-        
-        /* <th>번호</th>			
-		<th>아이디</th>
-		<th>이름</th>
-		<th>전화번호</th>
-		<th>이메일</th>
-		<th>거주지(동)</th>
-		<th>구독여부</th>
-		<th>구독연장여부</th>
-		<th>제재여부</th>
-		<th>권한등급</th> */
+        });        
 
         // 검색 결과가 있으면 페이징 UI 그리기
         $('#pagination').twbsPagination({
