@@ -43,9 +43,14 @@ public class MatchingService {
 				return dao.photo_fileName(pro_idx);
 			}
 
-			public String homeSend(int pro_idx, Map<String, Object> pro_recvIdx) {
+			public String homeSend(int pro_idx, Map<String, String> pro_recvIdx) {
+				Map<String, String> map = new HashMap<String, String>();
+				// map.put("pro_recvIdx", pro_recvIdx);
+				map.put("pro_idx", Integer.toString(pro_idx));
+				
+				logger.info("Pro_idx, pro_recvIdc:"+pro_idx +":"+pro_recvIdx);
 				String msg = "";
-				if(dao.homeSend(pro_idx,pro_recvIdx)==1) {
+				if(dao.homeSend(map)==1) {
 					msg = "요청이 전송되었습니다";
 				}else {
 					msg = "요청 전송되지 못했습니다";
