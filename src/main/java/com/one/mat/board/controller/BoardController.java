@@ -28,7 +28,7 @@ public class BoardController {
 	public String board() {
 		return "list";
 	}
-	
+
 	@RequestMapping(value="/list")
 	@ResponseBody
 	public Map<String, Object> list(HttpSession session,@RequestParam String pagePerNum,
@@ -38,7 +38,7 @@ public class BoardController {
 		
 		return service.list(pagePerNum, page);
 	}
-	
+	////////////////////////////////////////////////////
 	@RequestMapping(value ="/search")
 	@ResponseBody
 	public Map<String, Object> search(HttpSession session, @RequestParam String pagePerNum,
@@ -47,7 +47,7 @@ public class BoardController {
 	    logger.info("보여줄 페이지: " + page);
 	    logger.info("검색타입: " + searchType);
 	    logger.info("검색내용: " + searchKeyword);
-	    return service.search(pagePerNum, page, searchType, searchKeyword);
+	    return service.search(pagePerNum,page,searchType,searchKeyword);
 	}
 	
 	@RequestMapping(value="/BoardWrite")
@@ -63,8 +63,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/detail")
-	public String detail(Model model, @RequestParam String board_id) {
-		service.detail(board_id,model); // model 에 서비스에서 호출한 내용을 넣도록 한다.
+	public String detail(HttpSession session, Model model, @RequestParam String board_id) {
+		service.detail(board_id,model);
 		return "detail";
 	}
 	
@@ -101,6 +101,11 @@ public class BoardController {
 	        resultMap.put("success", false);
 	    }
 	    return resultMap;
+	}
+	
+	@RequestMapping(value = "/compBoard")
+	public String comp(HttpSession session, @RequestParam String board_id) {
+		return "compBoard";
 	}
 
 }

@@ -14,7 +14,7 @@ public class ReplyDTO {
 	private String member_nickName;
 	
 	public String getMember_nickName() {
-		return member_nickName;
+		return member_nickName;	
 	}
 	public void setMember_nickName(String member_nickName) {
 		this.member_nickName = member_nickName;
@@ -43,8 +43,8 @@ public class ReplyDTO {
 	public void setReply_content(String reply_content) {
 		this.reply_content = reply_content;
 	}
-	public Date getReply_regDate() {
-		return reply_regDate;
+	public String getReply_regDate() {
+		return reply_regDate.toString();
 	}
 	public void setReply_regDate(Date reply_regDate) {
 		this.reply_regDate = reply_regDate;

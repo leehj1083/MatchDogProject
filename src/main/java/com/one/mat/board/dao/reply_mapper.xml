@@ -4,9 +4,42 @@
 >
 <mapper namespace="com.one.mat.board.dao.ReplyDAO">
 	
-	<select id="replyList" resultType="com.one.mat.board.dto.ReplyDTO">
-    	SELECT * FROM reply WHERE board_id = #{param1}
+	<select id="replyList" resultType="com.one.mat.board.dto.ReplyDTO"> 
+		SELECT 
+		    r.reply_id,
+		    r.member_idx,
+		    r.board_id,
+		    r.reply_content,
+		    r.reply_regDate,
+		    r.reply_modDate,
+		    r.reply_hidden,
+		    (SELECT m.member_nickName FROM member m WHERE m.member_idx = r.member_idx) AS member_nickName
+		FROM reply r
+		WHERE r.board_id = #{param1}
+		AND r.reply_hidden != 'Y'
+		ORDER BY r.reply_id DESC
 	</select>
 	
+	<insert 
+		useGeneratedKeys="true"
+		keyColumn="reply_id"
+		keyProperty="reply_id"
+		id="replyWrite" parameterType="com.one.mat.board.dto.ReplyDTO">
+		INSERT into reply(board_id,member_idx,reply_content)
+			value (#{board_id}, #{member_idx}, #{reply_content})
+	</insert>
+	
+	<update id="replyUpdate" parameterType="com.one.mat.board.dto.ReplyDTO">
+		UPDATE reply SET
+			reply_content = #{reply_content},
+			reply_modDate = now()
+        WHERE reply_id = #{reply_id}
+	</update>
+	
+	<update id="replyDel">
+		UPDATE reply SET
+			reply_hidden = 'Y'
+		WHERE reply_id = #{param1}
+	</update>
 	
 </mapper>
