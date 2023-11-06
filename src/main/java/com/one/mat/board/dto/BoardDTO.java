@@ -3,6 +3,25 @@ package com.one.mat.board.dto;
 import java.sql.Date;
 
 public class BoardDTO {
+	
+	/*
+	@Override
+	public String toString() {
+	    return "BoardDTO{" +
+	           "board_id=" + board_id +
+	           ", member_idx=" + member_idx +
+	           ", board_subject='" + board_subject + '\'' +
+	           ", board_content='" + board_content + '\'' +
+	           ", board_regDate=" + board_regDate +
+	           ", board_bHit=" + board_bHit +
+	           ", board_modDate=" + board_modDate +
+	           ", board_hidden='" + board_hidden + '\'' +
+	           ", board_notice='" + board_notice + '\'' +
+	           ", board_noticeFix='" + board_noticeFix + '\'' +
+	           ", member_nickName='" + member_nickName + '\'' +
+	           '}';
+	}
+	*/
 
 	private int board_id;
 	private int member_idx;
@@ -16,6 +35,21 @@ public class BoardDTO {
 	private String board_noticeFix;
 	private String member_nickName;
 	
+	private int reply;
+	private int img;
+	
+	public int getReply() {
+		return reply;
+	}
+	public void setReply(int reply) {
+		this.reply = reply;
+	}
+	public int getImg() {
+		return img;
+	}
+	public void setImg(int img) {
+		this.img = img;
+	}
 	public String getMember_nickName() {
 		return member_nickName;
 	}

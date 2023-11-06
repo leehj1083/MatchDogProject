@@ -20,6 +20,9 @@
 	select{
 		margin: 5px 0px;
 	}
+	.icon {
+    margin-right: 10px;
+	}
 
 </style>
 </head>
@@ -79,53 +82,20 @@ var showPage = 1;
 var searchType = '';
 var searchKeyword = '';
 
-listCall(showPage, searchType, searchKeyword);
+listCall(showPage);
 
 $('#pagePerNum').change(function(){
 	// 페이지당 보여줄 게시물 갯수가 변경되면 페이징 처리 UI 를 지우고 다시 그려 준다.
 	// 안그럼 처음에 계산한 페이지 값을 그대로 들고 있게 된다.
 	$('#pagination').twbsPagination('destroy');
-	listCall(showPage, searchType, searchKeyword);
+	listCall(showPage);
 });
 
-function listCall(page, searchType, searchKeyword){
+function listCall(page){
 	$.ajax({
 		type:'get',
 		url:'list',
-		data:{
-			'pagePerNum':$('#pagePerNum').val(),
-			'page':page,
-			'searchType': searchType,
-            'searchKeyword': searchKeyword
-		},
-		dataType:'json',
-		success:function(data){
-			console.log(data);
-			drawList(data);
-		},
-		error:function(e){
-			console.log(e);
-		}
-	});
-}
-
-$('#search').click(function () {
-    searchType = $('#searchType').val();
-    searchKeyword = $('#searchKey').val();
-    showPage=1;
-    searchCall(showPage, searchType, searchKeyword);
-});
-
-function searchCall(page, searchType, searchKeyword){
-	$.ajax({
-		type:'get',
-		url:'search',
-		data:{
-			'pagePerNum':$('#pagePerNum').val(),
-			'page':page,
-			'searchType': searchType,
-            'searchKeyword': searchKeyword
-		},
+		data:{'pagePerNum':$('#pagePerNum').val(), 'page':page},
 		dataType:'json',
 		success:function(data){
 			console.log(data);
@@ -145,16 +115,25 @@ function drawList(obj) {
     		content = '<tr><td colspan="5">검색 결과가 없습니다.</td></tr>';
     } else {
         obj.list.forEach(function (item, board_id) {
-            content += '<tr>';
-            content += '<td>' + item.board_id + '</td>';
-            content += '<td>' + '<a href="detail?board_id=' + item.board_id + '">' + item.board_subject + '</a>' + '</td>';
-            content += '<td>' + item.member_nickName + '</td>';
-            var regDate = new Date(item.board_regDate);
-            var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
-            content += '<td>' + formattedRegDate + '</td>'; // 날짜 형식 변경
-            content += '<td>' + item.board_bHit.toLocaleString() + '</td>';
-            content += '</tr>';
+        	content += '<tr>';
+        	content += '<td>' + item.board_id + '</td>';
+        	content += '<td><a class="icon" href="detail?board_id=' + item.board_id + '">' + item.board_subject;
+        	if (item.img > 0) {
+        	    content += '<a class="icon"><img src="resources/img/image.png" width="20px" height="20px"></a>';
+        	}
+        	if (item.reply > 0) {
+        	    content += '<a class="icon">[' + item.reply + ']</a>';
+        	}
+        	content += '</td>';
+        	content += '<td>' + item.member_nickName + '</td>';
+        	var regDate = new Date(item.board_regDate);
+        	var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
+        	content += '<td>' + formattedRegDate + '</td>';
+        	content += '<td>' + item.board_bHit.toLocaleString() + '</td>';
+        	content += '</tr>';
         });
+        $('#list').empty();
+        $('#list').append(content);
 
         // 검색 결과가 있으면 페이징 UI 그리기
         $('#pagination').twbsPagination({
@@ -165,13 +144,40 @@ function drawList(obj) {
                 if (showPage != page) {
                     console.log(page);
                     showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
-                    listCall(page, searchType, searchKeyword);
+                    listCall(page);
                 }
             }
         });
     }
-    $('#list').empty();
-    $('#list').append(content);
 }
+
+$('#search').click(function () {
+    searchType = $('#searchType').val();
+    searchKeyword = $('#searchKey').val();
+    showPage=1;
+    searchCall(showPage, searchType, searchKeyword);
+});
+
+function searchCall(page, searchType, searchKeyword) {
+    $.ajax({
+        type: 'get',
+        url: 'search',
+        data: {
+            'pagePerNum': $('#pagePerNum').val(),
+            'page': page,
+            'searchType': searchType,
+            'searchKeyword': searchKeyword
+        },
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            drawList(data);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
 </script>
 </html>

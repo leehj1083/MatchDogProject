@@ -11,5 +11,11 @@ public interface ReplyDAO {
 
 	ArrayList<ReplyDTO> replyList(int board_id);
 
+	void replyWrite(ReplyDTO dto);
+
+	void replyUpdate(ReplyDTO dto);
+
+	void replyDel(String reply_id);
+
 
 }
