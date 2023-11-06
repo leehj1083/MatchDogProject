@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -112,30 +113,41 @@ public class MatchingController {
 //	}
 	
 	// 매칭보내기 요청 /HomeSend.do
-		@RequestMapping(value="/HomeSend.do")
-		@ResponseBody
-		public String homeSend(HttpSession session, @RequestBody Map<String, Object> pro_recvIdx) {
-			logger.info("HomeSend.do");
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-			int member_idx = dto.getMember_idx();
-			int pro_idx = 0;
-			logger.info("member_idx : "+member_idx);
+	@RequestMapping(value="/HomeSend.do")
+	@ResponseBody
+	public String homeSend(HttpSession session, @RequestBody Map<String, String> pro_recvIdx) {
+		logger.info("HomeSend.do");
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int member_idx = dto.getMember_idx();
+		int pro_idx = 0;
+		logger.info("member_idx : "+member_idx);
+		
+		logger.info("pro_recvIdx :" +pro_recvIdx);
 
-		 	    if (dto != null) {
-		 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-		 			for (ProfileDTO profileDTO : myProfile) {
-		 				 if(profileDTO.getPro_rep().equals("Y")) {
-			 			    pro_idx = profileDTO.getPro_idx();
-			 			    logger.info("pro_idx : "+pro_idx);
-			 				 }
-		 				}
-		 		}
-		 	    return  service.homeSend(pro_idx, pro_recvIdx);
-		}
-	// 프로필상세보기 이동 요청 /memberDetailList.go
-	@RequestMapping(value="/recvMatchingList.go")
-	public String recvMatchingList() {
-		return "recvMatchingList";
+	 	    if (dto != null) {
+	 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
+	 			for (ProfileDTO profileDTO : myProfile) {
+	 				 if(profileDTO.getPro_rep().equals("Y")) {
+		 			    pro_idx = profileDTO.getPro_idx();
+		 			    logger.info("pro_idx : "+pro_idx);
+		 				 }
+	 				}
+	 		}
+	 	    return  service.homeSend(pro_idx, pro_recvIdx);
 	}
+	
+// 프로필상세보기 모달창 요청 /memberDetailList.go
+//	@RequestMapping(value= "/recvMatchingList.go")
+//	public String recvMatchingList(Model model, HttpSession session) {
+//		if (session.getAttribute("loginInfo") == null) {
+//			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+//		} else {
+//			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+//			String id = dto.getMember_id();
+//			
+//		model.addAttribute("myPage", service.MyPageListDo(id));
+//		}
+//		return "recvMatchingList";
+//	}
 }
 

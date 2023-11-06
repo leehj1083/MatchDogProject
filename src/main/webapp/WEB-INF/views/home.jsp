@@ -87,8 +87,11 @@
     <button id="prevButton">이전</button>
     <button id="matchingdel">매칭리스트 삭제</button>
     <button id="matchingreq" >매칭요청 보내기</button>
+    <button id="openModal">모달 열기</button>
+    <button id="closeModal">모달 닫기</button>
+    <!-- 모달을 불러올 위치 -->
+    <div id="modalContainer"></div>
 </div>
-      
 </body>
 <script>
 
@@ -111,7 +114,7 @@ function matchinglist() {
             console.log("성공");
 
             matchingData = data.matchingList;
-
+						console.log("matchingData : "+matchingData);
             // 페이지 로딩 시 첫 번째 매칭 데이터 표시
             showMatchingData(currentIndex);
         },
@@ -148,37 +151,33 @@ $('#matchingdel').click(function () {
 	
 });
 
-
 // 매칭요청 버튼 클릭시 매칭요청 보내기
 $('#matchingreq').click(function () {
 	console.log("매칭 버튼 클릭");
-    if (currentIndex >= 0 && currentIndex < matchingData.length) {
    	 
         var currentMatch = matchingData[currentIndex];
         var request = {
       		  pro_idx: currentMatch.pro_idx
         };
-
+        
          $.ajax({
-            type: 'get',  // HTTP 요청 방식 선택 (GET, POST 등)
+            type: 'POST',  // HTTP 요청 방식 선택 (GET, POST 등)
             url: 'HomeSend.do',  // 서버로 요청을 보낼 URL
             data: JSON.stringify(request),  // 데이터를 JSON 형식으로 변환하여 보냅니다
             contentType: 'application/json',  // 보내는 데이터의 유형 (JSON)
             dataType: 'Json',  // 서버로부터의 응답 데이터 타입 (JSON)
             success: function (response) {
+            	console.log("stringify 성공 : " + JSON.stringify(request));
                 console.log('매칭 요청 성공:', response);
                 alert("매칭 요청이 발송되었습니다");
             },
             error: function (e) {
                 // 오류 발생 시 처리하는 로직을 작성합니다
                 console.error('매칭 요청 실패:', e);
+                console.log("stringify 실패 : " + JSON.stringify(request));
             }
         }); 
-    }
-      else {
-        console.error('유효하지 않은 currentIndex입니다.');
-    } 
-});
+    });
 
 // 매칭요청 확인창
 /* function popup(){
@@ -192,9 +191,19 @@ function showMatchingData(index) {
     $('#pro_dogGender').text('강아지 성별: ' + currentMatch.pro_dogGender);
     $('#pro_dogDesc').text('강아지 설명: ' + currentMatch.pro_dogDesc);
     $('#member_dongAddr').text('동 주소: ' + currentMatch.member_dongAddr);
+    $('#member_gender').text('성별: ' + currentMatch.member_gender);
 }
 
+var openModalBtn = document.getElementById("openModal");
+var closeModalBtn = document.getElementById("closeModal");
+var modalContainer = document.getElementById("modalContainer");
 
+$('#openModal').click(function () {
+	modalContainer.innerHTML = '<iframe src="memberDetail.jsp" frameborder="0"></iframe>';
+});
+$('#closeModal').click(function () {
+	  modalContainer.innerHTML = '';
+});
 // 성향 리스트
 /* function matchingCharList() {
    $.ajax({
@@ -227,7 +236,10 @@ function showMatchingData(index) {
    $('#charList').html(content);
 }  */
 
-
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
 
 </script>
 </html>
