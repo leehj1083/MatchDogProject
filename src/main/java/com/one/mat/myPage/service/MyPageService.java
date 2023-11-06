@@ -34,6 +34,10 @@ public class MyPageService {
 		dao.premiumSubs(id);
 		
 	}
+	public void memberQuitDo(int member_idx) {
+		dao.memberQuitDo(member_idx);
+		
+	}
 
 
 

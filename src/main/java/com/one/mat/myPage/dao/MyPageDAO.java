@@ -17,6 +17,8 @@ public interface MyPageDAO {
 
 	void premiumSubs(String id);
 
+	void memberQuitDo(int member_idx);
+
 
 
 

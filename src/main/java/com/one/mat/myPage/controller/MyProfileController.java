@@ -42,6 +42,22 @@ public class MyProfileController {
 		return page;
 	}
 	
+	@RequestMapping(value = "/myProfileMod.go")
+	public String myProfileModGo(Model model, HttpSession session, @RequestParam String pro_idx) {
+		String page = "login";
+		logger.info("pro_idx"+pro_idx);
+		if (session.getAttribute("loginInfo") == null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+		} else {
+			/* service.MyProfileModListDo(pro_idx, model); */
+			
+			page = "myProfileMod";
+		}
+		return page;
+	}
+	
+	
+	
 @RequestMapping(value="/myProfileOpen.do")
 @ResponseBody
 public HashMap<String, Object> myProfileOpenDo(HttpSession session,
@@ -86,37 +102,26 @@ public HashMap<String, Object> myProfileRepDo(HttpSession session,
 }
 
 	
-	@RequestMapping(value = "/myProfileMod.go")
-	public String myProfileModGo(Model model, HttpSession session) {
-		String page = "login";
-		if (session.getAttribute("loginInfo") == null) {
-			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-		} else {
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-			int idx = dto.getMember_idx();
-			service.MyProfileListDo(idx, model);
-			
-			page = "myProfileMod";
-		}
-		return page;
-	}
+
 
 	
 
 	@RequestMapping(value="myProfileDel.do")
-	public String myProfileDelDo(Model model, HttpSession session,
-			@RequestParam String pro_idx) {
+	@ResponseBody
+	public HashMap<String, Object> myProfileDelDo(HttpSession session,
+			@RequestParam int pro_idx){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		logger.info("pro_idx:"+pro_idx);
 		
-		String page="index";
-		
-		if(session.getAttribute("loginId")==null) {
-			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-		}else {		
-			/* service.myProfileDelDo(pro_idx); */
-			logger.info("pro_idx:"+pro_idx);
-			page="redirect:/myProfileListDo";
+		if(session.getAttribute("loginInfo") == null) {
+			result.put("login", false);
+		}else {
+			result.put("login", true);
+			service.myProfileDelDo(pro_idx);
+
 		}
-		return page;
+		
+		return result;
 	}
 
 	

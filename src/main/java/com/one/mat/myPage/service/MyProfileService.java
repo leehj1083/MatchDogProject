@@ -76,6 +76,12 @@ public class MyProfileService {
 	}
 
 
+	public void myProfileDelDo(int pro_idx) {
+		dao.myProfileDelDo(pro_idx);
+		
+	}
+
+
 	}
 
 

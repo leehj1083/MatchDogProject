@@ -185,36 +185,30 @@ input:checked+.slider:before {
     <hr>
     ${Profile.pro_idx}
      <c:if test="${myProfile.size() <= 1 }">
-    	 <button class='regProfileGo'>+</button>
-    	 <div class="regProfileGoModal">
+    	 <button id='regProfileGo'>+</button>
+    	 <div id="regProfileGoModal" class="regProfileGoModal">
   		  <div class="regProfileGoModal-content">
         	<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-        	<button class="regProfileGoConfirmYes" value="${Profile.pro_idx}">예</button>
-        	<button class="regProfileGoConfirmNo">아니오</button>
+        	<button id="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
+        	<button id="regProfileGoConfirmNo">아니오</button>
    		 </div>
 		</div>
 <!-- 		<input type="button" onclick="location.href='./regProfile.go'" value="+" /> -->
 	</c:if>
 	<c:if test="${myProfile.size() == 2 }">
 <!-- 		<input type="button" onclick="location.href='./regProfile.go'" value="+" /> -->
-		<button class='regProfileGo' value="${Profile.pro_idx}">+</button>
+		<button class='regProfileGo' value="${Profile.member_idx}">+</button>
     	 <div class="regProfileGoModal">
   		  <div class="regProfileGoModal-content">
        		 <h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-     	   <button class="regProfileGoConfirmYes">예</button>
+     	   <button class="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
         	<button class="regProfileGoConfirmNo">아니오</button>
    		 </div>
 		</div>
 		
 		<!-- 프로필 삭제 버튼  -->
-		<button class='profileDelDo' value="${Profile.pro_idx}">-</button>
-    	 <div class="profileDelDoModal">
-  		  <div class="profileDelDoModal-content">
-       		 <h2>정말 프로필을<br/>삭제하시겠습니까?</h2>
-     	   <button class="profileDelDoConfirmYes">예</button>
-        	<button class="profileDelDoConfirmNo">아니오</button>
-   		 </div>
-		</div>
+		<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
+    	 
 
 
 
@@ -231,7 +225,7 @@ input:checked+.slider:before {
     <h2>☆대표프로필임☆</h2>
     </c:if>
     <c:if test="${Profile.pro_rep == 'N'}">
-    <button id='myProfileRepdo'>대표프로필 지정</button>
+    <button id='myProfileRepdo'>대표프로필 지정${Profile.pro_idx}</button>
     <div id="RepdoModal" class="RepdoModal">
     <div class="RepdoModal-content">
         <h2>대표 프로필로<br/>지정하시겠습니까?</h2>
@@ -311,212 +305,190 @@ input:checked+.slider:before {
 		</tr>
     </table>
     <br></br>
-	<input type="submit" id="myProfileMod" value="수정하기"/>
+<!-- 	<input type="submit" id="myProfileMod" value="수정하기"/> -->
+<!-- 	<input type="button" onclick="location.href='./myProfileMod.go'" value="수정하기"/> -->
+<a href="./myProfileMod.go?pro_idx=${Profile.pro_idx}">수정하기</a>
 	<br></br>
 </form>
 </c:if>
 </c:forEach>
 
+<div id="profileDelDoModal" class="profileDelDoModal">
+  	<div class="profileDelDoModal-content">
+       	<h2>정말 프로필을<br/>삭제하시겠습니까?</h2>
+     	 <button class="profileDelDoConfirmYes" value="Y">예</button>
+        <button class="profileDelDoConfirmNo">아니오</button>
+   	</div>
+</div>
 
 </body>
 <script>
+var profileDelDoModal = $(".profileDelDoModal");
+var profileDelDo = $(".profileDelDo");
+var profileDelDoConfirmYes = $(".profileDelDoConfirmYes");
+var profileDelDoConfirmNo = $(".profileDelDoConfirmNo");
+var pro_idx = null;
 
-/* 프로필 삭제 스크립트 */
-$('.profileDelDo').on("click", function (e) {
+//프로필 삭제(숨김) 스크립트
+
+profileDelDo.on("click", function (e) {
 	console.log("삭제");
-	var pro_idx = $(this).attr("value");
+	pro_idx = $(this).attr("value");
 	console.log(pro_idx);
-	
-/*     $.ajax({
-        type: 'get',
-        url: 'myProfileDel.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx},
-        success: function (data) {
-        	console.log(data);
-        	console.log("프로필 데이터가 삭제되었습니다.");
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    });
-	
-    RepdoModal.css("display", "none");
-    
-});
-
-RepdoConfirmNo.click(function() {
-    // '아니오'를 선택한 경우, 모달 창 닫기
-    RepdoModal.css("display", "none"); */
+	profileDelDoModal.css("display", "block");
 });
 
 
-/* 프로필 생성 이동 스크립트 */
-$('.regProfileGo').on("click", function (e) {
-	console.log("생성");
-	var pro_idx = $(this).attr("value");
-	console.log(pro_idx);
-/* 
-    $.ajax({
-        type: 'get',
-        url: 'myProfileOpen.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx},
-        success: function (data) {
-        	console.log(data);
-        	console.log("데이터가 서버에 저장되었습니다.");
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    }); */
-
-});
-
-
-
-/* // 프로필 생성 이동 스크립트
-var regProfileGoModal = $("#regProfileGoModal");
-var regProfileGo = $("#regProfileGo");
-var regProfileGoConfirmYes = $("#regProfileGoConfirmYes");
-var regProfileGoConfirmNo = $("#regProfileGoConfirmNo");
-
-regProfileGo.click(function() {
-
-    regProfileGoModal.css("display", "block");
-});
-
-regProfileGoConfirmYes.click(function(e) {
-	
-	var pro_idx = $(this).attr("value");
-	console.log(pro_idx);
-    // '예'를 선택한 경우, 서버로 전송하는 코드
+profileDelDoConfirmYes.on('click', function(e) {
+	var yes = $(this).attr("value");
+	console.log(yes);
+		// '예'를 선택한 경우, 서버로 전송하는 코드
+console.log(pro_idx);
+	if (yes == "Y") {
+        // pro_idxToDelete 변수에 저장된 pro_idx 값을 서버로 전송
         $.ajax({
-        type: 'get',
-        url: 'myProfileRep.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx},
-        success: function (data) {
-        	console.log(data);
-        	console.log("대표프로필로 저장되었습니다.");
-        	location.href='./myProfileList.do';
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    });
-/*     location.href='./myProfileRep.do'; */    
-    // 모달 닫기
-/*     regProfileGoModal.css("display", "none");
-    
+            type: 'GET',
+            url: 'myProfileDel.do', // 서버 엔드포인트 URL을 지정
+            data: {
+                "pro_idx": pro_idx
+            },
+            success : function(data) {
+				console.log(data);
+				console.log("프로필 삭제 완료");
+				location.href = './myProfileList.do';
+				if (!data.login) {
+					alert('로그인이 필요한 서비스입니다.');
+					location.href = './';
+				}
+			},
+            error: function(e) {
+                console.log(e);
+                // 오류 처리
+            }
+        });
+
+		profileDelDoModal.css("display", "none");
+
+	};
 });
 
-regProfileGoConfirmNo.click(function() {
-    // '아니오'를 선택한 경우, 모달 창 닫기
-    regProfileGoModal.css("display", "none");
-}); */
+	profileDelDoConfirmNo.click(function() {
+		// '아니오'를 선택한 경우, 모달 창 닫기
+		profileDelDoModal.css("display", "none");
+	});
 
+	/* 프로필 생성 이동 스크립트 */
 
+	var regProfileGoModal = $(".regProfileGoModal");
+	$('.regProfileGo').on("click", function(e) {
+		console.log("생성");
+		var member_idx = $(this).attr("value");
+		console.log(member_idx);
+		regProfileGoModal.css("display", "block");
+	});
 
-// 프로필 삭제(숨김) 스크립트
+	$('.regProfileGoConfirmYes').click(function(e) {
+		// '예'를 선택한 경우, 생성 페이지로 이동 후 모달 창 닫기
+		var member_idx = $(this).attr("value");
+		console.log(member_idx);
+		location.href = "./regProfile";
+		regProfileGoModal.css("display", "none");
+	});
 
-// 대표 프로필 설정 스크립트
-var RepdoModal = $("#RepdoModal");
-var myProfileRepdo = $("#myProfileRepdo");
-var RepdoConfirmYes = $("#RepdoConfirmYes");
-var RepdoConfirmNo = $("#RepdoConfirmNo");
+	$('.regProfileGoConfirmNo').click(function() {
+		// '아니오'를 선택한 경우, 모달 창 닫기
+		regProfileGoModal.css("display", "none");
+	});
 
-myProfileRepdo.click(function() {
-    // 대표 프로필 설정 모달 표시
-    RepdoModal.css("display", "block");
-});
+	// 대표 프로필 설정 스크립트
+	var RepdoModal = $("#RepdoModal");
+	var myProfileRepdo = $("#myProfileRepdo");
+	var RepdoConfirmYes = $("#RepdoConfirmYes");
+	var RepdoConfirmNo = $("#RepdoConfirmNo");
 
-RepdoConfirmYes.click(function(e) {
-	
-	var pro_idx = $(this).attr("value");
-	console.log(pro_idx);
-    // '예'를 선택한 경우, 서버로 전송하는 코드
-        $.ajax({
-        type: 'get',
-        url: 'myProfileRep.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx},
-        success: function (data) {
-        	console.log(data);
-        	console.log("대표프로필로 저장되었습니다.");
-        	location.href='./myProfileList.do';
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    });
-/*     location.href='./myProfileRep.do'; */    
-    // 모달 닫기
-    RepdoModal.css("display", "none");
-    
-});
+	myProfileRepdo.click(function() {
+		// 대표 프로필 설정 모달 표시
+		RepdoModal.css("display", "block");
+	});
 
-RepdoConfirmNo.click(function() {
-    // '아니오'를 선택한 경우, 모달 창 닫기
-    RepdoModal.css("display", "none");
-});
+	RepdoConfirmYes.click(function(e) {
 
+		var pro_idx = $(this).attr("value");
+		console.log(pro_idx);
+		// '예'를 선택한 경우, 서버로 전송하는 코드
+		$.ajax({
+			type : 'get',
+			url : 'myProfileRep.do', // 서버로 요청을 보낼 엔드포인트를 지정
+			data : {
+				"pro_idx" : pro_idx
+			},
+			success : function(data) {
+				console.log(data);
+				console.log("대표프로필로 저장되었습니다.");
+				location.href = './myProfileList.do';
+				if (!data.login) {
+					alert('로그인이 필요한 서비스입니다.');
+					location.href = './';
+				}
+			},
+			error : function(e) {
+				console.log(e)
+			}
+		});
+		/*     location.href='./myProfileRep.do'; */
+		// 모달 닫기
+		RepdoModal.css("display", "none");
 
-$('input[type="checkbox"]').on("change", function (e) {
-	var pro_idx = $(this).closest('table').attr('pro_idx');
-	console.log(pro_idx);
-	var isChecked = $(this).is(":checked");
-	console.log(isChecked);
-    var checkboxId = $(this).attr("id");
-    var openType_code = '';
-    
-    if (checkboxId == 'ageOpen') {
-    	openType_code = 1;
-    } else if (checkboxId == 'genderOpen') {
-    	openType_code = 2;
-    }
-    console.log(openType_code);
-    console.log(checkboxId);
-    var toggleValue = isChecked ? "Y" : "N";
-    console.log(toggleValue);
-    
+	});
 
-    $.ajax({
-        type: 'get',
-        url: 'myProfileOpen.do', // 서버로 요청을 보낼 엔드포인트를 지정
-        data: { "pro_idx": pro_idx, "openType_code": openType_code, "toggleValue": toggleValue },
-        success: function (data) {
-        	console.log(data);
-        	console.log("데이터가 서버에 저장되었습니다.");
-        	if(!data.login){
-    			alert('로그인이 필요한 서비스입니다.');
-    			location.href='./';
-    		}
-        },
-        error: function (e) {
-        	console.log(e)
-        } 
-    });
+	RepdoConfirmNo.click(function() {
+		// '아니오'를 선택한 경우, 모달 창 닫기
+		RepdoModal.css("display", "none");
+	});
 
-});
+	$('input[type="checkbox"]').on("change", function(e) {
+		var pro_idx = $(this).closest('table').attr('pro_idx');
+		console.log(pro_idx);
+		var isChecked = $(this).is(":checked");
+		console.log(isChecked);
+		var checkboxId = $(this).attr("id");
+		var openType_code = '';
 
+		if (checkboxId == 'ageOpen') {
+			openType_code = 1;
+		} else if (checkboxId == 'genderOpen') {
+			openType_code = 2;
+		}
+		console.log(openType_code);
+		console.log(checkboxId);
+		var toggleValue = isChecked ? "Y" : "N";
+		console.log(toggleValue);
 
-$('#myProfileMod').on('click',function(){
-	location.href='./myProfileMod.go';
-});
+		$.ajax({
+			type : 'get',
+			url : 'myProfileOpen.do', // 서버로 요청을 보낼 엔드포인트를 지정
+			data : {
+				"pro_idx" : pro_idx,
+				"openType_code" : openType_code,
+				"toggleValue" : toggleValue
+			},
+			success : function(data) {
+				console.log(data);
+				console.log("데이터가 서버에 저장되었습니다.");
+				if (!data.login) {
+					alert('로그인이 필요한 서비스입니다.');
+					location.href = './';
+				}
+			},
+			error : function(e) {
+				console.log(e)
+			}
+		});
 
+	});
 
-    </script>
+	$('#myProfileMod').on('click', function() {
+		location.href = './myProfileMod.go';
+	});
+</script>
 </html>
