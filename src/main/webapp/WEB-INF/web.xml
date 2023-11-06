@@ -50,6 +50,22 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- 멀티파트 파일 업로드 -->
+	<servlet>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <servlet-class>com.example.FileUploadServlet</servlet-class>
+    <multipart-config>
+        <location>C:\upload</location> <!-- 업로드된 파일을 저장할 임시 디렉터리 -->
+        <max-file-size>20848820</max-file-size> <!-- 최대 파일 크기 (바이트) -->
+        <max-request-size>418018841</max-request-size> <!-- 최대 요청 크기 (바이트) -->
+        <file-size-threshold>1048576</file-size-threshold> <!-- 메모리에 유지할 파일 크기 (바이트) -->
+    </multipart-config>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>FileUploadServlet</servlet-name>
+	    <url-pattern>/upload</url-pattern>
+	</servlet-mapping>
+	
 	
 
 </web-app>

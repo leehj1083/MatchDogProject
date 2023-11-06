@@ -3,12 +3,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.one.mat.chatting.dao.ChattingDAO">
-	<!-- <select id="boardList" resultType="kr.co.gudi.dto.BoardDTO">
-		SELECT b.idx, b.subject, b.user_name, b.bHit, (SELECT count(idx) FROM photo p WHERE b.idx= p.idx) AS img FROM bbs b
-	</select> -->
+
 	<select id="proIdx" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
 	</select>
+	
 	<select id="chatIdx" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT c.chat_idx , m.pro_recvIdx AS pro_you, m.pro_sendIdx AS pro_me, m.pro_recvIdx AS pro_idx FROM chat c 
 		INNER JOIN `match` m ON c.match_idx = m.match_idx 
@@ -24,6 +23,7 @@
 		SELECT pro_dogName FROM pro WHERE pro_idx = #{param1}
 	</select>
 	
+	<!-- 채팅방에 보여줄 정보들 -->
 	<select id="chatPhotoInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT pt.photo_fileName
 		FROM pro p 
@@ -49,7 +49,7 @@
 		WHEN CHAR_LENGTH(c.chatMsg_msg) > 20 THEN CONCAT(SUBSTRING(c.chatMsg_msg, 1, 20), '...')
 		ELSE c.chatMsg_msg
 		END AS chatMsg_msg
-		,(SELECT count(chatMsg_read) from chatmsg where chat_idx=#{param1} and chatMsg_read ='N') as chatMsg_read
+		,(SELECT count(chatMsg_read) from chatmsg where chat_idx=#{param1} and chatMsg_read ='N') AS chatMsg_read
 		FROM chatmsg c WHERE chat_idx =#{param1} ORDER BY chatMsg_regDate DESC LIMIT 1
 	</select>
 	
@@ -58,8 +58,31 @@
 		ON m.match_idx = c.match_idx WHERE chat_idx = #{param1}
 	</select>
 	
-	<select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT * FROM chatmsg WHERE chat_idx = #{param1}
+	<!-- 지난 채팅 메세지 보여주기 -->
+	<select id="totalMsg" resultType="com.one.mat.chatting.dto.ChattingDTO">
+		SELECT 
+		MAX(regDate) AS regDate, 
+		total_idx, 
+		MAX(pro_sendIdx) AS pro_sendIdx, 
+		MAX(pro_recvIdx) AS pro_recvIdx, 
+		MAX(chatMsg_msg) AS chatMsg_msg,
+		MAX(chatMsg_read) AS chatMsg_read,
+		MAX(photo_fileName) AS photo_fileName
+		FROM (
+		    SELECT 
+		    chatMsg_regDate AS regDate, chatMsg_idx AS total_idx, pro_sendIdx, pro_recvIdx, chatMsg_msg, chatMsg_read, NULL AS photo_fileName 
+		    FROM chatMsg 
+		    WHERE chat_idx = #{param3}
+		    UNION ALL
+		    SELECT 
+		    photo_uploadDate AS regDate, photo_idfNum AS total_idx, c.pro_sendIdx, c.pro_recvIdx, c.chatMsg_msg, c.chatMsg_read, p.photo_fileName
+		    FROM photo p 
+		    INNER JOIN chatmsg c ON p.photo_idfNum = c.chatMsg_idx 
+		    WHERE p.photo_type = 2 AND c.chat_idx = #{param3}
+		) AS combined_data
+		GROUP BY total_idx
+		HAVING MAX(photo_fileName) IS NULL OR MAX(photo_fileName) &lt;&gt; ''
+		ORDER BY MAX(regDate)
 	</select>
 	
 	<select id="toFrom" resultType="com.one.mat.chatting.dto.ChattingDTO">
@@ -69,26 +92,28 @@
 		UNION ALL
 		SELECT m.pro_sendIdx AS pro_you, m.pro_recvIdx AS pro_me FROM chat c 
 		INNER JOIN `match` m ON c.match_idx = m.match_idx 
-		WHERE m.pro_recvIdx = #{param1} AND c.chat_idx = #{param2};
+		WHERE m.pro_recvIdx = #{param1} AND c.chat_idx = #{param2}
 	</select>
 	
-	<!-- <select id="chatRoomListDo" resultType="com.one.mat.chatting.dto.chattingDTO">
-	SELECT * FROM chatmsg 
-	WHERE (pro_recvIdx = #{pro_recvIdx} AND pro_sendIdx = #{pro_sendIdx} ) 
-	OR (pro_recvIdx = #{pro_sendIdx} AND pro_sendIdx = #{pro_recvIdx} ) 
-	AND chatMsg_idx > #{chatMsg_idx} ORDER BY chatMsg_regDate
+	<!-- 사진 저장 및 불러오기 -->
+	<insert id="savePhotoMsg">
+		INSERT chatmsg(chat_idx,pro_sendIdx,pro_recvIdx,chatMsg_msg,chatMsg_read,chatMsg_regDate)
+		VALUES (#{param1},#{param2},#{param3},' ','N',NOW())
+	</insert>
+	<select id="getChatMsgIdx" resultType="com.one.mat.chatting.dto.ChattingDTO">
+		SELECT chatMsg_idx FROM chatmsg WHERE chat_idx = #{param1} ORDER BY chatMsg_regDate DESC LIMIT #{param2}
 	</select>
+	
+	<insert id="savePhoto">
+		INSERT photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate)
+		VALUES(2,#{param1},#{param2},NOW())
+	</insert>
+	
 	<insert id="chatSaveDo">
-	INSERT INTO chatmsg(
-	chatMsg_idx
-	,chat_idx
-	,pro_sendIdx
-	,pro_recvIdx
-	,chatMsg_msg
-	,chatMsg_read
-	,chatMsg_regDate) 
-	VALUES
-	(,NOW())
-	</insert> -->
+		INSERT chatmsg(chat_idx,pro_sendIdx,pro_recvIdx,chatMsg_msg,chatMsg_read,chatMsg_regDate)
+		VALUES (#{param1},#{param2},#{param3},#{param4},'N',NOW())
+	</insert>
+	
+	
  
   </mapper>

@@ -15,11 +15,6 @@
 }
 
 
-a, a:link, a:visited, a:active, a:hover {
-	text-decoration: none;
-	color: var(--black);
-}
-
 span{
 	text-decoration: none;
 
@@ -57,8 +52,8 @@ body {
 }
 .container .left {
   float: left;
-  width: 450;
-  height: 600px;
+  width: 450px;
+  height: 630px;
   border: 1px solid var(--light);
   background-color: var(--white);
 }
@@ -180,6 +175,14 @@ body {
 .container .left .people .person.active:after, .container .left .people .person:hover:after {
   display: none;
 }
+
+
+
+
+
+
+
+
 
 @keyframes slideFromLeft {
   0% {

@@ -100,6 +100,22 @@
 		    <version>2.9.4</version> <!-- JDK 에 따라 버전 확인해 줄 것 (예: JDK 1.7 -> 2.8.6 사용) -->
 		</dependency>
 		
+		<!-- IMAGE CROP & RESIZE -->
+		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
+		<dependency>
+		    <groupId>org.imgscalr</groupId>
+		    <artifactId>imgscalr-lib</artifactId>
+		    <version>4.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>0.4.8</version>
+		</dependency>
+		
+		
 		
 		
 		<!-- 메일 본인인증 확인용 라이브러리1 -->

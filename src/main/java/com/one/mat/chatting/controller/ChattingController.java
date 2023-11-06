@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.chatting.service.ChattingService;
 import com.one.mat.member.dto.MemberDTO;
@@ -99,15 +100,26 @@ public class ChattingController {
 		return service.chatRoomListDo(memberIdx,chat_idx);
 	}
 	
+	// 사진 파일 저장
+	@RequestMapping(value="/chatPhoto.do")
+	@ResponseBody
+	public HashMap<String, Object> chatPhotoDo(HttpSession session, @RequestParam MultipartFile[] photo, @RequestParam String chat_idx){
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		logger.info("photo : "+photo.length);
+		logger.info("chat_idx : "+chat_idx);
 
+		return service.chatPhotoDo(photo,chat_idx,memberIdx);
+	}
 	
-//	@RequestMapping(value="/chatSave.do")
-// public HashMap<String, Object> chatSaveDo(){
-//		HashMap<String, Object> map = new HashMap<String, Object>();
-//		int row = service.chatSaveDo();
-//		return map;
-//	}
-	
+	// 채팅 입력
+	@RequestMapping(value="/chatSave.do")
+	@ResponseBody
+	public HashMap<String, Object> chatSaveDo(HttpSession session, @RequestParam String content,@RequestParam String chat_idx){
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		return service.chatSaveDo(content,chat_idx,memberIdx);
+	}
 
 	
 }

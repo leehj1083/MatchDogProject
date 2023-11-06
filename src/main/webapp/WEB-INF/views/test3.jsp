@@ -12,26 +12,33 @@
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
+
+a, a:link, a:visited, a:active, a:hover {
+	text-decoration: none;
+	color: var(--black);
+}
+
 </style>
 </head>
 <body>
 <div class="wrapper">
 	<div class="container">
         <div class="left">
+        
             <div class="top">
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-
+            
+			<!-- 리스트 -->
             <ul class="people">
             </ul>
-            <input type="button" onclick="location.href='./chattingRoom.go'" value="마이프로필" />
-			<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
-<!-- 			<div class="container"> -->									
-				<nav aria-label="Page navigation" style="text-align:center">
-					<ul class="pagination" id="pagination"></ul>
-				</nav>					
-<!-- 			</div> -->
+            
+				<!-- 페이징 -->			
+			<nav aria-label="Page navigation" style="text-align:center">
+				<ul class="pagination" id="pagination"></ul>
+			</nav>					
+			
         </div>
 	</div>
 </div>
