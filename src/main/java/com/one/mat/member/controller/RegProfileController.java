@@ -3,7 +3,6 @@ package com.one.mat.member.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
 import com.one.mat.member.service.RegProfileService;
@@ -181,14 +181,119 @@ public class RegProfileController {
 
 	}
 
-	@RequestMapping("/compTypeList.do")
+	@RequestMapping("/chattcompTypeList.do")
 	public String compTypeList(Model model) {
 		
-		ArrayList<ProfileDTO> compList = service.compList();
+		ArrayList<CompDTO> compList = service.compList();
 		model.addAttribute("compList", compList);
 		logger.info("compList : "+compList);
 
-		return "comp";
+		return "chattingcomp";
+	}
+	@RequestMapping("/commentcompTypeList.do")
+	public String commentcompTypeList(Model model) {
+		
+		ArrayList<CompDTO> compList = service.compList();
+		model.addAttribute("compList", compList);
+		logger.info("compList : "+compList);
+
+		return "commentcomp";
+	}
+	@RequestMapping("/boardcompTypeList.do")
+	public String boardcompTypeList(Model model) {
+		
+		ArrayList<CompDTO> compList = service.compList();
+		model.addAttribute("compList", compList);
+		logger.info("compList : "+compList);
+
+		return "boardcomp";
+	}
+	
+	@RequestMapping("/chattingcompSave.do")
+	public String chattingcompSave(@RequestParam Map<String, String> params, HttpSession session) {
+	
+		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+		    int memberIdx = memberDTO.getMember_idx();
+		    logger.info("Member Index: " + memberIdx);
+		
+		params.put("memberIdx", String.valueOf(memberIdx));
+	    logger.info("params : " + params);
+	   
+	    
+	    
+	    
+	    service.chattingcompSave(params);
+	    service.compPhoto(params);
+	  
+		
+		
+		
+		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
+		return "redirect:/chattcompTypeList.do"; 
+		
+	}
+	@RequestMapping("/boardcompSave.do")
+	public String boardcompSave(@RequestParam Map<String, String> params, HttpSession session) {
+	
+		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+		    int memberIdx = memberDTO.getMember_idx();
+		    logger.info("Member Index: " + memberIdx);
+		
+		params.put("memberIdx", String.valueOf(memberIdx));
+	    logger.info("params : " + params);
+	   
+	    
+	    
+	    
+	    service.boardcompSave(params);
+	    service.compPhoto(params);
+	  
+		
+		
+		
+		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
+		return "redirect:/boardcompTypeList.do"; 
+		
+	}
+	
+	@RequestMapping("/commentcompSave.do")
+	public String commentcompSave(@RequestParam Map<String, String> params, HttpSession session) {
+	
+		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+		    int memberIdx = memberDTO.getMember_idx();
+		    logger.info("Member Index: " + memberIdx);
+		
+		params.put("memberIdx", String.valueOf(memberIdx));
+	    logger.info("params : " + params);
+	   
+	    
+	    
+	    
+	    service.commentcompSave(params);
+	    service.compPhoto(params);
+	  
+		
+		
+		
+		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
+		return "redirect:/commentcompTypeList.do"; 
+		
+	}
+	@RequestMapping("/memberDetail")
+	public String memberDetail(Model model,HttpSession session) {
+		
+		ArrayList<ProfileDTO> list = service.charlist();
+		model.addAttribute("list", list);
+		logger.info("list  ="+list);
+		
+		service.memberDetail(model);
+		service.memberDetailPhoto(model);
+		
+		
+		
+		
+		
+		return "memberDetail";
 	}
 
 }

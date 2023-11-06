@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 <body>
-	<form action="compSave.do" method="post" id="myForm">
+	<form action="chattingcompSave.do" method="post" id="myForm">
 
 		<h1>신고하기</h1>
 	
@@ -34,7 +34,7 @@
 </tr>
 
 <tr>
-<td colspan="3"><textarea name="compReason" spellcheck="false">내용을입력해주세요</textarea></td>
+<td colspan="3"><textarea name="comp_content" spellcheck="false">내용을입력해주세요</textarea></td>
 </tr>
 
 <tr>
@@ -46,13 +46,14 @@
 
 
 
-<button>신고하기</button>
 
 
-
+<input type="hidden" id="compType_code" name="compType_code" value="">
+	<button id="reportButton">신고하기</button>
 
 
 	</form>
+
 </body>
 
 <script>
@@ -61,13 +62,27 @@ document.addEventListener("DOMContentLoaded", function () {
     
     checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener("click", function () {
-            // 다른 체크박스들을 모두 선택 해제합니다.
+        	document.getElementById("compType_code").value = checkbox.value;
+        	// 다른 체크박스들을 모두 선택 해제합니다.
             checkboxes.forEach(function (otherCheckbox) {
                 if (otherCheckbox !== checkbox) {
                     otherCheckbox.checked = false;
                 }
             });
         });
+    });
+    var reportButton = document.getElementById("reportButton");
+
+    reportButton.addEventListener("click", function () {
+        var confirmation = confirm("정말 신고하시겠습니까?");
+        
+        if (confirmation) {
+            // 여기에 확인을 눌렀을 때 Controller로 요청을 보내는 코드를 추가합니다.
+            document.getElementById("myForm").submit();
+        } else {
+            alert("신고가 취소되었습니다.");
+            event.preventDefault();
+        }
     });
 });
 </script>
