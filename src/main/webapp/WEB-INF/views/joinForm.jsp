@@ -79,7 +79,7 @@
 	  <button type="button" id="checkMail" >인증하기</button>
 	  <p/><span class="mailChk"></span>
             
-      <p/><input type="button" id="join" value="회원가입"/>
+      <p/><input type="button" id="back" value="돌아가기"/><input type="button" id="join" value="회원가입"/>
              
      </div>
 </body>
@@ -539,6 +539,11 @@ function join(){
 	});
 
 }
+
+$('#back').on('click',function(){
+	location.href="./"
+});
+
 
 </script>
 </html>
