@@ -24,9 +24,23 @@ public class MemberDTO {
 	private int subsType_code=1; //권한 ID (일반사용자1, 플러스 2, 프리미엄 3, 관리자4)
 	private String subsType; // 권한 이름
 	private int member_idx;
+	private Date subsHistory_start;
+	private Date subsHistory_exp;
 	
 	
 	
+	public Date getSubsHistory_start() {
+		return subsHistory_start;
+	}
+	public void setSubsHistory_start(Date subsHistory_start) {
+		this.subsHistory_start = subsHistory_start;
+	}
+	public Date getSubsHistory_exp() {
+		return subsHistory_exp;
+	}
+	public void setSubsHistory_exp(Date subsHistory_exp) {
+		this.subsHistory_exp = subsHistory_exp;
+	}
 	public String getMember_dongAddr() {
 		return member_dongAddr;
 	}
