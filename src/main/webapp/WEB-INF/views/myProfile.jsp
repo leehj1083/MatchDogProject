@@ -377,31 +377,6 @@ console.log(pro_idx);
 		profileDelDoModal.css("display", "none");
 	});
 
-	/*     $.ajax({
-	 type: 'get',
-	 url: 'myProfileDel.do', // 서버로 요청을 보낼 엔드포인트를 지정
-	 data: { "pro_idx": pro_idx},
-	 success: function (data) {
-	 console.log(data);
-	 console.log("프로필 데이터가 삭제되었습니다.");
-	 if(!data.login){
-	 alert('로그인이 필요한 서비스입니다.');
-	 location.href='./';
-	 }
-	 },
-	 error: function (e) {
-	 console.log(e)
-	 } 
-	 });
-	
-	 RepdoModal.css("display", "none");
-	
-	 });
-
-	 RepdoConfirmNo.click(function() {
-	 // '아니오'를 선택한 경우, 모달 창 닫기
-	 RepdoModal.css("display", "none"); */
-
 	/* 프로필 생성 이동 스크립트 */
 
 	var regProfileGoModal = $(".regProfileGoModal");
@@ -413,7 +388,7 @@ console.log(pro_idx);
 	});
 
 	$('.regProfileGoConfirmYes').click(function(e) {
-		// '예'를 선택한 경우, 서버 전송 후 모달 창 닫기
+		// '예'를 선택한 경우, 생성 페이지로 이동 후 모달 창 닫기
 		var member_idx = $(this).attr("value");
 		console.log(member_idx);
 		location.href = "./regProfile";
