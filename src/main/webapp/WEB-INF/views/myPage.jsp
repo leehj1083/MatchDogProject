@@ -8,32 +8,58 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
  <style>
- /* 모달 스타일 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1;
-        }
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ccc;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
- 
- 
- </style>
+/* 모달 스타일 */
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.QuitModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.QuitModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+</style>
 </head>
 <body>
+탈퇴여부 : ${myPage.member_quit}
+	<c:if test="${myPage.member_quit != 'Y'}">
 	<h3>${myPage.member_name} 님의 마이페이지</h3>
 	<a href="logout">로그아웃</a>
 	<br></br>
@@ -44,6 +70,7 @@
 	<input type="button" onclick="location.href='./myPageMod.go'" value="수정하기"/>
 	<br></br>
 
+${myPage.member_idx}
 	 	<table>	
  		<tr>
  			<th>이름</th>
@@ -124,10 +151,65 @@
 	</div>
  		
 	</table>
-
+	
+	<br></br>
+	<button id="openQuitModal" >회원 탈퇴</button>
+	
+	<div id="memberQuitDoModal" class="QuitModal" >
+		<div class="QuitModal-content" >
+			<h2>정말 탈퇴하시겠습니까?<br/>모든 정보가 삭제됩니다.</h2>
+        <button id="QuitConfirmYes" data-member_idx="${myPage.member_idx}">예</button>
+        <button id="QuitConfirmNo">아니오</button>
+		</div>
+	</div>
+</c:if>
 </body>
 <script>
+var openQuitModal = $("#openQuitModal");
+var memberQuitDoModal = $("#memberQuitDoModal");
+var QuitConfirmYes = $("#QuitConfirmYes");
+var QuitConfirmNo = $("#QuitConfirmNo");
 
+//탈퇴버튼 눌렀을 때
+openQuitModal.click(function() {
+	console.log("탈퇴");
+	memberQuitDoModal.css("display", "block");
+});
+
+// 탈퇴 네 버튼 값 전송 후 모달 닫기
+QuitConfirmYes.click(function(e){
+	var member_idx = $(this).data("member_idx");
+	console.log(member_idx);
+	
+ 	$.ajax({
+		type : 'get',
+		url : 'memberQuit.do', // 서버로 요청을 보낼 엔드포인트를 지정
+		data : {
+			"member_idx" : member_idx
+		},
+		success : function(data) {
+			console.log(data);
+			console.log("회원 탈퇴.");
+			location.href = "./";
+			if (!data.login) {
+				alert('로그인이 필요한 서비스입니다.');
+				location.href = './';
+			}
+		},
+		error : function(e) {
+			console.log(e)
+		}
+	});
+	
+	memberQuitDoModal.css("display", "none");
+});
+
+// 탈퇴 아니오 버튼 모달 닫기
+QuitConfirmNo.click(function() {
+	memberQuitDoModal.css("display", "none");
+});
+
+// 구독 모달 스크립트
 var subsModal = $("#subsModal");
 var subSmodalContent = $("#subSmodalContent");
 var openSubsModal = $("#openSubsModal");
@@ -146,24 +228,7 @@ closeSubsModal.click(function() {
 });
 
 
-/* var subsModal = document.getElementById("subsModal");
-var modalContent = document.getElementById("modalContent");
-var openBtn = document.getElementById("openSubsModal");
-var closeBtn = document.getElementById("closeModal");
 
-openBtn.onclick = function() {
-    // JSP 파일을 가져와서 모달 창에 표시
-    fetch("./subs.go")
-        .then(response => response.text())
-        .then(data => {
-            modalContent.innerHTML = data;
-            subsModal.style.display = "block";
-        });
-}
-
-closeBtn.onclick = function() {
-	subsModal.style.display = "none";
-} */
 
 var msg = "${msg}";
 if(msg != ""){

@@ -58,13 +58,14 @@ SET pro_rep = 'Y'
 WHERE pro_idx = #{param1}
 </update>
 
+<update id="myPageModUpdateDo">
 
-	<update id="myPageModUpdateDo">
-
-  	</update>
+ </update>
   	
-  	<delete id="myProfileDelDo">
-
-</delete>
+<update id="myProfileDelDo">
+UPDATE pro
+SET pro_quit = 'Y'
+WHERE pro_idx = #{param1}
+</update>
 
 </mapper>

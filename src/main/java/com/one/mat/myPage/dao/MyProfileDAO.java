@@ -28,6 +28,8 @@ public interface MyProfileDAO {
 	void myProfileRepDel(int pro_idx, int idx);
 	void myProfileRepDo(int pro_idx, int idx);
 
+	void myProfileDelDo(int pro_idx);
+
 
 
 

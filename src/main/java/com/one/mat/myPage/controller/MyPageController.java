@@ -136,5 +136,24 @@ public class MyPageController {
 	}
 	
 	
+	@RequestMapping(value="/memberQuit.do")
+	@ResponseBody
+	public HashMap<String, Object> memberQuitDo(HttpSession session,
+			@RequestParam int member_idx){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		logger.info("member_idx:"+member_idx);
+		String page = "redirect:/";
+		if(session.getAttribute("loginInfo") == null) {
+			result.put("login", false);
+		}else {
+			result.put("login", true);
+			service.memberQuitDo(member_idx);
+			page = "redirect:/";
+		}
+		
+		return result;
+	}
+	
+	
 	
 }
