@@ -365,6 +365,8 @@ function hate(board_id, member_idx) {
 	setTimeout(function() {
         document.getElementById("hateButton").disabled = false;
     }, 4000);
+	recommendLike();
+	recommendHate();
 }
 
 // 좋아요 갯수 보여주는 함수
@@ -415,6 +417,8 @@ function deleteRec(board_id, member_idx, rec_type) {
         dataType: 'JSON',
         success: function (data) {
         	// console.log(data);
+			recommendLike();
+			recommendHate();
         },
         error: function (e) {
             console.log(e);

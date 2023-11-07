@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.one.mat.board.dao.BoardDAO;
 import com.one.mat.board.dto.BoardDTO;
 import com.one.mat.board.dto.PhotoDTO;
+import com.one.mat.board.dto.RecommendDTO;
 
 
 @Service
@@ -215,7 +216,7 @@ public class BoardService {
 	public Map<String, Object> deleteRec(String board_id, String member_idx, String rec_type) {
 		int boardId = Integer.parseInt(board_id);
 		int memberIdx = Integer.parseInt(member_idx);
-		int recTypeF = Integer.parseInt(rec_type);
+		int recTypeF = Integer.parseInt(rec_type); // 삭제요청들어올때 요청 ex: (1), (2)
 		int recType = dao.recType(board_id, member_idx);
 		logger.info("삭제에서 추천타입 확인: "+recType);
 		logger.info("요청버튼 추천타입 확인: "+recTypeF);
@@ -223,14 +224,14 @@ public class BoardService {
 		int delRow = dao.deleteRec(boardId, memberIdx);
 		if(recType != recTypeF) { // 1 != 2, 2 != 1
 			if(recTypeF==1) {
-				logger.info("삭제후 싫어요 insert요청");
-				dao.hate(boardId, memberIdx);
-				map.put("success", delRow);
-				map.put("success", "삭제,싫어요insert");
-			}else {
 				logger.info("삭제후 좋아요 insert요청");
 				dao.like(boardId, memberIdx);
-				map.put("success", "삭제,좋아요insert");
+				map.put("success", delRow);
+				map.put("success", "true");
+			}else {
+				logger.info("삭제후 싫어요 insert요청");
+				dao.hate(boardId, memberIdx);
+				map.put("success", "true");
 				map.put("success", delRow);
 			}
 		}else {
