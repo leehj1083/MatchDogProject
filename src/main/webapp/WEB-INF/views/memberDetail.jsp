@@ -190,6 +190,7 @@ border: 1px solid black;
 	    </div>
 		<div class="content">
 			<form action="memberDetail" method="get">
+			<input type="hidden" name="member_idx" value="${dto.member_idx}"/>
 			<h3>회원상세보기</h3><hr/>
 			<table>
 				<tr>
@@ -249,15 +250,22 @@ border: 1px solid black;
 				<tr>
 					<th>제재여부</th>
 					<td>${dto.member_loginLock}</td>
-					<th>권한</th>
-					<td>${dto.subsType_code}</td>
+					<th>권한수정</th>
+					<td>
+						<select id="subsType_code" name="subsType_code">
+							<option value="1">일반회원</option>
+							<option value="2">플러스</option>
+							<option value="3">프리미엄</option>
+							<option value="4">관리자</option>
+						</select>
+					</td>
 				</tr>	
 				<tr>
 					<th colspan="4">
 						<input type="button" onclick="location.href='./memberList.go'" value="회원목록으로"/>
-						<input type="button" onclick="location.href='./subsHistory.go?member_idx=${dto.member_idx}'" value="구독이력보기"/>
-						<input type="button" onclick="location.href='./updateForm?board_idx=${dto.member_idx}'" value="제재이력보기"/>
-						<input type="submit" onclick="location.href='./updateForm?board_idx=${dto.member_idx}'" value="저장하기"/>
+						<input type="button" onclick="location.href='./subsHistory.do?member_idx=${dto.member_idx}'" value="구독이력보기"/>
+						<input type="button" onclick="location.href='./updateForm?member_idx=${dto.member_idx}'" value="제재이력보기"/>
+						<input type="button" name="memberAuthMod" value="저장하기"/>
 					</th>	
 				</tr>
 			</table>			
@@ -267,6 +275,39 @@ border: 1px solid black;
 >>>>>>> origin/master
 </body>
 <script>
+$('input[name="memberAuthMod"]').on('click', function(){
+	if(confirm("수정하시겠습니까?")==true){
+		updateAuthLevel();
+		alert('수정되었습니다.');
+	}else{
+		return;
+	}	
+});
+
+function updateAuthLevel(subsType_code) {
+	var subsType_code = $('#subsType_code').val();
+    var member_idx = "${dto.member_idx}"
+    
+    $.ajax({
+        type: "get",
+        url: "memberAuthMod",
+        data: {
+            subsType_code: subsType_code,
+            member_idx: member_idx
+        },
+        success: function(data) {
+            location.href = './memberDetail?member_idx=${dto.member_idx}';
+        },
+        error: function() {
+            alert("권한 레벨 업데이트에 실패했습니다.");
+        }
+    });
+}
+
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
 
 </script>
 </html>
