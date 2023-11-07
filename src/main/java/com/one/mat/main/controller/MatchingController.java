@@ -159,26 +159,6 @@ public class MatchingController {
 			       model.addAttribute("map",map);
 		return "memberDetailList";
 	}
-	
-	// 매칭요청 수신 리스트
-	@RequestMapping(value="/recvMatchingList.do")
-	public String recvMatchingListDo(Model model, HttpSession session) {
-		logger.info("매칭요청수신 리스트 요청");
-		String page = "login";
-		String msg = "로그인이 필요한 서비스입니다.";
-		if (session.getAttribute("loginInfo") != null) { // 로그인 했을 경우만 내용을 실행
-			page = "recvMatchingList";
-			msg = "";
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-			int member_idx = dto.getMember_idx();
-			logger.info("idx="+member_idx);
-			service.recvMatchingListDo(member_idx, model);
-		}
-		model.addAttribute("msg", msg);
-		return page;
-	}
-	
-	// 매칭요청 발신 리스트
 
 }
 
