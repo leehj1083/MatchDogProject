@@ -160,6 +160,7 @@ public class ChattingService {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		int chat_id = Integer.parseInt(chat_idx);
+		String dogName = "";
 		
 
 		proIdx = dao.proIdx(memberIdx);
@@ -170,10 +171,17 @@ public class ChattingService {
 			ChattingDTO toFrom = dao.toFrom(pro_idx, chat_id); // 채팅방 참여하는 나와 상대
 			if (toFrom != null) {
 				map.put("toFrom", toFrom);
+				int chat_me = toFrom.getPro_me();
+				int chat_you = toFrom.getPro_you();
+				logger.info("me :"+chat_me);
+				logger.info("you :"+chat_you);
+				dao.readCheck(chat_you);
+				dogName = dao.getDogName(chat_you);
 			}
 		}
 		ArrayList<ChattingDTO> totalMsg = dao.totalMsg(chat_id); // (채팅 텍스트 + 전송 사진) 가져오기
 		map.put("totalMsg", totalMsg);
+		map.put("dogName", dogName);
 		return map;
 	}
 
@@ -260,5 +268,7 @@ public class ChattingService {
 			return chat2.getChat_idx() - chat1.getChat_idx();
 		}
 	}
+
+
 
 }
