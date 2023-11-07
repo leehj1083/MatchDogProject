@@ -4,18 +4,6 @@
 >
 <mapper namespace="com.one.mat.admin.dao.MemberListDAO">
 
-	<select id="memberList" resultType="com.one.mat.member.dto.MemberDTO">
-  		SELECT m.member_idx, m.member_id, m.member_name, m.member_phone, m.member_email, 
-  		m.member_dongAddr, m.member_subs, m.member_renew, m.member_loginLock, 
-  		(SELECT s.subsType_code FROM subs s WHERE s.member_idx = m.member_idx) 
-  		FROM member m ORDER BY m.member_idx DESC
-  		LIMIT #{param1} OFFSET #{param2}
-  	</select>
-  	
-  	<select id="totalPage" resultType="int">
-		SELECT CEIL(COUNT(member_idx)/#{param1}) AS pages FROM member
-	</select>
-  	
   	<select id="memberDetail" resultType="com.one.mat.member.dto.MemberDTO">
   		SELECT m.member_idx, m.member_id, m.member_name, m.member_phone, m.member_email, m.member_nickName, 
   			m.member_roadAddr, m.member_parcelAddr, m.member_detailAddr, m.member_dongAddr, m.member_birth, 
@@ -29,43 +17,72 @@
 		           MAX(sh.subsHistory_exp) as subsHistory_exp
 		    FROM subsHistory sh
 		    WHERE sh.member_idx = #{param1}
-		    GROUP BY sh.member_idx
+		    GROUP BY sh.member_idx 
 		) sh ON m.member_idx = sh.member_idx
 		WHERE m.member_idx = #{param1}		
   	</select>
   	
-  	<select id="memberSearch" resultType="com.one.mat.member.dto.MemberDTO">
+  	<select id="memberList" resultType="com.one.mat.member.dto.MemberDTO">
   		SELECT m.member_idx, m.member_id, m.member_name, m.member_phone, m.member_email, 
   		m.member_dongAddr, m.member_subs, m.member_renew, m.member_loginLock, 
-  		(SELECT s.subsType_code FROM subs s WHERE s.member_idx = m.member_idx) FROM member m  
-  		WHERE 
+  		(SELECT s.subsType_code FROM subs s WHERE s.member_idx = m.member_idx) AS subsType_code
+  		FROM member m  		 
   		<choose>
 	        <when test="param1=='member_id'">
-	            'm.member_id' LIKE CONCAT('%', #{param2}, '%')
+	            WHERE member_id LIKE CONCAT('%', #{param2}, '%')
 	        </when>
 	        <when test="param1=='member_name'">
-	            'm.member_name' LIKE CONCAT('%', #{param2}, '%')
+	            WHERE member_name LIKE CONCAT('%', #{param2}, '%')
 	        </when>
 	        <when test="param1=='member_dongAddr'">
-	            'm.member_dongAddr' LIKE CONCAT('%', #{param2}, '%')
+	            WHERE member_dongAddr LIKE CONCAT('%', #{param2}, '%')
 	        </when>
 	    </choose>  		
   		ORDER BY m.member_idx DESC
   		LIMIT #{param3} OFFSET #{param4}
   	</select>
   	
-  	<select id="totalPageWithSearch" resultType="int">
-  		SELECT CEIL(COUNT(member_idx)/#{param1}) AS pages FROM member
-  		WHERE
+  	<select id="totalPage" resultType="int">
+  		SELECT CEIL(COUNT(member_idx)/#{param1}) AS pages FROM member  		
   		<choose>
 	        <when test="param2=='member_id'">
-	            'm.member_id' LIKE CONCAT('%', #{param3}, '%')
+	            WHERE member_id LIKE CONCAT('%', #{param3}, '%')
 	        </when>
 	        <when test="param2=='member_name'">
-	            'm.member_name' LIKE CONCAT('%', #{param3}, '%')
+	            WHERE member_name LIKE CONCAT('%', #{param3}, '%')
 	        </when>
 	        <when test="param2=='member_dongAddr'">
-	            'm.member_dongAddr' LIKE CONCAT('%', #{param3}, '%')
+	            WHERE member_dongAddr LIKE CONCAT('%', #{param3}, '%')
+	        </when>
+	    </choose>
+  	</select>
+  	
+  	<update id="memberAuthMod">
+  		UPDATE subs SET subsType_code = #{param1} WHERE member_idx = #{param2}
+  	</update>
+  	
+  	<select id="subsHistory" resultType="com.one.mat.member.dto.MemberDTO">
+  		SELECT m.member_idx, m.member_id, m.member_name, m.member_regDate, 
+  			m.member_subs, m.member_renew, sh.subsType_code, 
+  			sh.subsHistory_start, sh.subsHistory_exp, st.subsType
+		FROM member m
+		LEFT JOIN subs s ON s.member_idx=m.member_idx
+		LEFT JOIN subsHistory sh ON sh.member_idx=m.member_idx
+		left join substype st on st.subsType_code = (select s.subsType_code from subs s where s.member_idx = m.member_idx)
+		WHERE m.member_idx =#{param1} ORDER BY sh.subsHistory_start DESC
+  	</select>
+  	
+  	<select id="countUser" resultType="int">
+  		SELECT COUNT(member_idx) FROM member 
+  		<choose>
+	        <when test="param1=='member_id'">
+	            WHERE member_id LIKE CONCAT('%', #{param2}, '%')
+	        </when>
+	        <when test="param1=='member_name'">
+	            WHERE member_name LIKE CONCAT('%', #{param2}, '%')
+	        </when>
+	        <when test="param1=='member_dongAddr'">
+	            WHERE member_dongAddr LIKE CONCAT('%', #{param2}, '%')
 	        </when>
 	    </choose>
   	</select>

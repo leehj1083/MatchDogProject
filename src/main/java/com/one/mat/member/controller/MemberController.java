@@ -225,9 +225,5 @@ public class MemberController {
 		return result;
 	}
 		
-	@RequestMapping(value="/dashBoard.go")
-	public String dashBoard() {
-		return "dashBoard";
-	}
 	
 }
