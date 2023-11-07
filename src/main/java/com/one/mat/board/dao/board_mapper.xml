@@ -11,7 +11,8 @@
 	        board_regDate,
 	        board_bHit,
 	        (SELECT COUNT(reply_id) FROM reply r WHERE r.board_id = b.board_id AND r.reply_hidden != 'Y') as reply,
-	        (SELECT COUNT(photo_id) FROM photo p WHERE p.photo_idfNum = b.board_id AND p.photo_type = 1) as img
+	        (SELECT COUNT(photo_id) FROM photo p WHERE p.photo_idfNum = b.board_id AND p.photo_type = 1) as img,
+	        (SELECT COUNT(rec_id) FROM recommend r WHERE r.board_id = b.board_id AND r.rec_type = 1) as likeCount
 	    FROM board b
 	    INNER JOIN member m ON b.member_idx = m.member_idx
 	    WHERE b.board_hidden != 'Y'
@@ -115,5 +116,54 @@
     	DELETE FROM photo
     		WHERE photo_id = #{photo_id}
 	</update>
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ추천ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
+	<insert 
+	    useGeneratedKeys="true"
+	    keyColumn="rec_id"
+	    keyProperty="rec_id"
+	    id="like" parameterType="int">
+	    INSERT INTO recommend (board_id, member_idx, rec_type)
+	    	VALUES (#{param1}, #{param2}, 1);
+	</insert>
+	
+	<insert 
+	    useGeneratedKeys="true"
+	    keyColumn="rec_id"
+	    keyProperty="rec_id"
+	    id="hate" parameterType="int">
+	    INSERT INTO recommend (board_id, member_idx, rec_type)
+	    	VALUES (#{param1}, #{param2}, 2);
+	</insert>
+	
+	<select id="recommendLike" resultType="int" parameterType="int">
+	    SELECT COUNT(*) AS likeCount
+	    FROM recommend
+	    WHERE board_id = #{param1} AND rec_type = 1;
+	</select>
+	
+	<select id="recommendHate" resultType="int" parameterType="int">
+	    SELECT COUNT(*) AS hateCount
+	    FROM recommend
+	    WHERE board_id = #{param1} AND rec_type = 2;
+	</select>
+	
+	<select id="checkRec" resultType="int" parameterType="int">
+		SELECT
+			COUNT(*) AS checkCount
+		FROM recommend
+		where board_id = #{param1} AND member_idx = #{param2};
+	</select>
+	
+	<delete id="deleteRec" parameterType="int">
+		DELETE FROM recommend where board_id = #{param1} and member_idx = #{param2};
+	</delete>
+	
+	<select id="recType" resultType="int" parameterType="String">
+		SELECT
+			rec_type
+		FROM recommend
+		where board_id = #{param1} AND member_idx = #{param2};
+	</select>
 	
 </mapper>

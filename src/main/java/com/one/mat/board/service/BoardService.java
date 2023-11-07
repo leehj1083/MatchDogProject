@@ -165,5 +165,78 @@ public class BoardService {
         map.put("list", list);
         return map;
 	}
+//////////////////////////////     추천      ///////////////////////////////////////////
+	public Map<String, Object> like(String board_id, String member_idx) {
+		int memberIdx = Integer.parseInt(member_idx);
+		int boardId = Integer.parseInt(board_id);
+		dao.like(boardId, memberIdx);
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("success", "true");
+	    return result;
+	}
+	
+	public Map<String, Object> hate(String board_id, String member_idx) {
+		int memberIdx = Integer.parseInt(member_idx);
+		int boardId = Integer.parseInt(board_id);
+		dao.hate(boardId, memberIdx);
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("success", "true");
+		return result;
+	}
+
+	public Map<String, Object> recommendLike(String board_id) {
+		int boardId = Integer.parseInt(board_id);
+		int likeCount  = dao.recommendLike(boardId);
+		logger.info("좋아요갯수: "+likeCount );
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("likeCount", likeCount);
+		return map;
+	}
+	
+	public Map<String, Object> recommendHate(String board_id) {
+		int boardId = Integer.parseInt(board_id);
+		int hateCount  = dao.recommendHate(boardId);
+		logger.info("싫어요갯수: "+hateCount );
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hateCount", hateCount);
+		return map;
+	}
+
+	public Map<String, Object> checkRec(String board_id, String member_idx) {
+		int boardId = Integer.parseInt(board_id);
+		int memberIdx = Integer.parseInt(member_idx);
+		int checkRec = dao.checkRec(boardId,memberIdx);
+		logger.info("추천경험확인: "+checkRec);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("checkRec", checkRec);
+		return map;
+	}
+
+	public Map<String, Object> deleteRec(String board_id, String member_idx, String rec_type) {
+		int boardId = Integer.parseInt(board_id);
+		int memberIdx = Integer.parseInt(member_idx);
+		int recTypeF = Integer.parseInt(rec_type);
+		int recType = dao.recType(board_id, member_idx);
+		logger.info("삭제에서 추천타입 확인: "+recType);
+		logger.info("요청버튼 추천타입 확인: "+recTypeF);
+		Map<String, Object> map = new HashMap<String, Object>();
+		int delRow = dao.deleteRec(boardId, memberIdx);
+		if(recType != recTypeF) { // 1 != 2, 2 != 1
+			if(recTypeF==1) {
+				logger.info("삭제후 싫어요 insert요청");
+				dao.hate(boardId, memberIdx);
+				map.put("success", delRow);
+				map.put("success", "삭제,싫어요insert");
+			}else {
+				logger.info("삭제후 좋아요 insert요청");
+				dao.like(boardId, memberIdx);
+				map.put("success", "삭제,좋아요insert");
+				map.put("success", delRow);
+			}
+		}else {
+			map.put("success", delRow);
+		}
+		return map;
+	}
 	
 }
