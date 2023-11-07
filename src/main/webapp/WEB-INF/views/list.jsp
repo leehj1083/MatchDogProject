@@ -21,7 +21,23 @@
 		margin: 5px 0px;
 	}
 	.icon {
-    margin-right: 10px;
+    	margin-right: 10px;
+	}
+	#reply{
+		color: blue;
+	    text-decoration: none; /* 밑줄 제거 */
+	}
+	a {
+    	color: black;
+    	text-decoration: none; /* 밑줄 제거 */
+	}
+	/* 방문한 링크(회색) */
+	a:visited {
+	    color: black;
+	}
+	/* 링크 스타일 (검은색) */
+	a:hover {
+	    color: black;
 	}
 
 </style>
@@ -47,6 +63,7 @@
 			<th>작성자</th>
 			<th>작성일</th>
 			<th>조회수</th>
+			<th>추천</th>
 		</tr>
 		</thead>
 		<tbody id="list">		
@@ -62,7 +79,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="5" style="text-align:center">
+			<td colspan="6" style="text-align:center">
 				<div id="searchDIV">
 					<select id="searchType">
 						<option value="board_subject">제목</option>
@@ -122,7 +139,7 @@ function drawList(obj) {
         	    content += '<a class="icon"><img src="resources/img/image.png" width="20px" height="20px"></a>';
         	}
         	if (item.reply > 0) {
-        	    content += '<a class="icon">[' + item.reply + ']</a>';
+        	    content += '<a id="reply" class="icon">[' + item.reply + ']</a>';
         	}
         	content += '</td>';
         	content += '<td>' + item.member_nickName + '</td>';
@@ -130,6 +147,7 @@ function drawList(obj) {
         	var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
         	content += '<td>' + formattedRegDate + '</td>';
         	content += '<td>' + item.board_bHit.toLocaleString() + '</td>';
+        	content += '<td>' + item.likeCount.toLocaleString() + '</td>';
         	content += '</tr>';
         });
         $('#list').empty();
