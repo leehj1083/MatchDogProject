@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 public interface RegProfileDAO {
@@ -58,7 +59,18 @@ public interface RegProfileDAO {
 
 	ProfileDTO proDetail();
 
-	ProfileDTO memberDetailPhoto();
+	ArrayList<PhotoDTO> memberDetailListPhoto();
+
+	void proopen1();
+
+	void proopen2();
+
+	void historySave(int memberIdx);
+
+	
+
+	
+	
 
 
 
