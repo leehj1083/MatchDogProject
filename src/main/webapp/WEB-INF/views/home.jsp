@@ -74,6 +74,7 @@
     <a href="#">매칭리스트 img</a>
     <div id="firstMatchData">
         <p id="member_dongAddr"></p>
+        <p id="member_gender"></p>
         <p id="pro_dogName"></p>
         <p id="pro_dogAge"></p>
         <p id="pro_dogGender"></p>
@@ -87,12 +88,12 @@
     <button id="prevButton">이전</button>
     <button id="matchingdel">매칭리스트 삭제</button>
     <button id="matchingreq" >매칭요청 보내기</button>
-    <button id="openModal">모달 열기</button>
+    <button id="openModal" >모달 열기</button>
     <button id="closeModal">모달 닫기</button>
     <!-- 모달을 불러올 위치 -->
-    <div id="modalContainer"></div>
+    <div id="modalContent"></div>
 </div>
-</body>
+</body>	
 <script>
 
 var matchingData = []; // 매칭 데이터 배열
@@ -167,7 +168,7 @@ $('#matchingreq').click(function () {
             contentType: 'application/json',  // 보내는 데이터의 유형 (JSON)
             dataType: 'Json',  // 서버로부터의 응답 데이터 타입 (JSON)
             success: function (response) {
-            	console.log("stringify 성공 : " + JSON.stringify(request));
+            		console.log("stringify 성공 : " + JSON.stringify(request));
                 console.log('매칭 요청 성공:', response);
                 alert("매칭 요청이 발송되었습니다");
             },
@@ -179,11 +180,6 @@ $('#matchingreq').click(function () {
         }); 
     });
 
-// 매칭요청 확인창
-/* function popup(){
-   console.log('매칭요청');
-   alert("매칭 요청이 발송되었습니다");
-} */
 function showMatchingData(index) {
     var currentMatch = matchingData[index];
     $('#pro_dogName').text('강아지 이름: ' + currentMatch.pro_dogName);
@@ -192,18 +188,24 @@ function showMatchingData(index) {
     $('#pro_dogDesc').text('강아지 설명: ' + currentMatch.pro_dogDesc);
     $('#member_dongAddr').text('동 주소: ' + currentMatch.member_dongAddr);
     $('#member_gender').text('성별: ' + currentMatch.member_gender);
-}
+    
+} 
 
-var openModalBtn = document.getElementById("openModal");
-var closeModalBtn = document.getElementById("closeModal");
-var modalContainer = document.getElementById("modalContainer");
+
 
 $('#openModal').click(function () {
-	modalContainer.innerHTML = '<iframe src="memberDetail.jsp" frameborder="0"></iframe>';
+   var currentMatch = matchingData[currentIndex];
+   var pro_idx = currentMatch.pro_idx;
+
+   // JSP 파일을 가져와서 모달 창에 표시
+   $.get("./memberDetailList.go?pro_idx=" + pro_idx, function(data) {
+   	console.log(data);
+   	console.log("#modalContent");
+       $("#modalContent").html(data);
+   });
 });
-$('#closeModal').click(function () {
-	  modalContainer.innerHTML = '';
-});
+
+
 // 성향 리스트
 /* function matchingCharList() {
    $.ajax({
@@ -240,6 +242,5 @@ var msg = "${msg}";
 if(msg != ""){
 	alert(msg);
 }
-
 </script>
 </html>
