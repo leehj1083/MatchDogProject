@@ -28,7 +28,6 @@ public class MemberDTO {
 	private Date subsHistory_exp;
 	
 	
-	
 	public Date getSubsHistory_start() {
 		return subsHistory_start;
 	}
