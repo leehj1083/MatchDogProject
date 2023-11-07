@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.one.mat.admin.dao.CompDAO">
+<select id="list" resultType="com.one.mat.admin.dto.CompDTO">
+	    SELECT comp.comp_idx, 
+       comp.comp_memberIdx,
+       comp.compType_code,
+       comp.comp_loc,
+       comp.comp_idfNum,
+       comp.comp_content,
+       comp.comp_receiveDate,
+       comp.comp_reportIdx,
+       comptype.compType
+      
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+WHERE comp.comp_memberIdx = 1 LIMIT #{param1} OFFSET #{param2}
+	</select>
+<select id="list3" resultType="com.one.mat.admin.dto.CompDTO">
+
+select comp_handleDate,comp_handleState  from comphistory c 
+</select>	
+	
+	<select id="totalPage" resultType="int">
+		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
+	</select>
+
+</mapper>
