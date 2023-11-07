@@ -102,10 +102,60 @@ public class BoardController {
 	    }
 	    return resultMap;
 	}
-	
+	////////////////////////////// 신고창으로 이동 /////////////////////////////////////////
 	@RequestMapping(value = "/compBoard")
 	public String comp(HttpSession session, @RequestParam String board_id) {
 		return "compBoard";
 	}
+	////////////////////////////// 추천 버튼 요청 /////////////////////////////////////////
+	// 좋아요 갯수 보여주기
+	@RequestMapping(value="/recommendLike")
+	@ResponseBody
+	public Map<String, Object> recommendLike(HttpSession session, @RequestParam String board_id){
+		logger.info("컨트롤러 좋아요갯수 boar_id: " + board_id);
+		return service.recommendLike(board_id);
+	}
+	// 싫어요 갯수 보여주기
+	@RequestMapping(value="/recommendHate")
+	@ResponseBody
+	public Map<String, Object> recommendHate(HttpSession session, @RequestParam String board_id){
+		logger.info("컨트롤러 좋아요갯수 boar_id: " + board_id);
+		return service.recommendHate(board_id);
+	}
+	
+	// 이미 좋아요, 싫어요 버튼을 누른적이 있는지 Count
+	@RequestMapping(value = "/checkRec")
+	@ResponseBody
+	public Map<String, Object> checkRec(HttpSession session, @RequestParam String board_id, @RequestParam String member_idx){
+		return service.checkRec(board_id, member_idx);
+	}
+	
+	// 추천 삭제
+	@RequestMapping(value = "/deleteRec")
+	@ResponseBody
+	public Map<String, Object> deleteRec(
+			HttpSession session, @RequestParam String board_id, @RequestParam String member_idx, @RequestParam String rec_type){
+		return service.deleteRec(board_id, member_idx, rec_type);
+	}
+	
+	// 좋아요 insert 요청
+	@RequestMapping(value="/like")
+	@ResponseBody
+	public Map<String, Object> like(HttpSession session, @RequestParam String board_id, @RequestParam String member_idx){
+		logger.info("좋아요버튼board_id: "+board_id);
+		logger.info("좋아요버튼member_idx: "+member_idx);
+		return service.like(board_id, member_idx);
+	}
+	
+	// 싫어요 insert 요청
+	@RequestMapping(value="/hate")
+	@ResponseBody
+	public Map<String, Object> hate(HttpSession session, @RequestParam String board_id, @RequestParam String member_idx){
+		logger.info("싫어요버튼board_id: "+board_id);
+		logger.info("싫어요버튼member_idx: "+member_idx);
+		return service.hate(board_id, member_idx);
+	}
+	
+	
 
 }

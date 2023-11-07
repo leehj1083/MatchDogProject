@@ -53,6 +53,21 @@
 			</th>
 		</tr>
 	</table>
+	<form id="recommendLike">
+		<div>
+			<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
+			<input type="button" id="likeButton" onclick="like('${board.board_id}')" value="좋아요"/>
+			<span id="likeCount">0</span>
+		</div>
+	</form>
+	<form id="recommendHate">
+		<div>
+			<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
+			<input type="button" id="hateButton" onclick="hate('${board.board_id}')" value="싫어요"/>
+			<span id="hateCount">0</span>
+		</div>
+	</form>
+
 	</form>
 	<h2>댓글</h2>
 	<hr width="800px" align="left">
@@ -79,6 +94,8 @@
 </body>
 <script>
 loadReplyList();
+recommendLike();
+recommendHate();
 
 var obj = {};
 
@@ -231,6 +248,178 @@ function deleteReply(reply_id) {
             }
         });
     }
+}
+
+var one = "1";
+var two = "2";
+
+// 좋아요 버튼 요청시(회원이 이미 추천을 눌렀었나 DB에서 확인, if Count>0 이면 삭제 else면 추가)
+function like(board_id, member_idx) {
+	
+	document.getElementById("likeButton").disabled = true;
+	document.getElementById("hateButton").disabled = true;
+
+	var member_idx = $('[name="member_idx"]').val();
+	$.ajax({
+		type: 'GET',
+		url: 'checkRec',
+		dataType: 'JSON',
+		data: {
+			board_id: board_id,
+			member_idx: member_idx,
+		},
+		success: function(data){		
+			console.log(data);
+			if(data && data.checkRec > 0){
+				console.log("삭제요청");
+				deleteRec(board_id, member_idx, one);
+				recommendLike();
+				recommendHate();
+			}else{
+				console.log("좋아요 insert 요청");
+				$.ajax({
+					type: 'POST',
+					url: 'like',
+					data: {
+						board_id: board_id,
+						member_idx: member_idx
+					},
+					dataType: 'JSON',
+					success: function(data){
+						console.log(data);
+						recommendLike();
+						recommendHate();
+					},
+					error: function(e){
+						console.log(e);
+					}
+				});
+			}
+		},
+		error: function(e){
+			console.log(e);
+		}
+	});	
+	// 4초후 다시 버튼 활성화
+	setTimeout(function() {
+        document.getElementById("likeButton").disabled = false;
+    }, 4000);
+	setTimeout(function() {
+        document.getElementById("hateButton").disabled = false;
+    }, 4000);
+}
+
+// 싫어요 버튼 함수
+function hate(board_id, member_idx) {
+	
+	document.getElementById("likeButton").disabled = true;
+	document.getElementById("hateButton").disabled = true;
+
+	var member_idx = $('[name="member_idx"]').val();
+	var two = "2";
+	$.ajax({
+		type: 'GET',
+		url: 'checkRec',
+		dataType: 'JSON',
+		data: {
+			board_id: board_id,
+			member_idx: member_idx,
+		},
+		success: function(data){
+			console.log("checkRec 요청값");
+			console.log(data);
+			if(data && data.checkRec > 0){
+				console.log("삭제요청");
+				deleteRec(board_id, member_idx, two);
+				recommendLike();
+				recommendHate();
+			}else{
+				console.log("싫어요 insert 요청");
+				$.ajax({
+					type: 'POST',
+					url: 'hate',
+					data: {
+						board_id: board_id,
+						member_idx: member_idx
+					},
+					dataType: 'JSON',
+					success: function(data){
+						console.log(data);
+						recommendLike();
+						recommendHate();
+					},
+					error: function(e){
+						console.log(e);
+					}
+				});
+			}
+		},
+		error: function(e){
+			console.log(e);
+		}
+	});	
+	// 4초후 다시 버튼 활성화
+	setTimeout(function() {
+        document.getElementById("likeButton").disabled = false;
+    }, 4000);
+	setTimeout(function() {
+        document.getElementById("hateButton").disabled = false;
+    }, 4000);
+}
+
+// 좋아요 갯수 보여주는 함수
+function recommendLike() {
+    $.ajax({
+        type: 'GET',
+        url: 'recommendLike',
+        dataType: 'json',
+        data: { 'board_id': ${board.board_id} },
+        success: function (data) {
+            // console.log(data);
+            $('#likeCount').text(data.likeCount);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+// 싫어요 갯수 보여주는 함수
+function recommendHate() {
+    $.ajax({
+        type: 'GET',
+        url: 'recommendHate',
+        dataType: 'json',
+        data: { 'board_id': ${board.board_id} },
+        success: function (data) {
+            // console.log(data);
+            $('#hateCount').text(data.hateCount);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+// 추천 삭제 함수
+function deleteRec(board_id, member_idx, rec_type) {
+	
+    $.ajax({
+        type: 'POST',
+        url: 'deleteRec',
+        data: {
+            board_id: board_id,
+            member_idx: member_idx,
+            rec_type: rec_type
+        },
+        dataType: 'JSON',
+        success: function (data) {
+        	// console.log(data);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
 }
 
 </script>
