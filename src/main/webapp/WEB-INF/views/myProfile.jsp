@@ -184,7 +184,7 @@ input:checked+.slider:before {
     <h3>${Profile.pro_dogName} 프로필</h3>
     <hr>
     ${Profile.pro_idx}
-     <c:if test="${myProfile.size() <= 1 }">
+     <c:if test="${Profile.pro_quit == 'N' && myProfile.size() <= 1}">
     	 <button id='regProfileGo'>+</button>
     	 <div id="regProfileGoModal" class="regProfileGoModal">
   		  <div class="regProfileGoModal-content">
@@ -195,7 +195,8 @@ input:checked+.slider:before {
 		</div>
 <!-- 		<input type="button" onclick="location.href='./regProfile.go'" value="+" /> -->
 	</c:if>
-	<c:if test="${myProfile.size() == 2 }">
+
+	<c:if test="${Profile.pro_quit == 'N' && myProfile.size() == 2 }">
 <!-- 		<input type="button" onclick="location.href='./regProfile.go'" value="+" /> -->
 		<button class='regProfileGo' value="${Profile.member_idx}">+</button>
     	 <div class="regProfileGoModal">
@@ -215,8 +216,8 @@ input:checked+.slider:before {
 <%-- 		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" /> --%>
 		
 	</c:if>
-	<c:if test="${myProfile.size() >= 3}">
-		<input type="button" onclick="location.href='./myProfileDel.do?idx=${Profile.pro_idx}'" value="-" />
+	<c:if test="${Profile.pro_quit == 'N' && myProfile.size() >= 3}">
+		<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
 	</c:if>
 	
     <hr>
@@ -237,8 +238,22 @@ input:checked+.slider:before {
     <form action="myProfileMod.go" method="post">
     <table pro_idx="${Profile.pro_idx}">
    		<tr>
-            <th>사진</th>
-            <th>${Profile.photo_fileNameList}</th>
+            <th>대표 사진</th>
+            <td>
+            <c:set var="minPhotoId" value="9999" />
+			<c:set var="minFileName" value="" />
+				<c:forEach items="${Profile.photoList}" var="photo" varStatus="loop">
+    				<c:if test="${photo.photo_id < minPhotoId}">
+       		 			<c:set var="minPhotoId" value="${photo.photo_id}" />
+       					 <c:set var="minFileName" value="${photo.photo_fileName}" />
+    				</c:if>
+				</c:forEach>
+		<p>photo_id가 가장 낮은 photo_fileName(대표 사진): ${minFileName}</p>
+<%--         <c:forEach items="${Profile.photoList}" var="fileName" varStatus="loop">
+            ${fileName}<c:if test="${!loop.last}">, </c:if>
+        </c:forEach> --%>
+    </td>
+<%--             <th>${Profile.photo_fileNameList}</th> --%>
         </tr>
         <tr>
             <th>내 강아지 이름</th>
@@ -283,8 +298,12 @@ input:checked+.slider:before {
 		</tr>
 		<tr>
 			<th>내 강아지 성향</th>
-<!-- 			<td id="charList"></td> -->
- 			<td>${Profile.charTypeList}</td>
+			<td>
+        <c:forEach items="${Profile.charTypeList}" var="charType" varStatus="loop">
+            ${charType.charType}<c:if test="${!loop.last}">, </c:if>
+        </c:forEach>
+    </td>
+<%--  			<td>${Profile.charTypeList}</td> --%>
 		</tr>
 		<tr>
 			<th>내 강아지 소개 : </th>

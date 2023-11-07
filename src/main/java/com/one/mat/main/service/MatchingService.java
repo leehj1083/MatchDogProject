@@ -70,7 +70,7 @@ public class MatchingService {
 				    // 사진 정보를 가져와야 함
 				    ArrayList<String> photo_fileNameList = dao.photo_fileName(pro_idx);
 				    // 해당 프로필의 사진 정보를 프로필에 추가해야 함
-				    profileDTO.setPhoto_fileNameList(photo_fileNameList);
+					/* profileDTO.setPhoto_fileNameList(photo_fileNameList); */
 				    
 
 				    // 수정된 프로필을 myProfileList에 추가

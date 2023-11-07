@@ -5,14 +5,14 @@
 <mapper namespace="com.one.mat.myPage.dao.MyProfileDAO">
 
 <select id="MyProfileListDo" resultType="com.one.mat.member.dto.ProfileDTO">
-	SELECT *
+SELECT *
 FROM pro p
 INNER JOIN breed b ON p.pro_idx = b.pro_idx
 INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx=#{idx}
 
 </select>
-<select id="charType" resultType = "String">
-select ct.charType
+<select id="charType" resultType = "com.one.mat.member.dto.ProfileDTO">
+select ct.charType, ct.charType_code
 from `char` c
 INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
 </select>
@@ -34,12 +34,29 @@ where openType_code=2 and p.pro_idx=#{pro_idx}
 </select>
 
 
-
-<select id="photo_fileName" resultType = "String">
-SELECT pt.photo_fileName
+<select id="photoList" resultType = "com.one.mat.member.dto.PhotoDTO">
+SELECT pt.photo_id, pt.photo_type, pt.photo_idfNum, pt.photo_fileName, pt.photo_uploadDate
 FROM pro p 
 INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_idx}
 </select>
+
+
+<select id="MyProfileModList" resultType="com.one.mat.member.dto.ProfileDTO">
+SELECT *
+FROM pro p
+INNER JOIN breed b ON p.pro_idx = b.pro_idx
+INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where p.pro_idx=#{param1}
+</select>
+
+<select id="charTypeList" resultType="com.one.mat.member.dto.ProfileDTO">
+	SELECT charType_code,charType FROM chartype
+</select>
+
+<select id="breedTypeList" resultType="com.one.mat.member.dto.ProfileDTO">
+	SELECT breedType_code,breedType FROM breedtype
+</select>
+
+
 
 
 <update id="myProfileOpenDo">
@@ -58,9 +75,38 @@ SET pro_rep = 'Y'
 WHERE pro_idx = #{param1}
 </update>
 
-<update id="myPageModUpdateDo">
 
- </update>
+
+
+
+<update id="myProfileModUpdateDo" parameterType="map">
+UPDATE pro p
+JOIN breed b ON p.pro_idx = b.pro_idx
+SET p.pro_dogName = #{pro_dogName},
+    p.pro_dogAge = #{pro_dogAge},
+    p.pro_dogGender = #{pro_dogGender},
+    p.pro_dogDesc = #{pro_dogDesc},
+    b.breedType_code = #{breedType_code}
+WHERE p.pro_idx = #{pro_idx}
+</update>
+
+
+<delete id="charTypeDel">
+DELETE FROM `char`
+WHERE pro_idx =#{param1}
+</delete>
+<insert id="charTypeSave">
+INSERT INTO `char` (pro_idx, charType_code)
+VALUES
+(#{param1}, #{param2}),
+(#{param1}, #{param3}),
+(#{param1}, #{param4}),
+(#{param1}, #{param5})
+</insert>
+
+
+
+
   	
 <update id="myProfileDelDo">
 UPDATE pro
