@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.one.mat.main.dto.MatchingDTO;
 import com.one.mat.main.service.MatchingService;
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
@@ -34,6 +34,7 @@ public class MatchingController {
 	}
 	
 // member_idx, pro_idx 가져오기 예제
+	
 //	MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 //	int member_idx = dto.getMember_idx();
 //	logger.info("member_idx : "+member_idx);
@@ -58,7 +59,7 @@ public class MatchingController {
 	// 성향, 사진, 개age,개gender 비공개  리스트는 따로 가져와야함
 	@RequestMapping(value = "/MatchingList.do")
 	@ResponseBody
-	public Map<String, Object> matchingList(Model model, HttpSession session) {
+	public Map<String, Object> matchingListDo(Model model, HttpSession session) {
 		logger.info("MatchingList");
 		
 		Map<String, Object> map = new HashMap<>();
@@ -115,39 +116,77 @@ public class MatchingController {
 	// 매칭보내기 요청 /HomeSend.do
 	@RequestMapping(value="/HomeSend.do")
 	@ResponseBody
-	public String homeSend(HttpSession session, @RequestBody Map<String, String> pro_recvIdx) {
-		logger.info("HomeSend.do");
-		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-		int member_idx = dto.getMember_idx();
-		int pro_idx = 0;
-		logger.info("member_idx : "+member_idx);
-		
-		logger.info("pro_recvIdx :" +pro_recvIdx);
+	public int homeSendDo(HttpSession session, @RequestBody Map<String, Object> pro_recvidx) {
+		logger.info("HomeSend.do");		
+		logger.info("homeSendDo/Map pro_recv_idx : " + pro_recvidx);
+		Object Obj_pro_recvIdx = pro_recvidx.get("pro_idx");
+		String pro_recvIdx = (Obj_pro_recvIdx != null) ? Obj_pro_recvIdx.toString() : null;
+		Map<String, String> map = new HashMap<String, String>();
 
-	 	    if (dto != null) {
-	 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-	 			for (ProfileDTO profileDTO : myProfile) {
-	 				 if(profileDTO.getPro_rep().equals("Y")) {
-		 			    pro_idx = profileDTO.getPro_idx();
-		 			    logger.info("pro_idx : "+pro_idx);
-		 				 }
-	 				}
-	 		}
-	 	    return  service.homeSend(pro_idx, pro_recvIdx);
+		if (pro_recvIdx != null) {
+			map.put("pro_recvIdx", pro_recvIdx);
+			logger.info("homeSendDo/map.put pro_recvIdx :"+pro_recvIdx);
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			int member_idx = dto.getMember_idx();
+			int pro_idx = 0;
+			logger.info("member_idx : "+member_idx);
+			
+			if (dto != null) {
+				ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
+				for (ProfileDTO profileDTO : myProfile) {
+					if(profileDTO.getPro_rep().equals("Y")) {
+						pro_idx = profileDTO.getPro_idx();
+						map.put("pro_sendIdx", Integer.toString(pro_idx));
+						logger.info("homeSendDo/map.put pro_sendIdx : "+pro_idx);
+					}
+				}
+			}
+		} else {
+			logger.info("실패!");
+		}
+		return  service.homeSend(map);
 	}
 	
+	
 // 프로필상세보기 모달창 요청 /memberDetailList.go
-//	@RequestMapping(value= "/recvMatchingList.go")
-//	public String recvMatchingList(Model model, HttpSession session) {
-//		if (session.getAttribute("loginInfo") == null) {
-//			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-//		} else {
-//			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-//			String id = dto.getMember_id();
-//			
-//		model.addAttribute("myPage", service.MyPageListDo(id));
-//		}
-//		return "recvMatchingList";
-//	}
+	@RequestMapping(value= "/memberDetailList.go")
+	public String memberDetailListGO(Model model, HttpSession session,@RequestParam int pro_idx) {
+		logger.info("memberDetailListGo");
+		Map<String, Object> map = new HashMap<String, Object>();
+			logger.info("memberDetailListGo/pro_idx : " + pro_idx);
+			       map = service.memberDetailListGO(pro_idx);
+			       logger.info("map : "+map);
+			       model.addAttribute("map",map);
+		return "memberDetailList";
+	}
+	
+	// 매칭요청 수신 리스트
+	@RequestMapping(value="/recvMatchingList.do")
+	public String recvMatchingListDo(Model model, HttpSession session) {
+		logger.info("매칭요청수신 리스트 요청");
+		String page = "login";
+		String msg = "로그인이 필요한 서비스입니다.";
+		if (session.getAttribute("loginInfo") != null) { // 로그인 했을 경우만 내용을 실행
+			page = "recvMatchingList";
+			msg = "";
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			int member_idx = dto.getMember_idx();
+			logger.info("idx="+member_idx);
+			service.recvMatchingListDo(member_idx, model);
+		}
+		model.addAttribute("msg", msg);
+		return page;
+	}
+	
+	// 매칭요청 발신 리스트
+
 }
+
+
+
+
+
+
+
+
 

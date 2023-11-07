@@ -16,7 +16,6 @@ INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx
 			제재여부=N,탈퇴여부=N 이고 성향이 4개 모두 같을 경우 select) -->
 <select id="matchingList" resultType="map">
   SELECT
-  	m.member_nickName,
     m.member_gender,
     m.member_dongAddr,
     p.pro_dogName,
@@ -50,14 +49,35 @@ LIMIT 10
 
 <!-- 4가지의 성향 모두 일치하는 성향들을 가져오는 쿼리 -->
 <select id="matchingCharType" resultType = "String">
-	select ct.charType
-	from `char` c
+	SELECT ct.charType
+	FROM `char` c
 	INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_idx}
 </select>
 
+<!-- 매칭요청 보내기 쿼리문 -->
 <insert id="homeSend" parameterType="map" >
-	INSERT INTO `match` (pro_sendIdx ,pro_recvIdx) VALUES(#{pro_idx},#{pro_recvIdx})
+	INSERT INTO `match` (pro_sendIdx ,pro_recvIdx) VALUES(#{pro_sendIdx},#{pro_recvIdx})
 </insert>
+
+
+<!-- 프로필 상세보기 쿼리문 -->
+<select id="memberDetailListGO" resultType="map">
+SELECT
+    p.pro_dogName,
+    p.pro_dogAge,
+    p.pro_dogGender,
+    p.pro_dogDesc,
+    p.pro_dogScore,
+    m.member_gender,
+    m.member_dongAddr,
+    m.member_nickName,
+    bt.breedType
+FROM pro AS p
+JOIN member AS m ON p.member_idx = m.member_idx
+LEFT JOIN breed AS b ON p.pro_idx = b.pro_idx
+LEFT JOIN breedtype AS bt ON b.breedType_code = bt.breedType_code
+WHERE p.pro_idx = #{param1};
+</select>
 <!-- <select id="matchingPhotoFileName" resultType = "String">
 	SELECT pt.photo_fileName
 	FROM pro p 
