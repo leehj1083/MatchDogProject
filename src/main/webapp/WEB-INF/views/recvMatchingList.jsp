@@ -156,7 +156,7 @@ function listCall(page){
 		dataType:'json',
 		success:function(data){
 			console.log(data);
-			drawList(data);
+			//drawList(data);
 		},
 		error:function(e){
 			console.log(e);
@@ -165,7 +165,7 @@ function listCall(page){
 }
 
 // 채팅방 리스트 뿌려주기...
-function drawList(obj){
+/* function drawList(obj){
 	
 	var content = '';
 
@@ -212,7 +212,7 @@ function drawList(obj){
 	$('.last').children().addClass('bi bi-chevron-double-right');
 	$('.prev').children().addClass('bi bi-chevron-left');
 	$('.next').children().addClass('bi bi-chevron-right');
-}
+} */
 
 
 </script>

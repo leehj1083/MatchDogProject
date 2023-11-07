@@ -19,12 +19,12 @@ import com.one.mat.member.dto.MemberDTO;
 @Controller
 public class MatchListController {
 	
-	Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-	MatchListService service;
-	
-	// 매칭받은 리스트 페이지로 이동
+//	Logger logger = LoggerFactory.getLogger(getClass());
+//	
+//	@Autowired
+//	MatchListService service;
+//	
+//	 //매칭받은 리스트 페이지로 이동
 //	@RequestMapping(value="/recvMatchingList.go")
 //	public String recvMatchingListGo(Model model,HttpSession session) {
 //		String page = "login";
