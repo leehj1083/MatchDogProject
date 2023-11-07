@@ -261,8 +261,8 @@ textarea style ="resize: both ;"> </textarea>.modal {
 			<tr>
 				<th>내 강아지 성별</th>
 				<td><select name="pro_dogGender">
-						<option value="남아">남아</option>
-						<option value="여아">여아</option>
+						<option value="남">남</option>
+						<option value="여">여</option>
 				</select></td>
 			</tr>
 			<tr>

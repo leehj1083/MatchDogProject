@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.member.dao.RegProfileDAO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 @Service
@@ -194,6 +195,7 @@ public class RegProfileService {
 
 	public ArrayList<ProfileDTO> charlist() {
 		
+		
 		return dao.charlist();
 	}
 
@@ -209,14 +211,29 @@ public class RegProfileService {
 		
 	}
 
-	public void memberDetailPhoto(Model model) {
-		ProfileDTO pph = dao.memberDetailPhoto();
+	public ArrayList<PhotoDTO> memberDetailListPhoto() {
 		
-		model.addAttribute("pph",pph);
-		
-		
+		return dao.memberDetailListPhoto();
+	}
+
+	public void proopen1() {
+		dao.proopen1();
 		
 	}
+
+	public void proopen2() {
+		dao.proopen2();
+		
+	}
+
+	public void historySave(int memberIdx) {
+		dao.historySave(memberIdx);
+		
+	}
+
+	
+
+	
 
 	
 

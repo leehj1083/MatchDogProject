@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 import com.one.mat.member.service.RegProfileService;
 
@@ -38,6 +40,7 @@ public class RegProfileController {
 	 private String ph_7;
 	 private String ph_8;
 	 private String ph_9;
+	 String redirectURL = "";
 	 
 	
 
@@ -90,6 +93,9 @@ public class RegProfileController {
 		if(ph_9 !=""){service.photos9(ph_9);}
 		
 		service.proReq(memberDTO);
+		
+		service.proopen1();
+		service.proopen2();
 		
 	
 		
@@ -210,8 +216,8 @@ public class RegProfileController {
 	}
 	
 	@RequestMapping("/chattingcompSave.do")
-	public String chattingcompSave(@RequestParam Map<String, String> params, HttpSession session) {
-	
+	public String chattingcompSave(@RequestParam Map<String, String> params, HttpSession session,HttpServletRequest request) {
+		String currentRequestURI = request.getRequestURI();
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
 		    logger.info("Member Index: " + memberIdx);
@@ -225,16 +231,23 @@ public class RegProfileController {
 	    service.chattingcompSave(params);
 	    service.compPhoto(params);
 	  
+	    if (currentRequestURI.contains("/chattingcompSave.do")) {
+	        redirectURL = "redirect:/chattcompTypeList.do";
+	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
+	        redirectURL = "redirect:/commentcompTypeList.do";
+	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
+	        redirectURL = "redirect:/boardcompTypeList.do";
+	    }
 		
 		
 		
 		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
-		return "redirect:/chattcompTypeList.do"; 
+		return "redirect:/compHistory"; 
 		
 	}
 	@RequestMapping("/boardcompSave.do")
-	public String boardcompSave(@RequestParam Map<String, String> params, HttpSession session) {
-	
+	public String boardcompSave(@RequestParam Map<String, String> params, HttpSession session,HttpServletRequest request) {
+		String currentRequestURI = request.getRequestURI();
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
 		    logger.info("Member Index: " + memberIdx);
@@ -247,18 +260,24 @@ public class RegProfileController {
 	    
 	    service.boardcompSave(params);
 	    service.compPhoto(params);
-	  
+	    if (currentRequestURI.contains("/chattingcompSave.do")) {
+	        redirectURL = "redirect:/chattcompTypeList.do";
+	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
+	        redirectURL = "redirect:/commentcompTypeList.do";
+	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
+	        redirectURL = "redirect:/boardcompTypeList.do";
+	    }
 		
 		
 		
 		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
-		return "redirect:/boardcompTypeList.do"; 
+		return "redirect:/compHistory"; 
 		
 	}
 	
 	@RequestMapping("/commentcompSave.do")
-	public String commentcompSave(@RequestParam Map<String, String> params, HttpSession session) {
-	
+	public String commentcompSave(@RequestParam Map<String, String> params, HttpSession session,HttpServletRequest request) {
+		String currentRequestURI = request.getRequestURI();
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
 		    logger.info("Member Index: " + memberIdx);
@@ -271,29 +290,58 @@ public class RegProfileController {
 	    
 	    service.commentcompSave(params);
 	    service.compPhoto(params);
-	  
+	    if (currentRequestURI.contains("/chattingcompSave.do")) {
+	        redirectURL = "redirect:/chattcompTypeList.do";
+	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
+	        redirectURL = "redirect:/commentcompTypeList.do";
+	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
+	        redirectURL = "redirect:/boardcompTypeList.do";
+	    }
 		
 		
 		
 		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
-		return "redirect:/commentcompTypeList.do"; 
+		return "redirect:/compHistory"; 
 		
 	}
-	@RequestMapping("/memberDetail")
+	
+     @RequestMapping("/compHistory")
+     public String compHistory(HttpSession session, HttpServletRequest request) {
+    	 String currentRequestURI = request.getRequestURI();
+    	 
+    	 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+		    int memberIdx = memberDTO.getMember_idx();
+		    logger.info("Member Index: " + memberIdx);
+    	 
+    	 
+    	 service.historySave(memberIdx);
+    	 
+    	 
+    	 
+    	 
+    	   
+    	 return redirectURL;
+     }
+	@RequestMapping("/memberDetailList")
 	public String memberDetail(Model model,HttpSession session) {
 		
 		ArrayList<ProfileDTO> list = service.charlist();
+		ArrayList<PhotoDTO> list2 = service.memberDetailListPhoto();
 		model.addAttribute("list", list);
+		model.addAttribute("list2"+ list2);
 		logger.info("list  ="+list);
+		logger.info("list2 : "+list2);
+		
+		
 		
 		service.memberDetail(model);
-		service.memberDetailPhoto(model);
+	
 		
 		
 		
 		
 		
-		return "memberDetail";
+		return "memberDetailList";
 	}
 
 }
