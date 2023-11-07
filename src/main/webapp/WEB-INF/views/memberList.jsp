@@ -95,8 +95,9 @@
 	        </ul>
 	    </div>
 		<div class="title">
-		  <h2>매칭해주개 회원 리스트</h2><hr/>
-		  <select id="pagePerNum" style="float: right;">
+			<h2>매칭해주개 회원 리스트</h2><hr/>
+			<span style="font-size: medium; font-weight: bold;">총 회원 수&nbsp;<span id="totalUser"></span>&nbsp;명</span>
+			<select id="pagePerNum" style="float: right;">
 				<option value="10">10</option>
 				<option value="15">15</option>
 				<option value="20">20</option>
@@ -139,7 +140,7 @@
 								<option value="member_dongAddr">거주지(동)</option>
 							</select>
 							 <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력">
-			  				 <button id="search">검색</button>
+			  				 <button id="search">검색</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			  				 <button id="authorization">권한관리</button>
 		  				 </div>
 					</td>
@@ -154,6 +155,8 @@ var searchType ='';
 var searchKeyword = '';
 
 listCall(showPage, searchType, searchKeyword);
+countUser(searchType, searchKeyword);
+
 
 $('#pagePerNum').change(function(){
 	// 페이지당 보여줄 게시물 갯수가 변경되면 페이징 처리 UI 를 지우고 다시 그려 준다.
@@ -167,8 +170,9 @@ $('#search').click(function(){
     searchKeyword = $('input[name="searchKeyword"]').val();
     console.log(searchType);
     console.log(searchKeyword);
-	showPage =1;
-    searchCall(showPage, searchType, searchKeyword);
+    console.log(showPage);
+    $('#pagination').twbsPagination('destroy');
+    listCall(showPage, searchType, searchKeyword);
 });
 
 
@@ -189,32 +193,10 @@ function listCall(page, searchType, searchKeyword){
 				alert('이 페이지에 접근할 수 없습니다.');
 				location.href="./";
 			}else{
+				console.log(data.pages);
 				drawList(data);
+				countUser(searchType, searchKeyword);
 			}
-		},
-		error:function(e){
-			console.log(e);
-		}
-	});
-}
-
-function searchCall(page, searchType, searchKeyword){
-	searchType = $('#searchType').val();
-    searchKeyword = $('input[name="searchKeyword"]').val();
-	
-	$.ajax({
-		type:'get',
-		url:'memberSearch.do',
-		data:{
-			'pagePerNum':$('#pagePerNum').val(),
-			'page':page,
-			'searchType': searchType,
-            'searchKeyword': searchKeyword
-		},
-		dataType:'json',
-		success:function(data){
-			console.log(data);
-			drawList(data);
 		},
 		error:function(e){
 			console.log(e);
@@ -224,6 +206,10 @@ function searchCall(page, searchType, searchKeyword){
 
 
 function drawList(obj) {
+	console.log(obj);
+	console.log(obj.currPage);
+	console.log(obj.pages);
+	var totalPages = obj.pages;
     var content = '';
     var totalUser = obj.list.length;
 
@@ -243,24 +229,58 @@ function drawList(obj) {
             content += '<td>' + item.member_loginLock + '</td>';  
             content += '<td>' + item.subsType_code + '</td>';  
             content += '</tr>';
-        });        
+        })
+            
 
-        // 검색 결과가 있으면 페이징 UI 그리기
-        $('#pagination').twbsPagination({
-            startPage: obj.currPage, // 보여줄 페이지
-            totalPages: obj.pages, // 총 페이지 수 (총 갯수 / 페이지당 보여줄 게시물 수): 서버에서 계산해서 가져와야함
-            visiblePages: 5, // [1][2][3][4][5]
-            onPageClick: function (e, page) {
-                if (showPage != page) {
-                    console.log(page);
-                    showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
-                    listCall(page, searchType, searchKeyword);
-                }
-            }
-        });
-    }
+    // 검색 결과가 있으면 페이징 UI 그리기
+    $('#pagination').twbsPagination({
+        startPage: showPage, // 시작시 보여줄 페이지
+        totalPages: obj.pages, // 총 페이지 수 (총 갯수 / 페이지당 보여줄 게시물 수): 서버에서 계산해서 가져와야함
+        visiblePages: 5, // [1][2][3][4][5]
+        onPageClick: function (e, page) {
+        	console.log(page);
+            console.log(obj.currPage);
+            console.log(obj.pages);
+            if (showPage != page) {                
+                if(page>obj.pages){
+					var lastPage = 0;
+					lastPage = obj.pages;
+					listCall(lastPage, searchType, searchKeyword);	
+				}else{
+					showPage=page;  // 클릭해서 다른 페이지를 보여주게 되면 현재 보고있는 페이지 번호도 변경해준다.
+					listCall(showPage, searchType, searchKeyword);
+				}                    
+            }                
+        }
+    });
+    };
     $('#list').empty();
     $('#list').append(content);
 }
+
+
+$('#authorization').click(function(){
+	location.href="./auth.go";
+});
+
+function countUser(searchType, searchKeyword){
+	$.ajax({
+		type:'get',
+		url:'countUser.do',
+		data:{
+			'searchType': searchType,
+            'searchKeyword': searchKeyword
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data.cnt);			
+			$('#totalUser').html(data.cnt);
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});
+}
+
 </script>
 </html>
