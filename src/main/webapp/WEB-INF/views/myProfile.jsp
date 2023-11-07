@@ -300,7 +300,7 @@ input:checked+.slider:before {
 			<th>내 강아지 성향</th>
 			<td>
         <c:forEach items="${Profile.charTypeList}" var="charType" varStatus="loop">
-            ${charType}<c:if test="${!loop.last}">, </c:if>
+            ${charType.charType}<c:if test="${!loop.last}">, </c:if>
         </c:forEach>
     </td>
 <%--  			<td>${Profile.charTypeList}</td> --%>
