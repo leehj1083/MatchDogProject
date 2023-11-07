@@ -34,6 +34,10 @@ public interface ChattingDAO {
 
 	void chatSaveDo(int chat_id, int chat_me, int chat_you, String content);
 
+	void readCheck(int chat_you);
+
+	String getDogName(int chat_you);
+
 
 
 

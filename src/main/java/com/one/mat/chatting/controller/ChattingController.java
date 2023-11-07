@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.chatting.service.ChattingService;
@@ -42,11 +43,12 @@ public class ChattingController {
 		}else if(dto.getMember_quit().equals("Y")) { // 탈퇴한 회원일 때
 			model.addAttribute("msg","탈퇴한 회원입니다.");
 		}else { // 정상 로그인 시
-			page = "test3";
+			page = "chattingList";
 		}
 		// + 프로필 없으면 프로필 등록 페이지로
 		return page;
 	}
+	
 	
 	// 채팅방 리스트 뿌려주기
 	@RequestMapping(value="/chattingList.do")
@@ -64,7 +66,7 @@ public class ChattingController {
 	
 	// 채팅방 접근권한
 	@RequestMapping(value="/chattingRoom.go")
-	public String chattingRoomGo(Model model, HttpSession session, String chat_idx) {
+	public String chattingRoomGo(Model model, HttpSession session, @RequestParam String chat_idx) {
 		
 		String page = "login";
 		int memberIdx = 0;
@@ -85,7 +87,7 @@ public class ChattingController {
 			model.addAttribute("msg","접근할 수 없는 회원입니다.");
 		}else { // 정상 로그인 시
 			model.addAttribute("chat_idx",chat_idx);
-			page = "test";
+			page = "chattingRoom";
 		}
 		return page;
 	}

@@ -2,44 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.one.mat.chatting.dao.ChattingDAO">
+<mapper namespace="com.one.mat.matchList.dao.MatchListDAO">
 
 	<select id="proIdx" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
 	</select>
 	
-	<select id="chatIdx" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT c.chat_idx , m.pro_recvIdx AS pro_you, m.pro_sendIdx AS pro_me, m.pro_recvIdx AS pro_idx FROM chat c 
-		INNER JOIN `match` m ON c.match_idx = m.match_idx 
-		WHERE m.pro_sendIdx = #{param1}
-		UNION ALL
-		SELECT c.chat_idx , m.pro_sendIdx AS pro_you, m.pro_recvIdx AS pro_me, m.pro_sendIdx AS pro_idx FROM chat c 
-		INNER JOIN `match` m ON c.match_idx = m.match_idx 
-		WHERE m.pro_recvIdx = #{param1}
-		ORDER BY chat_idx DESC
+	<select id="proSendIdx" resultType="com.one.mat.matchList.dto.MatchListDTO">
+		SELECT match_idx, pro_sendIdx,match_req FROM `match` WHERE pro_recvIdx = #{param1}
 	</select>
-	
-	<select id="myDogName" resultType="String">
-		SELECT pro_dogName FROM pro WHERE pro_idx = #{param1}
-	</select>
-	
-	<!-- 채팅방에 보여줄 정보들 -->
-	<select id="chatPhotoInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT pt.photo_fileName
+
+	<select id="proInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
+		SELECT p.pro_idx,pt.photo_fileName, bt.breedType, p.pro_dogName
 		FROM pro p 
+		INNER JOIN breed b ON p.pro_idx = b.pro_idx
+		INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code
 		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
 		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1;
 	</select>
 	
-	<select id="chatProInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT bt.breedType, p.pro_dogName
-		FROM pro p 
-		INNER JOIN breed b ON p.pro_idx = b.pro_idx
-		INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code
-		WHERE p.pro_idx = #{param1}
-	</select>
-	
-	<select id="chatMsgInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
+	<!-- <select id="chatMsgInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT
 		CASE
 		WHEN DATE(c.chatMsg_regDate) = DATE(NOW()) THEN TIME_FORMAT(c.chatMsg_regDate, '%H:%i')
@@ -58,7 +40,7 @@
 		ON m.match_idx = c.match_idx WHERE chat_idx = #{param1}
 	</select>
 	
-	<!-- 지난 채팅 메세지 보여주기 -->
+	지난 채팅 메세지 보여주기
 	<select id="totalMsg" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT 
 		MAX(regDate) AS regDate, 
@@ -85,7 +67,7 @@
 		ORDER BY MAX(regDate)
 	</select>
 	
-	<!-- 채팅 읽음여부 -->
+	채팅 읽음여부
 	<update id="readCheck">
 		UPDATE chatmsg SET chatMsg_read ='Y' WHERE pro_sendIdx = #{param1};
 	</update>
@@ -104,7 +86,7 @@
 		WHERE m.pro_recvIdx = #{param1} AND c.chat_idx = #{param2}
 	</select>
 	
-	<!-- 사진 저장 및 불러오기 -->
+	사진 저장 및 불러오기
 	<insert id="savePhotoMsg">
 		INSERT chatmsg(chat_idx,pro_sendIdx,pro_recvIdx,chatMsg_msg,chatMsg_read,chatMsg_regDate)
 		VALUES (#{param1},#{param2},#{param3},' ','N',NOW())
@@ -121,7 +103,7 @@
 	<insert id="chatSaveDo">
 		INSERT chatmsg(chat_idx,pro_sendIdx,pro_recvIdx,chatMsg_msg,chatMsg_read,chatMsg_regDate)
 		VALUES (#{param1},#{param2},#{param3},#{param4},'N',NOW())
-	</insert>
+	</insert> -->
 	
 	
  
