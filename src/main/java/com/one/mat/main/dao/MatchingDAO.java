@@ -18,6 +18,8 @@ public interface MatchingDAO {
 
 	int homeSend(Map<String, String> map);
 
+	Map<String, Object> memberDetailListGO(int pro_idx);
+
 
 
 	
