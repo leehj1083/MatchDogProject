@@ -1,6 +1,7 @@
 package com.one.mat.myPage.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 import com.one.mat.myPage.dao.MyProfileDAO;
 
@@ -29,15 +31,15 @@ public class MyProfileService {
 		    int pro_idx = profileDTO.getPro_idx();
 
 		    // 성향 정보를 가져옴
-		    ArrayList<String> charTypeList = dao.charType(pro_idx);
+		    ArrayList<ProfileDTO> charTypeList = dao.charType(pro_idx);
 
 		    // 해당 프로필의 성향 정보를 프로필에 추가
 		    profileDTO.setCharTypeList(charTypeList);
 		    
 		    // 사진 정보를 가져와야 함
-		    ArrayList<String> photo_fileNameList = dao.photo_fileName(pro_idx);
+		    ArrayList<PhotoDTO> photoList = dao.photoList(pro_idx);
 		    // 해당 프로필의 사진 정보를 프로필에 추가해야 함
-		    profileDTO.setPhoto_fileNameList(photo_fileNameList);
+		    profileDTO.setPhotoList(photoList);
 		    
 		    // 나이 오픈 정보 가져오기
 		    String pro_dogAgeOpen=dao.pro_dogAgeOpen(pro_idx);
@@ -53,7 +55,7 @@ public class MyProfileService {
 		    myProfileList.add(profileDTO);
 
 		    logger.info("성향들:" + charTypeList);
-		    logger.info("성향들:" + photo_fileNameList);
+		    logger.info("사진이름들:" + photoList);
 		    logger.info("나이 오픈:" + pro_dogAgeOpen);
 		    logger.info("성별 오픈:" + pro_dogGenderOpen);
 		    logger.info("br");
@@ -63,6 +65,33 @@ public class MyProfileService {
 		/* model.addAttribute("charType", charTypeList); */
 	
 	}
+	
+	public void MyProfileModList(int pro_idx, Model model) {
+
+		// 1차적으로 가져온 정보들 담기
+		ProfileDTO MyProfileModList=dao.MyProfileModList(pro_idx);
+		ArrayList<ProfileDTO> charTypeList =dao.charType(pro_idx);
+		ArrayList<PhotoDTO> photoList = dao.photoList(pro_idx);
+		
+		//MyProfileModList 에 다른 정보도 담아서 한 뭉테기로 만들기
+		MyProfileModList.setCharTypeList(charTypeList);
+		MyProfileModList.setPhotoList(photoList);
+		
+		logger.info("가져올 정보:" + MyProfileModList);
+	    logger.info("성향들:" + charTypeList);
+	    logger.info("사진이름들:" + photoList);
+
+	    model.addAttribute("MyProfileMod", MyProfileModList);
+		
+	}
+	public ArrayList<ProfileDTO> charTypeList() {
+		return dao.charTypeList();		
+	}
+	public ArrayList<ProfileDTO> breedTypeList() {
+		return dao.breedTypeList();		
+	}
+
+	
 
 	public void myProfileOpenDo(int pro_idx, int openType_code, String toggleValue) {
 		dao.myProfileOpenDo(pro_idx, openType_code, toggleValue);
@@ -80,6 +109,27 @@ public class MyProfileService {
 		dao.myProfileDelDo(pro_idx);
 		
 	}
+
+	public void myProfileModUpdateDo(Map<String, String> params) {
+		
+		dao.myProfileModUpdateDo(params);
+		
+		
+	}
+
+	public void charTypeSave(int pro_idx, int charType1, int charType2, int charType3, int charType4) {
+		dao.charTypeDel(pro_idx);
+		dao.charTypeSave(pro_idx,charType1,charType2,charType3,charType4);
+		
+		
+	}
+
+	
+
+
+
+
+
 
 
 	}

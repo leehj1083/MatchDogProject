@@ -97,95 +97,21 @@ textarea style ="resize: both ;"> </textarea>.modal {
 </head>
 <body>
 
-
-
-	<form action="profileSave.do" method="post" id="myForm">
-
-		<table>
-
-			<tr>
-				<td><div id="selectedOptions"></div></td>
-
-			</tr>
-
-			<tr>
-				<th><button>등록 완료</button></th>
-			</tr>
-			<input type="hidden" name="charType_code" id="charType_code" value="" />
-
-		</table>
-		<div id="myModal" class="modal active">
-			<div class="modal-content">
-				<span class="close" id="closeModal"></span> 내 강아지 성향을 선택해주세요
-				<c:forEach items="${list}" var="myChar">
-					<p>
-						<input type="checkbox" value="${myChar.charType_code}" />
-						${myChar.charType}
-					</p>
-				</c:forEach>
-				<button type="button" id="submitForm">선택 완료</button>
-			</div>
+<div id="charModal" class="modal">
+		<div class="charModal-content">
+			<span class="close" id="closeCharModal ">&times;</span> 내 강아지 성향을 선택해주세요
+			<c:forEach items="${charTypeList}" var="charTypeList">
+				<p>
+					<input type="checkbox" value="${charTypeList.charType_code}" />
+					${charTypeList.charType}
+				</p>
+			</c:forEach>
+			<button type="button" id="submitForm">선택 완료</button>
 		</div>
-		<div id="selectedOptions"></div>
-
-	</form>
+	</div>
 
 </body>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
- 
-    var closeModalButton = document.getElementById("closeModal");
-    var selectedOptionsDiv = document.getElementById("selectedOptions"); 
 
- 
-  
-    closeModalButton.addEventListener("click", function () {
-        document.getElementById("myModal").style.display = "none";
-        
-        
-      
-        var selectedOptions = document.querySelectorAll('input[type="checkbox"]:checked');
-        var selectedLabels = Array.from(selectedOptions).map(option => option.parentElement.textContent.trim());
-        selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(", ");
-        
-       
-        var charTypeInput = document.getElementById("charType_code");
-        charTypeInput.value = selectedOptions.length > 0 ? selectedOptions.map(option => option.value).join(", ") : "";
-    });
-    
-    
-
-   
-    
-    
- 
-
-   
-    closeModalButton.addEventListener("click", function () {
-        document.getElementById("myModal").classList.remove('active');
-    });
-
-    
-    var submitFormButton = document.getElementById("submitForm");
-    submitFormButton.addEventListener("click", function () {
-        var selectedOptions = document.querySelectorAll('input[type="checkbox"]:checked');
-
-        if (selectedOptions.length < 4) {
-            alert("성향을 4개 선택해주세요");
-        } else if (selectedOptions.length > 4) {
-            alert("성향을 4개 선택해주세요");
-        } else {
-            
-            var charTypeInput = document.getElementById("charType_code");
-            charTypeInput.value = selectedOptions.length > 0 ? Array.from(selectedOptions).map(option => option.value).join(",") : "";
-
-           
-            var selectedLabels = Array.from(selectedOptions).map(option => option.parentElement.textContent.trim());
-            selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(",");
-
-            document.getElementById("myModal").style.display = "none";
-        }
-    });   
-});
 </script>
 </html>
