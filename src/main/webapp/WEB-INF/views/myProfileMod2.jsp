@@ -244,12 +244,11 @@ height: 200px;
 			<tr>
 				<th>내 강아지 견종</th>
 				<td>
-<%-- 					<input type="text" name="bon_breedType_code" value="${MyProfileMod.breedType}"> --%>
 					<%-- ${MyProfileMod.breedType} --%> <select name="breedType_code">
 						<c:forEach items="${breedTypeList}" var="breed">
 							<c:choose>
 								<c:when test="${MyProfileMod.breedType == breed.breedType}">
-									<option value="${MyProfileMod.breedType_code}" selected="selected">${MyProfileMod.breedType}</option>
+									<option value="${MyProfileMod.breedType}" selected="selected">${MyProfileMod.breedType}</option>
 								</c:when>
 								<c:otherwise>
 									<option value="${breed.breedType_code}">${breed.breedType}</option>
@@ -286,13 +285,10 @@ height: 200px;
 			</tr>
 			<tr>
 				<th>내 강아지 성향</th>
-				<td id="selectedCharTypes"><c:forEach items="${MyProfileMod.charTypeList}" var="charType" varStatus="loop">
-        ${charType.charType} (${charType.charType_code})
-        <c:if test="${!loop.last}">, </c:if>
-    </c:forEach>
-					
-					</td>
-					
+				<td id="selectedCharTypes"><c:forEach items="${MyProfileMod.charTypeList}"
+						var="charType" varStatus="loop">
+						${charType}<c:if test="${!loop.last}">, </c:if>
+					</c:forEach></td>
 					<td><button type="button" id="openCharModal">선택하기</button>
 					</td>
 
@@ -306,7 +302,7 @@ height: 200px;
 						내 강아지 성향을 선택해주세요
 						<c:forEach items="${charTypeList}" var="charTypeList">
 						<p>
-							<input type="checkbox" name="selectedCharTypesCode" value="${charTypeList.charType_code}" data-char-type="${charTypeList.charType}" charType_code="${charTypeList.charType_code}" />
+							<input type="checkbox" name="selectedCharTypes" value="${charTypeList.charType_code}" data-char-type="${charTypeList.charType}" />
 							${charTypeList.charType}
 						</p>
 				</c:forEach>
@@ -330,7 +326,7 @@ height: 200px;
 	
 	
  
-<!-- <input type="hidden" name="selectedCharTypes" id="selectedCharTypesInput" value=""> -->
+<input type="hidden" name="selectedCharTypes" id="selectedCharTypesInput" value="">
 	
 
 	
@@ -344,14 +340,6 @@ height: 200px;
 var charModal = $(".charModal");
 var openCharModal = $("#openCharModal");
 var closeCharModal = $("#closeCharModal");
-
-$('select[name="breedType_code"]').on('change',function(){
-	var i = $('option[selected="selected"]').val();
-	console.log("선택한 강아지 : "+i);
-	
-});
-
-
 
 openCharModal.click(function() {
 	charModal.css("display", "block");
@@ -372,11 +360,8 @@ submitFormButton.on("click", function (e) {
     console.log(selectedValuesCode);
     
     selectedOptions.each(function () {
-        var charType = $(this).data("char-type");
+    	var charType = $(this).data("char-type");
         selectedValues.push(charType);
-
-        var charType_code = $(this).attr("charType_code");
-        selectedValuesCode.push(charType_code);
     });
     
     if (selectedValues.length !== 4) {

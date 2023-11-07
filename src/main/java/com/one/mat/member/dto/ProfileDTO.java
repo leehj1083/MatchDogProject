@@ -18,9 +18,9 @@ public class ProfileDTO {
 	private String charType;
 	private String photos;
 	private String breedType_code;
-	private String charType_code;
-	private ArrayList<String> charTypeList;
-	private ArrayList<String> photo_fileNameList;
+	private int charType_code;
+	private ArrayList<ProfileDTO> charTypeList;
+	private ArrayList<PhotoDTO> photoList;
 	private String pro_dogAgeOpen;
 	private String pro_dogGenderOpen;
 	private String pro_quit;
@@ -32,10 +32,10 @@ public class ProfileDTO {
 	public void setBreedType_code(String breedType_code) {
 		this.breedType_code = breedType_code;
 	}
-	public String getCharType_code() {
+	public int getCharType_code() {
 		return charType_code;
 	}
-	public void setCharType_code(String charType_code) {
+	public void setCharType_code(int charType_code) {
 		this.charType_code = charType_code;
 	}
 	public String getPhoto_fileName() {
@@ -110,18 +110,13 @@ public class ProfileDTO {
 	public void setPro_rep(String pro_rep) {
 		this.pro_rep = pro_rep;
 	}
-	public ArrayList<String> getCharTypeList() {
+	public ArrayList<ProfileDTO> getCharTypeList() {
 		return charTypeList;
 	}
-	public void setCharTypeList(ArrayList<String> charTypeList) {
+	public void setCharTypeList(ArrayList<ProfileDTO> charTypeList) {
 		this.charTypeList = charTypeList;
 	}
-	public ArrayList<String> getPhoto_fileNameList() {
-		return photo_fileNameList;
-	}
-	public void setPhoto_fileNameList(ArrayList<String> photo_fileNameList) {
-		this.photo_fileNameList = photo_fileNameList;
-	}
+
 	public String getPro_dogAgeOpen() {
 		return pro_dogAgeOpen;
 	}
@@ -140,6 +135,13 @@ public class ProfileDTO {
 	public void setPro_quit(String pro_quit) {
 		this.pro_quit = pro_quit;
 	}
+	public ArrayList<PhotoDTO> getPhotoList() {
+		return photoList;
+	}
+	public void setPhotoList(ArrayList<PhotoDTO> photoList) {
+		this.photoList = photoList;
+	}
+
 
 
 
