@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.one.mat.board.dto.BoardDTO;
 import com.one.mat.board.dto.PhotoDTO;
+import com.one.mat.board.dto.RecommendDTO;
 
 public interface BoardDAO {
 
@@ -31,5 +32,21 @@ public interface BoardDAO {
 	void upbHit(String board_id);
 
 	ArrayList<BoardDTO> search(int pagePerNum, int offset, String searchKeyword);
+
+	void like(int boardId, int memberIdx);
 	
+	void hate(int boardId, int memberIdx);
+
+	int recommendLike(int boardId);
+
+	int recommendHate(int boardId);
+	
+	int checkRec(int boardId, int memberIdx);
+
+	int deleteRec(int boardId, int memberIdx);
+
+	int recType(String board_id, String member_idx);
+
+
+
 }

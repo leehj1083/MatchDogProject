@@ -37,7 +37,14 @@ public class BoardDTO {
 	
 	private int reply;
 	private int img;
+	private int likeCount;
 	
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
 	public int getReply() {
 		return reply;
 	}
