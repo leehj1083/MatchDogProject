@@ -286,10 +286,9 @@ height: 200px;
 			</tr>
 			<tr>
 				<th>내 강아지 성향</th>
-				<td><c:forEach items="${MyProfileMod.charTypeList}" var="charType" varStatus="loop">
-
-        <input type="text" id="selectedCharTypes" name="charTypes" value=""/>${charType.charType}
-        <input type="text" id="selectedCharTypesCodes" name="charTypeCodes" value=""/>${charType.charType_code}
+				<td id="selectedCharTypes"><c:forEach items="${MyProfileMod.charTypeList}" var="charType" varStatus="loop">
+        ${charType.charType} (${charType.charType_code})
+        <input type="text" name="charTypeCodes" value="${charType.charType_code}" />
         <c:if test="${!loop.last}">, </c:if>
     </c:forEach>
 					
@@ -388,12 +387,8 @@ submitFormButton.on("click", function (e) {
 		// 선택한 성향 값 html 에 대응하기
         var selectedCharTypes = $("#selectedCharTypes");
         selectedCharTypes.html(selectedValues.join(", "));
-        
-        var selectedCharTypesCodes = $("#selectedCharTypesCodes");
-        selectedCharTypesCodes.html(selectedValuesCode.join(", "));
         // 선택된 성향값 확인
         console.log("선택된 성향값: " + selectedValues.join(", "));
-        console.log("선택된 성향코드: " + selectedValuesCode.join(", "));
         charModal.css("display", "none");
     }
 });
