@@ -88,8 +88,9 @@
 		<div class="content">
 			<div class="container">
         		<div class="right">
-		            <a href="/" class="review bi-hand-thumbs-up-fill"></a>
-		            <a href="/" class="chatComp bi bi-exclamation-triangle-fill"></a>
+        			<!-- 신고창 -->
+		            <span class="review bi-hand-thumbs-up-fill"></span>
+		            <span class="chatComp bi bi-exclamation-triangle-fill"></span>
 	            	<div class="top">
 	            	</div>
 	            	<div class="chat active-chat">
@@ -134,27 +135,16 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					//setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 3000);
 				},
 				timeout:3000,
 				error:function(e){
 					console.log(e);
-					//setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 3000);
 				}
 			});
 		}
-
-	/* $('#chatlist').scrollTop(('#chatlist'))[0].scrollheight);
 	
-	function getInfiniteChat(){
-		setInterval(function(){
-			chatListFunction(lastID);
-		}, 3000); 함수 만들고 
-		$(document).ready(function(){
-			chatListFunction(ten);
-			getInfiniteChat()
-			}))
-	} */
 	
 	function drawList(obj){
 		var top = '';
@@ -167,6 +157,7 @@
 		$('.top').empty();
 		$('.top').append(top);
 		
+		// 신고버튼 활성화, 비활성화
 		if(obj.totalMsg.length == 0){
 			$('.review').css("color", "var(--grey)");
 			$('.review').css("cursor", "auto");
@@ -175,6 +166,9 @@
 			});
 		}else{
 			$('.review').css("color", "var(--blue)");
+			$('.review').on('click',function(){
+				location.href="./review.go?pro_idx="+obj.toFrom.pro_you + "&chat_idx=" + chat_idx;
+			});
 		}
 		
 		if(obj.totalMsg.length == 0){

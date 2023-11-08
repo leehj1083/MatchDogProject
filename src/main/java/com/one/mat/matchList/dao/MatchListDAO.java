@@ -13,4 +13,18 @@ public interface MatchListDAO {
 
 	MatchListDTO proInfo(int pro_sendIdx);
 
+	ArrayList<MatchListDTO> timeInfo(int pro_sendIdx);
+
+	ArrayList<String> charInfo(int pro_sendIdx);
+
+	String myDogName(int pro_recvIdx);
+
+	String photoInfo(int pro_sendIdx);
+
+	int sendOpen(int match_id);
+
+	int chatOpen(int match_id);
+
+	int chatMove(int match_idx);
+
 }

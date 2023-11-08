@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/chattingList.css" type="text/css">
+<link rel="stylesheet" href="resources/css/recvMatchList.css" type="text/css">
 <!-- bootstrap 아이콘 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- pretendard 폰트 -->
@@ -50,25 +50,10 @@ a, a:link, a:visited, a:active, a:hover {
 	background-color: var(--light);
 }
 
-.container .left .top {
-	display:flex;
-	align-items: center;
-}
-
-.recvMatchingList, .sendMatchingList{
+.proDetail{
 	display:inline-block;
-	position:relative;
-	top:5px;
-	width: 200px;
-	height:30px;
-	font-size:20px;
-	font-family:Pretendard;
-	font-weight: 700;
-	text-align: center;
-	cursor:pointer;
-	color:var(--grey);
+	width:240px;
 }
-
 
 </style>
 </head>
@@ -122,7 +107,6 @@ a, a:link, a:visited, a:active, a:hover {
 			        <div class="left">
 			            <div class="top">
 			            	<div class="recvMatchingList">나에게 온 요청 리스트</div>
-			            	<div class="sendMatchingList">내가 보낸 요청 리스트</div>
 			            </div>
 						<!-- 리스트 -->
 			            <ul class="people">
@@ -140,10 +124,6 @@ a, a:link, a:visited, a:active, a:hover {
 </body>
 <script>
 
-$('.recvMatchingList').on('click',function(){
-	location.href="./recvMatchingList.go";
-});
-
 var showPage = 1;
 
 listCall(showPage);
@@ -156,7 +136,7 @@ function listCall(page){
 		dataType:'json',
 		success:function(data){
 			console.log(data);
-			//drawList(data);
+			drawList(data);
 		},
 		error:function(e){
 			console.log(e);
@@ -164,26 +144,30 @@ function listCall(page){
 	});
 }
 
-// 채팅방 리스트 뿌려주기...
-/* function drawList(obj){
+// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+// 나에게 요청 보낸 리스트 보기
+ function drawList(obj){
 	
 	var content = '';
 
-	obj.list.forEach(function(item, idx){
+	obj.matList.forEach(function(item, idx){
 		content +='<li class="person">';
-		content +='<a href="./chattingRoom.go?chat_idx='+item.chat_idx+'">';
-		content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭입니다.</div>';
-		content +='<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/michael-jordan.jpg"/>';
+		content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
+		content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+		content +='<span class="proDetail">'
+		content +='<img src="/photo/'+item.photo_fileName+'"/>';
 		content +='<span class="name">'+item.pro_dogName+'</span> ';
 		content +='<span class="breedType">'+item.breedType+'</span>';
-		content +='<span class="time">'+item.msgTime+'</span>';
-		content +='<span class="preview">'+item.chatMsg_msg+'</span>';
-		if(item.chatMsg_read != 0){
-		content +='<span class="msgRead">'+item.chatMsg_read+'</span>';
-		}
+		content +='</span>'
 		content +='</a>'
+		content +='<span class="time">'+item.matchTime+'</span>';
+		content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
+		content+='<span class="charTypeList">'
+		item.charType.forEach(function(charType,idx){
+			content +='<span class="charType">'+charType+'</span>';
+		});
+		content+='</span>'
 		content +='</li>';
-		
 	});
 	$('.people').empty();
 	$('.people').append(content);
@@ -212,7 +196,7 @@ function listCall(page){
 	$('.last').children().addClass('bi bi-chevron-double-right');
 	$('.prev').children().addClass('bi bi-chevron-left');
 	$('.next').children().addClass('bi bi-chevron-right');
-} */
+} 
 
 
 </script>

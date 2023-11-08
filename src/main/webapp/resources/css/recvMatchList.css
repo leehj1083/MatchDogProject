@@ -29,20 +29,22 @@ ul{
 
 .container {
   position: relative;
-  left: 28%;
+  left: 20%;
 }
 .container .left {
   float: left;
-  width: 450px;
-  height: 630px;
+  width: 660px;
+  height: 796px;
   border: 1px solid var(--light);
   background-color: var(--white);
 }
 .container .left .top {
-  position: relative;
-  width: 100%;
-  height: 96px;
-  padding: 29px;
+	display:flex;
+  	position: relative;
+  	width: 100%;
+  	height: 88px;
+  	padding: 29px;
+  	align-items: center;
 }
 .container .left .top:after {
   position: absolute;
@@ -85,16 +87,13 @@ ul{
 }
 .container .left .people {
   margin-left: -1px;
-  border-right: 1px solid var(--light);
-  border-left: 1px solid var(--light);
   width: calc(100% + 2px);
 }
 .container .left .people .person {
   position: relative;
   width: 100%;
-  padding: 10px 44px 12px;
-  cursor: pointer;
-  background-color: var(--white);
+  height:124px;
+  padding: 10px 44px;
 }
 .container .left .people .person:after {
   position: absolute;
@@ -112,6 +111,7 @@ ul{
   width: 40px;
   height: 40px;
   margin-right: 12px;
+  margin-top: 4px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -125,8 +125,8 @@ ul{
 .container .left .people .person .time {
   font-size: 14px;
   position: absolute;
-  top: 24px;
-  right: 10%;
+  top: 69px;
+  right: 489px;
   padding: 0 0 5px 5px;
   color: var(--grey);
   font-family:Pretendard;
@@ -140,7 +140,7 @@ ul{
   text-overflow: ellipsis;
   color: var(--grey);
 }
-.container .left .people .person.active, .container .left .people .person:hover {
+/* .container .left .people .person.active, .container .left .people .person:hover {
   margin-top: -1px;
   margin-left: -1px;
   padding-top: 13px;
@@ -155,7 +155,7 @@ ul{
 }
 .container .left .people .person.active:after, .container .left .people .person:hover:after {
   display: none;
-}
+} */
 
 @keyframes slideFromLeft {
   0% {
@@ -324,6 +324,8 @@ ul{
 }
 
 .myName{
+	position: relative;
+    top: 7px;
 	font-family:Pretendard;
 	color:var(--grey);
 	font-weight:300;
@@ -373,8 +375,58 @@ ul{
     background-color: var(--green);
 }
 
+.recvMatchingList{
+	display:inline-block;
+	position:relative;
+	top:5px;
+	width: 200px;
+	height:30px;
+	font-size:20px;
+	font-family:Pretendard;
+	font-weight: 700;
+	text-align: center;
+	color:var(--green);
+	cursor:auto;
+}
 
+.charTypeList{
+	position:relative;
+	top:-42px;
+	left:220px;
+	display:flex;
+	flex-wrap: wrap;
+	width: 40%;
+}
 
+.charType{
+	display: inline-block;
+	position: relative;
+	width: auto;
+	height: 20px;
+	top:-2px;
+	padding: 1px 15px 0 15px;
+	margin: 1px;
+	border: 1px solid var(--light);
+	background-color: var(--green);
+	border-radius: 8px;
+	font-family:Pretendard;
+	color:var(--white);
+	font-weight: 400;
+	text-align: center;
+	font-size: 13px;
+}
 
+.bi-hearts{
+	position:relative;
+	top: 14px;
+	left: 280px;
+	color: var(--light);
+	font-size: 32px;
+	margin-right:10px;
+	cursor: pointer;
+}
 
+.bi-hearts:hover{
+	color:var(--green);
+}
 

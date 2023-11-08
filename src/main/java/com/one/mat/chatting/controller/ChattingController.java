@@ -122,6 +122,45 @@ public class ChattingController {
 		int memberIdx = dto.getMember_idx();
 		return service.chatSaveDo(content,chat_idx,memberIdx);
 	}
+	
+	
+	// ---------------------------------------------------------------- 후기 -----------------------------------------------------------------
+	
+	// 후기 등록
+	@RequestMapping(value="/review.go")
+	public String review(Model model, HttpSession session, @RequestParam String pro_idx, @RequestParam String chat_idx) {
+		
+		String page = "login";
+		int memberIdx = 0;
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo"); // 세션의 로그인 정보를 가져오기
+		boolean result = service.chattingRoomGo(chat_idx, memberIdx);
+		
+		if(dto != null) {
+			memberIdx = dto.getMember_idx();
+		}
+		// 로그인 안했을 때
+		if(dto == null) {
+			model.addAttribute("msg","로그인해주세요.");
+		}else if(dto.getMember_loginLock().equals("Y")) { // 제재당한 회원일 때
+			model.addAttribute("msg","제재당한 회원입니다.");
+		}else if(dto.getMember_quit().equals("Y")) { // 탈퇴한 회원일 때
+			model.addAttribute("msg","탈퇴한 회원입니다.");
+		}else if(!(result)) { // 다른 채팅방에 멋대로 접근할 때 막기
+			model.addAttribute("msg","접근할 수 없는 회원입니다.");
+		}else { // 정상 로그인 시
+			model.addAttribute("chat_idx",chat_idx);
+			model.addAttribute("pro_idx",pro_idx);
+			page = "review";
+		}
+		return page;
+	}
+	
+	@RequestMapping(value="/reviewProfile.do")
+	@ResponseBody
+	public HashMap<String, Object> reviewProfileDo(@RequestParam String pro_idx) {
+		return service.reviewProfileDo(pro_idx);
+	}
+	
 
 	
 }

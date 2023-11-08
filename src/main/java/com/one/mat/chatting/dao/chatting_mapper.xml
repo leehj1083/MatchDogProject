@@ -71,7 +71,7 @@
 		FROM (
 		    SELECT 
 		    chatMsg_regDate AS regDate, chatMsg_idx AS total_idx, pro_sendIdx, pro_recvIdx, chatMsg_msg, chatMsg_read, NULL AS photo_fileName 
-		    FROM chatMsg 
+		    FROM chatmsg 
 		    WHERE chat_idx = #{param3}
 		    UNION ALL
 		    SELECT 
@@ -87,7 +87,7 @@
 	
 	<!-- 채팅 읽음여부 -->
 	<update id="readCheck">
-		UPDATE chatmsg SET chatMsg_read ='Y' WHERE pro_sendIdx = #{param1};
+		UPDATE chatmsg SET chatMsg_read ='Y' WHERE pro_sendIdx = #{param1}
 	</update>
 	
 	<select id="getDogName" resultType="String">

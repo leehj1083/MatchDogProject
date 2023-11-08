@@ -1,6 +1,7 @@
 package com.one.mat.matchList.dto;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class MatchListDTO {
 	
@@ -16,9 +17,31 @@ public class MatchListDTO {
 	private String pro_dogName = ""; // 프로필 강아지 이름
 	private int match_idx = 0;
 	private Date match_req;
+	private String matchTime = "";
+	private ArrayList<String> charType = new ArrayList<String>();
+	private String match_succeed = "";
 	
 	
-
+	
+	
+	public String getMatch_succeed() {
+		return match_succeed;
+	}
+	public void setMatch_succeed(String match_succeed) {
+		this.match_succeed = match_succeed;
+	}
+	public ArrayList<String> getCharType() {
+		return charType;
+	}
+	public void setCharType(ArrayList<String> charType) {
+		this.charType = charType;
+	}
+	public String getMatchTime() {
+		return matchTime;
+	}
+	public void setMatchTime(String matchTime) {
+		this.matchTime = matchTime;
+	}
 	public Date getMatch_req() {
 		return match_req;
 	}

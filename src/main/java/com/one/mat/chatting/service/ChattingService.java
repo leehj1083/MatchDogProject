@@ -1,6 +1,5 @@
 package com.one.mat.chatting.service;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.one.mat.board.dto.PhotoDTO;
 import com.one.mat.chatting.dao.ChattingDAO;
 import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.member.dto.ProfileDTO;
@@ -71,6 +69,7 @@ public class ChattingService {
 			// logger.info("Chat_idx: " +chatDTO.getChat_idx()+",
 			// pro_idx"+chatDTO.getPro_idx());
 			chatProInfo = dao.chatProInfo(chatDTO.getPro_idx());
+			// 대표프로필 가져와야 해서
 			chatPhotoInfo = dao.chatPhotoInfo(chatDTO.getPro_idx());
 			chatMsgInfo = dao.chatMsgInfo(chatDTO.getChat_idx());
 			String myDogName = dao.myDogName(chatDTO.getPro_me());
@@ -79,7 +78,7 @@ public class ChattingService {
 //			logger.info("dto"+chatMsgInfo.getMsgTime());
 
 			ChattingDTO chatInfoDTO = new ChattingDTO(); // 하나의 DTO 에 담기
-
+			
 			chatInfoDTO.setMyDogName(myDogName);
 			chatInfoDTO.setPro_me(chatDTO.getPro_me());
 			chatInfoDTO.setPro_you(chatDTO.getPro_you());
@@ -267,6 +266,32 @@ public class ChattingService {
 		public int compare(ChattingDTO chat1, ChattingDTO chat2) {
 			return chat2.getChat_idx() - chat1.getChat_idx();
 		}
+	}
+
+	public HashMap<String, Object> reviewProfileDo(String pro_idx) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int pro_id = Integer.parseInt(pro_idx);
+		
+		ChattingDTO chatProInfo = dao.chatProInfo(pro_id);
+		// 대표프로필 가져와야 해서
+		ChattingDTO chatPhotoInfo = dao.chatPhotoInfo(pro_id);
+		
+		ChattingDTO chatInfoDTO = new ChattingDTO(); // 하나의 DTO 에 담기
+		ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
+		
+		if(chatProInfo != null && chatPhotoInfo != null) {
+			logger.info("값:"+chatPhotoInfo.getPhoto_fileName());
+			logger.info(chatProInfo.getBreedType());
+			logger.info(chatProInfo.getPro_dogName());
+			chatInfoDTO.setPhoto_fileName(chatPhotoInfo.getPhoto_fileName());
+			chatInfoDTO.setBreedType(chatProInfo.getBreedType());
+			chatInfoDTO.setPro_dogName(chatProInfo.getPro_dogName());
+			chatList.add(chatInfoDTO);
+		}
+		
+		map.put("list", chatList);
+
+		return map;
 	}
 
 

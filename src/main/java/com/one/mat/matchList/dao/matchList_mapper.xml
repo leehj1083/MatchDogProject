@@ -9,101 +9,49 @@
 	</select>
 	
 	<select id="proSendIdx" resultType="com.one.mat.matchList.dto.MatchListDTO">
-		SELECT match_idx, pro_sendIdx,match_req FROM `match` WHERE pro_recvIdx = #{param1}
+		SELECT match_idx, pro_sendIdx, pro_recvIdx,match_succeed FROM `match` WHERE pro_recvIdx = #{param1}
+	</select>
+	<select id="timeInfo" resultType="com.one.mat.matchList.dto.MatchListDTO">
+		SELECT
+		CASE
+		WHEN DATE(match_req) = DATE(NOW()) THEN TIME_FORMAT(match_req, '%H:%i')
+		ELSE DATE_FORMAT(match_req , '%Y-%m-%d')
+		END AS matchTime
+		FROM `match` m WHERE pro_recvIdx = #{param1};
 	</select>
 
-	<select id="proInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
+	<select id="proInfo" resultType="com.one.mat.matchList.dto.MatchListDTO">
 		SELECT p.pro_idx,pt.photo_fileName, bt.breedType, p.pro_dogName
 		FROM pro p 
 		INNER JOIN breed b ON p.pro_idx = b.pro_idx
 		INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code
 		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
-		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1;
+		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1
 	</select>
-	
-	<!-- <select id="chatMsgInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT
-		CASE
-		WHEN DATE(c.chatMsg_regDate) = DATE(NOW()) THEN TIME_FORMAT(c.chatMsg_regDate, '%H:%i')
-		ELSE DATE_FORMAT(c.chatMsg_regDate , '%Y-%m-%d')
-		END AS msgTime
-		,CASE 
-		WHEN CHAR_LENGTH(c.chatMsg_msg) > 20 THEN CONCAT(SUBSTRING(c.chatMsg_msg, 1, 20), '...')
-		ELSE c.chatMsg_msg
-		END AS chatMsg_msg
-		,(SELECT count(chatMsg_read) from chatmsg where chat_idx=#{param1} and chatMsg_read ='N') AS chatMsg_read
-		FROM chatmsg c WHERE chat_idx =#{param1} ORDER BY chatMsg_regDate DESC LIMIT 1
+	<select id="charInfo" resultType="String">
+		SELECT ct.charType FROM `char` c INNER JOIN chartype ct 
+		ON c.charType_code = ct.charType_code WHERE c.pro_idx = #{param1}
 	</select>
-	
-	<select id="chattingRoomGo" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT pro_sendIdx, pro_recvIdx FROM `match` m INNER JOIN chat c
-		ON m.match_idx = c.match_idx WHERE chat_idx = #{param1}
+	<select id="myDogName" resultType="String">
+		SELECT pro_dogName FROM pro WHERE pro_idx = #{param1}
 	</select>
-	
-	지난 채팅 메세지 보여주기
-	<select id="totalMsg" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT 
-		MAX(regDate) AS regDate, 
-		total_idx, 
-		MAX(pro_sendIdx) AS pro_sendIdx, 
-		MAX(pro_recvIdx) AS pro_recvIdx, 
-		MAX(chatMsg_msg) AS chatMsg_msg,
-		MAX(chatMsg_read) AS chatMsg_read,
-		MAX(photo_fileName) AS photo_fileName
-		FROM (
-		    SELECT 
-		    chatMsg_regDate AS regDate, chatMsg_idx AS total_idx, pro_sendIdx, pro_recvIdx, chatMsg_msg, chatMsg_read, NULL AS photo_fileName 
-		    FROM chatMsg 
-		    WHERE chat_idx = #{param3}
-		    UNION ALL
-		    SELECT 
-		    photo_uploadDate AS regDate, photo_idfNum AS total_idx, c.pro_sendIdx, c.pro_recvIdx, c.chatMsg_msg, c.chatMsg_read, p.photo_fileName
-		    FROM photo p 
-		    INNER JOIN chatmsg c ON p.photo_idfNum = c.chatMsg_idx 
-		    WHERE p.photo_type = 2 AND c.chat_idx = #{param3}
-		) AS combined_data
-		GROUP BY total_idx
-		HAVING MAX(photo_fileName) IS NULL OR MAX(photo_fileName) &lt;&gt; ''
-		ORDER BY MAX(regDate)
+	<select id="photoInfo" resultType="String">
+		SELECT pt.photo_fileName
+		FROM pro p 
+		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
+		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1
 	</select>
-	
-	채팅 읽음여부
-	<update id="readCheck">
-		UPDATE chatmsg SET chatMsg_read ='Y' WHERE pro_sendIdx = #{param1};
+
+	<!-- 요청 수락 -->
+	<update id="sendOpen">
+		UPDATE `match` SET match_succeed = 'Y' WHERE match_idx = #{param1}
 	</update>
-	
-	<select id="getDogName" resultType="String">
-		SELECT pro_dogName FROM pro WHERE pro_idx=#{param1}
-	</select>
-	
-	<select id="toFrom" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT m.pro_recvIdx AS pro_you, m.pro_sendIdx AS pro_me FROM chat c 
-		INNER JOIN `match` m ON c.match_idx = m.match_idx 
-		WHERE m.pro_sendIdx = #{param1} AND c.chat_idx = #{param2}
-		UNION ALL
-		SELECT m.pro_sendIdx AS pro_you, m.pro_recvIdx AS pro_me FROM chat c 
-		INNER JOIN `match` m ON c.match_idx = m.match_idx 
-		WHERE m.pro_recvIdx = #{param1} AND c.chat_idx = #{param2}
-	</select>
-	
-	사진 저장 및 불러오기
-	<insert id="savePhotoMsg">
-		INSERT chatmsg(chat_idx,pro_sendIdx,pro_recvIdx,chatMsg_msg,chatMsg_read,chatMsg_regDate)
-		VALUES (#{param1},#{param2},#{param3},' ','N',NOW())
+	<insert id="chatOpen">
+		INSERT INTO chat(match_idx,chat_regDate) VALUES(#{param1},NOW())
 	</insert>
-	<select id="getChatMsgIdx" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT chatMsg_idx FROM chatmsg WHERE chat_idx = #{param1} ORDER BY chatMsg_regDate DESC LIMIT #{param2}
+	<select id="chatMove" resultType="int">
+		SELECT chat_idx FROM chat WHERE match_idx=#{param1}
 	</select>
-	
-	<insert id="savePhoto">
-		INSERT photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate)
-		VALUES(2,#{param1},#{param2},NOW())
-	</insert>
-	
-	<insert id="chatSaveDo">
-		INSERT chatmsg(chat_idx,pro_sendIdx,pro_recvIdx,chatMsg_msg,chatMsg_read,chatMsg_regDate)
-		VALUES (#{param1},#{param2},#{param3},#{param4},'N',NOW())
-	</insert> -->
 	
 	
  
