@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.one.mat.main.dao.MatchingDAO;
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 @Service
@@ -28,19 +29,14 @@ public class MatchingService {
 				logger.info("matchingList");
 				logger.info("dao.matchigList : "+dao.matchingList(member_idx,pro_idx));
 				return dao.matchingList(member_idx, pro_idx);
-				
+			}
+			public List<Map<String, Object>> unloginedMatchingList() {
+				logger.info("unloginedMatchingList");
+				return dao.unloginedMatchingList();
 			}
 
 			public ArrayList<ProfileDTO> MyProfileListDo(int member_idx) {
 				return dao.MyProfileListDo(member_idx);
-			}
-
-			public ArrayList<String> charType(int pro_idx) {
-				return dao.matchingCharType(pro_idx);
-			}
-
-			public ArrayList<String> photo_fileName(int pro_idx) {
-				return dao.photo_fileName(pro_idx);
 			}
 
 			public int homeSend(Map<String, String> map) {
@@ -51,44 +47,44 @@ public class MatchingService {
 				return dao.homeSend(map) ;
 			}
 
-			public void recvMatchingListDo(int member_idx, Model model) {
-
-
-				ArrayList<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
-
-				ArrayList<ProfileDTO> myProfile = dao.MyProfileListDo(member_idx);
-
-				for (ProfileDTO profileDTO : myProfile) {
-				    int pro_idx = profileDTO.getPro_idx();
-
-				    // 나에게 매칭 요청한 강아지의 성향 가져오기
-				    // ArrayList<String> charTypeList = dao.charType(pro_idx);
-
-				    // 해당 프로필의 성향 정보를 프로필에 추가
-				    // profileDTO.setCharTypeList(charTypeList);
-				    
-				    // 사진 정보를 가져와야 함
-				    ArrayList<String> photo_fileNameList = dao.photo_fileName(pro_idx);
-				    // 해당 프로필의 사진 정보를 프로필에 추가해야 함
-					/* profileDTO.setPhoto_fileNameList(photo_fileNameList); */
-				    
-
-				    // 수정된 프로필을 myProfileList에 추가
-				    myProfileList.add(profileDTO);
-
-				    // logger.info("성향들:" + charTypeList);
-				    logger.info("성향들:" + photo_fileNameList);
-				    logger.info("br");
-				}
-				
-				model.addAttribute("myProfile", myProfileList);
-				/* model.addAttribute("charType", charTypeList); */
-			
-			}
-
 			public Map<String, Object> memberDetailListGO(int pro_idx) {
 				return dao.memberDetailListGO(pro_idx);
 				
 			}
-}
+			// 성향, 사진, 프로필 오픈 여부 가져오기		
+			public List<ProfileDTO> charOpenList(int pro_Idx) {
+				ArrayList<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
+
+					 ProfileDTO profileDTO = new ProfileDTO();
+				    // 성향 정보를 가져옴
+				    ArrayList<ProfileDTO> charTypeList = dao.charType(pro_Idx);
+
+				    // 해당 프로필의 성향 정보를 프로필에 추가
+				    profileDTO.setCharTypeList(charTypeList);
+				    
+				    // 사진 정보를 가져와야 함
+				    ArrayList<PhotoDTO> photoList = dao.photoList(pro_Idx);
+				    // 해당 프로필의 사진 정보를 프로필에 추가해야 함
+				    profileDTO.setPhotoList(photoList);
+				    
+				    // 나이 오픈 정보 가져오기
+				    String pro_dogAgeOpen=dao.pro_dogAgeOpen(pro_Idx);
+				    profileDTO.setPro_dogAgeOpen(pro_dogAgeOpen);
+				    
+				    // 성별 오픈 정보 가져오기
+				    String pro_dogGenderOpen=dao.pro_dogGenderOpen(pro_Idx);
+				    profileDTO.setPro_dogGenderOpen(pro_dogGenderOpen);
+
+				    // 수정된 프로필을 myProfileList에 추가
+				    myProfileList.add(profileDTO);
+
+				    logger.info("성향들:" + charTypeList);
+				    logger.info("사진이름들:" + photoList);
+				    logger.info("나이 오픈:" + pro_dogAgeOpen);
+				    logger.info("성별 오픈:" + pro_dogGenderOpen);
+				    logger.info("br");
+					return myProfileList;
+				}
+			}
+
 
