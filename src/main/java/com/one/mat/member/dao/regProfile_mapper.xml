@@ -150,7 +150,7 @@ WHERE `char`.pro_idx = 13;
   
   <insert id="historySave" parameterType="int">
         INSERT INTO comphistory (admin_memberIdx, comp_idx, comp_handleContent, comp_handleState, comp_blindStete, member_loginLock)
-        VALUES (#{memberIdx}, (SELECT MAX(comp_idx) FROM comp), NULL, NULL, 'N', 'N');
+        VALUES (#{memberIdx}, (SELECT MAX(comp_idx) FROM comp), NULL,'Null', 'N', 'N');
     </insert>
 	
 	
