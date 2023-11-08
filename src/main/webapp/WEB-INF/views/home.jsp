@@ -46,6 +46,11 @@
         padding: 20px;
         text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
     }
+    #modalContent{
+    	width: 500px;
+    	height: 500px;
+    	text-align: left; 
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
@@ -71,8 +76,8 @@
 
     <div class="content">
     <h3>우리 동네 리스트</h3>
-    <a href="#">매칭리스트 img</a>
     <div id="firstMatchData">
+   		  <img id="min_photo_fileName" src="" alt="min_photo_fileName">
         <p id="member_dongAddr"></p>
         <p id="member_gender"></p>
         <p id="pro_dogName"></p>
@@ -80,6 +85,7 @@
         <p id="pro_dogGender"></p>
         <p id="pro_dogDesc"></p>
     </div>
+    
     <table>
         <tbody id="matchingList"></tbody>
     </table>
@@ -113,7 +119,6 @@ function matchinglist() {
         success: function (data) {
             console.log(data);
             console.log("성공");
-
             matchingData = data.matchingList;
 						console.log("matchingData : "+matchingData);
             // 페이지 로딩 시 첫 번째 매칭 데이터 표시
@@ -182,15 +187,18 @@ $('#matchingreq').click(function () {
 
 function showMatchingData(index) {
     var currentMatch = matchingData[index];
+    $('#min_photo_fileName').attr('src', currentMatch.min_photo_fileName);
+    $('#min_photo_fileName').attr('alt', currentMatch.min_photo_fileName);
     $('#pro_dogName').text('강아지 이름: ' + currentMatch.pro_dogName);
     $('#pro_dogAge').text('강아지 나이: ' + currentMatch.pro_dogAge);
     $('#pro_dogGender').text('강아지 성별: ' + currentMatch.pro_dogGender);
     $('#pro_dogDesc').text('강아지 설명: ' + currentMatch.pro_dogDesc);
     $('#member_dongAddr').text('동 주소: ' + currentMatch.member_dongAddr);
     $('#member_gender').text('성별: ' + currentMatch.member_gender);
-    
+    console.log(currentMatch.min_photo_fileName);
+   /*  console.log($(#min_photo_fileName).attr("src"));
+		console.log($(#min_photo_fileName).attr("alt")); */
 } 
-
 
 
 $('#openModal').click(function () {
