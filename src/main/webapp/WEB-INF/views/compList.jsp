@@ -31,9 +31,15 @@
 		<option value="20">20</option>
 	</select>
 	<div>
-	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
+	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님 
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
+	<form action="compList.go" method="post">
+	<button id = "aaa" name = "aaa" value = "a">전체</button>
+	<button id = "bbb" name = "bbb" value = "b">게시글</button>
+	<button id = "ccc" name = "ccc" value = "ch">채팅</button>
+	<button id = "ddd" name = "ddd" value = "cm">댓글</button>
+	</form>
 	<table>	
 		<thead>
 		<tr>
@@ -45,7 +51,15 @@
 			<th>피신고자ID</th>
 		    <th>신고접수일자</th>
 		    <th>처리일자</th>
-		    <th>처리상태</th>
+		    <th><form action="compList.go" method="post">
+    <select name="adad" id="adad">
+        <option value="0">처리상태</option>
+        <option value="1">접수대기</option>
+        <option value="2">처리중</option>
+        <option value="3">처리완료</option>
+    </select>
+    <input type="submit" value="선택">
+</form></th>
 		</tr>
 		</thead>
 		<tbody id="list2">		
@@ -57,8 +71,9 @@
 					<nav aria-label="Page navigation" style="text-align:center">
 						<ul class="pagination" id="pagination"></ul>
 					</nav>		
-					<form action="proSuc.do" method="post" id="SucForm">
-					<button>처리완료</button>	
+					<form action="proSuc.do" method="post" id="proSucForm">
+					<input type="hidden" name="selectedIds" id="selectedIds" value="">
+					<button type="submit" id="proSucButton">처리완료</button>
 					</form>	
 				</div>
 			</td>
@@ -72,7 +87,7 @@
 						<option value="member_nickName">식별번호</option>
 					</select>
 					 <input type="text" id="searchKey" placeholder="검색어 입력">
-	  				 <button id="search">검색</button>
+	  				 <button id="compSearch">검색</button>
   				 </div>
 			</td>
 		</tr>
@@ -144,11 +159,8 @@ function listCall(page, searchType, searchKeyword){
 	});
 }
 
-$('#search').click(function () {
-    searchType = $('#searchType').val();
-    searchKeyword = $('#searchKey').val();
-    listCall(showPage, searchType, searchKeyword);
-});
+
+
 
 function drawList(obj) {
     var content = '';
@@ -163,7 +175,7 @@ function drawList(obj) {
             content += '<td>' + item.comp_idx +'</td>';
             content += '<td>' + getCompLocText(item.comp_loc) + '</td>';
             content += '<td>' + item.comp_idfNum + '</td>';
-            content += '<td>' + '<a href="detail?comp_idx=' + item.comp_idx + '">' + getCompLocText(item.comp_loc) +' 신고'+'('+item.compType+')'+'</a>' + '</td>';
+            content += '<td>' + '<a href="compDetail?comp_idx=' + item.comp_idx + '">' + getCompLocText(item.comp_loc) +' 신고'+'('+item.compType+')'+'</a>' + '</td>';
             content += '<td>' + '<a href="sancHistory.go?comp_idx='+ item.comp_reportIdx +'">'+item.comp_reportIdx+'</a>'+'</td>';
             var regDate = new Date(item.comp_receiveDate);
             var formattedRegDate = regDate.getFullYear() + "-" + (regDate.getMonth() + 1) + "-" + regDate.getDate();
@@ -174,39 +186,7 @@ function drawList(obj) {
         });
         
       
-        
-        
-        
-        $('#SucForm button').click(function () {
-            // 선택된 체크박스의 id 값을 수집합니다
-            var selectedIds = [];
-            $('.row-checkbox:checked').each(function () {
-                selectedIds.push($(this).attr('id'));
-            });
 
-            // 선택된 id 값을 배열로 서버로 보내는 요청을 생성합니다
-            $.ajax({
-                type: 'post', // 또는 다른 HTTP 메소드 (GET, PUT, 등)
-                url: 'proSuc.do', // 컨트롤러의 URL로 대체해야 합니다.
-                data: {
-                    selectedIds: selectedIds
-                },
-                dataType: 'json', // 응답 데이터 형식에 따라 변경
-                success: function (response) {
-                    // 요청이 성공적으로 처리되면 할 일을 정의
-                    console.log('처리 완료 요청이 성공적으로 완료되었습니다.', response);
-                },
-                error: function (error) {
-                    // 요청이 실패한 경우 에러 처리
-                    console.error('처리 완료 요청이 실패했습니다.', error);
-                }
-            });
-        });
-        
-        
-        
-        
-        
        
         $(document).ready(function() {
             // 이벤트 처리기 및 관련 코드를 여기에 배치
@@ -222,14 +202,36 @@ function drawList(obj) {
         });
         
         
-        
-        
-        
-      
-        function getCompHandleState($row) {
-            // 행에서 처리 상태 값을 가져옵니다
-            return $row.find('.comp-handle-state').text(); // '.comp-handle-state'를 가져올 요소의 클래스 또는 선택자로 대체하세요.
+        $('#compSearch').click(function () {
+            searchType = $('#searchType').val();
+            searchKeyword = $('#searchKey').val();
+            showPage=1;
+            searchCall(showPage, searchType, searchKeyword);
+        });
+
+        function searchCall(page, searchType, searchKeyword) {
+            $.ajax({
+                type: 'get',
+                url: 'compSearch',
+                data: {
+                    'pagePerNum': $('#pagePerNum').val(),
+                    'page': page,
+                    'searchType': searchType,
+                    'searchKeyword': searchKeyword
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    drawList(data);
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
         }
+        
+        
+    
         
 
         function getComp_handleDate(comp_handleDate) {
@@ -244,7 +246,7 @@ function drawList(obj) {
         }
         
         function getCompHandleState(comp_handleState) {
-            if (comp_handleState === null) {
+            if (comp_handleState === "Null") {
                 return "접수대기";
             } else {
                 return comp_handleState;
@@ -264,7 +266,41 @@ function drawList(obj) {
         }
         
         
-        
+     // "처리완료" 버튼 클릭 시
+        $('#proSucButton').click(function() {
+    // 선택된 체크박스의 ID를 배열에 추가
+    var selectedIds = [];
+    $('.row-checkbox:checked').each(function () {
+        selectedIds.push($(this).attr('id'));
+    });
+    
+    // 배열을 JSON 문자열로 변환
+    var selectedIdsJSON = JSON.stringify(selectedIds);
+
+    // 폼 필드에 JSON 데이터 설정
+    $('#selectedIds').val(selectedIdsJSON);
+
+    // 폼을 서버로 제출
+    $('#proSucForm').submit(function(e) {
+        // 선택된 체크박스의 ID를 배열에 추가
+        var selectedIds = [];
+        $('.row-checkbox:checked').each(function () {
+            selectedIds.push($(this).attr('id'));
+        });
+
+        if (selectedIds.length === 0) {
+            // 선택된 체크박스가 없을 경우, 폼 제출을 중지
+            e.preventDefault();
+           
+        } else {
+            // 배열을 JSON 문자열로 변환
+            var selectedIdsJSON = JSON.stringify(selectedIds);
+
+            // 폼 필드에 JSON 데이터 설정
+            $('#selectedIds').val(selectedIdsJSON);
+        }
+    });
+});
         
    
      
@@ -281,7 +317,14 @@ function drawList(obj) {
                 }
             }
         });
+        
+        
+        
+        
+        
     }
+    
+    
     $('#list2').empty();
     $('#list2').append(content);
 }

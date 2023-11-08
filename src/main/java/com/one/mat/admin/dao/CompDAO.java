@@ -11,6 +11,21 @@ public interface CompDAO {
 
 	int totalPage(int ppn);
 
-	ArrayList<CompDTO> list3();
+	void changeCheck(int id);
+
+	ArrayList<CompDTO> list3(int ppn, int offset);
+
+	ArrayList<CompDTO> list4(int ppn, int offset);
+
+	ArrayList<CompDTO> list5(int ppn, int offset);
+
+	ArrayList<CompDTO> list6(int ppn, int offset);
+
+	ArrayList<CompDTO> list7(int ppn, int offset);
+
+	ArrayList<CompDTO> list8(int ppn, int offset);
+
+	
+	
 
 }
