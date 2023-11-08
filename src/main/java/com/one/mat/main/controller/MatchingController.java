@@ -66,7 +66,13 @@ public class MatchingController {
 		List<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
 		
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+<<<<<<< HEAD
 		
+=======
+		logger.info("dto :"+dto);
+		int member_idx = dto.getMember_idx();
+		logger.info("member_idx : "+member_idx);
+>>>>>>> 0f47e1223ae41c9fc69484aee4a1e8fdfd8b2272
 
 			 // 로그인 했을때
 	 	    if (dto != null) {

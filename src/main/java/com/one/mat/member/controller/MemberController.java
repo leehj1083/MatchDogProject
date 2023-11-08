@@ -31,8 +31,6 @@ public class MemberController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MemberService service;
 	@Autowired MailSendService mailService;
-	@Autowired BCryptPasswordEncoder encoder;
-	
 	@RequestMapping(value="/joinForm.go")
 	public String joinForm() {
 		return "joinForm";
@@ -83,8 +81,11 @@ public class MemberController {
 		logger.info("params : "+dto.getMember_id());		
 						
 		String member_id = dto.getMember_id();
-		String member_pw = encoder.encode(dto.getMember_pw());
-		dto.setMember_pw(member_pw);
+		String member_pw=dto.getMember_pw();
+		/*
+		 * String member_pw = encoder.encode(dto.getMember_pw());
+		 * dto.setMember_pw(member_pw);
+		 */
 		
 		String member_name = dto.getMember_name();
 		String member_nickName = dto.getMember_nickName();
@@ -131,12 +132,16 @@ public class MemberController {
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(Model model, HttpSession session, @RequestParam String member_id, @RequestParam String member_pw) {
 		String page = "home";
+		logger.info("member id:"+member_id+"/"+member_pw);
 		MemberDTO dto = service.login(member_id, member_pw);
+		logger.info("dto :"+dto);
 		ArrayList<ProfileDTO> pdto = service.loginProf(member_id, member_pw);
 		if (dto != null) {
 			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보
+		
 			session.setAttribute("loginInfo", dto);
 			session.setAttribute("loginProInfo", pdto);
+			logger.info("접속한 세션 회원번호="+dto.getMember_idx());
 			if(dto.getSubsType_code()==4) {
 				page = "dashBoard";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");

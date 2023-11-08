@@ -24,7 +24,6 @@ public class MailSendService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MemberDAO dao;
 	@Autowired JavaMailSenderImpl mailSender;
-	@Autowired BCryptPasswordEncoder encoder;
 
 	private int authNumber;
 	private String member_newPw;
@@ -114,7 +113,7 @@ public class MailSendService {
 		"<br>"+
 				"로그인하시어 비밀번호를 변경해 주세요";
 		mailSend(setFrom, toMail, title, content);
-		updatePw(member_newPw, member_email);
+		updatePw(member_newPw, member_id, member_email);
 		return dto;
 	}
 
@@ -132,9 +131,9 @@ public class MailSendService {
         return str;
 }
 	
-	private void updatePw(String member_newPw, String member_email) {
-		String member_pw = encoder.encode(member_newPw);
-		dao.updatePw(member_pw, member_email);		
+	private void updatePw(String member_newPw, String member_id, String member_email) {
+		String member_pw = member_newPw;
+		dao.updatePw(member_pw, member_id, member_email);		
 	}	
 
 }
