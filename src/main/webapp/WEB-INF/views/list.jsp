@@ -101,11 +101,16 @@ var searchKeyword = '';
 
 listCall(showPage);
 
-$('#pagePerNum').change(function(){
-	// 페이지당 보여줄 게시물 갯수가 변경되면 페이징 처리 UI 를 지우고 다시 그려 준다.
-	// 안그럼 처음에 계산한 페이지 값을 그대로 들고 있게 된다.
-	$('#pagination').twbsPagination('destroy');
-	listCall(showPage);
+$('#pagePerNum').change(function () {
+    var selectedPagePerNum = $('#pagePerNum').val();
+    $('#pagination').twbsPagination('destroy');
+    
+    // 검색한 상태인지 확인하고 이에 따라 listCall 또는 searchCall 함수를 호출
+    if (searchType !== '' && searchKeyword !== '') {
+        searchCall(showPage, searchType, searchKeyword);
+    } else {
+        listCall(showPage);
+    }
 });
 
 function listCall(page){
@@ -154,18 +159,31 @@ function drawList(obj) {
         $('#list').append(content);
 
         // 검색 결과가 있으면 페이징 UI 그리기
-        $('#pagination').twbsPagination({
-            startPage: obj.currPage, // 보여줄 페이지
-            totalPages: obj.pages, // 총 페이지 수 (총 갯수 / 페이지당 보여줄 게시물 수): 서버에서 계산해서 가져와야함
-            visiblePages: 5, // [1][2][3][4][5]
-            onPageClick: function (e, page) {
-                if (showPage != page) {
-                    console.log(page);
-                    showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
-                    listCall(page);
+        if (searchType !== '' && searchKeyword !== '') {
+            $('#pagination').twbsPagination({
+                startPage: obj.currPage,
+                totalPages: obj.pages,
+                visiblePages: 5,
+                onPageClick: function (e, page) {
+                    if (showPage != page) {
+                        showPage = page;
+                        searchCall(page, searchType, searchKeyword); // 검색 결과로 페이지 이동
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            $('#pagination').twbsPagination({
+                startPage: obj.currPage,
+                totalPages: obj.pages,
+                visiblePages: 5,
+                onPageClick: function (e, page) {
+                    if (showPage != page) {
+                        showPage = page;
+                        listCall(page); // 일반 목록으로 페이지 이동
+                    }
+                }
+            });
+        }
     }
 }
 
@@ -173,6 +191,7 @@ $('#search').click(function () {
     searchType = $('#searchType').val();
     searchKeyword = $('#searchKey').val();
     showPage=1;
+    $('#pagination').twbsPagination('destroy');
     searchCall(showPage, searchType, searchKeyword);
 });
 

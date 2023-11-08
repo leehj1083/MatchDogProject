@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.one.mat.board.dao.BoardDAO;
 import com.one.mat.board.dto.BoardDTO;
 import com.one.mat.board.dto.PhotoDTO;
-import com.one.mat.board.dto.RecommendDTO;
 
 
 @Service
@@ -51,7 +50,24 @@ public class BoardService {
 		return map;
 	}
 
-	//////////////////////////////////////////////////
+	public Map<String, Object> search(String pagePerNum, String page, String searchType, String searchKeyword) {
+        int ppn = Integer.parseInt(pagePerNum);
+        int p = Integer.parseInt(page);
+        int offset = (p - 1) * ppn;
+        ArrayList<BoardDTO> list = dao.search(ppn,offset,searchType,searchKeyword);
+        logger.info("search의 list: "+list.toString());
+        Map<String, Object> map = new HashMap<String, Object>();
+		int pages = dao.totalPageSearch(ppn,searchType,searchKeyword);
+		logger.info("만들수 있는 총 페이지 갯수 : "+pages);
+        if (p > pages) {
+            p = pages;
+        }
+        map.put("currPage", p);
+        map.put("pages", pages);
+        map.put("list", list);
+        return map;
+	}
+	/////////////////////     게시판     ////////////////////
 	public String write(Map<String, String> params, MultipartFile[] photos) {
 		BoardDTO dto = new BoardDTO();
 	    dto.setBoard_subject(params.get("board_subject"));
@@ -95,11 +111,13 @@ public class BoardService {
 	public void detail(String board_id, Model model) {
 		dao.bHit(board_id);
 		BoardDTO board = dao.detail(board_id);
+		ArrayList<PhotoDTO> boardPro = dao.getboardPro(String.valueOf(board.getMember_idx()));
 		logger.info("DTO형식의 board 값: "+board);
-		ArrayList<PhotoDTO> photos = dao.getPhoto(String.valueOf(board.getBoard_id())); // 사진
+		ArrayList<PhotoDTO> photos = dao.getPhoto(String.valueOf(board.getMember_idx())); // 사진
 		logger.info("사진board_id=photos: "+photos);
 		model.addAttribute("board",board);
 		model.addAttribute("photos",photos);
+		model.addAttribute("boardPro",boardPro);
 	}
 
 	public void del(String board_id) {
@@ -134,9 +152,13 @@ public class BoardService {
 		dao.update(params);
 		int board_id = Integer.parseInt(params.get("board_id"));
 		
+		String delphotoArray = params.get("delphotoArray"); // 삭제할 사진 배열로 가져옴
+		String[] photoIds = delphotoArray.split(","); // ,를 기준으로 값들을 가져옴
+		
 		if(board_id>0) {
 			try {
 				saveFile(board_id,photos);
+				delPhoto(photoIds);
 				page = "redirect:/detail?board_id="+board_id;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -144,28 +166,16 @@ public class BoardService {
 		}
 		return page;
 	}
-	public void delphoto(int photo_id) {
-		dao.delphoto(photo_id);
+	
+	private void delPhoto(String[] photoIds) {
+        for (String photo_id : photoIds) { // 숨김한 사진 삭제요청
+        	logger.info("수정완료후 숨김처리한 삭제할 사진들번호: "+photo_id);
+        	if(!photo_id.equals("")) {
+        		dao.delphoto(photo_id);        		
+        	}
+        }
 	}
 	
-	public Map<String, Object> search(String pagePerNum, String page, String searchType, String searchKeyword) {
-		
-        int ppn = Integer.parseInt(pagePerNum);
-        int p = Integer.parseInt(page);
-        int offset = (p - 1) * ppn;
-        ArrayList<BoardDTO> list = dao.search(ppn,offset,searchKeyword);
-        logger.info("search의 list: "+list.toString());
-        Map<String, Object> map = new HashMap<String, Object>();
-        int pages = dao.totalPage(ppn);
-        logger.info("만들수 있는 총 페이지 갯수: " + pages);
-        if (p > pages) {
-            p = pages;
-        }
-        map.put("currPage", p);
-        map.put("pages", pages);
-        map.put("list", list);
-        return map;
-	}
 //////////////////////////////     추천      ///////////////////////////////////////////
 	public Map<String, Object> like(String board_id, String member_idx) {
 		int memberIdx = Integer.parseInt(member_idx);

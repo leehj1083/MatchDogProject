@@ -24,11 +24,12 @@ public class ReplyService {
 		int board_id = Integer.parseInt(boardId);
 		logger.info("board_id: "+board_id);
 		ArrayList<ReplyDTO> replyList = dao.replyList(board_id);
+		
 		map.put("replyList", replyList);
 		logger.info("replyList: "+replyList);
 		return map;
 	}
-
+	
 	public Map<String, Object> replyWrite(Map<String, String> params) {
 		ReplyDTO dto = new ReplyDTO();
 		dto.setReply_content(params.get("reply_content"));

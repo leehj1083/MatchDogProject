@@ -18,7 +18,11 @@
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td>${board.member_nickName}</td>
+			<td>
+				<c:forEach items="${boardPro}" var="boardPro">
+					<img src="/photo/${boardPro.photo_fileName}" width="25" height="25" alt="${boardPro.photo_fileName}"/>
+				</c:forEach> ${board.member_nickName}
+			</td>
 		</tr>
 		<tr>
 			<th>작성일</th>
@@ -55,14 +59,12 @@
 	</table>
 	<form id="recommendLike">
 		<div>
-			<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
 			<input type="button" id="likeButton" onclick="like('${board.board_id}')" value="좋아요"/>
 			<span id="likeCount">0</span>
 		</div>
 	</form>
 	<form id="recommendHate">
 		<div>
-			<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
 			<input type="button" id="hateButton" onclick="hate('${board.board_id}')" value="싫어요"/>
 			<span id="hateCount">0</span>
 		</div>
@@ -105,6 +107,11 @@ $('#replyForm').submit(function() {
 	var memberIdx = $('[name="member_idx"]').val();
     var replyContent = $('#reply_content').val();
     var boardId = '${board.board_id}';
+    
+    if (replyContent.trim() === "") {
+        alert("댓글 내용을 입력하세요."); // 내용이 비어있을 경우 알림을 표시
+        return; // 작성을 중지
+    }
 
     $.ajax({
         type: 'POST',
@@ -136,7 +143,7 @@ function loadReplyList() {
         data: {'boardId': ${board.board_id}},
         success: function(data) {
             obj = data; // 불러온 데이터를 obj에 할당
-            console.log(obj);
+            // console.log(obj);
             drawList(obj);
         },
         error: function(e) {
@@ -269,14 +276,14 @@ function like(board_id, member_idx) {
 			member_idx: member_idx,
 		},
 		success: function(data){		
-			console.log(data);
+			// console.log(data);
 			if(data && data.checkRec > 0){
-				console.log("삭제요청");
+				// console.log("삭제요청");
 				deleteRec(board_id, member_idx, one);
 				recommendLike();
 				recommendHate();
 			}else{
-				console.log("좋아요 insert 요청");
+				// console.log("좋아요 insert 요청");
 				$.ajax({
 					type: 'POST',
 					url: 'like',
@@ -286,7 +293,7 @@ function like(board_id, member_idx) {
 					},
 					dataType: 'JSON',
 					success: function(data){
-						console.log(data);
+						// console.log(data);
 						recommendLike();
 						recommendHate();
 					},
@@ -326,10 +333,10 @@ function hate(board_id, member_idx) {
 			member_idx: member_idx,
 		},
 		success: function(data){
-			console.log("checkRec 요청값");
-			console.log(data);
+			// console.log("checkRec 요청값");
+			// console.log(data);
 			if(data && data.checkRec > 0){
-				console.log("삭제요청");
+				// console.log("삭제요청");
 				deleteRec(board_id, member_idx, two);
 				recommendLike();
 				recommendHate();
@@ -344,7 +351,7 @@ function hate(board_id, member_idx) {
 					},
 					dataType: 'JSON',
 					success: function(data){
-						console.log(data);
+						// console.log(data);
 						recommendLike();
 						recommendHate();
 					},
