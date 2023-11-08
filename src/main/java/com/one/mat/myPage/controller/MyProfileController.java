@@ -1,6 +1,7 @@
 package com.one.mat.myPage.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,41 +76,53 @@ public class MyProfileController {
 			@RequestParam Map<String, String> params,
 			@RequestParam(value = "selectedCharTypesCode", required = false) String selectedCharTypesCode
 			) {
+		logger.info("선택한 코드들 :"+selectedCharTypesCode);
 		int pro_idx = Integer.parseInt(params.get("pro_idx"));
-		String pro_dogName = params.get("pro_dogName");
-		int breedType_code = Integer.parseInt(params.get("breedType_code"));
-		int pro_dogAge = Integer.parseInt(params.get("pro_dogAge"));
-		String pro_dogGender = params.get("pro_dogGender");
-		String pro_dogDesc = params.get("pro_dogDesc");
 		logger.info("pro_idx:"+pro_idx);
-		logger.info(pro_dogName);
-		logger.info("breedType_code:"+breedType_code);
-		logger.info("pro_dogAge : "+pro_dogAge);
-		logger.info(pro_dogGender);
-		logger.info("pro_dogDesc:"+pro_dogDesc);
-		logger.info("selectedCharTypesCode:"+selectedCharTypesCode);
-		String[] charTypeCodes = selectedCharTypesCode.split(",");
-		logger.info("charTypeCodes:"+charTypeCodes);
+		if(params.get("charTypeCodes") != null ) {
+			
+			int charTypeCodes = Integer.parseInt(params.get("charTypeCodes"));	
+			logger.info(params.get("charTypeCodes"));
+			logger.info("charTypeCodes:"+charTypeCodes);
+			/*
+			 * String pro_dogName = params.get("pro_dogName"); int breedType_code =
+			 * Integer.parseInt(params.get("breedType_code")); int pro_dogAge =
+			 * Integer.parseInt(params.get("pro_dogAge")); String pro_dogGender =
+			 * params.get("pro_dogGender"); String pro_dogDesc = params.get("pro_dogDesc");
+			 * 
+			 * logger.info(pro_dogName); logger.info("breedType_code:"+breedType_code);
+			 * logger.info("pro_dogAge : "+pro_dogAge); logger.info(pro_dogGender);
+			 * logger.info("pro_dogDesc:"+pro_dogDesc);
+			 */
+			
+		};
+	
 		int charType1 = 0;	
-	    int charType2 = 0;	    
-	    int charType3 = 0;    
-	    int charType4 = 0;
+		int charType2 = 0;	    
+		int charType3 = 0;    
+		int charType4 = 0;
+		if(selectedCharTypesCode != null) {
+			String[] charTypeCodesArr = selectedCharTypesCode.split(",");	
+			logger.info(Arrays.toString(charTypeCodesArr));
+			if (charTypeCodesArr.length >= 1) {
+				charType1 = Integer.parseInt(charTypeCodesArr[0]);
+			}
+			
+			if (charTypeCodesArr.length >= 2) {
+				charType2 = Integer.parseInt(charTypeCodesArr[1]);
+			}
+			
+			if (charTypeCodesArr.length >= 3) {
+				charType3 = Integer.parseInt(charTypeCodesArr[2]);
+			}
+			
+			if (charTypeCodesArr.length >= 4) {
+				charType4 = Integer.parseInt(charTypeCodesArr[3]);
+			}
+			service.charTypeSave(pro_idx, charType1, charType2, charType3, charType4);
+		}
+		
 	      
-	    if (charTypeCodes.length >= 1) {
-	        charType1 = Integer.parseInt(charTypeCodes[0]);
-	    }
-
-	    if (charTypeCodes.length >= 2) {
-	        charType2 = Integer.parseInt(charTypeCodes[1]);
-	    }
-
-	    if (charTypeCodes.length >= 3) {
-	        charType3 = Integer.parseInt(charTypeCodes[2]);
-	    }
-
-	    if (charTypeCodes.length >= 4) {
-	        charType4 = Integer.parseInt(charTypeCodes[3]);
-	    }
 	    logger.info("charType1:"+charType1);
 	    logger.info("charType2:"+charType2);
 	    logger.info("charType3:"+charType3);
@@ -125,7 +138,7 @@ public class MyProfileController {
 			/* service.MyProfileModList(pro_idx, model); */
 
 			service.myProfileModUpdateDo(params);
-			service.charTypeSave(pro_idx, charType1, charType2, charType3, charType4);
+			
 
 			page = "redirect:/myProfileList.do";
 		}

@@ -9,7 +9,7 @@
 			WHERE member_id=#{param1} AND member_pw=#{param2}
 	</select>
 	<select id="MyPageListDo" resultType="com.one.mat.member.dto.MemberDTO">
-		SELECT  m.member_quit, m.member_idx, m.member_name, m.member_id, m.member_nickName,
+		SELECT  m.member_renew, m.member_subs, m.member_quit, m.member_idx, m.member_name, m.member_id, m.member_nickName,
 		m.member_gender, m.member_pw, m.member_email, m.member_phone, 
 		m.member_roadAddr, m.member_parcelAddr, m.member_detailAddr,
 		m.member_dongAddr,
@@ -31,11 +31,9 @@
   		WHERE member_id=#{member_id} 
   	</update>
   	
-  <update id="plusSubsDo">
-  UPDATE subs set
-subsType_code=2 where member_idx = #{param1}
-  </update>
   
+  
+ 
   <update id="memberQuitDo">
 UPDATE `member` set
 member_quit = 'Y' where member_idx=#{param1}

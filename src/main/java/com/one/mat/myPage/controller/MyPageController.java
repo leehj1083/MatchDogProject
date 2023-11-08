@@ -104,30 +104,6 @@ public class MyPageController {
 		return "subs";
 	}
 	
-	@RequestMapping(value= "/plusSubs.do")
-	public String plusSubsDo(Model model, HttpSession session) {
-		if (session.getAttribute("loginInfo") == null) {
-			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-		} else {
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-			String id = dto.getMember_id();
-			service.plusSubsDo(id);
-		}
-		return "redirect:/myPageList.do";
-	}
-	
-	@RequestMapping(value= "/premiumSubs.do")
-	public String premiumSubs(Model model, HttpSession session) {
-		if (session.getAttribute("loginInfo") == null) {
-			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-		} else {
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-			String id = dto.getMember_id();
-			service.premiumSubs(id);
-		}
-		return "main";
-	}
-	
 	
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session) {

@@ -26,18 +26,13 @@ public class MyPageService {
 		
 	}
 
-	public void plusSubsDo(String id) {
-		dao.plusSubsDo(id);
-		
-	}
-	public void premiumSubs(String id) {
-		dao.premiumSubs(id);
-		
-	}
+
+	
 	public void memberQuitDo(int member_idx) {
 		dao.memberQuitDo(member_idx);
 		
 	}
+	
 
 
 

@@ -13,11 +13,10 @@ public interface MyPageDAO {
 
 	int myPageModUpdateDo(Map<String, String> params);
 
-	void plusSubsDo(String id);
-
-	void premiumSubs(String id);
-
+	
 	void memberQuitDo(int member_idx);
+
+	
 
 
 

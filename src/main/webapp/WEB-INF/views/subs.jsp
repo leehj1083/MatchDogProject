@@ -31,7 +31,7 @@
 							<li>플러스 업그레이드로 더 많은 산책 요청을 받아보세요.</li>
 						</ul>
 						<input type="submit" id="plusSubs" value="PLUS 구독 시작하기" />
-						<button type="button" class="plus" name= "plus">구독 시작하기</button>
+<!-- 						<button type="button" class="plus" name= "plus">구독 시작하기</button> -->
 
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 						<li>프리미엄 업그레이드로 더 많은 대화를 나눠보세요.</li>
 					</ul>
 					<input type="submit" id="premiumSubs" value="PREMIUM 구독 시작하기" />
-					<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button>
+	<!-- 				<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button> -->
 				</div>
 			</div>
 		</div>
@@ -80,7 +80,7 @@
 							<li>프리미엄 업그레이드로 더 많은 대화를 나눠보세요.</li>
 						</ul>
 						<input type="submit" id="premiumSubs" value="PREMIUM 구독 시작하기" />
-						<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button>
+<!-- 						<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button> -->
 					</div>
 				</div>
 			</div>
@@ -96,13 +96,40 @@ if(msg != ""){
 
 $('#plusSubs').click(function(){
         if(confirm('PLUS 구독하시겠습니까?')){
-        	location.href="./plusSubs.do";
-        	alert('PLUS 구독이 시작되었습니다.');
+        	var currentTime = new Date();
+        	console.log(currentTime);
+        	
+        	$.ajax({
+        		type : 'get',
+        		url : 'plusSubs.do', // 서버로 요청을 보낼 엔드포인트를 지정
+        		data : {
+        			"subsStartTime" : currentTime
+        		},
+        		success : function(data) {
+        			console.log(data);
+        			console.log("플러스 구독");
+        			alert('PLUS 구독이 시작되었습니다.');
+        			location.href = "redirect:./myPageList.do";
+        			if (!data.login) {
+        				alert('로그인이 필요한 서비스입니다.');
+        				location.href = './';
+        			}
+        		},
+        		error : function(e) {
+        			console.log(e)
+        		}
+        	});
+        	
+        	
+/*         	location.href="./plusSubs.do";
+        	alert('PLUS 구독이 시작되었습니다.'); */
         }
     }); 
     
-    $('#premiumSubs').click(function(){
+$('#premiumSubs').click(function(){
     	if(confirm('PREMIUM 구독하시겠습니까?')){
+    		var currentTime = new Date();
+        	console.log(currentTime);
         	location.href="./premiumSubs.do";
         	alert('PREMIUM 구독이 시작되었습니다.');
         }
