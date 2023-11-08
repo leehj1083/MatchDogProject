@@ -1,6 +1,5 @@
 package com.one.mat.board.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -38,7 +37,7 @@ public class BoardController {
 		
 		return service.list(pagePerNum, page);
 	}
-	////////////////////////////////////////////////////
+	
 	@RequestMapping(value ="/search")
 	@ResponseBody
 	public Map<String, Object> search(HttpSession session, @RequestParam String pagePerNum,
@@ -49,12 +48,13 @@ public class BoardController {
 	    logger.info("검색내용: " + searchKeyword);
 	    return service.search(pagePerNum,page,searchType,searchKeyword);
 	}
+	////////////////////////////////////////////////////
 	
 	@RequestMapping(value="/BoardWrite")
 	public String BoardWrite() {
 		return "BoardWrite";
 	}
-	////////////////////////////////////////////////////
+
 	@RequestMapping(value="/write")
 	public String write(MultipartFile[] photos, @RequestParam Map<String, String> params) {
 		logger.info("file 갯수 : "+photos.length);
@@ -66,6 +66,12 @@ public class BoardController {
 	public String detail(HttpSession session, Model model, @RequestParam String board_id) {
 		service.detail(board_id,model);
 		return "detail";
+	}
+	
+	@RequestMapping(value="/compSaveBoard.do")
+	public String compSaveBoard(HttpSession session, Model model, @RequestParam String board_id) {
+		logger.info(board_id);
+		return "compSaveBoard.do";
 	}
 	
 	@RequestMapping(value="/del")
@@ -82,26 +88,12 @@ public class BoardController {
 		return "updateForm";
 	}
 	
-	// 수정은 사진 추가만 가능하도록
 	@RequestMapping(value="/update")
 	public String update(MultipartFile[] photos, @RequestParam Map<String, String> params) {
 		logger.info("params : "+params);
 		return service.update(params, photos);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/delphoto")
-	public Map<String, Object> delPhoto(@RequestParam("photo_id") int photo_id) {
-	    Map<String, Object> resultMap = new HashMap<>();
-	    try {
-	        // 사진 삭제 로직 추가 (서비스와 DAO 작성 필요)
-	        service.delphoto(photo_id);
-	        resultMap.put("success", true);
-	    } catch (Exception e) {
-	        resultMap.put("success", false);
-	    }
-	    return resultMap;
-	}
 	////////////////////////////// 신고창으로 이동 /////////////////////////////////////////
 	@RequestMapping(value = "/compBoard")
 	public String comp(HttpSession session, @RequestParam String board_id) {

@@ -26,36 +26,52 @@
 
 	<select id="search" resultType="com.one.mat.board.dto.BoardDTO">
 	    SELECT
-	    board_id,
-	    board_subject,
-	    m.member_nickName,
-	    board_regDate,
-	    board_bHit
+	        board_id,
+	        board_subject,
+	        m.member_nickName,
+	        board_regDate,
+	        board_bHit,
+	        (SELECT COUNT(reply_id) FROM reply r WHERE r.board_id = b.board_id AND r.reply_hidden != 'Y') as reply,
+	        (SELECT COUNT(photo_id) FROM photo p WHERE p.photo_idfNum = b.board_id AND p.photo_type = 1) as img,
+	        (SELECT COUNT(rec_id) FROM recommend r WHERE r.board_id = b.board_id AND r.rec_type = 1) as likeCount
 	    FROM board b
-	    left outer JOIN member m ON b.member_idx = m.member_idx
+	    INNER JOIN member m ON b.member_idx = m.member_idx
 	    WHERE
-	            b.board_subject LIKE '%'||#{param3}||'%'
+		    <choose>
+		        <when test="param3 == 'board_subject'">
+		            b.board_subject LIKE CONCAT('%',#{param4},'%')
+		        </when>
+		        <when test="param3 == 'board_content'">
+		            b.board_content LIKE CONCAT('%',#{param4},'%')
+		        </when>
+		        <when test="param3 == 'member_nickName'">
+		            m.member_nickName LIKE CONCAT('%',#{param4},'%')
+		        </when>
+		    </choose>
+		    and b.board_hidden != 'Y'
 	    ORDER BY board_id DESC
 	    LIMIT #{param1} OFFSET #{param2}
 	</select>
 		
-	<!-- 
-	<select id="totalPageWithSearch" resultType="int">
-	    SELECT CEIL(COUNT(board_id)/#{ppn}) AS pages FROM board
+	<select id="totalPageSearch" resultType="int">
+	    SELECT
+	    	CEIL(COUNT(board_id)/#{param1}) AS pages
+	    FROM board b
+	    INNER JOIN member m ON b.member_idx = m.member_idx
 	    WHERE
 	    <choose>
-	        <when test="searchType == 'board_subject'">
-	            b.board_subject LIKE '%' || #{searchKeyword} || '%'
+	        <when test="param2 == 'board_subject'">
+	            b.board_subject LIKE CONCAT('%',#{param3},'%')
 	        </when>
-	        <when test="searchType == 'board_content'">
-	            b.board_content LIKE '%' || #{searchKeyword} || '%'
+	        <when test="param2 == 'board_content'">
+	            b.board_content LIKE CONCAT('%',#{param3},'%')
 	        </when>
-	        <when test="searchType == 'member_nickName'">
-	            m.member_nickName LIKE '%' || #{searchKeyword} || '%'
+	        <when test="param2 == 'member_nickName'">
+	            m.member_nickName LIKE CONCAT('%',#{param3},'%')
 	        </when>
 	    </choose>
+	    and board_hidden != 'Y'
 	</select>
-	 -->
 	
 	<insert 
 		useGeneratedKeys="true"
@@ -74,11 +90,6 @@
 	    UPDATE board SET board_bHit = board_bHit + 1 WHERE board_id = #{param1}
 	</update>
 	
-	<!-- 
-	<select id="detail" resultType="com.one.mat.board.dto.BoardDTO">
-		SELECT * FROM board WHERE board_id = #{param1}
-	</select>	
-	 -->
 	 <select id="detail" resultType="com.one.mat.board.dto.BoardDTO">
 	    SELECT
 	        board_id,
@@ -97,6 +108,15 @@
 	    SELECT * FROM photo
 	    	WHERE photo_idfNum = #{param1} AND photo_type = 1
 	</select>
+	
+	<select id="getboardPro" resultType="com.one.mat.board.dto.PhotoDTO">
+		SELECT *
+		FROM photo p
+		INNER JOIN member m ON m.member_idx = #{param1}
+			WHERE photo_type = 4 AND m.member_idx = p.photo_idfNum
+		ORDER BY p.photo_id
+		LIMIT 1;
+	</select>
 	  
 	<update id="del">
 		UPDATE board SET board_hidden = 'Y'
@@ -112,7 +132,7 @@
 	    UPDATE board SET board_bHit = board_bHit - 1 WHERE board_id = #{param1}
 	</update>
 	
-	<update id="delphoto" parameterType="int">
+	<update id="delphoto" parameterType="String">
     	DELETE FROM photo
     		WHERE photo_id = #{photo_id}
 	</update>
