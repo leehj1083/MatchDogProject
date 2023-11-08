@@ -5,189 +5,91 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="resources/css/chattingList.css" type="text/css">
+<!-- bootstrap 아이콘 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<<<<<<< HEAD
-
-
 <style>
-table {
-border: 2px solid black;
+a, a:link, a:visited, a:active, a:hover {
+	text-decoration: none;
+	color: var(--black);
 }
-tr {
-border: 1px solid black;
- }
 
 
+/* 본인 페이지 것으로 변경하기  */
+.btn_gnb .bi-chat-dots-fill, .btn_gnb.chatting{
+    color: var(--white);
+    background-color: var(--green);
+}
 
 
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb:hover .bi-house-door-fill,
+/* .btn_gnb:hover .bi-chat-dots-fill, */
+.btn_gnb:hover .bi-gear-fill,
+.btn_gnb:hover .bi-people-fill,
+.btn_gnb:hover .bi-person-circle,
+.btn_gnb:hover .bi-list-ul {
+    background-color: var(--light);
+}
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb.home:hover,
+.btn_gnb.match:hover,
+/* .btn_gnb.chatting:hover, */
+.btn_gnb.board:hover,
+.btn_gnb.myPage:hover,
+.btn_gnb.admin:hover{
+	background-color: var(--light);
+}
+
+table,th,td{
+	border: 1px solid black;
+	border-collapse: collapse;
+}
 </style>
 </head>
 <body>
- <table>
- <tr>
- <td>${mms.member_dongAddr}</td>
- <td>&nbsp;</td>
- <td>&nbsp;</td>
- <td>&nbsp;</td>
- </tr>
- 
- <tr>
- <td>&nbsp;</td>
- <td><img src="/photo/img1.jpg" width="200px" height="200px"></td>
- <td>&nbsp;</td>
- <td>&nbsp;</td>
- </tr>
- 
- <tr>
- <td>${pps.pro_dogName}</td>
- <td>${pps.breedType}</td>
- <td>&nbsp;</td>
-  <td>
-    <c:choose>
-        <c:when test="${pps.pro_dogScore >= 10}">
-            매너견 입니다
-        </c:when>
-        <c:when test="${pps.pro_dogScore >= 0}">
-            평범한 강아지
-        </c:when>
-        <c:otherwise>
-            비매너견 입니다
-        </c:otherwise>
-    </c:choose>
-</td>
- </tr>
- 
- <tr>
- <td>${pps.pro_dogAge}</td>
- <td>/${pps.pro_dogGender}</td>
- <td>&nbsp;</td>
- <td>${pps.pro_dogScore}</td>	
- </tr>
- 
-  <tr>
- 
- <td>강아지 성향</td>
- <td>&nbsp;</td>
- <td>&nbsp;</td>
- <td>&nbsp;</td>
- </tr>
- 
- <tr>
-
- <c:forEach items="${list}" var="myChar">
-								<td>
-									${myChar.charType}
-								</td>
-							</c:forEach>
- </tr>
- 
- <tr>
- <td colspan="4">--------------------------------------------------------</td>
- </tr>
- 
-<tr>
-<td>견주 닉네임</td>
-<td>${mms.member_nickName}</td>
-<td>&nbsp;</td>
-<td>${mms.member_gender}</td>
-</tr>
-
-<tr>
-<td>소개글</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-
-<tr>
-<td>&nbsp;</td>
-<td>${pps.pro_dogDesc}</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-
-
-
-
-
-
-
-
-=======
-<style>
-	.whole{
-		width:auto;
-		height : 100%;
-		margin :0px auto;
-		padding : 20px;
-		border : 1px solid black;
-	}
-	.header{
-		height : 100px;
-		padding : 20px;
-		margin-bottom: 20px;
-		border:1px solid black;
-	}
-	.headerRight{
-		text-align: right;
-	}
-    .sidebar {
-        width: auto;
-        height : auto;
-        float : left;
-        margin-right : 20px;
-        background-color: #255,255,255;
-        padding-top: 20px;
-        border : 1px solid black;
-    }
-
-    .sidebar h2, h3 {
-        color: black;
-        text-align: center;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar a {
-        color: black;
-        text-decoration: none;
-    }
-		
-	table, th, td{
-		border: 1px solid black;
-		border-collapse: collapse;
-		padding: 5px 10px;
-		font-size: 15px;
-		width : auto;
-	}	
-</style>
-</head>
-<body>
-	<div class="whole">
+<div id="wrap">
+	<div class="banner">
 		<div class="header">
-			<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
-			<div class ="headerRight">
-				안녕하세요 ${sessionScope.loginInfo.member_nickName} 님&nbsp;&nbsp;&nbsp;&nbsp;		
-				<a href="logout">로그아웃</a>
+			<h1 class="logo">
+				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
-		<div class="sidebar">
-	        <ul>
-	            <li><h3 style="font-weight: bold; ">관리자 페이지</h3></li>
-	            <li><a href="./dashBoard.go">DASH BOARD</a></li>
-	            <li><a href="./memberList.go">회원관리</a></li>
-	            <li><a href="./compList.go">신고관리</a></li><br><hr/>	            
-	            <li><a href="./home.go">서비스 페이지</a></li>
-	        </ul>
-	    </div>
+	</div>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./dashBoard.go" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>관리자 페이지</span>
+				</a>
+		        <a href="./dashBoard.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>DASH BOARD</span>
+		        </a>
+		        <a href="./memberList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>회원관리</span>
+		        </a>
+		        <a href="./compList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>신고관리</span>
+		        </a>
+		        <a href="./home.go" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>서비스페이지</span>
+		        </a>
+			</div>
+		</div>
 		<div class="content">
 			<form action="memberDetail" method="get">
 			<input type="hidden" name="member_idx" value="${dto.member_idx}"/>
@@ -272,7 +174,7 @@ border: 1px solid black;
 			</form>
 		</div>
 	</div>	
->>>>>>> origin/master
+</div>
 </body>
 <script>
 $('input[name="memberAuthMod"]').on('click', function(){
