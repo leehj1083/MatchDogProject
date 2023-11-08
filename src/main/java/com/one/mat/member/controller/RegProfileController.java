@@ -177,10 +177,10 @@ public class RegProfileController {
 		    ph_8 = photo8;
 		    String photo9 = params.get("photos9");
 		    ph_9 = photo9;
-		    
+		    service.writemyProfile(params);
 		   
 		    
-		return service.writemyProfile(params);
+		return "redirect:/home2";
 		
 		
 		
@@ -218,6 +218,7 @@ public class RegProfileController {
 	@RequestMapping("/chattingcompSave.do")
 	public String chattingcompSave(@RequestParam Map<String, String> params, HttpSession session,HttpServletRequest request) {
 		String currentRequestURI = request.getRequestURI();
+		
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
 		    logger.info("Member Index: " + memberIdx);

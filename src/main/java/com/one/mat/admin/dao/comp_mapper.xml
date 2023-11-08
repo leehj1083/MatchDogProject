@@ -4,27 +4,147 @@
 >
 <mapper namespace="com.one.mat.admin.dao.CompDAO">
 <select id="list" resultType="com.one.mat.admin.dto.CompDTO">
-	    SELECT comp.comp_idx, 
-       comp.comp_memberIdx,
-       comp.compType_code,
-       comp.comp_loc,
-       comp.comp_idfNum,
-       comp.comp_content,
-       comp.comp_receiveDate,
-       comp.comp_reportIdx,
-       comptype.compType
-      
+	SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
 FROM comp
 INNER JOIN comptype ON comp.compType_code = comptype.compType_code
-WHERE comp.comp_memberIdx = 1 LIMIT #{param1} OFFSET #{param2}
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
 	</select>
-<select id="list3" resultType="com.one.mat.admin.dto.CompDTO">
+	<select id="list3" resultType="com.one.mat.admin.dto.CompDTO">
+	SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
+WHERE comphistory.comp_handleState = 'Null'ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
+	</select>
+	<select id="list4" resultType="com.one.mat.admin.dto.CompDTO">
+	SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
+WHERE comphistory.comp_handleState = '처리중'ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
+	</select>
+	<select id="list5" resultType="com.one.mat.admin.dto.CompDTO">
+		SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
+WHERE comphistory.comp_handleState = '처리완료'ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
+	</select>
+	<select id="list6" resultType="com.one.mat.admin.dto.CompDTO">
+		SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
+WHERE comp.comp_loc = 1 ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
+	</select>
+	<select id="list7" resultType="com.one.mat.admin.dto.CompDTO">
+		SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
+WHERE comp.comp_loc = 3 ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
+	</select>
+	<select id="list8" resultType="com.one.mat.admin.dto.CompDTO">
+		SELECT 
+    comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+FROM comp
+INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
+WHERE comp.comp_loc = 2 ORDER BY comp.comp_idx DESC
+LIMIT #{param1} OFFSET #{param2}
+	</select>
+	
 
-select comp_handleDate,comp_handleState  from comphistory c 
-</select>	
 	
 	<select id="totalPage" resultType="int">
 		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
 	</select>
+	<update id="changeCheck" parameterType="int">
+	update comphistory set comp_handleState = '처리완료' where comp_idx = #{id}
+	</update>
+	
+	
 
 </mapper>
