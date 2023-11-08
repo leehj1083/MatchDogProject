@@ -59,7 +59,8 @@
  	</select>
  	
  	<update id="updatePw">
- 		UPDATE member SET member_pw = #{param1} WHERE member_email=#{param2}
+ 		UPDATE member SET member_pw = #{param1} 
+ 		WHERE member_id=#{param2} AND member_email=#{param3}
  	</update>
  	
  	

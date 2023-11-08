@@ -16,6 +16,7 @@ public class DashBoardController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired DashBoardService service;
+		
 	
 	@RequestMapping(value="/dashBoard.go")
 	public String dashBoard() {
@@ -27,21 +28,18 @@ public class DashBoardController {
 	public HashMap<String, Object>visitorStatistics(){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		
-		
 		return result;
 	}
 	
 	@RequestMapping(value="/subsStatistics.do")
 	@ResponseBody
 	public HashMap<String, Object>subsStatistics(){
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		
+		HashMap<String, Object> result = new HashMap<String, Object>();		
 		
 		return result;
 	}
-	
-	
-	
-	
+
 
 }
+
+
