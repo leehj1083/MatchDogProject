@@ -1,97 +1,103 @@
-<%@page import="com.one.mat.member.dto.ProfileDTO"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
-
-<!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <meta charset="UTF-8">
-<title>관리자 화면</title>
-<style>
-	.whole{
-		width:auto;
-		height : 100%;
-		margin :0px auto;
-		padding : 20px;
-		border : 1px solid black;
-	}
-	.header{
-		height : 100px;
-		padding : 20px;
-		margin-bottom: 20px;
-		border:1px solid black;
-	}
-	.headerRight{
-		text-align: right;
-	}
-    .sidebar {
-        width: auto;
-        height : auto;
-        float : left;
-        margin-right : 20px;
-        background-color: #255,255,255;
-        padding-top: 20px;
-        border : 1px solid black;
-    }
-
-    .sidebar h2, h3 {
-        color: black;
-        text-align: center;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar a {
-        color: black;
-        text-decoration: none;
-    }
-
-    .content {
-    	width : auto;
-        float: right;
-    }
-	
-	table, th, td{
-		border: 1px solid black;
-		border-collapse: collapse;
-		padding: 5px 10px;
-		font-size: 15px;
-	}	
-	
-</style>
+<title>Insert title here</title>
+<link rel="stylesheet" href="resources/css/chattingList.css" type="text/css">
+<!-- bootstrap 아이콘 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
+<!-- 페이징 처리를 위한 라이브러리 -->
+<script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<style>
+
+
+a, a:link, a:visited, a:active, a:hover {
+	text-decoration: none;
+	color: var(--black);
+}
+
+
+/* 본인 페이지 것으로 변경하기  */
+.btn_gnb .bi-chat-dots-fill, .btn_gnb.chatting{
+    color: var(--white);
+    background-color: var(--green);
+}
+
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb:hover .bi-house-door-fill,
+/* .btn_gnb:hover .bi-chat-dots-fill, */
+.btn_gnb:hover .bi-gear-fill,
+.btn_gnb:hover .bi-people-fill,
+.btn_gnb:hover .bi-person-circle,
+.btn_gnb:hover .bi-list-ul {
+    background-color: var(--light);
+}
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb.home:hover,
+.btn_gnb.match:hover,
+/* .btn_gnb.chatting:hover, */
+.btn_gnb.board:hover,
+.btn_gnb.myPage:hover,
+.btn_gnb.admin:hover{
+	background-color: var(--light);
+}
+
+
+
+</style>
 </head>
 <body>
-	<div class="whole">
+
+<div id="wrap">
+	<div class="banner">
 		<div class="header">
-			<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
-			<div class ="headerRight">
-				안녕하세요 ${sessionScope.loginInfo.member_nickName} 님&nbsp;&nbsp;&nbsp;&nbsp;		
-				<a href="logout">로그아웃</a>
+			<h1 class="logo">
+				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
-		<div class="sidebar">
-	        <ul>
-	            <li><h3 style="font-weight: bold; ">관리자 페이지</h3></li>
-	            <li><a href="./dashBoard.go">DASH BOARD</a></li>
-	            <li><a href="./memberList.go">회원관리</a></li>
-	            <li><a href="./compList.go">신고관리</a></li>	         
-	            <li><a href="./home.go">서비스 페이지</a></li>
-	        </ul>
-	    </div>
+	</div>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./dashBoard.go" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>관리자 페이지</span>
+				</a>
+		        <a href="./dashBoard.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>DASH BOARD</span>
+		        </a>
+		        <a href="./memberList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>회원관리</span>
+		        </a>
+		        <a href="./compList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>신고관리</span>
+		        </a>
+		        <a href="./HomeMatchingList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>서비스페이지</span>
+		        </a>
+			</div>
+		</div>
 		<div class="content">
-			<h3>DASHBOARD</h3><hr/>
+		
+		<h3>DASHBOARD</h3><hr/>
 			<div class="visitorStatistics">
 				<canvas id="myChart"></canvas>
 			</div>
@@ -120,9 +126,12 @@
 					</table>
 				</div>
 			</div>
+				
 		</div>
 	</div>
+</div>
 </body>
+
 <script>
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
@@ -159,6 +168,7 @@ const myChart = new Chart(ctx, {
         }
     }
 });
+
 
 </script>
 </html>

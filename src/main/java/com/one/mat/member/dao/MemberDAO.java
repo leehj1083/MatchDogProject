@@ -26,7 +26,7 @@ public interface MemberDAO {
 
 	String informId(MemberDTO dto);
 
-	void updatePw(String member_pw, String member_email);
+	void updatePw(String member_pw, String member_id, String member_email);
 
 
 }
