@@ -66,6 +66,7 @@ public class MatchingController {
 		Map<String, Object> temp = new HashMap<>();
 		
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		logger.info("dto :"+dto);
 		int member_idx = dto.getMember_idx();
 		logger.info("member_idx : "+member_idx);
 
