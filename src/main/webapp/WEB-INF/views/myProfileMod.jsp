@@ -287,8 +287,8 @@ height: 200px;
 			<tr>
 				<th>내 강아지 성향</th>
 				<td id="selectedCharTypes"><c:forEach items="${MyProfileMod.charTypeList}" var="charType" varStatus="loop">
-        ${charType.charType} (${charType.charType_code})
-        <input type="text" name="charTypeCodes" value="${charType.charType_code}" />
+        ${charType.charType}
+        <input type="hidden" name="charTypeCodes" value="${charType.charType_code}" />
         <c:if test="${!loop.last}">, </c:if>
     </c:forEach>
 					
@@ -365,6 +365,7 @@ closeCharModal.click(function() {
 
 // "선택 완료" 버튼을 클릭했을 때 필요한 작업 후 모달 창 닫기
 var submitFormButton = $("#submitForm");
+
 submitFormButton.on("click", function (e) {
     var selectedOptions = $('input[type="checkbox"]:checked');
     var selectedValues = [];

@@ -128,33 +128,39 @@ ${myPage.member_idx}
 			<c:if test="${myPage.subsType == 'plus'}">
 <!--  				<td><input type="button" onclick="location.href='./subs.go'" value="업그레이드"/></td> -->
 				<td><button id="openSubsModal">업그레이드</button></td>
- 				<td><input type="button" onclick="location.href='./myPageMod.go'" value="구독취소"/></td>
+ 				<td><input type="button" id="subsDeleteDo" value="구독취소"/></td>
 				<!-- <td colspan="1">업그레이드</td> -->
 			</c:if>
 			<c:if test="${myPage.subsType == 'premium'}">
- 				<td><input type="button" onclick="location.href='./myPageMod.go'" value="구독취소"/></td>
+ 				<td><input type="button" id="subsDeleteDo" value="구독취소"/></td>
 				<!-- <td colspan="1">업그레이드</td> -->
 			</c:if>
 			<c:if test="${myPage.subsType == 'admin'}">
  				<td><button>관리자입니다</button></td>
 				<!-- <td colspan="1">업그레이드</td> -->
 			</c:if>
- 		</tr>
- 		
-<!-- <button id="openSubsModal">모달 열기</button> -->
-	<!-- 모달 창 -->
+ 		</tr>		
+	</table>
+	
+	<p>구독 여부 : ${myPage.member_subs}</p>
+	<p>구독 연장 여부 : ${myPage.member_renew}</p>
+	<p>구독 시작 일자 : </p>
+	<p>구독 만료 일자 : </p>
+	<br></br>
+	<button id="openQuitModal" >회원 탈퇴</button>
+	
+	
+	<!-- 업그레이드 모달 창 -->
 	<div id="subsModal" class="modal">
 		<div class="modal-content">
 			<span id="closeSubsModal" style="float: right; cursor: pointer;">&times;</span>
 			<div id="subSmodalContent"></div>
 		</div>
 	</div>
- 		
-	</table>
 	
-	<br></br>
-	<button id="openQuitModal" >회원 탈퇴</button>
+
 	
+	<!-- 회원 탈퇴 모달창 -->
 	<div id="memberQuitDoModal" class="QuitModal" >
 		<div class="QuitModal-content" >
 			<h2>정말 탈퇴하시겠습니까?<br/>모든 정보가 삭제됩니다.</h2>
@@ -162,9 +168,50 @@ ${myPage.member_idx}
         <button id="QuitConfirmNo">아니오</button>
 		</div>
 	</div>
+	
+	<!-- 구독 취소 모달창 -->
+	<div id="subsDeleteModal" class="modal" >
+		<div class="modal-content" >
+			<h2>정말 취소하시겠습니까?<br/>모든 혜택이 사라집니다.</h2>
+        <button id="subsDeleteYes" data-member_idx="${myPage.member_idx}">예</button>
+        <button id="subsDeleteNo">아니오</button>
+		</div>
+	</div>
 </c:if>
 </body>
+
+
+
 <script>
+// 구독 취소 모달
+var subsDeleteDo = $("#subsDeleteDo");
+var subsDeleteModal = $("#subsDeleteModal");
+var subsDeleteYes = $("#subsDeleteYes");
+var subsDeleteNo = $("#subsDeleteNo");
+
+// 구독 취소 버튼을 눌렀을 때
+subsDeleteDo.click(function() {
+	console.log("구독취소");
+	subsDeleteModal.css("display", "block");
+});
+
+// 구독취소 예를 눌렀을 때
+
+subsDeleteYes.click(function(e){
+	var member_idx = $(this).data("member_idx");
+	console.log(member_idx);
+	location.href="./myPageSubsDelete.do";
+ 	subsDeleteModal.css("display", "none");
+});
+
+
+// 구독취소 아니오 눌렀을 때
+subsDeleteNo.click(function() {
+	subsDeleteModal.css("display", "none");
+});
+
+
+// 탈퇴 처리 모달
 var openQuitModal = $("#openQuitModal");
 var memberQuitDoModal = $("#memberQuitDoModal");
 var QuitConfirmYes = $("#QuitConfirmYes");

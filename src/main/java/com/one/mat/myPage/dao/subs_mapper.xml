@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.one.mat.myPage.dao.SubsDAO">
+
+<update id="plusSubsDo">
+UPDATE subs s
+JOIN member m on m.member_idx = s.member_idx
+set
+s.subsType_code=2,
+m.member_subs="Y",
+m.member_renew="Y"
+where m.member_idx = #{param1}
+  </update>
+  
+  <update id="premiumSubsDo">
+UPDATE subs s
+JOIN member m on m.member_idx = s.member_idx
+set
+s.subsType_code=3,
+m.member_subs="Y",
+m.member_renew="Y"
+where m.member_idx = #{param1}
+  </update>
+  
+  <update id="myPageSubsDeleteDo">
+  UPDATE subs s
+JOIN member m on m.member_idx = s.member_idx
+set
+s.subsType_code=1,
+m.member_subs="Y",
+m.member_renew="N"
+where m.member_idx = #{param1}
+  </update>
+
+
+
+
+
+
+
+</mapper>
