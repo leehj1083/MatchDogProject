@@ -54,11 +54,12 @@ public class ChattingController {
 	@ResponseBody
 	public HashMap<String, Object> chattingListDo(@RequestParam String pagePerNum, @RequestParam String page, HttpSession session) {
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int subsType = dto.getSubsType_code();
 		int memberIdx = dto.getMember_idx();
 		// logger.info(dto.getMember_idx()+","+dto.getMember_id()+","+dto.getMember_loginLock());
-		 logger.info("보여줄 페이지 : "+page+"/"+"pagePerNum : " + pagePerNum);
+		// logger.info("보여줄 페이지 : "+page+"/"+"pagePerNum : " + pagePerNum);
 		 
-		return service.chattingListDo(pagePerNum,page,memberIdx);
+		return service.chattingListDo(pagePerNum,page,memberIdx,subsType);
 	}
 	
 	// ----------------------------------------------------- 채팅룸 -------------------------------------------------------------------
@@ -66,14 +67,16 @@ public class ChattingController {
 	// 채팅방 접근권한
 	@RequestMapping(value="/chattingRoom.go")
 	public String chattingRoomGo(Model model, HttpSession session, @RequestParam String chat_idx) {
-		
 		String page = "login";
 		int memberIdx = 0;
+		boolean result = false;
+		String review = "N";
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo"); // 세션의 로그인 정보를 가져오기
-		boolean result = service.chattingRoomGo(chat_idx, memberIdx);
-		
+
 		if(dto != null) {
 			memberIdx = dto.getMember_idx();
+			result = service.chattingRoomGo(chat_idx, memberIdx);
+			review = service.reviewCheck(chat_idx,memberIdx);
 		}
 		// 로그인 안했을 때
 		if(dto == null) {
@@ -85,7 +88,9 @@ public class ChattingController {
 		}else if(!(result)) { // 다른 채팅방에 멋대로 접근할 때 막기
 			model.addAttribute("msg","접근할 수 없는 회원입니다.");
 		}else { // 정상 로그인 시
+			logger.info("review : "+ review);
 			model.addAttribute("chat_idx",chat_idx);
+			model.addAttribute("review",review);
 			page = "chattingRoom";
 		}
 		return page;
@@ -95,10 +100,11 @@ public class ChattingController {
 	@RequestMapping(value="/chatRoomList.do")
 	@ResponseBody
 	public HashMap<String, Object> chatRoomListDo(HttpSession session, @RequestParam String chat_idx) {
-		logger.info("chat_idx : "+ chat_idx);
+		//logger.info("chat_idx : "+ chat_idx);
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		int memberIdx = dto.getMember_idx();
-		return service.chatRoomListDo(memberIdx,chat_idx);
+		int subsType = dto.getSubsType_code();
+		return service.chatRoomListDo(memberIdx,chat_idx,subsType);
 	}
 	
 	// 사진 파일 저장
@@ -107,7 +113,7 @@ public class ChattingController {
 	public HashMap<String, Object> chatPhotoDo(HttpSession session, @RequestParam MultipartFile[] photo, @RequestParam String chat_idx){
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		int memberIdx = dto.getMember_idx();
-		logger.info("photo : "+photo.length);
+		//logger.info("photo : "+photo.length);
 		logger.info("chat_idx : "+chat_idx);
 
 		return service.chatPhotoDo(photo,chat_idx,memberIdx);
@@ -125,7 +131,7 @@ public class ChattingController {
 	
 	// ---------------------------------------------------------------- 후기 -----------------------------------------------------------------
 	
-	// 후기 등록
+	// 후기 이동
 	@RequestMapping(value="/review.go")
 	public String review(Model model, HttpSession session, @RequestParam String pro_idx, @RequestParam String chat_idx) {
 		
@@ -154,10 +160,32 @@ public class ChattingController {
 		return page;
 	}
 	
+	// 후기 상대 프로필 부리기
 	@RequestMapping(value="/reviewProfile.do")
 	@ResponseBody
 	public HashMap<String, Object> reviewProfileDo(@RequestParam String pro_idx) {
 		return service.reviewProfileDo(pro_idx);
+	}
+	
+	// 좋아요 버튼
+	@RequestMapping(value="/reviewLike.do")
+	@ResponseBody
+	public HashMap<String, Object> reviewLikeDo(HttpSession session,@RequestParam String pro_idx,@RequestParam String chat_idx) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		int chat_id = Integer.parseInt(chat_idx);
+		int pro_id = Integer.parseInt(pro_idx);
+		return service.reviewLikeDo(pro_id,chat_id,memberIdx);
+	}
+	
+	@RequestMapping(value="/reviewUnLike.do")
+	@ResponseBody
+	public HashMap<String, Object> reviewUnLikeDo(HttpSession session,@RequestParam String pro_idx,@RequestParam String chat_idx) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		int chat_id = Integer.parseInt(chat_idx);
+		int pro_id = Integer.parseInt(pro_idx);
+		return service.reviewUnLikeDo(pro_id,chat_id,memberIdx);
 	}
 	
 
