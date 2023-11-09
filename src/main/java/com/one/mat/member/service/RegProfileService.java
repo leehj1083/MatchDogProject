@@ -146,16 +146,9 @@ public class RegProfileService {
 
 	}
 
-	public void compPhoto(Map<String, String> params) {
-		CompDTO dto = new CompDTO();
+	public void compPhoto(String photo) {
 		
-		dto.setPhoto(params.get("photo"));
-		
-		String memberIdxStr = params.get("memberIdx");
-		int memberIdx = Integer.parseInt(memberIdxStr);
-		dto.setMember_idx(memberIdx);
-		
-		dao.compPhoto(dto);
+		dao.compPhoto(photo);
 		
 	}
 

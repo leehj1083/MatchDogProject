@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.board.dto.BoardDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 public interface CompDAO {
 
@@ -24,6 +25,24 @@ public interface CompDAO {
 	ArrayList<CompDTO> list7(int ppn, int offset);
 
 	ArrayList<CompDTO> list8(int ppn, int offset);
+
+	ArrayList<BoardDTO> search(int ppn, int offset, String searchType, String searchKeyword);
+
+	
+
+	CompDTO detailList(CompDTO compDTO);
+
+	String getMemberIdByCompId(int comp_idx);
+
+	String reMemerIdByCompId(int comp_idx);
+
+	
+
+
+
+	
+
+
 
 	
 	

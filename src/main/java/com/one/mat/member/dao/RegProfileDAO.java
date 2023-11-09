@@ -47,7 +47,7 @@ public interface RegProfileDAO {
 
 	void chattingcompSave(CompDTO dto);
 
-	void compPhoto(CompDTO dto);
+	void compPhoto(String photo);
 
 	void boardcompSave(CompDTO dto);
 
