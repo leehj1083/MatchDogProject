@@ -104,14 +104,14 @@ public class BoardController {
 	@RequestMapping(value="/recommendLike")
 	@ResponseBody
 	public Map<String, Object> recommendLike(HttpSession session, @RequestParam String board_id){
-		logger.info("컨트롤러 좋아요갯수 boar_id: " + board_id);
+		// logger.info("컨트롤러 좋아요갯수 boar_id: " + board_id);
 		return service.recommendLike(board_id);
 	}
 	// 싫어요 갯수 보여주기
 	@RequestMapping(value="/recommendHate")
 	@ResponseBody
 	public Map<String, Object> recommendHate(HttpSession session, @RequestParam String board_id){
-		logger.info("컨트롤러 좋아요갯수 boar_id: " + board_id);
+		// logger.info("컨트롤러 싫어요갯수 boar_id: " + board_id);
 		return service.recommendHate(board_id);
 	}
 	

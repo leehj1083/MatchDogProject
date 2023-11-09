@@ -20,6 +20,15 @@
 		ORDER BY r.reply_id DESC
 	</select>
 	
+	<select id="replyPro" resultType="com.one.mat.board.dto.PhotoReplyProDTO">
+		SELECT photo_fileName
+		FROM photo p
+		INNER JOIN member m ON m.member_idx = #{param1}
+			WHERE photo_type = 4 AND m.member_idx = p.photo_idfNum
+		ORDER BY p.photo_id
+		LIMIT 1;
+	</select>
+	
 	<insert 
 		useGeneratedKeys="true"
 		keyColumn="reply_id"
