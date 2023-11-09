@@ -3,6 +3,8 @@ package com.one.mat.chatting.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.chatting.dao.ChattingDAO;
 import com.one.mat.chatting.dto.ChattingDTO;
+import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 @Service
@@ -36,14 +39,15 @@ public class ChattingService {
 	ChattingDTO chatPhotoInfo = new ChattingDTO();
 	ChattingDTO chatMsgInfo = new ChattingDTO();
 
-	public HashMap<String, Object> chattingListDo(String pagePerNum, String page, int memberIdx) {
+	public HashMap<String, Object> chattingListDo(String pagePerNum, String page, int memberIdx, int subsType) {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-
+		// list 담는 그릇들
 		ArrayList<ChattingDTO> chatIdx = new ArrayList<ChattingDTO>();
 		ArrayList<ChattingDTO> chatProIdx = new ArrayList<ChattingDTO>();
 		ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
-
+		
+		
 		// memberIdx 에서 pro_idx 가지고 오기
 		proIdx = dao.proIdx(memberIdx);
 
@@ -66,8 +70,8 @@ public class ChattingService {
 		Iterator<ChattingDTO> chatProIt = chatProIdx.iterator();
 		while (chatProIt.hasNext()) {
 			chatDTO = chatProIt.next(); // 요소 하나 하나 가져오기
-			// logger.info("Chat_idx: " +chatDTO.getChat_idx()+",
-			// pro_idx"+chatDTO.getPro_idx());
+			// logger.info("Chat_idx: " +chatDTO.getChat_idx()+", pro_idx :
+			// "+chatDTO.getPro_idx());
 			chatProInfo = dao.chatProInfo(chatDTO.getPro_idx());
 			// 대표프로필 가져와야 해서
 			chatPhotoInfo = dao.chatPhotoInfo(chatDTO.getPro_idx());
@@ -78,7 +82,7 @@ public class ChattingService {
 //			logger.info("dto"+chatMsgInfo.getMsgTime());
 
 			ChattingDTO chatInfoDTO = new ChattingDTO(); // 하나의 DTO 에 담기
-			
+
 			chatInfoDTO.setMyDogName(myDogName);
 			chatInfoDTO.setPro_me(chatDTO.getPro_me());
 			chatInfoDTO.setPro_you(chatDTO.getPro_you());
@@ -116,7 +120,9 @@ public class ChattingService {
 			// logger.info("list size : " +list.size());
 		} else {
 		}
-
+		
+		// 세션 권한 체크
+		map.put("subsType",subsType);
 		// logger.info("pages : " +pages);
 		map.put("currPage", p);
 		map.put("pages", pages); // 만들 수 있는 총 페이지 수
@@ -155,12 +161,11 @@ public class ChattingService {
 	}
 
 	// chat_idx 로 채팅방 대화창 가지고 오기(채팅 텍스트 + 전송 사진)
-	public HashMap<String, Object> chatRoomListDo(int memberIdx, String chat_idx) {
+	public HashMap<String, Object> chatRoomListDo(int memberIdx, String chat_idx, int subsType) {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		int chat_id = Integer.parseInt(chat_idx);
 		String dogName = "";
-		
 
 		proIdx = dao.proIdx(memberIdx);
 		Iterator<ProfileDTO> it = proIdx.iterator();
@@ -172,13 +177,15 @@ public class ChattingService {
 				map.put("toFrom", toFrom);
 				int chat_me = toFrom.getPro_me();
 				int chat_you = toFrom.getPro_you();
-				logger.info("me :"+chat_me);
-				logger.info("you :"+chat_you);
+				// logger.info("me :"+chat_me);
+				// logger.info("you :"+chat_you);
 				dao.readCheck(chat_you);
 				dogName = dao.getDogName(chat_you);
 			}
 		}
 		ArrayList<ChattingDTO> totalMsg = dao.totalMsg(chat_id); // (채팅 텍스트 + 전송 사진) 가져오기
+		
+		map.put("subsType", subsType);
 		map.put("totalMsg", totalMsg);
 		map.put("dogName", dogName);
 		return map;
@@ -222,7 +229,7 @@ public class ChattingService {
 			int chatMsg_idx = getChatMsgIdx.get(i).getChatMsg_idx();
 			MultipartFile p = photo[i];
 			fileName = p.getOriginalFilename();
-			logger.info(fileName);
+			// logger.info(fileName);
 			if (!fileName.equals("")) {
 				// 파일 저장
 				byte[] arr;
@@ -261,39 +268,118 @@ public class ChattingService {
 		return map;
 	}
 
-	class ChattingDTOComparator implements Comparator<ChattingDTO> {
-		@Override
-		public int compare(ChattingDTO chat1, ChattingDTO chat2) {
-			return chat2.getChat_idx() - chat1.getChat_idx();
-		}
-	}
+	// --------------------------------------------------후기
+	// -------------------------------------------------------------------
 
 	public HashMap<String, Object> reviewProfileDo(String pro_idx) {
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		int pro_id = Integer.parseInt(pro_idx);
-		
+
 		ChattingDTO chatProInfo = dao.chatProInfo(pro_id);
 		// 대표프로필 가져와야 해서
 		ChattingDTO chatPhotoInfo = dao.chatPhotoInfo(pro_id);
-		
-		ChattingDTO chatInfoDTO = new ChattingDTO(); // 하나의 DTO 에 담기
+
 		ArrayList<ChattingDTO> chatList = new ArrayList<ChattingDTO>();
-		
-		if(chatProInfo != null && chatPhotoInfo != null) {
-			logger.info("값:"+chatPhotoInfo.getPhoto_fileName());
-			logger.info(chatProInfo.getBreedType());
-			logger.info(chatProInfo.getPro_dogName());
+		ChattingDTO chatInfoDTO = new ChattingDTO(); // 하나의 DTO 에 담기
+
+		// logger.info("값:"+chatPhotoInfo.getPhoto_fileName());
+		// logger.info(chatProInfo.getBreedType());
+		// logger.info(chatProInfo.getPro_dogName());
+
+		if (chatProInfo != null && chatPhotoInfo != null) {
+			// logger.info("값:"+chatPhotoInfo.getPhoto_fileName());
+			// logger.info(chatProInfo.getBreedType());
+			// logger.info(chatProInfo.getPro_dogName());
 			chatInfoDTO.setPhoto_fileName(chatPhotoInfo.getPhoto_fileName());
 			chatInfoDTO.setBreedType(chatProInfo.getBreedType());
 			chatInfoDTO.setPro_dogName(chatProInfo.getPro_dogName());
-			chatList.add(chatInfoDTO);
 		}
-		
-		map.put("list", chatList);
+		// logger.info("새로운 값:" + chatInfoDTO.getBreedType());
+		// logger.info(chatInfoDTO.getPhoto_fileName());
+		// logger.info(chatInfoDTO.getPro_dogName());
+
+		map.put("dto", chatInfoDTO);
 
 		return map;
 	}
 
+	public HashMap<String, Object> reviewLikeDo(int pro_id, int chat_id, int memberIdx) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int result = dao.reviewLikeDo(pro_id);
 
+		proIdx = dao.proIdx(memberIdx); // memberIdx 에서 pro_idx 를 가지고 오기
+		Iterator<ProfileDTO> it = proIdx.iterator();
+		while (it.hasNext()) { // 1일때 2일때
+			ProfileDTO proDTO = it.next();
+			int pro_idx = proDTO.getPro_idx(); // 1일 경우, 2일 경우 값 가지고 오기
+			ChattingDTO toFrom = dao.toFrom(pro_idx, chat_id); // 채팅방 번호와 1일 경우, 2일 경우 값이 있는지 체크
+			if (toFrom != null) { // null 값이 아니라면
+				int chat_me = toFrom.getPro_me();
+				int chat_you = toFrom.getPro_you();
+				logger.info("me :"+chat_me);
+				logger.info("you :"+chat_you);
+				int row = dao.reviewSave(chat_id, chat_me, chat_you); // 후기 기록
+				map.put("result", row);
+			}
+		}
+		return map;
+	}
 
+	public HashMap<String, Object> reviewUnLikeDo(int pro_id, int chat_id, int memberIdx) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int result = dao.reviewUnLikeDo(pro_id);
+
+		proIdx = dao.proIdx(memberIdx); // memberIdx 에서 pro_idx 를 가지고 오기
+		Iterator<ProfileDTO> it = proIdx.iterator();
+		while (it.hasNext()) { // 1일때 2일때
+			ProfileDTO proDTO = it.next();
+			int pro_idx = proDTO.getPro_idx(); // 1일 경우, 2일 경우 값 가지고 오기
+			logger.info("숫자:"+pro_idx);
+			ChattingDTO toFrom = dao.toFrom(pro_idx, chat_id); // 채팅방 번호와 1일 경우, 2일 경우 값이 있는지 체크
+			if (toFrom != null) { // null 값이 아니라면
+				int chat_me = toFrom.getPro_me();
+				int chat_you = toFrom.getPro_you();
+				logger.info("me :"+chat_me);
+				logger.info("you :"+chat_you);
+				int row = dao.reviewSave(chat_id, chat_me, chat_you); // 후기 기록
+				map.put("result", row);
+			}
+		}
+		return map;
+	}
+
+	public String reviewCheck(String chat_idx, int memberIdx) {
+		int chat_id = Integer.parseInt(chat_idx);
+		String result = "N";
+		proIdx = dao.proIdx(memberIdx); // memberIdx 에서 pro_idx 를 가지고 오기
+		Iterator<ProfileDTO> it = proIdx.iterator();
+		while (it.hasNext()) { // 1일때 2일때
+			ProfileDTO proDTO = it.next();
+			int pro_idx = proDTO.getPro_idx(); // 1일 경우, 2일 경우 값 가지고 오기
+			ChattingDTO toFrom = dao.toFrom(pro_idx, chat_id); // 채팅방 번호와 1일 경우, 2일 경우 값이 있는지 체크
+			if (toFrom != null) { // null 값이 아니라면
+				int chat_me = toFrom.getPro_me();
+				int chat_you = toFrom.getPro_you();
+				ChattingDTO reviewCheck = dao.reviewCheck(chat_id,chat_me);
+				if(reviewCheck != null) {
+					result = "Y";
+				}
+//				Integer you = dao.reviewCheck(chat_id,chat_me);
+//				if(you != null) {
+//					result="Y";
+//				}
+			}
+		}
+		return result;
+		
+	}
+
+}
+
+class ChattingDTOComparator implements Comparator<ChattingDTO> {
+	@Override
+	public int compare(ChattingDTO chat1, ChattingDTO chat2) {
+		return chat2.getChat_idx() - chat1.getChat_idx();
+	}
 }

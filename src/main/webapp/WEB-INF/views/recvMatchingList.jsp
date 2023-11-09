@@ -55,6 +55,24 @@ a, a:link, a:visited, a:active, a:hover {
 	width:240px;
 }
 
+.blur{
+	display:flex;
+	align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.05);
+}
+
+.blur span{
+	font-size: 14px;
+	line-height: 22px;
+	color: var(--dark);
+	font-weight: 600;
+  	font-family:Pretendard;
+  	text-align:center;
+  	
+
+}
+
 </style>
 </head>
 <body>
@@ -144,31 +162,71 @@ function listCall(page){
 	});
 }
 
-// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+// 일반 회원이면 3개 이상 리스트 못보게 제한 걸려있음.
 // 나에게 요청 보낸 리스트 보기
- function drawList(obj){
+function drawList(obj){
 	
-	var content = '';
-
-	obj.matList.forEach(function(item, idx){
-		content +='<li class="person">';
-		content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
-		content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-		content +='<span class="proDetail">'
-		content +='<img src="/photo/'+item.photo_fileName+'"/>';
-		content +='<span class="name">'+item.pro_dogName+'</span> ';
-		content +='<span class="breedType">'+item.breedType+'</span>';
-		content +='</span>'
-		content +='</a>'
-		content +='<span class="time">'+item.matchTime+'</span>';
-		content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
-		content+='<span class="charTypeList">'
-		item.charType.forEach(function(charType,idx){
-			content +='<span class="charType">'+charType+'</span>';
+	if(obj.subsType != 1 || obj.matList.length <= 3){
+		
+		console.log("일반회원이 아닙니다!");
+	
+		var content = '';
+	
+		obj.matList.forEach(function(item, idx){
+			content +='<li class="person">';
+			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
+			content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			content +='<span class="proDetail">'
+			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<span class="name">'+item.pro_dogName+'</span> ';
+			content +='<span class="breedType">'+item.breedType+'</span>';
+			content +='</span>'
+			content +='</a>'
+			content +='<span class="time">'+item.matchTime+'</span>';
+			content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
+			content+='<span class="charTypeList">'
+			item.charType.forEach(function(charType,idx){
+				content +='<span class="charType">'+charType+'</span>';
+			});
+			content+='</span>'
+			content +='</li>';
 		});
-		content+='</span>'
+	
+	}else{
+		
+		console.log("일반회원이네요?");
+		
+		var content = '';
+	
+		for (var idx = 0; idx < 3; idx++) { // idx가 2까지 돌리려면 3으로 설정
+		    var item = obj.matList[idx];
+		
+			content +='<li class="person">';
+			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
+			content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			content +='<span class="proDetail">'
+			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<span class="name">'+item.pro_dogName+'</span> ';
+			content +='<span class="breedType">'+item.breedType+'</span>';
+			content +='</span>'
+			content +='</a>'
+			content +='<span class="time">'+item.matchTime+'</span>';
+			content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
+			content+='<span class="charTypeList">'
+			item.charType.forEach(function(charType,idx){
+				content +='<span class="charType">'+charType+'</span>';
+			});
+			content+='</span>'
+			content +='</li>';
+		}
+		content +='<a href="./myPageList.do">';
+		content +='<li class="person blur">';
+		content +='<span>리스트를 3개 이상 더 보고싶으시면 구독을 해주세요!</span> ';
 		content +='</li>';
-	});
+		content +='</a>'
+
+	}
+	
 	$('.people').empty();
 	$('.people').append(content);
 	
@@ -196,6 +254,7 @@ function listCall(page){
 	$('.last').children().addClass('bi bi-chevron-double-right');
 	$('.prev').children().addClass('bi bi-chevron-left');
 	$('.next').children().addClass('bi bi-chevron-right');
+	
 } 
 
 

@@ -4,6 +4,7 @@
 
 <mapper namespace="com.one.mat.chatting.dao.ChattingDAO">
 
+	<!-- 사전 작업들 -->
 	<select id="proIdx" resultType="com.one.mat.member.dto.ProfileDTO">
 		SELECT pro_idx FROM pro WHERE member_idx = #{param1} 
 	</select>
@@ -19,18 +20,16 @@
 		ORDER BY chat_idx DESC
 	</select>
 	
+	<!-- 채팅방에 보여줄 정보들 -->
 	<select id="myDogName" resultType="String">
 		SELECT pro_dogName FROM pro WHERE pro_idx = #{param1}
 	</select>
-	
-	<!-- 채팅방에 보여줄 정보들 -->
 	<select id="chatPhotoInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT pt.photo_fileName
 		FROM pro p 
 		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
 		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1;
 	</select>
-	
 	<select id="chatProInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT bt.breedType, p.pro_dogName
 		FROM pro p 
@@ -38,7 +37,6 @@
 		INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code
 		WHERE p.pro_idx = #{param1}
 	</select>
-	
 	<select id="chatMsgInfo" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT
 		CASE
@@ -53,6 +51,7 @@
 		FROM chatmsg c WHERE chat_idx =#{param1} ORDER BY chatMsg_regDate DESC LIMIT 1
 	</select>
 	
+	<!-- 채팅방으로 이동 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="chattingRoomGo" resultType="com.one.mat.chatting.dto.ChattingDTO">
 		SELECT pro_sendIdx, pro_recvIdx FROM `match` m INNER JOIN chat c
 		ON m.match_idx = c.match_idx WHERE chat_idx = #{param1}
@@ -70,19 +69,19 @@
 		MAX(photo_fileName) AS photo_fileName
 		FROM (
 		    SELECT 
-		    chatMsg_regDate AS regDate, chatMsg_idx AS total_idx, pro_sendIdx, pro_recvIdx, chatMsg_msg, chatMsg_read, NULL AS photo_fileName 
+		    TO_CHAR(chatMsg_regDate, 'YYYY-MM-DD HH:MI') AS regDate, chatMsg_idx AS total_idx, pro_sendIdx, pro_recvIdx, chatMsg_msg, chatMsg_read, NULL AS photo_fileName 
 		    FROM chatmsg 
-		    WHERE chat_idx = #{param3}
+		    WHERE chat_idx = #{param1}
 		    UNION ALL
 		    SELECT 
 		    photo_uploadDate AS regDate, photo_idfNum AS total_idx, c.pro_sendIdx, c.pro_recvIdx, c.chatMsg_msg, c.chatMsg_read, p.photo_fileName
 		    FROM photo p 
 		    INNER JOIN chatmsg c ON p.photo_idfNum = c.chatMsg_idx 
-		    WHERE p.photo_type = 2 AND c.chat_idx = #{param3}
+		    WHERE p.photo_type = 2 AND c.chat_idx = #{param1}
 		) AS combined_data
 		GROUP BY total_idx
 		HAVING MAX(photo_fileName) IS NULL OR MAX(photo_fileName) &lt;&gt; ''
-		ORDER BY MAX(regDate)
+		ORDER BY MAX(regDate);
 	</select>
 	
 	<!-- 채팅 읽음여부 -->
@@ -123,6 +122,24 @@
 		VALUES (#{param1},#{param2},#{param3},#{param4},'N',NOW())
 	</insert>
 	
+	<!-- 후기 등록 -->
+	<update id="reviewLikeDo">
+		UPDATE pro
+		SET pro_dogScore = (SELECT pro_dogScore FROM pro WHERE pro_idx = #{param1}) + 1
+		WHERE pro_idx = #{param1}
+	</update>
+	<update id="reviewUnLikeDo">
+		UPDATE pro
+		SET pro_dogScore = (SELECT pro_dogScore FROM pro WHERE pro_idx = #{param1}) - 1
+		WHERE pro_idx = #{param1}
+	</update>
+	<insert id="reviewSave">
+		INSERT review(chat_idx,pro_sendIdx,pro_recvIdx)
+		VALUES(#{param1},#{param2},#{param3})
+	</insert>
+	<select id="reviewCheck" resultType="com.one.mat.chatting.dto.ChattingDTO">
+		SELECT pro_recvIdx FROM review WHERE chat_idx = #{param1} AND pro_sendIdx = #{param2}
+	</select>
 	
  
   </mapper>
