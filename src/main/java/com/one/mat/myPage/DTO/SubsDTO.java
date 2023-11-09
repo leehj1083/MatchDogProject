@@ -12,7 +12,21 @@ public class SubsDTO {
 	private String subHistory_state; // subshistory 테이블의 구독 연장 여부
 	private String subsHistory_start; // subshistory 테이블의 구독 시작 일자
 	private String subsHistory_exp; // subshistory 테이블의 구독 만료 일자
+	private String member_idx;
+	private String member_id;
 	
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	public String getMember_idx() {
+		return member_idx;
+	}
+	public void setMember_idx(String member_idx) {
+		this.member_idx = member_idx;
+	}
 	public String getMember_subs() {
 		return member_subs;
 	}

@@ -52,7 +52,7 @@
 		<beans:property name="port" value="587"/>
 		<beans:property name="username" value="leehjtest1@gmail.com"/>
 		<beans:property name="password" value="xxbdhpqffpgkbqfy"/>
-		<!-- xxbd hpqf fpgk bqfy -->
+		<!-- 해당 계정의 구글 2단계 설정된 비밀번호 : xxbd hpqf fpgk bqfy -->
 		<beans:property name="defaultEncoding" value="utf-8"/>
 		<beans:property name="javaMailProperties">
 			<beans:props>
@@ -69,6 +69,5 @@
 	
 	<!-- 비밀번호 암호화 관련 빈 -->
 	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
-	
 	
 </beans:beans>

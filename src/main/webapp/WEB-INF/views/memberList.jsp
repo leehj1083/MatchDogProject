@@ -85,6 +85,10 @@ table,th,td{
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>회원관리</span>
 		        </a>
+		        <a href="./authList.do" class="btn_gnb chatting">
+	                <span class="bi bi-chat-dots-fill"></span>
+	                <span>권한관리</span>
+               </a>
 		        <a href="./compList.go" class="btn_gnb board">
 		        	<span class="bi bi-people-fill"></span>
 					<span>신고관리</span>
@@ -140,7 +144,6 @@ table,th,td{
 							</select>
 							 <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력">
 			  				 <button id="search">검색</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			  				 <button id="authorization">권한관리</button>
 		  				 </div>
 					</td>
 				</tr>			
