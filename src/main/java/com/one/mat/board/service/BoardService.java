@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.board.dao.BoardDAO;
 import com.one.mat.board.dto.BoardDTO;
+import com.one.mat.board.dto.PhotoBoardProDTO;
 import com.one.mat.board.dto.PhotoDTO;
 
 
@@ -111,10 +112,11 @@ public class BoardService {
 	public void detail(String board_id, Model model) {
 		dao.bHit(board_id);
 		BoardDTO board = dao.detail(board_id);
-		ArrayList<PhotoDTO> boardPro = dao.getboardPro(String.valueOf(board.getMember_idx()));
+		ArrayList<PhotoBoardProDTO> boardPro = dao.getboardPro(String.valueOf(board.getMember_idx()));
 		logger.info("DTO형식의 board 값: "+board);
-		ArrayList<PhotoDTO> photos = dao.getPhoto(String.valueOf(board.getMember_idx())); // 사진
-		logger.info("사진board_id=photos: "+photos);
+		ArrayList<PhotoDTO> photos = dao.getPhoto(String.valueOf(board.getBoard_id())); // 사진
+		logger.info("board 사진들 : "+photos);
+		logger.info("boardPro: "+boardPro);
 		model.addAttribute("board",board);
 		model.addAttribute("photos",photos);
 		model.addAttribute("boardPro",boardPro);
@@ -136,7 +138,7 @@ public class BoardService {
 		}
 		*/
 	}
-
+	
 	public void updateForm(String board_id, Model model) {
 		BoardDTO board = dao.detail(board_id);
 		ArrayList<PhotoDTO> photos = dao.getPhoto(String.valueOf(board.getBoard_id()));
@@ -198,7 +200,7 @@ public class BoardService {
 	public Map<String, Object> recommendLike(String board_id) {
 		int boardId = Integer.parseInt(board_id);
 		int likeCount  = dao.recommendLike(boardId);
-		logger.info("좋아요갯수: "+likeCount );
+		// logger.info("좋아요갯수: "+likeCount );
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("likeCount", likeCount);
 		return map;
@@ -207,7 +209,7 @@ public class BoardService {
 	public Map<String, Object> recommendHate(String board_id) {
 		int boardId = Integer.parseInt(board_id);
 		int hateCount  = dao.recommendHate(boardId);
-		logger.info("싫어요갯수: "+hateCount );
+		// logger.info("싫어요갯수: "+hateCount );
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("hateCount", hateCount);
 		return map;
@@ -217,7 +219,7 @@ public class BoardService {
 		int boardId = Integer.parseInt(board_id);
 		int memberIdx = Integer.parseInt(member_idx);
 		int checkRec = dao.checkRec(boardId,memberIdx);
-		logger.info("추천경험확인: "+checkRec);
+		// logger.info("추천경험확인: "+checkRec);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("checkRec", checkRec);
 		return map;
@@ -228,8 +230,8 @@ public class BoardService {
 		int memberIdx = Integer.parseInt(member_idx);
 		int recTypeF = Integer.parseInt(rec_type); // 삭제요청들어올때 요청 ex: (1), (2)
 		int recType = dao.recType(board_id, member_idx);
-		logger.info("삭제에서 추천타입 확인: "+recType);
-		logger.info("요청버튼 추천타입 확인: "+recTypeF);
+		// logger.info("삭제에서 추천타입 확인: "+recType);
+		// logger.info("요청버튼 추천타입 확인: "+recTypeF);
 		Map<String, Object> map = new HashMap<String, Object>();
 		int delRow = dao.deleteRec(boardId, memberIdx);
 		if(recType != recTypeF) { // 1 != 2, 2 != 1

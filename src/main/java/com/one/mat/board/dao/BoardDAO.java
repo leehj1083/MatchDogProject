@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.one.mat.board.dto.BoardDTO;
+import com.one.mat.board.dto.PhotoBoardProDTO;
 import com.one.mat.board.dto.PhotoDTO;
 
 public interface BoardDAO {
@@ -23,9 +24,9 @@ public interface BoardDAO {
 	/////////////////////////////게시글상세보기///////////////////////////////////
 	BoardDTO detail(String board_id);
 	
-	ArrayList<PhotoDTO> getPhoto(String member_idx);
+	ArrayList<PhotoDTO> getPhoto(String board_id);
 	
-	ArrayList<PhotoDTO> getboardPro(String member_idx);
+	ArrayList<PhotoBoardProDTO> getboardPro(String member_idx);
 	
 	/////////////////////////////////////////////////////////////////////////
 	int del(String board_id);

@@ -3,6 +3,7 @@ package com.one.mat.board.dao;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.one.mat.board.dto.PhotoReplyProDTO;
 import com.one.mat.board.dto.ReplyDTO;
 
 public interface ReplyDAO {
@@ -16,6 +17,8 @@ public interface ReplyDAO {
 	void replyUpdate(ReplyDTO dto);
 
 	void replyDel(String reply_id);
+
+	ArrayList<PhotoReplyProDTO> replyPro(String member_idx);
 
 
 }

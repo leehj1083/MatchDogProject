@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.one.mat.board.dao.ReplyDAO;
+import com.one.mat.board.dto.PhotoDTO;
+import com.one.mat.board.dto.PhotoReplyProDTO;
 import com.one.mat.board.dto.ReplyDTO;
 
 @Service
@@ -24,9 +26,15 @@ public class ReplyService {
 		int board_id = Integer.parseInt(boardId);
 		logger.info("board_id: "+board_id);
 		ArrayList<ReplyDTO> replyList = dao.replyList(board_id);
-		
+		int member_idx = 0;
+		for (ReplyDTO reply : replyList) {
+			member_idx = reply.getMember_idx();
+		}
+		ArrayList<PhotoReplyProDTO> photoReply = dao.replyPro(String.valueOf(member_idx));
+		map.put("photoReply", photoReply);
 		map.put("replyList", replyList);
 		logger.info("replyList: "+replyList);
+		logger.info("photoReply: "+photoReply);
 		return map;
 	}
 	

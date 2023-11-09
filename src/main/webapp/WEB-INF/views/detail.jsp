@@ -20,7 +20,7 @@
 			<th>작성자</th>
 			<td>
 				<c:forEach items="${boardPro}" var="boardPro">
-					<img src="/photo/${boardPro.photo_fileName}" width="25" height="25" alt="${boardPro.photo_fileName}"/>
+					<img src="/photo/${boardPro.photo_fileName}" width="20" height="20" alt="${boardPro.photo_fileName}"/>
 				</c:forEach> ${board.member_nickName}
 			</td>
 		</tr>
@@ -72,7 +72,7 @@
 
 	</form>
 	<h2>댓글</h2>
-	<hr width="800px" align="left">
+	<hr width="1000px" align="left">
     <form id="replyForm">
     	<table>
     		<tr>
@@ -156,9 +156,16 @@ function drawList(obj) {
     var replyList = '';
 
     if (obj) {
-        obj.replyList.forEach(function(item, reply_id) {
+    	var photoReply = obj.photoReply;
+        obj.replyList.forEach(function(item) {
             replyList += '<tr>';
-            replyList += '<td width="80px">' + item.member_nickName + '</td>';
+            replyList += '<td width="100px">';
+            if (photoReply && photoReply.length > 0) {
+                photoReply.forEach(function(photoItem) {
+                    replyList += '<img src="/photo/' + photoItem.photo_fileName + '" width="20" height="20" alt="' + photoItem.photo_fileName + '" />';
+                });
+            }
+            replyList += item.member_nickName + '</td>';
             if (item.editing) {
                 replyList += '<td><textarea id="editContent' + item.reply_id + '">' + item.reply_content + '</textarea></td>';
                 replyList += '<td><input type="button" onclick="saveEdit(' + item.reply_id + ')" value="저장" />';
@@ -169,11 +176,11 @@ function drawList(obj) {
                     replyList += ' (수정됨)';
                 }
                 replyList += '</td>';
-                replyList += '<td width="100px">' + item.reply_regDate + '</td>';
+                replyList += '<td width="90px">' + item.reply_regDate + '</td>';
                 if (item.member_idx === ${sessionScope.loginInfo.member_idx}) {
                     replyList += '<td width="40px"><input type="button" onclick="deleteReply(' + item.reply_id + ')" value="삭제"/></td>';
                     replyList += '<td width="40px"><input type="button" onclick="editReply(' + item.reply_id + ')" value="수정"/></td>';
-                }else{            	
+                }else{
                 	replyList += '<td colspan="2" width="40px"><input type="button" onclick="reportReply(' + item.reply_id + ')" value="신고"/></td>';
                 }
             }
