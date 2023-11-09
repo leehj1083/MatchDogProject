@@ -110,6 +110,11 @@ public class MemberListController {
 			    
 		return result; 
 	}
+	
+	@RequestMapping(value="/auth.go")
+	public String auth() {
+		return "auth";
+	}
 
 	
 }
