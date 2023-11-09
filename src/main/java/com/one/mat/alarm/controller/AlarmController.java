@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.one.mat.alarm.dto.AlarmDTO;
 import com.one.mat.alarm.service.AlarmService;
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
@@ -37,25 +38,12 @@ public class AlarmController {
 //		logger.info("alarmListGo");
 //		
 //		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-//		
 //			 // 로그인 했을때
 //	 	    if (dto != null) {
 //	 	   	int member_idx = dto.getMember_idx();
 //	 			logger.info("member_idx : "+member_idx);
-//	 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-//	 			
-//	 			for (ProfileDTO profileDTO : myProfile) {
-//	 				 if(profileDTO.getPro_rep().equals("Y")) {
-//		 			    int pro_idx = profileDTO.getPro_idx();
-////		Map<String, Object> map = new HashMap<String, Object>();
-////			logger.info("memberDetailListGo/pro_idx : " + pro_idx);
-////			       map = service.memberDetailListGO(pro_idx);
-////			       logger.info("map : "+map);
-////			       model.addAttribute("map",map);
-//		return "alarmList";
-//	 				 }
-//	
+//	 			service.alarmListGo(model, member_idx);
 //	 			}
-//	 	 }
-//	}
+//	 	    return "alarmList";
+//		}
 }

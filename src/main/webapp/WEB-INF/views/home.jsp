@@ -210,7 +210,7 @@ $('#matchingreq').click(function () {
 $('#openModal').click(function () {
 	var currentMatch = matchingData[currentIndex];
   var matchingList = currentMatch.matchingList[currentIndex];
-   var pro_idx = matchingList.pro_idx;
+  var pro_idx = matchingList.pro_idx;
 
    // JSP 파일을 가져와서 모달 창에 표시
    $.get("./memberDetailList.go?pro_idx=" + pro_idx, function(data) {

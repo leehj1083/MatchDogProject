@@ -3,4 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
 >
 <mapper namespace="com.one.mat.main.dao.AlarmDAO">
+<select id= "alarmListGo" resultType="com.one.mat.alarm.dto.AlarmDTO">
+SELECT a.*
+FROM alarm a
+JOIN pro p ON a.pro_recvIdx = p.pro_idx
+WHERE p.member_idx = #{param1};
+</select>
 </mapper>
