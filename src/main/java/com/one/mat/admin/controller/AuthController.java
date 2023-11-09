@@ -25,10 +25,12 @@ public class AuthController {
 	Logger logger= LoggerFactory.getLogger(getClass());
 	@Autowired AuthService service;
 	
+	/*
 	@RequestMapping(value="/auth.go")
 	public String authGo() {
 		return "auth";
 	}
+	*/
 	
 	@RequestMapping(value="/authList.do")
 	public String authListDo(Model model, HttpSession session) {

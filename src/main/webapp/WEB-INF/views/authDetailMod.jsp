@@ -179,7 +179,9 @@ input{
 </div>
 </body>
 <script>
-
+$('.sButton').on(click, function(){
+	console.log("코드검색");
+})
 
 </script>
 </html>
