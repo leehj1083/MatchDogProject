@@ -16,7 +16,7 @@ public interface MatchingDAO {
 	ArrayList<ProfileDTO> MyProfileListDo(int member_idx);
 
 	int homeSend(Map<String, String> map);
-
+	
 	Map<String, Object> memberDetailListGO(int pro_idx);
 
 	ArrayList<ProfileDTO> charType(int pro_Idx);
@@ -26,6 +26,9 @@ public interface MatchingDAO {
 	String pro_dogAgeOpen(int pro_Idx);
 
 	String pro_dogGenderOpen(int pro_Idx);
+
+	void matchingSendAlarm(int pro_sendIdx, int pro_recvIdx);
+
 
 
 

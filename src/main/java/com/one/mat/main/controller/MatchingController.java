@@ -66,13 +66,14 @@ public class MatchingController {
 		List<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
 		
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-
+		
 			 // 로그인 했을때
 	 	    if (dto != null) {
 	 	   	int member_idx = dto.getMember_idx();
 	 			logger.info("member_idx : "+member_idx);
 	 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
 	 			List<Map<String, Object>> matchingList = new ArrayList<Map<String,Object>>();
+	 			List<Map<String, Object>> matchingListWithProfiles = new ArrayList<>();
 	 			
 	 			for (ProfileDTO profileDTO : myProfile) {
 	 				 if(profileDTO.getPro_rep().equals("Y")) {
@@ -85,6 +86,8 @@ public class MatchingController {
 		 			    for (Map<String, Object> matchingListIndex : matchingList) {
 		 			   	logger.info("foreach map 꺼내오기 :"+matchingListIndex);
 		 			   	logger.info("pro_idx : "+matchingListIndex.get("pro_idx"));
+		 			   	// JSON 으로 넘어온 "pro_idx" 의 value 값을 정수로 변환하기
+		 			   	// Object 타입을 형변환 하게 되면 null 값인지 체크해야함
 		 			   	Object obj_pro_idx = matchingListIndex.get("pro_idx");
 		 			      if (obj_pro_idx != null) {
 		 			          try {
@@ -94,45 +97,48 @@ public class MatchingController {
 		 			              myProfileList = service.charOpenList(pro_Idx);
 		 			              logger.info("myProfileList 값 :"+myProfileList);
 		 			              temp.put("myProfileList", myProfileList);
+		 			              matchingListWithProfiles.add(temp);
 		 			          } catch (NumberFormatException e) {
 		 			              logger.error("pro_idx를 정수로 변환할 수 없습니다.");
 		 			          }
 		 			      }
 		 			}
 	 			}
-	 			logger.info("매칭 결과 map : "+temp);
-	 			map.putAll(temp);
+	 			logger.info("매칭 결과 map : "+matchingListWithProfiles);
+	 			map.put("matchingListWithProfiles",matchingListWithProfiles);
+	 			logger.info("map!!! : " +map);
 	 		}
 	 	 }
 	 	    // 비로그인 일때
 	 	    else {
+	 	   	List<Map<String, Object>> matchingListWithProfiles = new ArrayList<>();
 	 			List<Map<String, Object>> unloginedMatchingList = new ArrayList<Map<String,Object>>();
 	 			unloginedMatchingList = service.unloginedMatchingList();
-			    logger.info("unloginedMatchingList="+ unloginedMatchingList);
-			    temp.put("matchingList", unloginedMatchingList);
-			    map.putAll(temp);
-	 		}
+			   logger.info("unloginedMatchingList="+ unloginedMatchingList);
+			   temp.put("matchingList", unloginedMatchingList);
+			   map.putAll(temp);
+			   for (Map<String, Object> unloginedMatchingListIndex : unloginedMatchingList) {
+ 			   	logger.info("foreach map 꺼내오기 :"+unloginedMatchingListIndex);
+ 			   	logger.info("pro_idx : "+unloginedMatchingListIndex.get("pro_idx"));
+ 			   	Object obj_pro_idx = unloginedMatchingListIndex.get("pro_idx");
+ 			      if (obj_pro_idx != null) {
+ 			          try {
+ 			              int pro_Idx = Integer.parseInt(obj_pro_idx.toString());
+ 			              logger.info("정수로 변환한 pro_Idx: " + pro_Idx);
+ 			              // 정수로 변환한 proIdx를 사용하여 작업 수행
+ 			              myProfileList = service.charOpenList(pro_Idx);
+ 			              logger.info("myProfileList 값 :"+myProfileList);
+ 			              temp.put("myProfileList", myProfileList);
+ 			              matchingListWithProfiles.add(temp);
+ 			              map.put("matchingListWithProfiles",matchingListWithProfiles);
+ 			          } catch (NumberFormatException e) {
+ 			              logger.error("pro_idx를 정수로 변환할 수 없습니다.");
+ 			          }
+ 			      }
+ 			}
+	 	}
 	    return map;    
 	}
-	// 성향 리스트 요청
-//	@RequestMapping(value = "/CharTypeList.do")
-//	@ResponseBody
-//	public List<String> getCharTypeList(HttpSession session	) {
-//	    MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-//	    int member_idx = dto.getMember_idx();
-//	    ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-//	    List<String> charTypeList = new ArrayList<>();
-//	    
-//	    // 세션 체크
-//	    if (dto != null) {
-//	        for (ProfileDTO profileDTO : myProfile) {
-//	                int pro_idx = profileDTO.getPro_idx();
-//	                logger.info("pro_idx : " + pro_idx);
-//	                charTypeList = service.charType(pro_idx);
-//	        }
-//	    }
-//	    return charTypeList;
-//	}
 	
 	// 매칭보내기 요청 /HomeSend.do
 	@RequestMapping(value="/HomeSend.do")
@@ -159,15 +165,16 @@ public class MatchingController {
 						pro_idx = profileDTO.getPro_idx();
 						map.put("pro_sendIdx", Integer.toString(pro_idx));
 						logger.info("homeSendDo/map.put pro_sendIdx : "+pro_idx);
+						int pro_sendIdx = pro_idx;
+						service.matchingSendAlarm(pro_sendIdx,Integer.parseInt(pro_recvIdx));
 					}
 				}
 			}
 		} else {
 			logger.info("실패!");
-		}
-		return  service.homeSend(map);
-	}
-	
+			}
+	return  service.homeSend(map);
+}
 	
 // 프로필상세보기 모달창 요청 /memberDetailList.go
 	@RequestMapping(value= "/memberDetailList.go")
@@ -182,7 +189,6 @@ public class MatchingController {
 	}
 
 }
-
 
 
 
