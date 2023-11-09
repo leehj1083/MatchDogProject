@@ -25,7 +25,7 @@ public class ReplyController {
 	@RequestMapping(value = "/replyList")
     @ResponseBody
     public Map<String, Object> replyList(HttpSession session,@RequestParam String boardId) {
-		logger.info("컨트롤러boardId: " + boardId);
+		// logger.info("컨트롤러boardId: " + boardId);
         return service.replyList(boardId);
     }
 	

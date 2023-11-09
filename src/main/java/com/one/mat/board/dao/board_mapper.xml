@@ -109,7 +109,7 @@
 	    	WHERE photo_idfNum = #{param1} AND photo_type = 1
 	</select>
 	
-	<select id="getboardPro" resultType="com.one.mat.board.dto.PhotoDTO">
+	<select id="getboardPro" resultType="com.one.mat.board.dto.PhotoBoardProDTO">
 		SELECT *
 		FROM photo p
 		INNER JOIN member m ON m.member_idx = #{param1}
