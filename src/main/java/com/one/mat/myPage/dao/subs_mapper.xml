@@ -12,9 +12,18 @@ s.subsType_code=2,
 m.member_subs="Y",
 m.member_renew="Y"
 where m.member_idx = #{param1}
-  </update>
+</update>
+
+<insert id="plusHistory">
+INSERT INTO subshistory
+(member_idx, subsType_code, subHistory_state, subsHistory_start, subsHistory_exp)
+SELECT member_idx, 2, 'Y', #{param2}, #{param3}
+FROM member
+WHERE member_idx = #{param1}
+</insert>
+
   
-  <update id="premiumSubsDo">
+ <update id="premiumSubsDo">
 UPDATE subs s
 JOIN member m on m.member_idx = s.member_idx
 set
@@ -22,7 +31,19 @@ s.subsType_code=3,
 m.member_subs="Y",
 m.member_renew="Y"
 where m.member_idx = #{param1}
-  </update>
+</update>
+
+<insert id="premiumHistory">
+INSERT INTO subshistory
+(member_idx, subsType_code, subHistory_state, subsHistory_start, subsHistory_exp)
+SELECT member_idx, 3, 'Y', #{param2}, #{param3}
+FROM member
+WHERE member_idx = #{param1};
+</insert>
+
+
+
+  
   
   <update id="myPageSubsDeleteDo">
   UPDATE subs s

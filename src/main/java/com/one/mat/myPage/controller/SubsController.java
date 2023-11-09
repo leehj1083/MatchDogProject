@@ -1,8 +1,10 @@
 package com.one.mat.myPage.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,17 +33,18 @@ public class SubsController {
 			@RequestParam String subsStartTime){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		logger.info("subsStartTime:"+subsStartTime);
-		/*
-		String datePart = subsStartTime.split(" ")[1] + " " + subsStartTime.split(" ")[2] + " " + subsStartTime.split(" ")[3];
-		logger.info("datePart:"+datePart);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate currentDate = LocalDate.parse(datePart, formatter);
-		logger.info("currentDate:"+currentDate);
-		LocalDate oneMonthLater = currentDate.plusMonths(1);
-		logger.info("oneMonthLater:"+oneMonthLater);
-        String oneMonthLaterStr = oneMonthLater.format(formatter);
-        logger.info("oneMonthLaterStr:"+oneMonthLaterStr);
-        */
+
+		// subsStartTime을 LocalDate로 파싱
+	    LocalDate startDate = LocalDate.parse(subsStartTime);
+
+	    // 시작일로부터 1달 후 계산
+	    LocalDate endDate = startDate.plusMonths(1);
+
+	    // 계산된 만료일을 원하는 형식으로 포맷팅 (yyyy-MM-dd)
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String expirationTime = endDate.format(formatter);
+	    logger.info("expirationTime:" + expirationTime);
+		
 		String page = "redirect:/";
 		if(session.getAttribute("loginInfo") == null) {
 			result.put("login", false);
@@ -50,13 +53,49 @@ public class SubsController {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
 			logger.info("idx :"+idx);
-			service.plusSubsDo(idx);
+			logger.info("subsStartTime:"+subsStartTime);
+			logger.info("expirationTime:" + expirationTime);
+			service.plusSubsDo(idx, subsStartTime, expirationTime);
 			page = "redirect:/";
 		}
 		
 		return result;
 	}
 	
+	@RequestMapping(value="/premiumSubs.do")
+	@ResponseBody
+	public HashMap<String, Object> premiumSubsDo(Model model, HttpSession session,
+			@RequestParam String subsStartTime){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		logger.info("subsStartTime:"+subsStartTime);
+
+		// subsStartTime을 LocalDate로 파싱
+	    LocalDate startDate = LocalDate.parse(subsStartTime);
+
+	    // 시작일로부터 1달 후 계산
+	    LocalDate endDate = startDate.plusMonths(1);
+
+	    // 계산된 만료일을 원하는 형식으로 포맷팅 (yyyy-MM-dd)
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String expirationTime = endDate.format(formatter);
+	    logger.info("expirationTime:" + expirationTime);
+		
+		String page = "redirect:/";
+		if(session.getAttribute("loginInfo") == null) {
+			result.put("login", false);
+		}else {
+			result.put("login", true);
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			int idx = dto.getMember_idx();
+			logger.info("idx :"+idx);
+			logger.info("subsStartTime:"+subsStartTime);
+			logger.info("expirationTime:" + expirationTime);
+			service.premiumSubsDo(idx, subsStartTime, expirationTime);
+			page = "redirect:/";
+		}
+		
+		return result;
+	}
 	
 	
 	
@@ -74,6 +113,7 @@ public class SubsController {
 		return "redirect:/myPageList.do";
 	}
 */	
+/*
 	@RequestMapping(value= "/premiumSubs.do")
 	public String premiumSubsDo(Model model, HttpSession session) {
 		if (session.getAttribute("loginInfo") == null) {
@@ -86,7 +126,7 @@ public class SubsController {
 		}
 		return "redirect:/myPageList.do";
 	}
-	
+*/	
 	@RequestMapping(value= "/myPageSubsDelete.do")
 	public String myPageSubsDeleteDo(Model model, HttpSession session) {
 		if (session.getAttribute("loginInfo") == null) {

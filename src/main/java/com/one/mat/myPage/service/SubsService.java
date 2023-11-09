@@ -13,13 +13,18 @@ public class SubsService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired SubsDAO dao;
-	public void plusSubsDo(int idx) {
-		dao.plusSubsDo(idx);
-		
+	public void plusSubsDo(int idx, String subsStartTime, String expirationTime) {
+	    dao.plusSubsDo(idx);
+	    logger.info("idx" + idx);
+	    logger.info(subsStartTime);
+	    logger.info(expirationTime);
+	    dao.plusHistory(idx, subsStartTime, expirationTime);
+	   
 	}
-	public void premiumSubsDo(int idx) {
+	
+	public void premiumSubsDo(int idx, String subsStartTime, String expirationTime) {
 		dao.premiumSubsDo(idx);
-		
+		dao.premiumHistory(idx, subsStartTime, expirationTime);
 	}
 	
 	public void myPageSubsDeleteDo(int idx) {

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -10,15 +9,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- pretendard 폰트 -->
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<!-- bootstrap : 디자인을 위한 프레임워크 -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <style>
-
-
 a, a:link, a:visited, a:active, a:hover {
 	text-decoration: none;
 	color: var(--black);
@@ -52,12 +50,28 @@ a, a:link, a:visited, a:active, a:hover {
 	background-color: var(--light);
 }
 
+table {
+        width: 700px; /* 테이블 전체 너비 설정 */
+        margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+        /* 다른 스타일링 속성들 추가 가능 */
+    }
+
+table,th,td{
+	border: 1px solid #aaa;
+	border-collapse: collapse;
+	padding: 0.6rem;
+}
+td, th {
+  padding: 0.6rem;
+  min-width: 10rem;
+  text-align: left;
+  margin: 0;
+}
 
 
 </style>
 </head>
-<body>
-
+<body>	
 <div id="wrap">
 	<div class="banner">
 		<div class="header">
@@ -93,85 +107,37 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-people-fill"></span>
 					<span>신고관리</span>
 		        </a>
-		        <a href="./HomeMatchingList.do" class="btn_gnb myPage">
+		        <a href="./home.go" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>서비스페이지</span>
 		        </a>
 			</div>
 		</div>
 		<div class="content">
-		
-		<h3>DASHBOARD</h3><hr/>
-			<div class="visitorStatistics">
-				<canvas id="myChart"></canvas>
-			</div>
-			<div class="subsStatistics">
-				<div class="dataGraph">
-					<canvas></canvas>
-				</div>
-				<div class="dataTable">
-					<table>
+		<h2>권한 관리</h2><hr/>
+			<table>
+					<tr>
+						<th>번호</th>			
+						<th>권한명</th>
+						<th>설명</th>
+					</tr>
+				<c:if test="${substypeList.size() == 0}">
+				<tr><td colspan="3">권한이 존재하지 않습니다.</td></tr>
+				</c:if>
+					<c:forEach items="${authList}" var="auths">
 						<tr>
-							<th>총 구독자수</th>
-							<td></td>
+							<td>${auths.subsType_code}</td>
+							<td><a href="authDetailList.do?subsType_code=${auths.subsType_code}">
+							${auths.subsType}</a></td>
+							<td>${auths.subs_desc}</td>
 						</tr>
-						<tr>
-							<th>총 매출액</th>
-							<td></td>
-						</tr>
-						<tr>
-							<th><span id="month"></span>월 신규 구독자수</th>
-							<td></td>
-						</tr>
-						<tr>
-							<th><span id="month"></span>월 매출액</th>
-							<td></td>
-						</tr>
-					</table>
-				</div>
-			</div>
-				
+					</c:forEach>	
+			</table>	
 		</div>
 	</div>
 </div>
 </body>
-
 <script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
 
 
 </script>

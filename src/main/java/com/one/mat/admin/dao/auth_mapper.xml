@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.one.mat.admin.dao.AuthDAO">
+
+<select id="authListDo" resultType="com.one.mat.admin.dto.AuthDTO">
+  	SELECT * from substype
+ </select>
+ <select id="authDetailListDo" resultType="HashMap" parameterType="int">
+SELECT *
+   FROM substype
+   WHERE subsType_code = #{param1}
+ </select>
+
+<select id="authCode" resultType="Integer" parameterType="int">
+SELECT a.authType_code
+from substype s
+join auth a on s.subsType_code=a.subsType_code where s.subsType_code = #{param1}
+ </select>
+
+</mapper>  

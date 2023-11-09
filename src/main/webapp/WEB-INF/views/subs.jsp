@@ -97,19 +97,24 @@ if(msg != ""){
 $('#plusSubs').click(function(){
         if(confirm('PLUS 구독하시겠습니까?')){
         	var currentTime = new Date();
-        	console.log(currentTime);
+            var year = currentTime.getFullYear();
+            var month = (currentTime.getMonth() + 1).toString().padStart(2, '0');
+            var day = currentTime.getDate().toString().padStart(2, '0');
+
+            var formattedDate = year + '-' + month + '-' + day;
+            console.log(formattedDate);
         	
         	$.ajax({
         		type : 'get',
         		url : 'plusSubs.do', // 서버로 요청을 보낼 엔드포인트를 지정
         		data : {
-        			"subsStartTime" : currentTime
+        			"subsStartTime" : formattedDate
         		},
         		success : function(data) {
         			console.log(data);
         			console.log("플러스 구독");
         			alert('PLUS 구독이 시작되었습니다.');
-        			location.href = "redirect:./myPageList.do";
+        			location.href = "./myPageList.do";
         			if (!data.login) {
         				alert('로그인이 필요한 서비스입니다.');
         				location.href = './';
@@ -129,9 +134,36 @@ $('#plusSubs').click(function(){
 $('#premiumSubs').click(function(){
     	if(confirm('PREMIUM 구독하시겠습니까?')){
     		var currentTime = new Date();
-        	console.log(currentTime);
-        	location.href="./premiumSubs.do";
-        	alert('PREMIUM 구독이 시작되었습니다.');
+            var year = currentTime.getFullYear();
+            var month = (currentTime.getMonth() + 1).toString().padStart(2, '0');
+            var day = currentTime.getDate().toString().padStart(2, '0');
+
+            var formattedDate = year + '-' + month + '-' + day;
+            console.log(formattedDate);
+        	
+        	$.ajax({
+        		type : 'get',
+        		url : 'premiumSubs.do', // 서버로 요청을 보낼 엔드포인트를 지정
+        		data : {
+        			"subsStartTime" : formattedDate
+        		},
+        		success : function(data) {
+        			console.log(data);
+        			console.log("프리미엄 구독");
+        			alert('PREMIUM 구독이 시작되었습니다.');
+        			location.href = "./myPageList.do";
+        			if (!data.login) {
+        				alert('로그인이 필요한 서비스입니다.');
+        				location.href = './';
+        			}
+        		},
+        		error : function(e) {
+        			console.log(e)
+        		}
+        	});
+
+/*         	location.href="./premiumSubs.do";
+        	alert('PREMIUM 구독이 시작되었습니다.'); */
         }
     }); 
 
