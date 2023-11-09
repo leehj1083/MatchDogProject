@@ -86,6 +86,8 @@ public class MatchingController {
 		 			    for (Map<String, Object> matchingListIndex : matchingList) {
 		 			   	logger.info("foreach map 꺼내오기 :"+matchingListIndex);
 		 			   	logger.info("pro_idx : "+matchingListIndex.get("pro_idx"));
+		 			   	// JSON 으로 넘어온 "pro_idx" 의 value 값을 정수로 변환하기
+		 			   	// Object 타입을 형변환 하게 되면 null 값인지 체크해야함
 		 			   	Object obj_pro_idx = matchingListIndex.get("pro_idx");
 		 			      if (obj_pro_idx != null) {
 		 			          try {
@@ -137,6 +139,7 @@ public class MatchingController {
 	 	}
 	    return map;    
 	}
+	
 	// 매칭보내기 요청 /HomeSend.do
 	@RequestMapping(value="/HomeSend.do")
 	@ResponseBody
@@ -162,14 +165,16 @@ public class MatchingController {
 						pro_idx = profileDTO.getPro_idx();
 						map.put("pro_sendIdx", Integer.toString(pro_idx));
 						logger.info("homeSendDo/map.put pro_sendIdx : "+pro_idx);
+						int pro_sendIdx = pro_idx;
+						service.matchingSendAlarm(pro_sendIdx,Integer.parseInt(pro_recvIdx));
 					}
 				}
 			}
 		} else {
 			logger.info("실패!");
-		}
-		return  service.homeSend(map);
-	}
+			}
+	return  service.homeSend(map);
+}
 	
 // 프로필상세보기 모달창 요청 /memberDetailList.go
 	@RequestMapping(value= "/memberDetailList.go")

@@ -73,12 +73,15 @@ public class MatchingService {
 				logger.info("homeSend Service");
 				logger.info("map/pro_recvIdx : " + map.get("pro_recvIdx"));
 				logger.info("map/pro_sendIdx : " + map.get("pro_sendIdx"));
-				
 				return dao.homeSend(map) ;
 			}
 
 			public Map<String, Object> memberDetailListGO(int pro_idx) {
 				return dao.memberDetailListGO(pro_idx);
+				
+			}
+			public void matchingSendAlarm(int pro_sendIdx, int pro_recvIdx) {
+				dao.matchingSendAlarm(pro_sendIdx, pro_recvIdx);
 				
 			}
 			

@@ -69,7 +69,6 @@
             <li><a href="boardList.go">커뮤니티</a></li>
             <li><a href="myProfileList.do">마이프로필</a>
             <li><a href="alarmList.go">알람</a></li>
-            
             <li><a href="adminList.go">관리자페이지</a></li>
         </ul>
     </div>

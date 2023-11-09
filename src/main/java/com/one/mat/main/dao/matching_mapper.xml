@@ -101,7 +101,6 @@ INNER JOIN pro p ON p.pro_idx = po.pro_idx
 where openType_code=1 and p.pro_idx=#{pro_Idx}
 </select>
 
-
 <select id="pro_dogGenderOpen" resultType = "String">
 SELECT po.open_hide
 from proopen po
@@ -109,27 +108,21 @@ INNER JOIN pro p ON p.pro_idx = po.pro_idx
 where openType_code=2 and p.pro_idx=#{pro_Idx}
 </select>
 
-
 <select id="photoList" resultType = "com.one.mat.member.dto.PhotoDTO">
 SELECT pt.photo_id, pt.photo_type, pt.photo_idfNum, pt.photo_fileName, pt.photo_uploadDate
 FROM pro p 
 INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_Idx}
 </select>
 
-
-
-
-
-
-
-
-
-
 <!-- 매칭요청 보내기 쿼리문 -->
 <insert id="homeSend" parameterType="map" >
 	INSERT INTO `match` (pro_sendIdx ,pro_recvIdx) VALUES(#{pro_sendIdx},#{pro_recvIdx})
 </insert>
-
+<!-- 매칭요청 보내기 알림테이블 insert 쿼리문 -->
+<insert id="matchingSendAlarm">
+INSERT INTO alarm (pro_sendIdx, pro_recvIdx, alarm_type, alarm_msg) 
+VALUES (#{param1}, #{param2}, 1, '님에게서 새로운 매칭 요청이 들어왔어요!')
+</insert>
 <!-- 프로필 상세보기 쿼리문 -->
 <select id="memberDetailListGO" resultType="map">
 SELECT
@@ -148,18 +141,5 @@ LEFT JOIN breed AS b ON p.pro_idx = b.pro_idx
 LEFT JOIN breedtype AS bt ON b.breedType_code = bt.breedType_code
 WHERE p.pro_idx = #{param1};
 </select>
-<!-- <select id="matchingPhotoFileName" resultType = "String">
-	SELECT pt.photo_fileName
-	FROM pro p 
-	INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_idx};
-</select>
- -->
-
-<!-- <select id="matchingListCharType" resultType="String">
-select charType
-from pro p
-INNER JOIN `char` c ON p.pro_idx = c.pro_idx
-INNER JOIN chartype ct ON c.charType_code = ct.charType_code where p.pro_idx=1;
-</select> -->
 
 </mapper>
