@@ -84,6 +84,10 @@ table,th,td{
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>회원관리</span>
 		        </a>
+		        <a href="./authList.do" class="btn_gnb chatting">
+	                <span class="bi bi-chat-dots-fill"></span>
+	                <span>권한관리</span>
+               </a>
 		        <a href="./compList.go" class="btn_gnb board">
 		        	<span class="bi bi-people-fill"></span>
 					<span>신고관리</span>
@@ -108,7 +112,7 @@ table,th,td{
 			</c:if>
 			<c:forEach items="${list}" var="subs">
 				<tr>
-					<th>${subs.member_id}</th>			
+					<th>${subs.subsHistory_idx}</th>			
 					<th>${subs.subsType}</th>
 					<th>${subs.subsHistory_start}</th>
 					<th>${subs.subsHistory_exp}</th>

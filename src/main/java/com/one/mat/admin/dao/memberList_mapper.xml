@@ -15,7 +15,7 @@
 		    SELECT sh.member_idx, 
 		           MAX(sh.subsHistory_start) as subsHistory_start, 
 		           MAX(sh.subsHistory_exp) as subsHistory_exp
-		    FROM subsHistory sh
+		    FROM subshistory sh
 		    WHERE sh.member_idx = #{param1}
 		    GROUP BY sh.member_idx 
 		) sh ON m.member_idx = sh.member_idx
@@ -61,15 +61,14 @@
   		UPDATE subs SET subsType_code = #{param1} WHERE member_idx = #{param2}
   	</update>
   	
-  	<select id="subsHistory" resultType="com.one.mat.member.dto.MemberDTO">
-  		SELECT m.member_idx, m.member_id, m.member_name, m.member_regDate, 
-  			m.member_subs, m.member_renew, sh.subsType_code, 
-  			sh.subsHistory_start, sh.subsHistory_exp, st.subsType
-		FROM member m
-		LEFT JOIN subs s ON s.member_idx=m.member_idx
-		LEFT JOIN subsHistory sh ON sh.member_idx=m.member_idx
-		left join substype st on st.subsType_code = (select s.subsType_code from subs s where s.member_idx = m.member_idx)
-		WHERE m.member_idx =#{param1} ORDER BY sh.subsHistory_start DESC
+  	<select id="subsHistory" resultType="com.one.mat.myPage.DTO.SubsDTO">
+  		SELECT sh.member_idx, sh.subsType_code, sh.subsHistory_start, 
+  		sh.subsHistory_exp, st.subsType, sh.subsHistory_idx, sh.subHistory_state,
+  		st.subsType
+		FROM subshistory sh
+		RIGHT JOIN member m ON sh.member_idx=m.member_idx
+		RIGHT JOIN substype st ON sh.subsType_code=st.subsType_code		
+		WHERE sh.member_idx =#{param1} ORDER BY sh.subsHistory_idx DESC
   	</select>
   	
   	<select id="countUser" resultType="int">
