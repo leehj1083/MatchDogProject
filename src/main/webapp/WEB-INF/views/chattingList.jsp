@@ -132,7 +132,7 @@ function listCall(page){
 		type:'post',
 		url:'chattingList.do',
 		data:{'pagePerNum':5, 'page':page},
-		dataType:'json',
+		dataType:'JSON',
 		success:function(data){
 			console.log(data);
 			drawList(data);
@@ -143,54 +143,141 @@ function listCall(page){
 	});
 }
 
-// 채팅방 리스트 뿌려주기...
-function drawList(obj){
-	
-	var content = '';
 
-	obj.list.forEach(function(item, idx){
-		content +='<li class="person">';
-		content +='<a href="./chattingRoom.go?chat_idx='+item.chat_idx+'">';
-		content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭입니다.</div>';
-		content +='<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/michael-jordan.jpg"/>';
-		content +='<span class="name">'+item.pro_dogName+'</span> ';
-		content +='<span class="breedType">'+item.breedType+'</span>';
-		content +='<span class="time">'+item.msgTime+'</span>';
-		content +='<span class="preview">'+item.chatMsg_msg+'</span>';
-		if(item.chatMsg_read != 0){
-		content +='<span class="msgRead">'+item.chatMsg_read+'</span>';
+function drawList(obj){
+		
+		var content = '';
+
+		obj.list.forEach(function(item, idx){
+			content +='<li class="person">';
+			content +='<a href="./chattingRoom.go?chat_idx=' + item.chat_idx + '">';
+			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭입니다.</div>';
+			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<span class="name">'+item.pro_dogName+'</span> ';
+			content +='<span class="breedType">'+item.breedType+'</span>';
+			content +='<span class="time">'+item.msgTime+'</span>';
+			content +='<span class="preview">'+item.chatMsg_msg+'</span>';
+			if(item.chatMsg_read != 0){
+			content +='<span class="msgRead">'+item.chatMsg_read+'</span>';
+			}
+			content +='</a>'
+			content +='</li>';
+			
+		});
+		$('.people').empty();
+		$('.people').append(content);
+		
+		$('#pagination').twbsPagination({
+			startPage:obj.currPage, // 보여줄 페이지
+			totalPages:obj.pages,// 총 페이지 수(총갯수/페이지당보여줄게시물수) : 서버에서 계산해서 가져와야함
+			visiblePages:5,//[1][2][3][4][5]
+			onPageClick:function(e,page){ // 번호 클릭시 실행할 내용
+				//console.log(e);
+				if(showPage != page){
+					console.log(page);
+					showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
+					listCall(page);
+				}
+			}
+		});
+		// 페이징 처리 css 변경
+		$('.first').children().empty();
+		$('.last').children().empty();
+		$('.prev').children().empty();
+		$('.next').children().empty();
+		$('.first').children().addClass('bi bi-chevron-double-left');
+		$('.last').children().addClass('bi bi-chevron-double-right');
+		$('.prev').children().addClass('bi bi-chevron-left');
+		$('.next').children().addClass('bi bi-chevron-right');
+	
+}
+
+
+// 추후 확장성 고려해서 만든거(지금은 쓰지 않음)
+function drawListSubs(obj){
+	
+	if(obj.subsType != 1){
+		
+		var content = '';
+
+		obj.list.forEach(function(item, idx){
+			content +='<li class="person">';
+			content +='<a href="./chattingRoom.go?chat_idx=' + item.chat_idx + '">';
+			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭입니다.</div>';
+			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<span class="name">'+item.pro_dogName+'</span> ';
+			content +='<span class="breedType">'+item.breedType+'</span>';
+			content +='<span class="time">'+item.msgTime+'</span>';
+			content +='<span class="preview">'+item.chatMsg_msg+'</span>';
+			if(item.chatMsg_read != 0){
+			content +='<span class="msgRead">'+item.chatMsg_read+'</span>';
+			}
+			content +='</a>'
+			content +='</li>';
+			
+		});
+		$('.people').empty();
+		$('.people').append(content);
+		
+		$('#pagination').twbsPagination({
+			startPage:obj.currPage, // 보여줄 페이지
+			totalPages:obj.pages,// 총 페이지 수(총갯수/페이지당보여줄게시물수) : 서버에서 계산해서 가져와야함
+			visiblePages:5,//[1][2][3][4][5]
+			onPageClick:function(e,page){ // 번호 클릭시 실행할 내용
+				//console.log(e);
+				if(showPage != page){
+					console.log(page);
+					showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
+					listCall(page);
+				}
+			}
+		});
+		// 페이징 처리 css 변경
+		$('.first').children().empty();
+		$('.last').children().empty();
+		$('.prev').children().empty();
+		$('.next').children().empty();
+		$('.first').children().addClass('bi bi-chevron-double-left');
+		$('.last').children().addClass('bi bi-chevron-double-right');
+		$('.prev').children().addClass('bi bi-chevron-left');
+		$('.next').children().addClass('bi bi-chevron-right');
+		
+	}else{ // 일반 회원일 경우
+		
+		var content = '';
+
+		for (var idx = 0; idx < 3; idx++) { // idx가 2까지 돌리려면 3으로 설정
+		    var item = obj.list[idx];
+			
+			content +='<li class="person">';
+			content +='<a href="./chattingRoom.go?chat_idx=' + item.chat_idx + '">';
+			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭입니다.</div>';
+			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<span class="name">'+item.pro_dogName+'</span> ';
+			content +='<span class="breedType">'+item.breedType+'</span>';
+			content +='<span class="time">'+item.msgTime+'</span>';
+			content +='<span class="preview">'+item.chatMsg_msg+'</span>';
+			if(item.chatMsg_read != 0){
+			content +='<span class="msgRead">'+item.chatMsg_read+'</span>';
+			}
+			content +='</a>'
+			content +='</li>';
+			
 		}
+		
+		content +='<li class="person">';
+		content +='<a href="./myPageList.do">';
+		content +='<div class="blur">'
+		content +='<span class="name">리스트를 3개 이상 더 보고싶으시면 구독을 해주세요!</span> ';
+		content +='</div>'
 		content +='</a>'
 		content +='</li>';
 		
-	});
-	$('.people').empty();
-	$('.people').append(content);
+		$('.people').empty();
+		$('.people').append(content);	
+			
+	}
 	
-
-	// 페이징 처리 UI 그리기(플러그인 사용)
-	$('#pagination').twbsPagination({
-		startPage:obj.currPage, // 보여줄 페이지
-		totalPages:obj.pages,// 총 페이지 수(총갯수/페이지당보여줄게시물수) : 서버에서 계산해서 가져와야함
-		visiblePages:5,//[1][2][3][4][5]
-		onPageClick:function(e,page){ // 번호 클릭시 실행할 내용
-			//console.log(e);
-			if(showPage != page){
-				console.log(page);
-				showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
-				listCall(page);
-			}
-		}
-	});
-	// 페이징 처리 css 변경
-	$('.first').children().empty();
-	$('.last').children().empty();
-	$('.prev').children().empty();
-	$('.next').children().empty();
-	$('.first').children().addClass('bi bi-chevron-double-left');
-	$('.last').children().addClass('bi bi-chevron-double-right');
-	$('.prev').children().addClass('bi bi-chevron-left');
-	$('.next').children().addClass('bi bi-chevron-right');
 }
 
 

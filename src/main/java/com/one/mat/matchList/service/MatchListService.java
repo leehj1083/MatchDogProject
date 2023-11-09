@@ -26,7 +26,7 @@ public class MatchListService {
 	MatchListDAO dao;
 	
 	// 요청받은 리스트 뿌리기
-	public HashMap<String, Object> recvMatchingListDo(String pagePerNum, String page, int memberIdx) {
+	public HashMap<String, Object> recvMatchingListDo(String pagePerNum, String page, int memberIdx, int subsType) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
@@ -113,6 +113,7 @@ public class MatchListService {
 		}
 
 		// logger.info("pages : " +pages);
+		map.put("subsType", subsType);
 		map.put("currPage", p);
 		map.put("pages", pages); // 만들 수 있는 총 페이지 수
 		map.put("matList",list);
