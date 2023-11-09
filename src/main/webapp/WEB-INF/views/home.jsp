@@ -84,30 +84,28 @@
         <p id="pro_dogAge"></p>
         <p id="pro_dogGender"></p>
         <p id="pro_dogDesc"></p>
+        <p id="charList"></p>
+        <p id="proOpen"></p>
     </div>
     
     <table>
         <tbody id="matchingList"></tbody>
     </table>
-    <!-- <div id="charList"></div> -->
     <button id="nextButton">다음</button>
     <button id="prevButton">이전</button>
     <button id="matchingdel">매칭리스트 삭제</button>
     <button id="matchingreq" >매칭요청 보내기</button>
     <button id="openModal" >모달 열기</button>
-    <button id="closeModal">모달 닫기</button>
     <!-- 모달을 불러올 위치 -->
     <div id="modalContent"></div>
 </div>
 </body>	
 <script>
-
 var matchingData = []; // 매칭 데이터 배열
 var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
 
 // 페이지 로딩 시 데이터 가져오기
 matchinglist();
-// matchingCharList();
 
 // 매칭 리스트
 function matchinglist() {
@@ -119,7 +117,7 @@ function matchinglist() {
         success: function (data) {
             console.log(data);
             console.log("성공");
-            matchingData = data.matchingList;
+            matchingData = data.matchingListWithProfiles;
 						console.log("matchingData : "+matchingData);
             // 페이지 로딩 시 첫 번째 매칭 데이터 표시
             showMatchingData(currentIndex);
@@ -131,14 +129,38 @@ function matchinglist() {
     });
 }
 
+function showMatchingData(index) {
+   var currentMatch = matchingData[index];
+   var currentProfile = currentMatch.myProfileList[index];
+   var matchingList = currentMatch.matchingList[index];
+   
+   console.log("currentProfile[0] : "+currentProfile);
+   console.log("matchingList[0] : "+matchingList);
+   
+   $('#min_photo_fileName').attr('src', matchingList.min_photo_fileName);
+   $('#min_photo_fileName').attr('alt', matchingList.min_photo_fileName);
+   $('#pro_dogName').text('강아지 이름: ' + matchingList.pro_dogName);
+   $('#pro_dogAge').text('강아지 나이: ' + matchingList.pro_dogAge);
+   $('#pro_dogGender').text('강아지 성별: ' + matchingList.pro_dogGender);
+   $('#pro_dogDesc').text('강아지 설명: ' + matchingList.pro_dogDesc);
+   $('#member_dongAddr').text('동 주소: ' + matchingList.member_dongAddr);
+   $('#member_gender').text('성별: ' + matchingList.member_gender);
+   
+   $('#charList').text('프로필 성향: ' + currentProfile.charTypeList); // charTypeList에 대한 표시 방법 확인 필요
+   $('#proOpen').text('프로필 나이: ' + currentProfile.pro_dogAgeOpen + ', 프로필 성별: ' + currentProfile.pro_dogGenderOpen);
+   console.log("매칭리스트 + 성향 값 : "+currentMatch);
+} 
+
 // 다음 버튼 클릭 시 다음 매칭 데이터 표시
 $('#nextButton').click(function () {
+		console.log("다음 버튼");
     currentIndex = (currentIndex + 1) % matchingData.length;
     showMatchingData(currentIndex);
 });
 
 // 이전 버튼 클릭 시 이전 매칭 데이터 표시
 $('#prevButton').click(function () {
+		console.log("이전 버튼");
     currentIndex = (currentIndex - 1) % matchingData.length;
     console.log("인덱스 -1 = "+currentIndex);
     if(currentIndex < 0){
@@ -152,6 +174,7 @@ $('#prevButton').click(function () {
 
 // 삭제 버튼 클릭시 리스트에서 삭제
 $('#matchingdel').click(function () {
+	console.log("삭제 버튼");
 	matchingData.splice(currentIndex,1);
 	showMatchingData(currentIndex);
 	
@@ -162,10 +185,10 @@ $('#matchingreq').click(function () {
 	console.log("매칭 버튼 클릭");
    	 
         var currentMatch = matchingData[currentIndex];
+        var matchingList = currentMatch.matchingList[currentIndex];
         var request = {
-      		  pro_idx: currentMatch.pro_idx
+      		  pro_idx: matchingList.pro_idx
         };
-        
          $.ajax({
             type: 'POST',  // HTTP 요청 방식 선택 (GET, POST 등)
             url: 'HomeSend.do',  // 서버로 요청을 보낼 URL
@@ -185,25 +208,10 @@ $('#matchingreq').click(function () {
         }); 
     });
 
-function showMatchingData(index) {
-    var currentMatch = matchingData[index];
-    $('#min_photo_fileName').attr('src', currentMatch.min_photo_fileName);
-    $('#min_photo_fileName').attr('alt', currentMatch.min_photo_fileName);
-    $('#pro_dogName').text('강아지 이름: ' + currentMatch.pro_dogName);
-    $('#pro_dogAge').text('강아지 나이: ' + currentMatch.pro_dogAge);
-    $('#pro_dogGender').text('강아지 성별: ' + currentMatch.pro_dogGender);
-    $('#pro_dogDesc').text('강아지 설명: ' + currentMatch.pro_dogDesc);
-    $('#member_dongAddr').text('동 주소: ' + currentMatch.member_dongAddr);
-    $('#member_gender').text('성별: ' + currentMatch.member_gender);
-    console.log(currentMatch.min_photo_fileName);
-   /*  console.log($(#min_photo_fileName).attr("src"));
-		console.log($(#min_photo_fileName).attr("alt")); */
-} 
-
-
 $('#openModal').click(function () {
-   var currentMatch = matchingData[currentIndex];
-   var pro_idx = currentMatch.pro_idx;
+	var currentMatch = matchingData[currentIndex];
+  var matchingList = currentMatch.matchingList[currentIndex];
+   var pro_idx = matchingList.pro_idx;
 
    // JSP 파일을 가져와서 모달 창에 표시
    $.get("./memberDetailList.go?pro_idx=" + pro_idx, function(data) {
@@ -213,42 +221,10 @@ $('#openModal').click(function () {
    });
 });
 
-
-// 성향 리스트
-/* function matchingCharList() {
-   $.ajax({
-       type: 'get',
-       url: 'matchingCharList.do',
-       data: {},
-       dataType: 'json',
-       success: function (data) {
-           console.log(data);
-           console.log("성공");
-
-           
-           charList(data);
-       },
-       error: function (e) {
-           console.log(e);
-           console.log("실패");
-       }
-   });
-}
-
-//성향 정보 표시
-/* function charList(charTypeList) {
-   var content = '';
-   charTypeList.forEach(function (charType) {
-       content += charType + '<br>';
-   });
-
-   // 결과를 원하는 위치에 표시
-   $('#charList').html(content);
-}  */
-
 var msg = "${msg}";
 if(msg != ""){
 	alert(msg);
 }
+
 </script>
 </html>
