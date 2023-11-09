@@ -15,7 +15,7 @@ public class ChattingDTO {
 	private String chatMsg_msg = "";
 	private String chatMsg_read = "";
 	private Date chatMsg_regDate;
-	private Date regDate;
+	private String regDate;
 	private String photo_fileName = "";
 	private String breedType = "";
 	private String pro_dogName = "";
@@ -24,14 +24,14 @@ public class ChattingDTO {
 	// == null ? "":msgTime;
 	
 	
-	public Date getRegDate() {
-		return regDate;
-	}
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
-	}
 	public String getMyDogName() {
 		return myDogName;
+	}
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 	public void setMyDogName(String myDogName) {
 		this.myDogName = myDogName;

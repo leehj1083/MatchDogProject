@@ -45,12 +45,14 @@ public class MatchListController {
 	// 매칭받은 리스트 뿌려주기
 	@RequestMapping(value="/recvMatchingList.do")
 	@ResponseBody
-	public HashMap<String, Object> recvMatchingListDo(@RequestParam String pagePerNum, @RequestParam String page, HttpSession session) {
+	public HashMap<String, Object> recvMatchingListDo(HttpSession session ,@RequestParam String pagePerNum, @RequestParam String page) {
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		int memberIdx = dto.getMember_idx();
-		return service.recvMatchingListDo(pagePerNum,page,memberIdx);
+		int subsType = dto.getSubsType_code();
+		return service.recvMatchingListDo(pagePerNum,page,memberIdx,subsType);
 	}
 	
+	// 채팅방 생성하기
 	@RequestMapping(value="/chatOpen.do")
 	public String chatOpen(Model model, @RequestParam String match_idx) {
 		logger.info("match_idx:"+match_idx);

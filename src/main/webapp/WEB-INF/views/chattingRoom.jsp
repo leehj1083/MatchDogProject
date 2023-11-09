@@ -40,6 +40,52 @@
 	background-color: var(--light);
 }
 
+
+.chatBlur{
+	display:none;
+    position: absolute;
+    left: 30px;
+    top: 568px;
+    width: 390px;
+    height: 42px;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 2;	
+}
+
+.blur{
+	display:flex;
+	align-items: center;
+    justify-content: center;
+    height: 42px;
+}
+
+.blur span{
+	font-size: 14px;
+	line-height: 22px;
+	color: var(--dark);
+	font-weight: 600;
+  	font-family:Pretendard;
+  	text-align:center;
+}
+
+.me_chat{
+	font-family: Pretendard;
+	position: relative;
+	left: 250;
+	color: var(--grey);
+	font-weight: 300;
+	font-size: 13px;
+}
+
+.you_chat{
+	font-family: Pretendard;
+	color: var(--grey);
+	font-weight: 300;
+	font-size: 13px;
+}
+
+
+
 </style>
 </head>
 <body>
@@ -105,6 +151,10 @@
 							<input class="modalSend" type="button" value="전송하기" />
 						</div>
 					</div>
+					
+					<div class="chatBlur">
+					</div>
+					
 					<!-- 채팅 입력창 -->
 		            <div class="write">
 		            	<label for="input_img">
@@ -123,9 +173,12 @@
 </body>
 <script>
 
-
-
 	var chat_idx = ${chat_idx};
+	var review = '${review}';
+	var subsType = 0;
+	
+	longPolling();
+
 
 	function longPolling(){
 			$.ajax({
@@ -150,6 +203,9 @@
 		var top = '';
 		var content = '';
 		var date = new Date();
+		subsType = obj.subsType;
+		var count_me = 0;
+		var count_you = 0;
 		
 		top += '<span>'
 		top += 'To : <span class="name">'+obj.dogName+'</span>'
@@ -158,7 +214,7 @@
 		$('.top').append(top);
 		
 		// 신고버튼 활성화, 비활성화
-		if(obj.totalMsg.length == 0){
+		if(obj.totalMsg.length == 0 || review == 'Y'){
 			$('.review').css("color", "var(--grey)");
 			$('.review').css("cursor", "auto");
 			$('.review').on('click',function(e){
@@ -180,8 +236,6 @@
 		}else{
 			$('.chatComp').css("color", "var(--red)");
 		}
-		
-
 
 		if(obj.totalMsg.length == 0){
 			console.log('채팅방이 생성되었습니다.');
@@ -189,39 +243,68 @@
 			content += '<span> 채팅방이 생성되었습니다 </span>';
 			content += '</div>';
 		}else{
-			obj.totalMsg.forEach(function(item,idx){
-				console.log("photo_fileName : "+item.photo_fileName);
-				if(obj.toFrom.pro_me == item.pro_sendIdx){
-					if(item.photo_fileName == ''){
-						content +='<div class="bubble me">';
-						content +=item.chatMsg_msg;
-						content +='</div>';
- 						content += '<div>';
-						content += item.regDate;
-						content += '</div>';
-					}else{
-						content += '<div class="bubble me">';
-						content += '<img src="/photo/'+item.photo_fileName+'" width="200" />';
-						content += '</div>';
-
+				obj.totalMsg.forEach(function(item,idx){
+					console.log("photo_fileName : "+item.photo_fileName);
+							
+					if(obj.toFrom.pro_me == item.pro_sendIdx){
+						if(item.photo_fileName == ''){
+							count_me++;
+							content +='<div class="bubble me">';
+							content +=item.chatMsg_msg;
+							content +='</div>';
+	 						content += '<div class = "me_chat">' + item.regDate + '</div>' ;
+						}else{
+							count_me++;
+							content += '<div class="bubble me">';
+							content += '<img src="/photo/'+item.photo_fileName+'" width="200" />';
+							content += '</div>';
+							content += '<div class = "me_chat">' + item.regDate + '</div>' ;
+	
+						}
+					}else if(obj.toFrom.pro_me != item.pro_sendIdx){
+						if(item.photo_fileName == ''){
+							count_you++;
+							content +='<div class="bubble you">';
+							content +=item.chatMsg_msg;
+							content +='</div>';
+							content += '<div class = "you_chat">' + item.regDate + '</div>' ;
+	
+						}else{
+							count_you++;
+							content += '<div class="bubble you">';
+							content += '<img src="/photo/'+item.photo_fileName+'" width="200" />';
+							content += '</div>';
+							content += '<div class = "you_chat">' + item.regDate + '</div>' ;
+	
+						}
 					}
-				}else if(obj.toFrom.pro_me != item.pro_sendIdx){
-					if(item.photo_fileName == ''){
-						content +='<div class="bubble you">';
-						content +=item.chatMsg_msg;
-						content +='</div>';
-
-					}else{
-						content += '<div class="bubble you">';
-						content += '<img src="/photo/'+item.photo_fileName+'" width="200" />';
-						content += '</div>';
-
-					}
-				}
-			});
+				});
+			
 		}
+		$('.chat').scrollTop($('.chat')[0].scrollHeight);
 		$('.chat').empty();
 		$('.chat').append(content);
+		
+		console.log("me"+count_me);
+		console.log("you"+count_you);
+		
+		if(subsType !== 1 && count_me >= 10){
+			$('.send').off('click');
+			$('input[name="content"]').off("keyup");
+			$('.chatBlur').css('display', 'inline-block');
+			$('.chatBlur').css('display', 'inline-block');
+			var content = '';
+			content +='<a href="./myPageList.do">'
+			content += '<div class="blur">';
+			content +='<span>채팅을 무제한으로 즐기시고 싶으시면 구독해주세요!</span> ';
+			content +='</div>'
+			content +='</a>'
+			
+			$('.chatBlur').empty();
+			$('.chatBlur').append(content);
+			
+		}
+
 	}
 	
 	// 채팅내용 보내기
@@ -240,9 +323,38 @@
 				console.log(e);
 			}
 		});
+		
+		$('input[name="content"]').val("");
+		$('input[name="content"]').focus();
+		
 	});
 	
-	longPolling();
+	// 엔터 시에도 입력되게
+	$('input[name="content"]').on("keyup", function(event) {
+        if (event.keyCode === 13) { // 13은 엔터 키의 키 코드입니다.
+            // 입력칸 내용을 변수에 저장
+            var content = $('input[name="content"]').val();
+
+            $.ajax({
+    			type:'post',
+    			url:'chatSave.do',
+    			data:{'content':content,'chat_idx' : chat_idx},
+    			dataType:'JSON',
+    			success:function(data){
+    				console.log(data);
+    			},
+    			error:function(e){
+    				console.log(e);
+    			}
+    		});
+
+            $('input[name="content"]').val("");
+    		$('input[name="content"]').focus();
+        }
+    });
+	
+	
+	//longPolling();
 	
 	// --------------------------사진 전송 -----------------------------
 	// 사진 전송 전 모달창에 전송할 사진과 파일명 띄우기
@@ -340,36 +452,5 @@
 	        });
 	}
 	
-	
-
-	
-/* let friends = {
-    list: document.querySelector('ul.people'),
-    all: document.querySelectorAll('.left .person'),
-    name: ''
-  },
-  chat = {
-    container: document.querySelector('.container .right'),
-    current: null,
-    person: null,
-    name: document.querySelector('.container .right .top .name')
-  }
-
-friends.all.forEach(f => {
-  f.addEventListener('mousedown', () => {
-    f.classList.contains('active') || setAciveChat(f)
-  })
-});
-
-function setAciveChat(f) {
-  friends.list.querySelector('.active').classList.remove('active')
-  f.classList.add('active')
-  chat.current = chat.container.querySelector('.active-chat')
-  chat.person = f.getAttribute('data-chat')
-  chat.current.classList.remove('active-chat')
-  chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat')
-  friends.name = f.querySelector('.name').innerText
-  chat.name.innerHTML = friends.name
-}; */
 </script>
 </html>

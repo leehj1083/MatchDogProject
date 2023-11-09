@@ -38,6 +38,16 @@ public interface ChattingDAO {
 
 	String getDogName(int chat_you);
 
+	int reviewLikeDo(int pro_id);
+
+	int reviewSave(int chat_id, int chat_me, int chat_you);
+
+	int reviewUnLikeDo(int pro_id);
+
+	ChattingDTO reviewCheck(int chat_id, int chat_me);
+
+	int subsType(int memberIdx);
+
 
 
 
