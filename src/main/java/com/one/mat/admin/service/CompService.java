@@ -8,9 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.one.mat.admin.dao.CompDAO;
 import com.one.mat.admin.dto.CompDTO;
+import com.one.mat.board.dto.BoardDTO;
+import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class CompService {
@@ -182,6 +185,45 @@ public class CompService {
 	
 		return map;
 	}
+
+	public Map<String, Object> search(String pagePerNum, String page, String searchType, String searchKeyword) {
+        int ppn = Integer.parseInt(pagePerNum);
+        int p = Integer.parseInt(page);
+        int offset = (p - 1) * ppn;
+        ArrayList<BoardDTO> list2 = dao.search(ppn,offset,searchType,searchKeyword);
+        logger.info("search의 list: "+list2.toString());
+        Map<String, Object> map = new HashMap<String, Object>();
+        
+        int pages = dao.totalPage(ppn);
+		logger.info("만들수 있는 총 페이지 갯수 : "+pages);
+		if(p>pages) {
+			p = pages;
+		}		
+        map.put("currPage", p);
+        map.put("pages", pages);
+        map.put("list", list2);
+        return map;
+	}
+
+	
+	
+
+	public void detailList(CompDTO compDTO, Model model) {
+		
+		CompDTO cpd = dao.detailList(compDTO);
+		String mem = dao.getMemberIdByCompId(compDTO.getComp_idx());
+		String pem = dao.reMemerIdByCompId(compDTO.getComp_idx());
+		
+	    model.addAttribute("mem",mem);
+		model.addAttribute("cpd",cpd);
+		model.addAttribute("pem",pem);
+	}
+
+	
+
+	
+
+	
 
 	
 

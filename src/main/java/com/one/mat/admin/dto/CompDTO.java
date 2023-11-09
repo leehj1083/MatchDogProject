@@ -7,16 +7,60 @@ public class CompDTO {
 	private String compType;
 	private String comp_content;
 	private String photo;
+	private String photo_fileName;
+	private String member_id;
 	private int comp_memberIdx;
 	private int comp_loc;
 	private int comp_idfNum;
 	private String comp_receiveDate;
 	private String comp_handleDate;
+	private int loginLock_id;
+	private int compHistory_idx;
+	private String loginLock_sDate;
+	private String loginLock_eDate;
+	private String comp_blindStete;
 	private String comp_handleContent;
 	private String comp_handleState;
-	private String comp_blindStete;
 	private String member_loginLock;
 	private int comp_reportIdx;
+	
+	public int getLoginLock_id() {
+		return loginLock_id;
+	}
+	public void setLoginLock_id(int loginLock_id) {
+		this.loginLock_id = loginLock_id;
+	}
+	public int getCompHistory_idx() {
+		return compHistory_idx;
+	}
+	public void setCompHistory_idx(int compHistory_idx) {
+		this.compHistory_idx = compHistory_idx;
+	}
+	public String getLoginLock_sDate() {
+		return loginLock_sDate;
+	}
+	public void setLoginLock_sDate(String loginLock_sDate) {
+		this.loginLock_sDate = loginLock_sDate;
+	}
+	public String getLoginLock_eDate() {
+		return loginLock_eDate;
+	}
+	public void setLoginLock_eDate(String loginLock_eDate) {
+		this.loginLock_eDate = loginLock_eDate;
+	}
+	public String getPhoto_fileName() {
+		return photo_fileName;
+	}
+	public void setPhoto_fileName(String photo_fileName) {
+		this.photo_fileName = photo_fileName;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+
 	
 	
 	

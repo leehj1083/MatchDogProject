@@ -1,6 +1,5 @@
 package com.one.mat.admin.controller;
 
-import java.rmi.activation.ActivationGroupDesc.CommandEnvironment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.admin.service.CompService;
+import com.one.mat.member.dto.MemberDTO;
 
 @Controller
 public class CompController {
@@ -39,12 +41,7 @@ public class CompController {
 		return "compList";
 	}
 
-	@RequestMapping(value = "/compDetail")
-	public String compDetail(@RequestParam("comp_idx") int compIdx) {
-                 logger.info("compIdx : "+compIdx);
-                 
-		return "compDetail";
-	}
+
 
 	@RequestMapping(value = "/list2")
 	@ResponseBody
@@ -125,7 +122,45 @@ public class CompController {
 	    logger.info("검색내용: " + searchKeyword);
 	    
 	    
-	    return null;
+	    return service.search(pagePerNum,page,searchType,searchKeyword);
+	}
+	
+	@RequestMapping(value = "/compDetail")
+	public String compDetail(@RequestParam("comp_idx") int compIdx,HttpSession session,Model model) {
+                 logger.info("compIdx : "+compIdx);
+                 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+     		    int memberIdx = memberDTO.getMember_idx();
+     		    logger.info("memberIdx : "+memberIdx);
+     		    
+     		   CompDTO cpd = new CompDTO();
+     		    cpd.setComp_idx(compIdx);
+     		    cpd.setMember_idx(memberIdx);
+     		    
+             service.detailList(cpd,model);
+           
+ 
+		return "compDetail";
+	}
+	
+	@RequestMapping("/proRegist.do")
+	public String proRegist(@RequestParam Map<String, String> params,HttpSession session,@RequestParam("comp_idx") int compIdx) {
+		
+		
+		logger.info("parmas : "+params);
+		
+		
+		
+		
+		
+		return "redirect:/compList.go";
+	}
+	
+	@RequestMapping("/backCompList")
+	public String backCompList() {
+		
+		
+		
+		return "redirect:/compList.go";
 	}
 
 }

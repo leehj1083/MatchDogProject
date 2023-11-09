@@ -228,9 +228,10 @@ public class RegProfileController {
 	   
 	    
 	    
-	    
+	    String photo = params.get("photo");
+      	session.setAttribute("photo", photo);
 	    service.chattingcompSave(params);
-	    service.compPhoto(params);
+	    
 	  
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
 	        redirectURL = "redirect:/chattcompTypeList.do";
@@ -258,9 +259,10 @@ public class RegProfileController {
 	   
 	    
 	    
-	    
+	    String photo = params.get("photo");
+      	session.setAttribute("photo", photo);
 	    service.boardcompSave(params);
-	    service.compPhoto(params);
+	    
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
 	        redirectURL = "redirect:/chattcompTypeList.do";
 	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
@@ -288,9 +290,10 @@ public class RegProfileController {
 	   
 	    
 	    
-	    
+	    String photo = params.get("photo");
+      	session.setAttribute("photo", photo); 
 	    service.commentcompSave(params);
-	    service.compPhoto(params);
+	    
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
 	        redirectURL = "redirect:/chattcompTypeList.do";
 	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
@@ -313,8 +316,9 @@ public class RegProfileController {
     	 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
 		    logger.info("Member Index: " + memberIdx);
-    	 
-    	 
+		    String photo = (String) session.getAttribute("photo");
+		    logger.info("photo :" + photo);
+		 service.compPhoto(photo);
     	 service.historySave(memberIdx);
     	 
     	 

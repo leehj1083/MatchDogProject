@@ -139,12 +139,69 @@ LIMIT #{param1} OFFSET #{param2}
 
 	
 	<select id="totalPage" resultType="int">
-		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
+		SELECT CEIL(COUNT(comp_idx)/#{param1}) AS pages FROM comp
 	</select>
 	<update id="changeCheck" parameterType="int">
 	update comphistory set comp_handleState = '처리완료' where comp_idx = #{id}
 	</update>
+	<select id="search" resultType="com.one.mat.admin.dto.CompDTO">
 	
+	SELECT
+	        comp.comp_idx, 
+    comp.comp_memberIdx,
+    comp.compType_code,
+    comp.comp_loc,
+    comp.comp_idfNum,
+    comp.comp_content,
+    comp.comp_receiveDate,
+    comp.comp_reportIdx,
+    comptype.compType,
+    comphistory.comp_handleDate,
+    comphistory.comp_handleState
+	    FROM comp 
+	    INNER JOIN comptype ON comp.compType_code = comptype.compType_code
+LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx 
+	    WHERE
+		    <choose>
+		        <when test="param3 == 'comp_content'">
+		            comp_content LIKE CONCAT('%',#{param4},'%')
+		        </when>
+		        <when test="param3 == 'comp_reportIdx'">
+		            comp_reportIdx LIKE CONCAT('%',#{param4},'%')
+		        </when>
+		        <when test="param3 == 'comp_idfNum'">
+		            comp_idfNum LIKE CONCAT('%',#{param4},'%')
+		        </when>
+		    </choose>
+	    ORDER BY comp.comp_idx DESC
+	    LIMIT #{param1} OFFSET #{param2}
+	</select>
 	
+	<select id="detailList" resultType="com.one.mat.admin.dto.CompDTO">
+    SELECT
+        comp.*,
+        photo.photo_fileName,
+        compHistory.comp_handleDate,
+        (SELECT member_id FROM member WHERE member_idx = #{member_idx}) as member_id
+    FROM comp
+    LEFT JOIN photo ON comp.comp_idx = photo.photo_idfNum
+    LEFT JOIN compHistory ON comp.comp_idx = compHistory.comp_idx
+    WHERE comp.comp_idx = #{comp_idx}
+</select>
+
+<select id="getMemberIdByCompId" resultType="string">
+        SELECT m.member_id
+        FROM member m
+        JOIN comp c ON m.member_idx = c.comp_memberIdx
+        WHERE c.comp_idx = #{comp_idx}
+    </select>
+    <select id="reMemerIdByCompId" resultType="string">
+        SELECT m.member_id
+        FROM member m
+        JOIN comp c ON m.member_idx = c.comp_reportIdx
+        WHERE c.comp_idx = #{comp_idx}
+    </select>
+	
+
 
 </mapper>
