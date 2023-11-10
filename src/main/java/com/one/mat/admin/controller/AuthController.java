@@ -100,6 +100,7 @@ public class AuthController {
 		logger.info("subsType_code: " + params.get("subsType_code"));
 		if (newAuthCodes != null) {
 	        for (String newAuthcode : newAuthCodes) {
+	        	service.newAuthCodesSave(newAuthcode);
 	            logger.info(newAuthcode);
 	        }
 	    }

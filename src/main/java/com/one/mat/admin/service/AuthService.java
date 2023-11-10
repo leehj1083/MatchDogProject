@@ -39,4 +39,8 @@ public class AuthService {
 		dao.authDetailModUpdateDo(params);
 		
 	}
+	public void newAuthCodesSave(String newAuthcode) {
+		// TODO Auto-generated method stub
+		
+	}
 }
