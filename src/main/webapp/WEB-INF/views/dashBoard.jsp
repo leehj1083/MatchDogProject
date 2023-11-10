@@ -197,7 +197,6 @@ function getDate(){
 }
 
 
-
 $('#today').html(getDate());
 var today = getDate();
 var selection = $('#selection').val();
@@ -329,9 +328,6 @@ var resetSalesCanvas = function(){
 	$('#salesGraph').remove();
 	$('.dataGraph').append('<canvas id="salesGraph" width="400px"></canvas>');
 }
-
-
-
 
 </script>
 </html>
