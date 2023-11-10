@@ -113,7 +113,7 @@
 				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
-				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -171,6 +171,7 @@
     <button id="openModal" >상세 보기</button>
     <!-- 모달을 불러올 위치 -->
     <div id="modalContent"></div>
+     <div id="alarmContent"></div>
 	</div>
 	</div>
 </div>
