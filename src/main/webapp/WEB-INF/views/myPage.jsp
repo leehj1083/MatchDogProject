@@ -144,8 +144,7 @@ ${myPage.member_idx}
 	
 	<p>구독 여부 : ${myPage.member_subs}</p>
 	<p>구독 연장 여부 : ${myPage.member_renew}</p>
-	<p>구독 시작 일자 : </p>
-	<p>구독 만료 일자 : </p>
+
 	<br></br>
 	<button id="openQuitModal" >회원 탈퇴</button>
 	

@@ -7,6 +7,7 @@ public class AuthDTO {
 	private int subsType_price;
 	private String subs_desc;
 	private int authType_code;
+	private String authType;
 	public int getSubsType_code() {
 		return subsType_code;
 	}
@@ -36,6 +37,12 @@ public class AuthDTO {
 	}
 	public void setAuthType_code(int authType_code) {
 		this.authType_code = authType_code;
+	}
+	public String getAuthType() {
+		return authType;
+	}
+	public void setAuthType(String authType) {
+		this.authType = authType;
 	}
 
 }

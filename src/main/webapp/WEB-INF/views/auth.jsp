@@ -60,6 +60,7 @@ table,th,td{
 	border: 1px solid #aaa;
 	border-collapse: collapse;
 	padding: 0.6rem;
+	font-family:pretendard;
 }
 td, th {
   padding: 0.6rem;
@@ -67,6 +68,9 @@ td, th {
   text-align: left;
   margin: 0;
 }
+a.highlight-link:hover {
+        color: #1abc9c; /* 마우스 오버 시 링크 색상 */
+    }
 
 
 </style>
@@ -114,7 +118,7 @@ td, th {
 			</div>
 		</div>
 		<div class="content">
-		<h2>권한 관리</h2><hr/>
+		<h2 style="font-family:pretendard">권한 관리</h2><hr/>
 			<table>
 					<tr>
 						<th>번호</th>			
@@ -127,7 +131,7 @@ td, th {
 					<c:forEach items="${authList}" var="auths">
 						<tr>
 							<td>${auths.subsType_code}</td>
-							<td><a href="authDetailList.do?subsType_code=${auths.subsType_code}">
+							<td><a href="authDetailList.do?subsType_code=${auths.subsType_code}" class="highlight-link">
 							${auths.subsType}</a></td>
 							<td>${auths.subs_desc}</td>
 						</tr>
@@ -136,6 +140,9 @@ td, th {
 		</div>
 	</div>
 </div>
+
+
+
 </body>
 <script>
 
