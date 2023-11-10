@@ -32,8 +32,8 @@ public class BoardService {
 	public Map<String, Object> list(String pagePerNum, String page) {
 		
 		int ppn = Integer.parseInt(pagePerNum);
-		int p = Integer.parseInt(page);		
-		int offset = (p-1)*ppn;		
+		int p = Integer.parseInt(page);
+		int offset = (p-1)*ppn;
 		ArrayList<BoardDTO> list = dao.list(ppn,offset);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -45,7 +45,6 @@ public class BoardService {
 			p = pages;
 		}		
 		map.put("currPage", p);
-		
 		map.put("pages", pages); // 만들 수 있는 총 페이지 수
 		map.put("list", list);		
 		return map;
