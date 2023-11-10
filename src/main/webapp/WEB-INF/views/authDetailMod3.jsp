@@ -98,12 +98,32 @@ th:first-child, td:first-child {
         border: 1px solid #1abc9c;
         cursor: pointer;
     }
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
 
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
 
 </style>
 </head>
 <body>	
-<div id="wrap">
+
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
@@ -145,32 +165,110 @@ th:first-child, td:first-child {
 			</div>
 		</div>
 		<div class="content">
-		<h2>권한 관리</h2><hr/>
+		<h2 style="font-family:pretendard">권한 관리</h2><hr/>
+		<form action="./authDetailModUpdate.do" method="post">
+		<input type="text" name="subsType_code" value="${authDetail.subsType_code}">
+		
 			<table>
 					<tr>
 						<th>권한명</th>
-						<td>${authDetail.subsType}</td>
+						<td colspan=2>${authDetail.subsType}</td>
 					</tr>
 					<tr>		
 						<th>설명</th>
-						<td>${authDetail.subs_desc}</td>
+						<td colspan=2><input type="text" name="subs_desc" value="${authDetail.subs_desc}" style="width: 90%;"/></td>
 					</tr>
 					<tr>
 						<th>권한코드</th>
-						<td><c:forEach items="${authCodes}" var="authCodes" varStatus="loop">
-						${authCodes}${not loop.last ? ',' : ''}</c:forEach></td>
+<td id = "selectedCodes" style="position: relative;">
+    <c:forEach items="${authCodes}" var="authCodes" varStatus="loop">
+        ${authCodes}${not loop.last ? ',' : ''}
+        <input type="hidden" name="authCodes" value="${authCodes}" />
+    </c:forEach>
+ </td>
+<!-- <input type="text" name="selectedValues" id="hiddenSelectedValues" value=""> -->
+<td style="width: 50px;">
+<button type="button" id="openCodeModal" class="sButton" style="position: relative; right: -10;">코드검색
+</button>
+</td>
 					</tr>
 					
 			</table>
-			${authDetail.subsType_code}
+			
 			<div class="button-container">
-    <a href="./authList.do" class="button-gray">뒤로가기</a>
-    <a href="./authDetailMod.go?subsType_Code=${authDetail.subsType_code}" class="button-green">수정하기</a>
-</div>
+				<a href="javascript:history.back()" class="button-gray">뒤로가기</a>
+				<input type="submit" class="button-green" value="수정 완료"/>
+<!--    				 <a href="./authList.do" class="button-green">수정완료</a> -->
+			</div>
+			</form>
 		</div>
-	</div>
+		</div>
+
+	<!-- 모달 내용을 표시할 영역 -->
+<div id="codeModal" class="modal">
+    <div class="modal-content">
+        <span id="closeCodeModal" style="float: right; cursor: pointer;">&times;</span>
+        <div class="codeModalContent">
+        <table style="text-align: center;">
+		<tr>
+			<th>${subsType.subsType_code}</th>
+			<th>권한 코드</th>
+			<th>권한 내용</th>
+		</tr>
+		<c:forEach items="${authCodeList}" var="authCode">
+			<tr>
+				<td><input type="checkbox" name="selectedAuthCode" class="authCheckbox"
+					value="${authCode.authType_code}"></td>
+				<td>${authCode.authType_code}</td>
+				<td>${authCode.authType}</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br></br>
+            <div style="text-align: center;">
+                <button id="regButton" type="button" >등록 완료</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script>
+var selectedCodes = $('#selectedCodes');
+
+/* function prepareAndSubmitForm() {
+    // 선택된 값을 가져와서 hidden input에 설정
+    var selectedValues = $('#selectedCodes').text();
+    console.log(selectedValues);
+    $('#hiddenSelectedValues').val(selectedValues);
+
+} */
+
+$('#openCodeModal').on('click', function(){
+    var codeModalContent = $('.codeModalContent');
+    console.log('오픈코드');
+    $('#codeModal').css("display", "block");
+}); 
+
+$('#closeCodeModal').on('click', function(){
+	console.log('모달 닫음');
+	$('#codeModal').css("display", "none");
+});
+
+ $("#regButton").on('click', function () {
+	var selectedValues = [];
+    $(".authCheckbox:checked").each(function (e) {
+        selectedValues.push($(this).val());
+    });
+    console.log(selectedValues);
+    
+    selectedCodes.html(selectedValues.join(", "));
+    $('#codeModal').css("display", "none");
+});
+
+
+
+
+
+
 </script>
 </html>
