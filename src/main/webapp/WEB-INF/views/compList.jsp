@@ -274,17 +274,14 @@ select {
 				if (comp_handleDate === null) {
 					return "처리되지 않은 신고입니다.";
 				} else {
-					var regDate2 = new Date2(item.comp_handleDate);
-					var formattedRegDate2 = regDate2.getFullYear() + "-"
-							+ (regDate2.getMonth() + 1) + "-"
-							+ regDate2.getDate();
+				
 
-					return formattedRegDate2;
+					return comp_handleDate;
 				}
 			}
 
 			function getCompHandleState(comp_handleState) {
-				if (comp_handleState === "Null") {
+				if (comp_handleState === null ||comp_handleState === "Null") {
 					return "미처리";
 				} else {
 					return comp_handleState;

@@ -100,7 +100,9 @@ textarea style ="resize: both ;"> </textarea>.modal {
 </style>
 </head>
 <body>
-
+<div class="container">
+		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+	</div>
 
 
 	

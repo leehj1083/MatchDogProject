@@ -23,7 +23,35 @@ public class CompDTO {
 	private String comp_handleState;
 	private String member_loginLock;
 	private int comp_reportIdx;
+	private int admin_memberIdx;
+	private int board_id;
+	private int reply_id;
+	private int chat_idx;
 	
+	public int getBoard_id() {
+		return board_id;
+	}
+	public void setBoard_id(int board_id) {
+		this.board_id = board_id;
+	}
+	public int getReply_id() {
+		return reply_id;
+	}
+	public void setReply_id(int reply_id) {
+		this.reply_id = reply_id;
+	}
+	public int getChat_idx() {
+		return chat_idx;
+	}
+	public void setChat_idx(int chat_idx) {
+		this.chat_idx = chat_idx;
+	}
+	public int getAdmin_memberIdx() {
+		return admin_memberIdx;
+	}
+	public void setAdmin_memberIdx(int admin_memberIdx) {
+		this.admin_memberIdx = admin_memberIdx;
+	}
 	public int getLoginLock_id() {
 		return loginLock_id;
 	}
