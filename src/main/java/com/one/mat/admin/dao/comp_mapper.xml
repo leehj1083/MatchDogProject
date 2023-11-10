@@ -142,7 +142,8 @@ LIMIT #{param1} OFFSET #{param2}
 		SELECT CEIL(COUNT(comp_idx)/#{param1}) AS pages FROM comp
 	</select>
 	<update id="changeCheck" parameterType="int">
-	update comphistory set comp_handleState = '처리완료' where comp_idx = #{id}
+	update comphistory set comp_handleState = '처리완료', comp_handleDate = CURRENT_TIMESTAMP 
+		where comp_idx = #{id}
 	</update>
 	<select id="search" resultType="com.one.mat.admin.dto.CompDTO">
 	
