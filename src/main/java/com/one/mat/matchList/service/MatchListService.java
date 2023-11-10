@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.one.mat.alarm.dto.AlarmDTO;
 import com.one.mat.chatting.dto.ChattingDTO;
 import com.one.mat.matchList.dao.MatchListDAO;
 import com.one.mat.matchList.dto.MatchListDTO;
@@ -131,6 +132,15 @@ public class MatchListService {
 		if(result != 0) {
 			chat_idx = dao.chatMove(match_idx);
 		}
+		List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
+		alarmList = dao.selectSendRecvIdx(match_idx);
+		int pro_sendIdx = 0;
+		int pro_recvIdx = 0;
+		for (AlarmDTO alarmDTO : alarmList) {
+			pro_sendIdx = alarmDTO.getPro_sendIdx();
+			pro_recvIdx = alarmDTO.getPro_recvIdx();
+		}
+		dao.newChattingRoomAlarm(pro_sendIdx, pro_recvIdx );
 		return chat_idx;
 	}
 	

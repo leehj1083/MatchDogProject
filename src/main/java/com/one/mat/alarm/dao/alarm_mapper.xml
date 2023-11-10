@@ -2,11 +2,28 @@
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
 >
-<mapper namespace="com.one.mat.main.dao.AlarmDAO">
+<mapper namespace="com.one.mat.alarm.dao.AlarmDAO">
 <select id= "alarmListGo" resultType="com.one.mat.alarm.dto.AlarmDTO">
-SELECT a.*
+SELECT 
+	DATE_FORMAT(a.alarm_genDate,'%Y-%m-%d %H:%i') as alarm_genDate,
+    a.alarm_id,
+    a.alarm_idfNum,
+    a.alarm_msg,
+    a.alarm_readCheck,
+    a.alarm_type,
+    (
+        SELECT photo_fileName
+        FROM photo
+        WHERE photo_type = 4
+        	AND photo_idfNum = p.pro_idx
+        ORDER BY photo_id ASC
+        LIMIT 1
+    ) AS photo_fileName,
+    m.member_nickName
 FROM alarm a
 JOIN pro p ON a.pro_recvIdx = p.pro_idx
-WHERE p.member_idx = #{param1};
+JOIN member m ON p.member_idx = m.member_idx
+WHERE p.member_idx = #{param1}
+ORDER BY a.alarm_genDate DESC
 </select>
 </mapper>

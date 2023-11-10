@@ -53,6 +53,15 @@
 		SELECT chat_idx FROM chat WHERE match_idx=#{param1}
 	</select>
 	
+	<select id="selectSendRecvIdx" resultType="com.one.mat.alarm.dto.AlarmDTO">
+		SELECT pro_sendIdx, pro_recvIdx 
+		FROM `match`
+		WHERE match_idx IN (SELECT match_idx FROM chat WHERE match_idx = #{param1})
+	</select>
 	
+	<insert id="matchingSendAlarm">
+		INSERT INTO alarm (pro_sendIdx, pro_recvIdx, alarm_type, alarm_msg) 
+		VALUES (#{param1}, #{param2}, 2, '님께 보낸 매칭이 수락되었습니다')
+</insert>
  
   </mapper>
