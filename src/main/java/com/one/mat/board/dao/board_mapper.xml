@@ -22,8 +22,9 @@
 	
 	<select id="totalPage" resultType="int">
 		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
+			WHERE board_hidden != 'Y'
 	</select>
-
+	
 	<select id="search" resultType="com.one.mat.board.dto.BoardDTO">
 	    SELECT
 	        board_id,
