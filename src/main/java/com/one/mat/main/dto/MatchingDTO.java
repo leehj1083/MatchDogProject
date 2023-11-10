@@ -4,6 +4,20 @@ import java.sql.Date;
 
 public class MatchingDTO {
 	
+	/*
+	@Override
+	public String toString() {
+	    return "MatchingDTO{" +
+	           "match_idx=" + match_idx +
+	           ", pro_sendIdx=" + pro_sendIdx +
+	           ", pro_recvIdx='" + pro_recvIdx + '\'' +
+	           ", match_req='" + match_req + '\'' +
+	           ", match_succeed=" + match_succeed +
+	           ", pro_idx=" + pro_idx +
+	           '}';
+	}
+	*/
+	
 	private int match_idx;
 	private int pro_sendIdx;
 	private int pro_recvIdx;
