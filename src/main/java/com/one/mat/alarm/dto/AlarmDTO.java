@@ -8,26 +8,27 @@ public class AlarmDTO {
 	private int pro_sendIdx;  // 알림을 보낸 사용자
 	private int alarm_type;
 	private int alarm_idfNum;
-	private Date alarm_genDate;
+	private String alarm_genDate;
 	private String alarm_msg;
 	private String alarm_readCheck;
 	private String photo_fileName;
+	private String member_nickName;
 	public int getAlarm_id() {
 		return alarm_id;
 	}
 	public void setAlarm_id(int alarm_id) {
 		this.alarm_id = alarm_id;
 	}
-	public int getpro_recvIdx() {
+	public int getPro_recvIdx() {
 		return pro_recvIdx;
 	}
-	public void setpro_recvIdx(int pro_recvIdx) {
+	public void setPro_recvIdx(int pro_recvIdx) {
 		this.pro_recvIdx = pro_recvIdx;
 	}
-	public int getpro_sendIdx() {
+	public int getPro_sendIdx() {
 		return pro_sendIdx;
 	}
-	public void setpro_sendIdx(int pro_sendIdx) {
+	public void setPro_sendIdx(int pro_sendIdx) {
 		this.pro_sendIdx = pro_sendIdx;
 	}
 	public int getAlarm_type() {
@@ -42,10 +43,10 @@ public class AlarmDTO {
 	public void setAlarm_idfNum(int alarm_idfNum) {
 		this.alarm_idfNum = alarm_idfNum;
 	}
-	public Date getAlarm_genDate() {
+	public String getAlarm_genDate() {
 		return alarm_genDate;
 	}
-	public void setAlarm_genDate(Date alarm_genDate) {
+	public void setAlarm_genDate(String alarm_genDate) {
 		this.alarm_genDate = alarm_genDate;
 	}
 	public String getAlarm_msg() {
@@ -66,5 +67,13 @@ public class AlarmDTO {
 	public void setPhoto_fileName(String photo_fileName) {
 		this.photo_fileName = photo_fileName;
 	}
+	public String getMember_nickName() {
+		return member_nickName;
+	}
+	public void setMember_nickName(String member_nickName) {
+		this.member_nickName = member_nickName;
+	}
+	
+	
 	
 }

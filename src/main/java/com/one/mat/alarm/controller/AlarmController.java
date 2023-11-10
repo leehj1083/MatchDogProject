@@ -33,17 +33,17 @@ public class AlarmController {
 	// (* 알람이 왔을 때 클릭시 해당 페이지로 이동한다 )
 	
 	// 알람 모달창 요청
-//	@RequestMapping(value= "/alarmList.go")
-//	public String alarmListGo(Model model, HttpSession session) {
-//		logger.info("alarmListGo");
-//		
-//		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-//			 // 로그인 했을때
-//	 	    if (dto != null) {
-//	 	   	int member_idx = dto.getMember_idx();
-//	 			logger.info("member_idx : "+member_idx);
-//	 			service.alarmListGo(model, member_idx);
-//	 			}
-//	 	    return "alarmList";
-//		}
+	@RequestMapping(value= "/alarmList.go")
+	public String alarmListGo(Model model, HttpSession session) {
+		logger.info("alarmListGo");
+		
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			 // 로그인 했을때
+	 	    if (dto != null) {
+	 	   	int member_idx = dto.getMember_idx();
+	 			logger.info("member_idx : "+member_idx);
+	 			service.alarmListGo(model, member_idx);
+	 			}
+	 	    return "alarm";
+		}
 }
