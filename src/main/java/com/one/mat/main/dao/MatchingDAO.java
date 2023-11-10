@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.one.mat.member.dto.MatchAllDTO;
 import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 public interface MatchingDAO {
-
-	List<Map<String, Object>> unloginedMatchingList();
 	
-	List<Map<String, Object>> matchingList(int member_idx, int pro_idx);
-
+	ArrayList<MatchAllDTO> matchingList(int member_idx, int pro_idx);
+	
+	ArrayList<MatchAllDTO> unloginedMatchingList();
+	
 	ArrayList<ProfileDTO> MyProfileListDo(int member_idx);
 
 	int homeSend(Map<String, String> map);
@@ -29,11 +30,6 @@ public interface MatchingDAO {
 
 	void matchingSendAlarm(int pro_sendIdx, int pro_recvIdx);
 
-
-
-
-
-	
 
 
 }
