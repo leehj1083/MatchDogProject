@@ -158,7 +158,12 @@ public class RegProfileService {
 		String memberIdxStr = params.get("memberIdx");
 		int memberIdx = Integer.parseInt(memberIdxStr);
 		dto.setMember_idx(memberIdx);
-
+		
+		String boardIdStr = params.get("boardId");
+		int boardId = Integer.parseInt(boardIdStr);
+		dto.setBoard_id(boardId);
+	
+		
 		String compStr = params.get("compType_code");
 		int compType_code = Integer.parseInt(compStr);
 		dto.setCompType_code(compType_code);
@@ -176,6 +181,10 @@ public class RegProfileService {
 		String memberIdxStr = params.get("memberIdx");
 		int memberIdx = Integer.parseInt(memberIdxStr);
 		dto.setMember_idx(memberIdx);
+		
+		String replyIdStr = params.get("replyId");
+		int replyId = Integer.parseInt(replyIdStr);
+		dto.setReply_id(replyId);
 
 		String compStr = params.get("compType_code");
 		int compType_code = Integer.parseInt(compStr);

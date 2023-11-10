@@ -24,12 +24,12 @@ value(3,(select max(comp_idx) from comp),#{photo},(select DATE_FORMAT(now(),'%Y-
 
 <insert id="boardcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
 
-INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},1,1,#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),3);
+INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},1,#{board_id},#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),(SELECT member_idx FROM board WHERE board_id = #{board_id}));
 </insert>
 
 <insert id="commentcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
 
-INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},2,2,#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),3);
+INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},2,#{reply_id},#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),(SELECT member_idx FROM reply  WHERE reply_id = #{reply_id}));
 </insert>
 
 
