@@ -63,7 +63,7 @@
   	
   	<select id="subsHistory" resultType="com.one.mat.myPage.DTO.SubsDTO">
   		SELECT sh.member_idx, sh.subsType_code, sh.subsHistory_start, 
-  		sh.subsHistory_exp, st.subsType, sh.subsHistory_idx, sh.subHistory_state,
+  		sh.subsHistory_exp, st.subsType, sh.subsHistory_idx, sh.subsHistory_state,
   		st.subsType
 		FROM subshistory sh
 		RIGHT JOIN member m ON sh.member_idx=m.member_idx

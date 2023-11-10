@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.one.mat.admin.dto.VisitorDTO;
+import com.one.mat.admin.service.DashBoardService;
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
 import com.one.mat.member.service.MailSendService;
@@ -31,6 +33,8 @@ public class MemberController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MemberService service;
 	@Autowired MailSendService mailService;
+	@Autowired DashBoardService DBService;
+	
 	@RequestMapping(value="/joinForm.go")
 	public String joinForm() {
 		return "joinForm";
@@ -136,12 +140,21 @@ public class MemberController {
 		MemberDTO dto = service.login(member_id, member_pw);
 		logger.info("dto :"+dto);
 		ArrayList<ProfileDTO> pdto = service.loginProf(member_id, member_pw);
+	
 		if (dto != null) {
-			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보
-		
+			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보		
 			session.setAttribute("loginInfo", dto);
-			session.setAttribute("loginProInfo", pdto);
-			logger.info("접속한 세션 회원번호="+dto.getMember_idx());
+			session.setAttribute("loginProInfo", pdto);		
+			int member_idx = dto.getMember_idx();
+			logger.info("접속한 세션 회원번호="+member_idx);
+			
+			VisitorDTO VisitorDTO = DBService.selectVisitCount(member_idx);
+			if(VisitorDTO==null) {
+				DBService.insertVisitCount(member_idx);
+			}else {
+				DBService.updateVisitCount(member_idx);
+			}
+			
 			if(dto.getSubsType_code()==4) {
 				page = "dashBoard";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
