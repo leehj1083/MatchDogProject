@@ -13,7 +13,7 @@ INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx
 </select>
 
 <!-- 로그인 안했을때 나오는 매칭 리스트 -->
-<select id="unloginedMatchingList" resultType="map">
+<select id="unloginedMatchingList" resultType="com.one.mat.member.dto.MatchAllDTO">
 SELECT
     m.member_gender,
     m.member_dongAddr,
@@ -23,26 +23,11 @@ SELECT
     p.pro_dogDesc,
     p.pro_idx,
     (
-        SELECT photo_fileName
-        FROM photo
-        WHERE pro_idx = p.pro_idx
-            AND photo_idfNum = p.pro_idx
-            AND photo_type = 4
-        ORDER BY photo_id
-        LIMIT 1
-    ) AS min_photo_fileName
-FROM pro AS p
-INNER JOIN member AS m ON p.member_idx = m.member_idx
-ORDER BY RAND()
-LIMIT 10
-</select>
-
-<!-- 랜덤매칭 쿼리(자신의 pro_idx 는 제외하며 동주소가 같고, 
-			제재여부=N,탈퇴여부=N 이고 성향이 4개 모두 같을 경우 select) -->
-<select id="matchingList" resultType="map">
-SELECT
-    m.member_gender, m.member_dongAddr, p.pro_dogName, p.pro_dogAge,
-    p.pro_dogGender, p.pro_dogDesc, p.pro_idx,
+        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR '/')
+        FROM `char` AS c
+        JOIN `chartype` AS ct ON c.charType_code = ct.charType_code
+        WHERE c.pro_idx = p.pro_idx
+    ) AS characteristics,
     (
         SELECT photo_id
         FROM photo ph
@@ -66,24 +51,80 @@ SELECT
     ) AS min_photo_fileName
 FROM member AS m
 INNER JOIN pro AS p ON m.member_idx = p.member_idx
-WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{param1})
     AND m.member_quit = 'N'
     AND m.member_loginLock = 'N'
-    AND p.pro_idx NOT IN (SELECT pro_idx FROM pro WHERE member_idx = #{param1})
     AND p.pro_idx IN (
-        SELECT pro_idx
-        FROM `char`
-        WHERE charType_code IN (
+        SELECT c.pro_idx
+        FROM `char` AS c
+        WHERE c.charType_code IN (
             SELECT charType_code
             FROM `char`
-            WHERE pro_idx = #{param2}
         )
-        GROUP BY pro_idx
-        HAVING COUNT(DISTINCT charType_code) = 4
+        GROUP BY c.pro_idx
     )
-    AND m.member_idx != #{param1}
 ORDER BY RAND()
-LIMIT 10
+LIMIT 10;
+</select>
+
+<!-- 랜덤매칭 쿼리(자신의 pro_idx 는 제외하며 동주소가 같고, 
+			제재여부=N,탈퇴여부=N 이고 성향이 4개 모두 같을 경우 select) -->
+<!-- 수정된 matchingList 쿼리 -->
+<select id="matchingList" resultType="com.one.mat.member.dto.MatchAllDTO">
+	SELECT
+	    m.member_gender, 
+	    m.member_dongAddr, 
+	    p.pro_dogName,   
+	    p.pro_dogAge,    
+	    p.pro_dogGender,  
+	    p.pro_dogDesc,   
+	    p.pro_idx, 
+	    (
+	        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR '/')
+	        FROM `char` AS c
+	        JOIN `chartype` AS ct ON c.charType_code = ct.charType_code
+	        WHERE c.pro_idx = p.pro_idx
+	    ) AS characteristics,
+	    (
+	        SELECT photo_id
+	        FROM photo ph
+	        WHERE ph.photo_idfNum = p.pro_idx
+	            AND ph.photo_type = 4
+	        ORDER BY ph.photo_id
+	        LIMIT 1
+	    ) AS min_photo_id,
+	    (
+	        SELECT photo_fileName
+	        FROM photo ph
+	        WHERE ph.photo_idfNum = p.pro_idx
+	            AND ph.photo_type = 4
+	            AND ph.photo_id = (
+	                SELECT MIN(ph2.photo_id)
+	                FROM photo ph2
+	                WHERE ph2.photo_idfNum = p.pro_idx
+	                AND ph2.photo_type = 4
+	            )
+	        LIMIT 1
+	    ) AS min_photo_fileName
+	FROM member AS m
+	INNER JOIN pro AS p ON m.member_idx = p.member_idx
+	WHERE m.member_dongAddr = (SELECT member_dongAddr FROM member WHERE member_idx = #{param1}) 
+	    AND m.member_quit = 'N'
+	    AND m.member_loginLock = 'N'
+	    AND p.pro_idx NOT IN (SELECT pro_idx FROM pro WHERE member_idx = #{param1}) 
+	    AND p.pro_idx IN (
+	        SELECT c.pro_idx
+	        FROM `char` AS c
+	        WHERE c.charType_code IN (
+	            SELECT charType_code
+	            FROM `char`
+	            WHERE pro_idx = #{param2}
+	        )
+	        GROUP BY c.pro_idx
+	        HAVING COUNT(DISTINCT c.charType_code) = 4
+	    )
+	    AND m.member_idx != #{param1}
+	ORDER BY RAND()
+	LIMIT 10;
 </select>
 
 <!-- 4가지의 성향 모두 일치하는 성향들을 가져오는 쿼리 -->
@@ -109,9 +150,9 @@ where openType_code=2 and p.pro_idx=#{pro_Idx}
 </select>
 
 <select id="photoList" resultType = "com.one.mat.member.dto.PhotoDTO">
-SELECT pt.photo_id, pt.photo_type, pt.photo_idfNum, pt.photo_fileName, pt.photo_uploadDate
-FROM pro p 
-INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_Idx}
+	SELECT pt.photo_id, pt.photo_type, pt.photo_idfNum, pt.photo_fileName, pt.photo_uploadDate
+	FROM pro p 
+	INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_Idx}
 </select>
 
 <!-- 매칭요청 보내기 쿼리문 -->
@@ -125,21 +166,21 @@ VALUES (#{param1}, #{param2}, 1, '님에게서 새로운 매칭 요청이 들어
 </insert>
 <!-- 프로필 상세보기 쿼리문 -->
 <select id="memberDetailListGO" resultType="map">
-SELECT
-    p.pro_dogName,
-    p.pro_dogAge,
-    p.pro_dogGender,
-    p.pro_dogDesc,
-    p.pro_dogScore,
-    m.member_gender,
-    m.member_dongAddr,
-    m.member_nickName,
-    bt.breedType
-FROM pro AS p
-JOIN member AS m ON p.member_idx = m.member_idx
-LEFT JOIN breed AS b ON p.pro_idx = b.pro_idx
-LEFT JOIN breedtype AS bt ON b.breedType_code = bt.breedType_code
-WHERE p.pro_idx = #{param1};
+	SELECT
+	    p.pro_dogName,
+	    p.pro_dogAge,
+	    p.pro_dogGender,
+	    p.pro_dogDesc,
+	    p.pro_dogScore,
+	    m.member_gender,
+	    m.member_dongAddr,
+	    m.member_nickName,
+	    bt.breedType
+	FROM pro AS p
+	JOIN member AS m ON p.member_idx = m.member_idx
+	LEFT JOIN breed AS b ON p.pro_idx = b.pro_idx
+	LEFT JOIN breedtype AS bt ON b.breedType_code = bt.breedType_code
+	WHERE p.pro_idx = #{param1};
 </select>
 
 </mapper>

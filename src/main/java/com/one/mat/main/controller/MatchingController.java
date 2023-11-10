@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.one.mat.main.service.MatchingService;
+import com.one.mat.member.dto.MatchAllDTO;
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
@@ -32,22 +33,6 @@ public class MatchingController {
 		return "home";
 	}
 	
-// member_idx, pro_idx 가져오기 예제
-	
-//	MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-//	int member_idx = dto.getMember_idx();
-//	logger.info("member_idx : "+member_idx);
-//
-// 	    if (dto != null) {
-// 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-// 			for (ProfileDTO profileDTO : myProfile) {
-// 				 if(profileDTO.getPro_rep().equals("Y")) {
-//	 			    int pro_idx = profileDTO.getPro_idx();
-//	 			    logger.info("pro_idx : "+pro_idx);
-//	 				 }
-// 			}
-// 		}
-	
 	// 세션 체크(로그인, 비로그인 다르게) (완료)
 	// 리스트 10개까지 보여주고 페이징처리로 다음 리스트 보여주기
 	// 리스트 자정을 기준으로 리셋
@@ -56,89 +41,37 @@ public class MatchingController {
 	// 자신의 동주소를 기준으로 성향이 4,3,2,1 개가 일치하는 순으로 리스트 나열 (완료)
 	// 동주소, 성별, 견name, 개char, 소개글, 사진 (완료)
 	// 성향, 개age,개gender 비공개  리스트는 따로 가져와야함
+	
 	@RequestMapping(value = "/MatchingList.do")
 	@ResponseBody
 	public Map<String, Object> matchingListDo(Model model, HttpSession session) {
 		logger.info("MatchingList");
 		
 		Map<String, Object> map = new HashMap<>();
-		Map<String, Object> temp = new HashMap<>();
-		List<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
-		
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		
-			 // 로그인 했을때
-	 	    if (dto != null) {
-	 	   	int member_idx = dto.getMember_idx();
-	 			logger.info("member_idx : "+member_idx);
-	 			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-	 			List<Map<String, Object>> matchingList = new ArrayList<Map<String,Object>>();
-	 			List<Map<String, Object>> matchingListWithProfiles = new ArrayList<>();
-	 			
-	 			for (ProfileDTO profileDTO : myProfile) {
-	 				 if(profileDTO.getPro_rep().equals("Y")) {
-		 			    int pro_idx = profileDTO.getPro_idx();
-		 			    logger.info("pro_idx : "+pro_idx);
-		 			    
-		 			    matchingList = service.matchingList(member_idx, pro_idx);
-		 			    logger.info("matchingList="+ matchingList);
-		 			    temp.put("matchingList", matchingList);
-		 			    for (Map<String, Object> matchingListIndex : matchingList) {
-		 			   	logger.info("foreach map 꺼내오기 :"+matchingListIndex);
-		 			   	logger.info("pro_idx : "+matchingListIndex.get("pro_idx"));
-		 			   	// JSON 으로 넘어온 "pro_idx" 의 value 값을 정수로 변환하기
-		 			   	// Object 타입을 형변환 하게 되면 null 값인지 체크해야함
-		 			   	Object obj_pro_idx = matchingListIndex.get("pro_idx");
-		 			      if (obj_pro_idx != null) {
-		 			          try {
-		 			              int pro_Idx = Integer.parseInt(obj_pro_idx.toString());
-		 			              logger.info("정수로 변환한 pro_Idx: " + pro_Idx);
-		 			              // 정수로 변환한 proIdx를 사용하여 작업 수행
-		 			              myProfileList = service.charOpenList(pro_Idx);
-		 			              logger.info("myProfileList 값 :"+myProfileList);
-		 			              temp.put("myProfileList", myProfileList);
-		 			              matchingListWithProfiles.add(temp);
-		 			          } catch (NumberFormatException e) {
-		 			              logger.error("pro_idx를 정수로 변환할 수 없습니다.");
-		 			          }
-		 			      }
-		 			}
-	 			}
-	 			logger.info("매칭 결과 map : "+matchingListWithProfiles);
-	 			map.put("matchingListWithProfiles",matchingListWithProfiles);
-	 			logger.info("map!!! : " +map);
-	 		}
-	 	 }
-	 	    // 비로그인 일때
-	 	    else {
-	 	   	List<Map<String, Object>> matchingListWithProfiles = new ArrayList<>();
-	 			List<Map<String, Object>> unloginedMatchingList = new ArrayList<Map<String,Object>>();
-	 			unloginedMatchingList = service.unloginedMatchingList();
-			   logger.info("unloginedMatchingList="+ unloginedMatchingList);
-			   temp.put("matchingList", unloginedMatchingList);
-			   map.putAll(temp);
-			   for (Map<String, Object> unloginedMatchingListIndex : unloginedMatchingList) {
- 			   	logger.info("foreach map 꺼내오기 :"+unloginedMatchingListIndex);
- 			   	logger.info("pro_idx : "+unloginedMatchingListIndex.get("pro_idx"));
- 			   	Object obj_pro_idx = unloginedMatchingListIndex.get("pro_idx");
- 			      if (obj_pro_idx != null) {
- 			          try {
- 			              int pro_Idx = Integer.parseInt(obj_pro_idx.toString());
- 			              logger.info("정수로 변환한 pro_Idx: " + pro_Idx);
- 			              // 정수로 변환한 proIdx를 사용하여 작업 수행
- 			              myProfileList = service.charOpenList(pro_Idx);
- 			              logger.info("myProfileList 값 :"+myProfileList);
- 			              temp.put("myProfileList", myProfileList);
- 			              matchingListWithProfiles.add(temp);
- 			              map.put("matchingListWithProfiles",matchingListWithProfiles);
- 			          } catch (NumberFormatException e) {
- 			              logger.error("pro_idx를 정수로 변환할 수 없습니다.");
- 			          }
- 			      }
- 			}
-	 	}
-	    return map;    
+		// 로그인 했을때
+		if (dto != null) {
+		int member_idx = dto.getMember_idx();
+			logger.info("member_idx : "+member_idx);
+			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
+			
+			for (ProfileDTO profileDTO : myProfile) {
+				 if(profileDTO.getPro_rep().equals("Y")) {
+				    int pro_idx = profileDTO.getPro_idx();
+				    logger.info("pro_idx : "+pro_idx);
+				    
+				    ArrayList<MatchAllDTO> list = service.matchingList(member_idx, pro_idx);
+				    map.put("list", list);
+				}
+			}
+		} else {
+		    ArrayList<MatchAllDTO> list = service.unloginedMatchingList();
+		    map.put("list", list);
+		}
+		return map;    
 	}
+	
 	
 	// 매칭보내기 요청 /HomeSend.do
 	@RequestMapping(value="/HomeSend.do")
