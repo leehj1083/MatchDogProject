@@ -3,6 +3,8 @@ package com.one.mat.member.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +71,8 @@ public class MemberService {
 	public String informId(MemberDTO dto) {
 		return dao.informId(dto);
 	}
+
+	
 	
 
 }

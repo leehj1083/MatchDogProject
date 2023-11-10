@@ -52,6 +52,30 @@ a, a:link, a:visited, a:active, a:hover {
 	background-color: var(--light);
 }
 
+table, th, td{
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.salesGraph{
+	height : 200px;
+	width : 200px;
+}
+
+.subsStatistics{
+	margin-top:50px;
+	display:flex;
+	width:800px;
+	flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.dataTable{
+	margin-left:40px;
+}
+
 
 
 </style>
@@ -99,79 +123,213 @@ a, a:link, a:visited, a:active, a:hover {
 		        </a>
 			</div>
 		</div>
-		<div class="content">
-		
+		<div class="content">		
 		<h3>DASHBOARD</h3><hr/>
 			<div class="visitorStatistics">
-				<canvas id="myChart"></canvas>
+				<span id="today" name="today"></span>
+				<select id="selection" name="selection">
+					<option value="day">일</option>
+					<option value="week">주</option>
+					<option value="month">월</option>
+				</select>
+				<span>별 방문자 통계</span>
+				<span id="todayCount"></span>
+				<span id="totalCount"></span>
+				<div class="visitDataGraph">
+					<canvas id="visitorGraph"></canvas>
+				</div>
 			</div>
 			<div class="subsStatistics">
 				<div class="dataGraph">
-					<canvas></canvas>
+					<canvas id="salesGraph" width="400px"></canvas>
 				</div>
 				<div class="dataTable">
 					<table>
 						<tr>
+							<select id="month" name="month">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+							</select>
+							<span>월 통계</span>
+						</tr>
+						<tr>
 							<th>총 구독자수</th>
-							<td></td>
+							<td id="totalSubs"></td>
 						</tr>
 						<tr>
 							<th>총 매출액</th>
-							<td></td>
+							<td id="totalSales"></td>
 						</tr>
 						<tr>
-							<th><span id="month"></span>월 신규 구독자수</th>
-							<td></td>
+							<th>이달의 신규 구독자수</th>
+							<td id="monthlySubs"></td>
 						</tr>
 						<tr>
-							<th><span id="month"></span>월 매출액</th>
-							<td></td>
+							<th>이달의 매출액</th>
+							<td id="monthlySales"></td>
 						</tr>
 					</table>
 				</div>
 			</div>
-				
 		</div>
 	</div>
 </div>
 </body>
-
 <script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+
+/* 현재날짜 표기 */
+
+function getDate(){
+	var today = new Date();
+	var year = today.getFullYear();
+	var month = (today.getMonth()+1).toString().padStart(2,'0');
+	var day = today.getDate().toString().padStart(2,'0');
+	var dateString = year + '-' + month + '-' + day;
+	return dateString;
+}
+
+
+
+$('#today').html(getDate());
+var today = getDate();
+var selection = $('#selection').val();
+console.log("선택분류="+selection);
+
+/* 방문자 통계 관련 ajax 및 그래프 */
+visitorStatistic(selection, today);
+
+function visitorStatistic(selection, today){	
+	
+	$.ajax({
+		type:'get',
+		url:'visitorStatistics.do',
+		data : {'selection':selection,
+					'today':today},
+		dataType:'JSON',
+		success : function(data){
+			console.log(data);		
+			$('#todayCount').html(data.todayCount +' 명');
+			$('#totalCount').html(data.totalCount +' 명');	
+		},
+		error : function(e){
+			console.log(e);
+		}
+	});	
+	
+}
+
+$('#selection').on('change',function(){
+	var selection = $('#dayWeekMonth').val();
+	var visitorGraph = $('#visitorGraph');
+	console.log("선택분류="+selection);
+	resetSalesCanvas();
+	salesStatistic(month);
+})
+
+var resetVisitorCanvas = function(){
+	if(visitorGraph){
+		visitorGraph.destroy();
+	}	
+	$('#visitorGraph').remove();
+	$('.visitDataGraph').append('<canvas id="visitorGraph" width="400px"></canvas>');
+}
+
+
+/* 월 선택(현재 날짜의 월이 선택되어있게 하기) */
+var date = new Date();
+var currYear = date.getFullYear();
+var currMonth = date.getMonth();
+$('#month').val(currMonth+1).prop("selected", true);
+
+
+/* 매출 통계 관련 ajax 및 그래프 부 */
+
+salesStatistic(month);
+
+var salesGraph;
+
+function salesStatistic(month){
+	var month = $('#month').val();
+	console.log("해당 월="+month);
+
+		$.ajax({
+			type:'get',
+			url:'subsStatistics.do',
+			data : {'month':month},
+			dataType:'JSON',
+			success : function(data){
+				console.log(data);		
+				$('#totalSubs').html(data.totalSubscriber +' 명');
+				$('#totalSales').html(data.totalSales +' 원');
+				$('#monthlySubs').html(data.monthlySubscriber +' 명');
+				$('#monthlySales').html(data.monthlySales +' 원');	
+				drawSalesStatistic(data);
+			},
+			error : function(e){
+				console.log(e);
+			}		
+		});		
+}
+
+function drawSalesStatistic(obj){
+	/* 그래프 관련 */
+	var canvas = document.getElementById('salesGraph');
+	var ctx =canvas.getContext('2d');
+	var salesGraph= new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: ['총 매출액', '이달의 매출액'],
+	        datasets: [{
+	            label: '매칭하시개 매출 추이(총 매출액, 월 매출액)',
+	            data: [obj.totalSales, obj.monthlySales],
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            y: {
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+}
+
+$('#month').on('change',function(){
+	var month = $('#month').val();
+	var salesGraph = $('#salesGraph');
+	console.log("해당 월="+month);
+	resetCanvas();
+	salesStatistic(month);
+})
+
+var resetSalesCanvas = function(){
+	if(salesGraph){
+		salesGraph.destroy();
+	}	
+	$('#salesGraph').remove();
+	$('.dataGraph').append('<canvas id="salesGraph" width="400px"></canvas>');
+}
+
+
 
 
 </script>
