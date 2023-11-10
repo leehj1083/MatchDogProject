@@ -22,8 +22,29 @@ public class ProfileDTO {
 	private ArrayList<ProfileDTO> charTypeList;
 	private ArrayList<PhotoDTO> photoList;
 	private String pro_dogAgeOpen;
+	public int getBoard_id() {
+		return board_id;
+	}
+	public void setBoard_id(int board_id) {
+		this.board_id = board_id;
+	}
+	public int getReply_id() {
+		return reply_id;
+	}
+	public void setReply_id(int reply_id) {
+		this.reply_id = reply_id;
+	}
+	public int getChat_idx() {
+		return chat_idx;
+	}
+	public void setChat_idx(int chat_idx) {
+		this.chat_idx = chat_idx;
+	}
 	private String pro_dogGenderOpen;
 	private String pro_quit;
+	private int board_id;
+	private int reply_id;
+	private int chat_idx;
 	
 	
 	public String getBreedType_code() {

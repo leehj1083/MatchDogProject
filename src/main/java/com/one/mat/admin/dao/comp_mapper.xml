@@ -181,11 +181,11 @@ LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
     SELECT
         comp.*,
         photo.photo_fileName,
-        compHistory.comp_handleDate,
+        comphistory.comp_handleDate,
         (SELECT member_id FROM member WHERE member_idx = #{member_idx}) as member_id
     FROM comp
-    LEFT JOIN photo ON comp.comp_idx = photo.photo_idfNum
-    LEFT JOIN compHistory ON comp.comp_idx = compHistory.comp_idx
+    LEFT JOIN photo ON comp.comp_idx = photo.photo_idfNum AND photo.photo_type = 3
+    LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
     WHERE comp.comp_idx = #{comp_idx}
 </select>
 
@@ -202,6 +202,40 @@ LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
         WHERE c.comp_idx = #{comp_idx}
     </select>
 	
+<insert id="loginLock" parameterType="com.one.mat.admin.dto.CompDTO">
+INSERT INTO loginlock (member_idx, compHistory_idx, loginLock_sDate, loginLock_eDate)
+VALUES (
+    (SELECT comp_memberIdx FROM comp WHERE comp_idx = #{comp_idx}),
+    (SELECT compHistory_idx FROM comphistory WHERE comp_idx = #{comp_idx}),
+    #{loginLock_sDate},
+    #{loginLock_eDate}
+);
+</insert>
+<update id="proRegistUpdate" parameterType="com.one.mat.admin.dto.CompDTO">
+UPDATE comphistory
+SET admin_memberIdx = #{admin_memberIdx},
+    comp_handleState = #{comp_handleState},
+    comp_blindStete = #{comp_blindStete},
+    member_loginLock = #{member_loginLock},
+    comp_handleDate = NOW(),
+    comp_handleContent = #{comp_handleContent}
+WHERE comp_idx = #{comp_idx}
+</update>
 
+<select id="compHistoryrec" resultType="com.one.mat.admin.dto.CompDTO">
+SELECT ll.*, ch.member_loginLock,ch.comp_handleContent
+FROM loginlock ll
+JOIN comphistory ch ON ll.compHistory_idx = ch.compHistory_idx
+WHERE ch.comp_idx = #{comp_idx}
+ORDER BY ll.loginLock_id  DESC 
+LIMIT 1
+
+</select>
+<select id="CompList" resultType="com.one.mat.admin.dto.CompDTO">
+        SELECT ll.*, ch.comp_handleContent
+        FROM loginlock ll
+        LEFT JOIN comphistory ch ON ll.compHistory_idx = ch.compHistory_idx
+        WHERE ll.member_idx = #{compIdx}
+    </select>
 
 </mapper>

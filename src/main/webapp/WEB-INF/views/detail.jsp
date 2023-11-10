@@ -53,7 +53,7 @@
 				    <input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/>
 				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
 				</c:if>
-				<input type="button" onclick="location.href='./compBoard?board_id=${board.board_id}'" value="신고"/>
+				<input type="button" onclick="location.href='./boardcompTypeList.do?board_id=${board.board_id}'" value="신고"/>
 			</th>
 		</tr>
 	</table>
@@ -195,7 +195,7 @@ function drawList(obj) {
 }
 
 function reportReply(reply_id) {
-    var url = './compReply?reply_id=' + reply_id;
+    var url = './commentcompTypeList.do?reply_id=' + reply_id;
     location.href = url;
 }
 

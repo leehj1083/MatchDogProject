@@ -36,6 +36,13 @@ public interface CompDAO {
 
 	String reMemerIdByCompId(int comp_idx);
 
+	void loginLock(CompDTO dto);
+	void proRegistUpdate(CompDTO dto);
+
+	CompDTO compHistoryrec(CompDTO compDTO);
+
+	ArrayList<CompDTO> CompList(int compIdx);
+
 	
 
 
