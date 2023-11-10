@@ -19,4 +19,16 @@ from substype s
 join auth a on s.subsType_code=a.subsType_code where s.subsType_code = #{param1}
  </select>
 
+
+<select id="authCodeListDo" resultType="com.one.mat.admin.dto.AuthDTO">
+SELECT * from authtype
+</select>
+
+<update id="authDetailModUpdateDo" parameterType="map">
+UPDATE substype st
+JOIN auth a ON st.subsType_code = a.subsType_code
+SET st.subs_desc = #{subs_desc}
+WHERE st.subsType_code = #{subsType_code}
+</update>
+
 </mapper>  

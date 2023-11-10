@@ -16,7 +16,7 @@ where m.member_idx = #{param1}
 
 <insert id="plusHistory">
 INSERT INTO subshistory
-(member_idx, subsType_code, subHistory_state, subsHistory_start, subsHistory_exp)
+(member_idx, subsType_code, subsHistory_state, subsHistory_start, subsHistory_exp)
 SELECT member_idx, 2, 'Y', #{param2}, #{param3}
 FROM member
 WHERE member_idx = #{param1}
@@ -35,7 +35,7 @@ where m.member_idx = #{param1}
 
 <insert id="premiumHistory">
 INSERT INTO subshistory
-(member_idx, subsType_code, subHistory_state, subsHistory_start, subsHistory_exp)
+(member_idx, subsType_code, subsHistory_state, subsHistory_start, subsHistory_exp)
 SELECT member_idx, 3, 'Y', #{param2}, #{param3}
 FROM member
 WHERE member_idx = #{param1};

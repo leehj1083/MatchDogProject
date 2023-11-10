@@ -98,12 +98,32 @@ th:first-child, td:first-child {
         border: 1px solid #1abc9c;
         cursor: pointer;
     }
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
 
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
 
 </style>
 </head>
 <body>	
-<div id="wrap">
+
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
@@ -145,7 +165,9 @@ th:first-child, td:first-child {
 			</div>
 		</div>
 		<div class="content">
-		<h2>권한 관리</h2><hr/>
+		<h2 style="font-family:pretendard">권한 관리</h2><hr/>
+		<form action="authDetailMod.go" method="post">
+		${authDetail.subsType_code}
 			<table>
 					<tr>
 						<th>권한명</th>
@@ -153,24 +175,67 @@ th:first-child, td:first-child {
 					</tr>
 					<tr>		
 						<th>설명</th>
-						<td>${authDetail.subs_desc}</td>
+						<td><input type="text" name="subs_desc" value="${authDetail.subs_desc}" style="width: 90%;"/></td>
 					</tr>
 					<tr>
 						<th>권한코드</th>
-						<td><c:forEach items="${authCodes}" var="authCodes" varStatus="loop">
-						${authCodes}${not loop.last ? ',' : ''}</c:forEach></td>
+<td style="position: relative;">${selectedValues}
+    <c:forEach items="${authCodes}" var="authCodes" varStatus="loop">
+        ${authCodes}${not loop.last ? ',' : ''}
+    </c:forEach>
+    <button type="button" id="openCodeModal" class="sButton" style="position: absolute; right: 10;">코드검색</button>
+    <div id="authCodesDisplay"></div>
+</td>
 					</tr>
 					
 			</table>
-			${authDetail.subsType_code}
+			</form>
 			<div class="button-container">
-    <a href="./authList.do" class="button-gray">뒤로가기</a>
-    <a href="./authDetailMod.go?subsType_Code=${authDetail.subsType_code}" class="button-green">수정하기</a>
-</div>
+				<a href="javascript:history.back()" class="button-gray">뒤로가기</a>
+   				 <a href="./authList.do" class="button-green">수정완료</a>
+			</div>
 		</div>
-	</div>
+		</div>
+
+	<!-- 모달 내용을 표시할 영역 -->
+<div id="codeModal" class="modal">
+    <div class="modal-content">
+        <span id="closeCodeModal" style="float: right; cursor: pointer;">&times;</span>
+        <div class="codeModalContent"></div>
+    </div>
 </div>
 </body>
 <script>
+function receiveSelectedValues(selectedValues) {
+    // 선택된 값을 이용하여 원하는 작업 수행
+    console.log(selectedValues);
+
+    // 여기서 선택된 값을 이용하여 원하는 작업을 수행
+    // 예: 선택된 값을 문자열로 변환하여 표시
+    var selectedString = selectedValues.join(', ');
+    $("#authCodesDisplay").text(selectedString);
+};
+
+$('#openCodeModal').on('click', function(){
+    var codeModalContent = $('.codeModalContent');
+    console.log('오픈코드');
+    $('#codeModal').css("display", "block");
+    
+    // Ajax 요청을 통해 /authCodeList.do 페이지를 불러와서 모달에 표시
+  $.get("./authCodeList.do", function(data) {
+        codeModalContent.html(data);
+        
+    });
+    
+
+}); 
+
+$('#closeCodeModal').on('click', function(){
+	console.log('모달 닫음');
+	$('#codeModal').css("display", "none");
+});
+
+
+
 </script>
 </html>
