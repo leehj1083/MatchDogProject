@@ -51,11 +51,6 @@
 	.btn_gnb.admin:hover{
 		background-color: var(--light);
 	}
-	.content {
-	        margin-left: 260px;
-	        padding: 20px;
-	        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
-	    }
 	    #modalContent{
 	    	width: 500px;
 	    	height: 500px;
