@@ -10,13 +10,14 @@
 </head>
 <body>
 <input type="button" onclick="location.href='./myPageList.do'" value="마이페이지" />
+<input type="button" onclick="location.href='./recvMatchingList.go'" value="매칭리스트" />
+<input type="button" onclick="location.href='./test.go'" value="사진모달창" />
 <input type="button" onclick="location.href='./chattingList.go'" value="채팅방" />
 <input type="button" onclick="location.href='./HomeMatchingList.do'" value="홈으로" />
 <input type="button" onclick="location.href='./myProfileList.do'" value="마이프로필리스트" />
 <input type="button" onclick="location.href='./showChar'" value="성향팝업" />
 <input type="button" onclick="location.href='./regProfile'" value="마이프로필" />
 <input type="button" onclick="location.href='./board'" value="게시판" />
-<input type="button" onclick="location.href='./recvMatchingList.go'" value="매칭리스트" />
 
 <%-- <c:url value='/resources/img/no_image.png'/> --%>
 
