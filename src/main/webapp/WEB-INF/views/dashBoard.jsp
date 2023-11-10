@@ -318,7 +318,7 @@ $('#month').on('change',function(){
 	var month = $('#month').val();
 	var salesGraph = $('#salesGraph');
 	console.log("해당 월="+month);
-	resetCanvas();
+	resetSalesCanvas();
 	salesStatistic(month);
 })
 
