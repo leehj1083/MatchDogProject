@@ -66,6 +66,7 @@ border-right: 1px solid black;
 	</div>
 	<form class="card" action="proRegist.do" method="post"
 		id="compForm">
+		<input type="hidden" name="comp_idx" value="${cpd.comp_idx}">
 		<div class="row1">
 			<p>신고번호</p>
 			<p>${cpd.comp_idx}</p>
@@ -144,9 +145,15 @@ border-right: 1px solid black;
 	<div class="row11">
 		<p>신고 처리 히스토리</p>
 		</div>
-		<div class = "row12"style="overflow:scroll; width:70%; height:150px;">
-		<p></p>
-		</div>
+		<c:if test="${not empty cpd.comp_handleDate}">
+    <div class="row12" style="overflow:scroll; width:70%; height:150px;">
+        (가장최근에 처리한 히스토리 내용입니다.)<br>
+        신고번호:${cpd.comp_idx}/신고코드:${cpd.compType_code}/신고분류:
+        ${cpd.comp_loc}/게시물번호:${cpd.comp_idfNum}/신고자 ID:${mem}/
+        피신고자 ID:${pem}/로그인 제제여부:${his.member_loginLock}/로그인 제한 시작일:${his.loginLock_sDate}/
+        로그인 제한 종료일:${his.loginLock_eDate},관리자코멘트:${his.comp_handleContent}
+    </div>
+</c:if>
 
 	
 </body>
@@ -184,18 +191,33 @@ function getCompLoc(comp_loc) {
     }
 }
 
-// JavaScript에서 JSP 변수를 사용
-var compTypeCode = "${cpd.compType_code}";
-var compLoc = "${cpd.comp_loc}"
+document.addEventListener("DOMContentLoaded", function() {
+    // DOM이 완전히 로드된 후 실행되도록 변경
 
-// compTypeCode 값을 getCompType 함수로 변환
-var compTypeValue = getCompType(compTypeCode);
-var compLocValue = getCompLoc(compLoc);
+    // JavaScript에서 JSP 변수를 사용
+    var compTypeCode = "${cpd.compType_code}";
+    var compLoc = "${cpd.comp_loc}";
 
-// 변환된 값을 HTML 엘리먼트에 적용
-document.getElementById("compTypeValue").textContent = compTypeValue;
-document.getElementById("compLocValue").textContent = compLocValue;
+    // compTypeCode 값을 getCompType 함수로 변환
+    var compTypeValue = getCompType(compTypeCode);
+    var compLocValue = getCompLoc(compLoc);
 
+    // 변환된 값을 HTML 엘리먼트에 적용
+    document.getElementById("compTypeValue").textContent = compTypeValue;
+    document.getElementById("compLocValue").textContent = compLocValue;
+
+    // 처리 등록하기 버튼 클릭 시 이벤트 핸들러
+    document.querySelector('.buttons button').addEventListener('click', function(event) {
+        // 관리자 코멘트 값 가져오기
+        var compHandleContent = document.querySelector('input[name="comp_handleContent"]').value.trim();
+
+        // 값이 비어있을 경우 alert 띄우고 이벤트 취소
+        if (compHandleContent === "") {
+            alert("관리자 코멘트를 입력해주세요.");
+            event.preventDefault(); // 이벤트 취소
+        }
+    });
+});
 
 </script>
 

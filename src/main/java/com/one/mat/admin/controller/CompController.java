@@ -87,8 +87,13 @@ public class CompController {
 	}
 
 	@RequestMapping(value = "/sancHistory.go")
-	public String sancHistory() {
+	public String sancHistory(@RequestParam("comp_idx") int compIdx,Model model,HttpSession session) {
 
+		logger.info("compIdx : "+compIdx);
+		ArrayList<CompDTO> compList = service.CompList(compIdx);
+		model.addAttribute("compList",compList);
+		logger.info("compList : "+compList);
+		
 		return "sancHistory";
 	}
 
@@ -142,12 +147,31 @@ public class CompController {
 		return "compDetail";
 	}
 	
+
 	@RequestMapping("/proRegist.do")
-	public String proRegist(@RequestParam Map<String, String> params,HttpSession session,@RequestParam("comp_idx") int compIdx) {
+	public String proRegist(@RequestParam Map<String, String> params,HttpSession session,@RequestParam(value = "loginLock_sDate", required = false) String loginLock_sDate,
+			@RequestParam(value = "loginLock_eDate", required = false) String loginLock_eDate,
+			@RequestParam(value = "member_loginLock", required = false) String member_loginLock
+			
+			
+			) {
+		
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
+		    int memberIdx = memberDTO.getMember_idx();
+		    logger.info("memberIdx : "+memberIdx);
+		    params.put("memberIdx", String.valueOf(memberIdx));
+		    
+		logger.info("로그인 여부 : " +member_loginLock);
 		
 		
 		logger.info("parmas : "+params);
-		
+		if ("Y".equals(member_loginLock)&&loginLock_sDate != null && loginLock_eDate != null) {
+	        service.loginLock(params);
+	        service.proRegistUpdate(params);
+			
+	    }else {
+	   	service.proRegistUpdate(params);
+    }
 		
 		
 		

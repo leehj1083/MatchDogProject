@@ -197,7 +197,11 @@ public class RegProfileController {
 		return "chattingcomp";
 	}
 	@RequestMapping("/commentcompTypeList.do")
-	public String commentcompTypeList(Model model) {
+	public String commentcompTypeList(@RequestParam(name = "reply_id", required = false) String replyId,Model model,HttpSession session) {
+		
+		session.setAttribute("replyId", replyId);
+		
+		logger.info("replyId : "+replyId);
 		
 		ArrayList<CompDTO> compList = service.compList();
 		model.addAttribute("compList", compList);
@@ -206,7 +210,10 @@ public class RegProfileController {
 		return "commentcomp";
 	}
 	@RequestMapping("/boardcompTypeList.do")
-	public String boardcompTypeList(Model model) {
+	public String boardcompTypeList(@RequestParam(name = "board_id", required = false) String boardId,Model model,HttpSession session) {
+		
+		session.setAttribute("boardId", boardId);
+		 logger.info("board_id: " + boardId);
 		
 		ArrayList<CompDTO> compList = service.compList();
 		model.addAttribute("compList", compList);
@@ -252,9 +259,17 @@ public class RegProfileController {
 		String currentRequestURI = request.getRequestURI();
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
+		    String boardIdStr = (String) session.getAttribute("boardId");
+
+		 // 문자열을 정수로 변환
+		 int boardId = Integer.parseInt(boardIdStr);
+		    
+		    logger.info("boardId : "+boardId);
 		    logger.info("Member Index: " + memberIdx);
+		    
 		
 		params.put("memberIdx", String.valueOf(memberIdx));
+		params.put("boardId", String.valueOf(boardId));
 	    logger.info("params : " + params);
 	   
 	    
@@ -284,8 +299,14 @@ public class RegProfileController {
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
 		    int memberIdx = memberDTO.getMember_idx();
 		    logger.info("Member Index: " + memberIdx);
+		    
+		    String replyIdStr = (String) session.getAttribute("replyId");
+
+			
+			 int replyId = Integer.parseInt(replyIdStr);
 		
 		params.put("memberIdx", String.valueOf(memberIdx));
+		params.put("replyId", String.valueOf(replyId));
 	    logger.info("params : " + params);
 	   
 	    
