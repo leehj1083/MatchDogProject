@@ -76,8 +76,6 @@ table, th, td{
 	margin-left:40px;
 }
 
-
-
 </style>
 </head>
 <body>
@@ -133,10 +131,10 @@ table, th, td{
 					<option value="month">월</option>
 				</select>
 				<span>별 방문자 통계</span>
-				<span id="todayCount"></span>
-				<span id="totalCount"></span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 방문자 수 : <span id="todayCount"></span>
+				&nbsp;전체 방문자 수 : <span id="totalCount"></span>
 				<div class="visitDataGraph">
-					<canvas id="visitorGraph"></canvas>
+					<canvas id="visitorGraph" width="800px" height="400px"></canvas>
 				</div>
 			</div>
 			<div class="subsStatistics">
@@ -210,6 +208,9 @@ visitorStatistic(selection, today);
 
 function visitorStatistic(selection, today){	
 	
+	var timeList = [];
+	var countList = [];
+	
 	$.ajax({
 		type:'get',
 		url:'visitorStatistics.do',
@@ -241,7 +242,7 @@ var resetVisitorCanvas = function(){
 		visitorGraph.destroy();
 	}	
 	$('#visitorGraph').remove();
-	$('.visitDataGraph').append('<canvas id="visitorGraph" width="400px"></canvas>');
+	$('.visitDataGraph').append('<canvas id="visitorGraph" width="800px" height="400px"></canvas>');
 }
 
 
