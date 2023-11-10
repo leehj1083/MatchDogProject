@@ -75,6 +75,9 @@
 	color: var(--grey);
 	font-weight: 300;
 	font-size: 13px;
+	margin-top: 2px;
+	margin-bottom:12px;
+	width:116px;
 }
 
 .you_chat{
@@ -82,6 +85,9 @@
 	color: var(--grey);
 	font-weight: 300;
 	font-size: 13px;
+	margin-top: 2px;
+	margin-bottom:12px;
+	width:116px;
 }
 
 
@@ -235,6 +241,9 @@
 			});
 		}else{
 			$('.chatComp').css("color", "var(--red)");
+			$('.chatComp').on('click',function(){
+				location.href="./chattcompTypeList.do?comp_reportIdx="+obj.toFrom.pro_you + "&comp_idfNum=" + chat_idx;
+			});
 		}
 
 		if(obj.totalMsg.length == 0){
