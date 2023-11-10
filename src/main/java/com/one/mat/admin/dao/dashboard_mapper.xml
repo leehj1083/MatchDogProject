@@ -3,7 +3,70 @@
      "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
 >
 <mapper namespace="com.one.mat.admin.dao.DashBoardDAO">
-	<!-- <select id="getDailySales" resultType="com.one.mat.myPage.DTO.SubsDTO">
-		SELECT sum(s.substype_price) as  FROM substype s WHERE 
-	</select> -->
+	
+	<select id="getTotalSubscriber" resultType="int">
+		SELECT IFNULL(count(member_idx),0) from subshistory 
+			WHERE subsType_code = 2 OR subsType_code =3
+	</select>
+	
+	<select id="getMonthlySubscriber" resultType="int">
+		SELECT IFNULL(count(member_idx),0) FROM subshistory 
+			WHERE month(subsHistory_start)=#{param1}
+	</select>		
+	
+	<select id="getTotalSales" resultType="int">
+		SELECT sum(t.subsType_price) FROM substype t JOIN subshistory s2 
+			ON t.subsType_code = s2.subsType_code
+	</select>
+	
+	<select id="getMonthlySales" resultType="int">
+		SELECT IFNULL(sum(t.subsType_price),0) FROM substype t JOIN subshistory s2 
+			ON t.subsType_code = s2.subsType_code 
+   			WHERE month(subsHistory_start)=#{param1};
+	</select>
+	
+	<select id="getDailySales" resultType="int">
+		SELECT IFNULL(sum(t.subsType_price),0) from substype t JOIN subshistory s2 
+			ON t.subsType_code = s2.subsType_code 
+    		WHERE s2.subsHistory_start = curdate()
+	</select>
+	
+	<select id="selectVisitCount" parameterType="int" resultType="com.one.mat.admin.dto.VisitorDTO">
+		SELECT member_idx, visit_date FROM visitors 
+			WHERE member_idx = #{param1} AND DATE_FORMAT(visit_date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+	</select>
+	
+	<insert id="insertVisitCount" parameterType="int">
+		INSERT INTO visitors (member_idx, visit_date, visit_count) 
+			VALUES (#{param1}, NOW(), 1);
+	</insert>
+	
+	<update id="updateVisitCount" parameterType="int">
+		UPDATE visitors SET visit_count=visit_count+1 
+			WHERE member_idx=#{param1} AND DATE_FORMAT(visit_date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+	</update>
+	
+	<select id="getVisitTodayCount" resultType="int">
+		SELECT IFNULL(count(member_idx),0) FROM visitors WHERE #{param1} = DATE_FORMAT(visit_date, '%Y-%m-%d')
+	</select>
+	
+	<select id="getVisitTotalCount" resultType="int">
+		SELECT IFNULL(count(member_idx),0) FROM visitors 
+	</select>
+	
+ 	<!-- <select id="getWeekCount" resultType="com.one.mat.admin.dto.VisitorDTO">
+		SELECT IFNULL(count(member_idx),0) FROM visitors WHERE visit_date 
+			BETWEEN (#{param1} - interval 1week) AND #{param1}
+	</select>
+	
+	<select id="getSevenWeekCount" resultType="com.one.mat.admin.dto.VisitorDTO">
+		SELECT IFNULL(count(member_idx),0) FROM visitors WHERE visit_date 
+			BETWEEN (#{param1} - interval 1week) AND #{param1}
+	</select>
+	
+	<select id="getMonthCount" resultType="com.one.mat.admin.dto.VisitorDTO">
+		SELECT IFNULL(count(member_idx),0) FROM visitors WHERE visit_date 
+			BETWEEN (#{param1} - interval 1week) AND #{param1}
+	</select> --> 
+	
 </mapper>
