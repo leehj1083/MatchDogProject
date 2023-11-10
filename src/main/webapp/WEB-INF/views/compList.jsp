@@ -5,184 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<link rel="stylesheet" href="resources/css/home.css" type="text/css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<!-- pretendard 폰트 -->
-<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<!-- bootstrap : 디자인을 위한 프레임워크 -->
+<link
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>  
-
+<script
+	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!-- 페이징 처리를 위한 라이브러리 -->
+<script src="resources/js/jquery.twbsPagination.js"
+	type="text/javascript"></script>
 <style>
-a, a:link, a:visited, a:active, a:hover {
-		text-decoration: none;
-		color: var(--black);
-	}
-	
-	
-	/* 본인 페이지 것으로 변경하기  */
-	.btn_gnb .bi-house-door-fill, .btn_gnb.home{
-	    color: var(--white);
-	    background-color: var(--green);
-	}
-	
-	
-	/* 본인 페이지를 제외한 나머지 hover 적용 */
-	/* .btn_gnb:hover .bi-house-door-fill, */
-	.btn_gnb:hover .bi-chat-dots-fill,
-	.btn_gnb:hover .bi-gear-fill,
-	.btn_gnb:hover .bi-people-fill,
-	.btn_gnb:hover .bi-person-circle,
-	.btn_gnb:hover .bi-list-ul {
-	    background-color: var(--light);
-	}
-	
-	/* 본인 페이지를 제외한 나머지 hover 적용 */
-	/* .btn_gnb.home:hover, */
-	.btn_gnb.match:hover,
-	.btn_gnb.chatting:hover,	
-	.btn_gnb.board:hover,
-	.btn_gnb.myPage:hover,
-	.btn_gnb.admin:hover{
-		background-color: var(--light);
-	}
-	    #modalContent{
-	    	width: 500px;
-	    	height: 500px;
-	    	text-align: left; 
-	}
-
-	.sidebar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #255,255,255;
-        padding-top: 20px;
-    }
-
-    .sidebar h2 {
-        color: black;
-        text-align: center;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar a {
-        color: black;
-        text-decoration: none;
-    }
-
-    .content {
-        margin-left: 260px;
-        padding: 20px;
-        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
-    }
-    #modalContent{
-    	width: 500px;
-    	height: 500px;
-    	text-align: left; 
-    }
-
-.filebox .upload-name {
-    display: inline-block;
-    height: 40px;
-    padding: 0 10px;
-    vertical-align: middle;
-    border: 1px solid #dddddd;
-    width: 80px;
-    color: #999999;
-}
-
-.filebox label {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    vertical-align: middle;
-    background-color: #999999;
-    cursor: pointer;
-    width: 55px;
-    height: 10px;
-    margin-left: 10px;
-    font-size: small;
-}
-
-.filebox input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-}
-
-
-#imgtable {
-border: 1px solid black;
-}
-#imgtable td,tr{
-border: 1px solid black;
-}
-#imgtable td{
-width: 300px;
-height: 200px;
-}
-
-textarea style ="resize: both ;"> </textarea>.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 500px;
-	height: 500px;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.7);
-}
-
-.modal-content {
-	display: none;
-
-}
-
-.modal.active .modal-content {
-	display: block;
-	
-}
-
-.modal-content {
-	background-color: #fff;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 70%;
-}
-
-
-.close {
-	color: #888;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.close:hover {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-
 table, td, th {
 	border: 1px solid black;
 	border-collapse: collapse;
@@ -195,50 +29,6 @@ select {
 </style>
 </head>
 <body>
-<div id="wrap">
-	<div class="banner">
-		<div class="header">
-			<h1 class="logo">
-				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
-			</h1>
-			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
-				<a href="./logout.do"><span class="logout">로그아웃</span></a>
-			</div>
-		</div>
-	</div>
-	<div class="mainContainer">
-		<div class="side">
-			<div class="menu">
-				<a href="./HomeMatchingList.do" class="btn_gnb home">
-					<span class="bi bi-house-door-fill"></span>
-					<span>홈</span>
-				</a>
-		        <a href="./recvMatchingList.go" class="btn_gnb match">
-		        	<span class="bi bi-list-ul"></span>
-					<span>매칭리스트</span>
-		        </a>
-		        <a href="./chattingList.go" class="btn_gnb chatting">
-		        	<span class="bi bi-chat-dots-fill"></span>
-					<span>채팅</span>
-		        </a>
-		        <a href="./boardList.go" class="btn_gnb board">
-		        	<span class="bi bi-people-fill"></span>
-					<span>커뮤니티</span>
-		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
-		        	<span class="bi bi-person-circle"></span>
-					<span>마이페이지</span>
-		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
-	            	<span class="bi bi-gear-fill"></span>
-					<span>관리자페이지</span>
-	            </a>
-			</div>
-		</div>
-
-
-
 	<select id="pagePerNum">
 		<option value="5">5</option>
 		<option value="10">10</option>
