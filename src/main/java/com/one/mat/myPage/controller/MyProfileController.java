@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
@@ -74,11 +75,17 @@ public class MyProfileController {
 	@RequestMapping(value = "/myProfileModUpdate.do")
 	public String myProfileModUpdateDo(Model model, HttpSession session,
 			@RequestParam Map<String, String> params,
-			@RequestParam(value = "selectedCharTypesCode", required = false) String selectedCharTypesCode
+			@RequestParam(value = "selectedCharTypesCode", required = false) String selectedCharTypesCode,
+			// 세연 추가 코드
+			MultipartFile[] uploadFiles,
+            @RequestParam String[] dataIndex
 			) {
+		
+		
 		logger.info("선택한 코드들 :"+selectedCharTypesCode);
 		int pro_idx = Integer.parseInt(params.get("pro_idx"));
 		logger.info("pro_idx:"+pro_idx);
+		
 		if(params.get("charTypeCodes") != null ) {
 			
 			int charTypeCodes = Integer.parseInt(params.get("charTypeCodes"));	
@@ -138,6 +145,9 @@ public class MyProfileController {
 			/* service.MyProfileModList(pro_idx, model); */
 
 			service.myProfileModUpdateDo(params);
+			
+			// 세연 추가 코드
+			service.photoInsert(uploadFiles,pro_idx,dataIndex);
 			
 
 			page = "redirect:/myProfileList.do";
@@ -228,6 +238,23 @@ public HashMap<String, Object> myProfileRepDo(HttpSession session,
 		return result;
 	}
 
+	
+	
+	// 세연 코드 추가
+	@RequestMapping(value="/photoUpload.go")
+	public String photoUploadGo() {
+		return "photoMod";
+	}
+	
+	@RequestMapping(value="/photoUpload.do")
+	@ResponseBody
+	public HashMap<String, Object> photoUploadDo(HttpSession session, @RequestParam int pro_idx ){
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		logger.info("찾는거"+pro_idx);
+		return service.photoUploadDo(pro_idx);
+	}
+	
+	
 	
 	
 	

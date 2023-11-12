@@ -114,4 +114,30 @@ SET pro_quit = 'Y'
 WHERE pro_idx = #{param1}
 </update>
 
+
+
+<!-- 세연 추가 -->
+
+	<select id="photoName" resultType="String">
+		SELECT pt.photo_fileName
+		FROM pro p 
+		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
+		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1
+	</select>
+	
+	<delete id="photoDel">
+		DELETE FROM photo WHERE photo_type = 4 AND photo_idfNum = #{param1}
+	</delete>
+	
+	<insert id="photoInsert">
+		INSERT INTO photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate)
+		VALUES(4,#{param1},#{param2},NOW())
+	</insert>
+
+	<select id="photoUploadDo" resultType="String">
+		SELECT photo_fileName FROM photo WHERE photo_type = 4 AND photo_idfNum = #{param1}
+	</select>
+
+
+
 </mapper>

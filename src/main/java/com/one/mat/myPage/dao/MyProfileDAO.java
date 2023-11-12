@@ -43,6 +43,14 @@ public interface MyProfileDAO {
 	void charTypeDel(int pro_idx);
 	void myProfileModUpdateDo(Map<String, String> params);
 	void charTypeSave(int pro_idx, int charType1, int charType2, int charType3, int charType4);
+
+	// 세연 추가
+	String photoName(int pro_idx);
+
+	int photoDel(int pro_idx);
+	void photoInsert(int pro_idx, String fileName);
+
+	ArrayList<String> photoUploadDo(int pro_idx);
 	
 
 
