@@ -22,9 +22,9 @@
 	
 	<select id="totalPage" resultType="int">
 		SELECT CEIL(COUNT(board_id)/#{param1}) AS pages FROM board
-			WHERE board_hidden != 'Y'
+		WHERE board_hidden != 'Y'
 	</select>
-	
+
 	<select id="search" resultType="com.one.mat.board.dto.BoardDTO">
 	    SELECT
 	        board_id,
@@ -111,11 +111,10 @@
 	</select>
 	
 	<select id="getboardPro" resultType="com.one.mat.board.dto.PhotoBoardProDTO">
-		SELECT *
-		FROM photo p
-		INNER JOIN member m ON m.member_idx = #{param1}
-			WHERE photo_type = 4 AND m.member_idx = p.photo_idfNum
-		ORDER BY p.photo_id
+		SELECT * FROM photo pt
+		INNER JOIN pro p on p.member_idx = #{param1}
+			WHERE photo_type = 4 AND p.pro_idx = pt.photo_idfNum
+		ORDER BY pt.photo_id
 		LIMIT 1;
 	</select>
 	  

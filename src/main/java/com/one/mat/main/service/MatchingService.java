@@ -1,7 +1,6 @@
 package com.one.mat.main.service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,64 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.one.mat.main.dao.MatchingDAO;
+import com.one.mat.main.dto.ProOpenDTO;
 import com.one.mat.member.dto.MatchAllDTO;
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 @Service
 public class MatchingService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MatchingDAO dao;
-   		
-		/*
-		public Map<String, Object> matchingList(int member_idx, int pro_idx) {
-			ArrayList<MatchAllDTO> list = dao.matchingList(member_idx, pro_idx);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("list",list);
-			return map;
-		}
-		*/
-		
-		public ArrayList<MatchAllDTO> matchingList(int member_idx, int pro_idx) {
-			return dao.matchingList(member_idx, pro_idx);
-		}
 		
 		public ArrayList<ProfileDTO> MyProfileListDo(int member_idx) {
 			return dao.MyProfileListDo(member_idx);
 		}
-		// 성향, 사진, 프로필 오픈 여부 가져오기		
-		public List<ProfileDTO> charOpenList(int pro_Idx) {
-			ArrayList<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
-			logger.info("charOpenList : " + pro_Idx);
-				 ProfileDTO profileDTO = new ProfileDTO();
-			    // 성향 정보를 가져옴
-			    ArrayList<ProfileDTO> charTypeList = dao.charType(pro_Idx);
 		
-			    // 해당 프로필의 성향 정보를 프로필에 추가
-			    profileDTO.setCharTypeList(charTypeList);
-			    
-			    // 사진 정보를 가져와야 함
-		//						    ArrayList<PhotoDTO> photoList = dao.photoList(pro_Idx);
-		//						    // 해당 프로필의 사진 정보를 프로필에 추가해야 함
-		//						    profileDTO.setPhotoList(photoList);
-			    
-			    // 나이 오픈 정보 가져오기
-			    String pro_dogAgeOpen=dao.pro_dogAgeOpen(pro_Idx);
-			    profileDTO.setPro_dogAgeOpen(pro_dogAgeOpen);
-			    
-			    // 성별 오픈 정보 가져오기
-			    String pro_dogGenderOpen=dao.pro_dogGenderOpen(pro_Idx);
-			    profileDTO.setPro_dogGenderOpen(pro_dogGenderOpen);
+		public ArrayList<MatchAllDTO> matchingList(int member_idx, int pro_idx, int count) {
+			return dao.matchingList(member_idx, pro_idx, count);
+		}
 		
-			    // 수정된 프로필을 myProfileList에 추가
-			    myProfileList.add(profileDTO);
-		
-			    logger.info("성향들:" + charTypeList);
-			    // logger.info("사진이름들:" + photoList);
-			    logger.info("나이 오픈:" + pro_dogAgeOpen);
-			    logger.info("성별 오픈:" + pro_dogGenderOpen);
-			    logger.info("br");
-				return myProfileList;
-			}
+		public ArrayList<MatchAllDTO> unloginedMatchingList() {
+			return dao.unloginedMatchingList();
+		}
 		
 		public int homeSend(Map<String, String> map) {
 			logger.info("homeSend Service");
@@ -85,11 +47,14 @@ public class MatchingService {
 			
 		}
 
-		public ArrayList<MatchAllDTO> unloginedMatchingList() {
-			return dao.unloginedMatchingList();
+		public ArrayList<PhotoDTO> memberDetailPhotoDo(int pro_idx) {
+			return dao.memberDetailPhotoDo(pro_idx);
 		}
-			
-			
-			
+
+		public ArrayList<ProOpenDTO> MatchingProOpenDo(int pro_idx) {
+			return dao.MatchingProOpenDo(pro_idx);
+		}
+
+	
 			
 }
