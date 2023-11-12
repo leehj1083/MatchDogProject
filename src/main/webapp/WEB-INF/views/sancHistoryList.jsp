@@ -99,23 +99,25 @@ table,th,td{
 			</div>
 		</div>
 		<div class="content">	
-		<h2>회원 구독 이력 보기(${list[0].member_id}님)</h2><hr/>
+		<h2>회원 제재 이력 보기(${list[0].member_id}님)</h2><hr/>
 		<table>			
 			<tr>
-				<th>번호</th>			
-				<th>구독권 종류</th>
-				<th>구독 시작일</th>
-				<th>구독 만료일</th>
+				<th>신고이력번호</th>			
+				<th>제재 종류</th>
+				<th>제재 시작일</th>
+				<th>제재 종료일</th>
+				<th>제재 사유</th>
 			</tr>
 			<c:if test="${list.size()==0}">
-				<tr><td colspan="4">구독 이력이 없습니다.</td></tr>
+				<tr><td colspan="5">제재 이력이 없습니다.</td></tr>
 			</c:if>
-			<c:forEach items="${list}" var="subs">
+			<c:forEach items="${list}" var="sanc">
 				<tr>
-					<th>${subs.subsHistory_idx}</th>			
-					<th>${subs.subsType}</th>
-					<th>${subs.subsHistory_start}</th>
-					<th>${subs.subsHistory_exp}</th>
+					<th>${sanc.compHistory_idx}</th>			
+					<th>${sanc.compType}</th>
+					<th>${sanc.loginLock_sDate}</th>
+					<th>${sanc.loginLock_eDate}</th>
+					<th>${sanc.comp_handleContent}</th>
 				</tr>
 			</c:forEach>				
 		</table>

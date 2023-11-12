@@ -23,17 +23,14 @@ public interface DashBoardDAO {
 
 	void updateVisitCount(int member_idx);
 
-	int getVisitTodayCount(Date today);
+	int getVisitTodayCount();
 
 	int getVisitTotalCount();
-
-	/*
-	 * ArrayList<VisitorDTO> getWeekCount(Date date);
-	 * 
-	 * ArrayList<VisitorDTO> getSevenWeekCount(Date date);
-	 * 
-	 * ArrayList<VisitorDTO> getMonthCount(Date date);
-	 */
+	
+	ArrayList<VisitorDTO> getWeekCount();
+	
+	ArrayList<VisitorDTO> getSevenWeekCount();
+	
 
 	
 

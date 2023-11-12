@@ -135,35 +135,49 @@ public class MemberController {
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(Model model, HttpSession session, @RequestParam String member_id, @RequestParam String member_pw) {
-		String page = "home";
+		String page = "login";
 		logger.info("member id:"+member_id+"/"+member_pw);
 		MemberDTO dto = service.login(member_id, member_pw);
 		logger.info("dto :"+dto);
-		ArrayList<ProfileDTO> pdto = service.loginProf(member_id, member_pw);
-	
+		ArrayList<ProfileDTO> pdto = service.loginProf(member_id, member_pw);		
+				
 		if (dto != null) {
 			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보		
 			session.setAttribute("loginInfo", dto);
 			session.setAttribute("loginProInfo", pdto);		
 			int member_idx = dto.getMember_idx();
 			logger.info("접속한 세션 회원번호="+member_idx);
+			logger.info("제재여부 ="+dto.getMember_loginLock());
+			logger.info("탈퇴여부 ="+dto.getMember_quit());			
+			logger.info("프로필 갯수 : "+pdto.size());
 			
 			VisitorDTO VisitorDTO = DBService.selectVisitCount(member_idx);
 			if(VisitorDTO==null) {
 				DBService.insertVisitCount(member_idx);
 			}else {
 				DBService.updateVisitCount(member_idx);
-			}
+			}				
 			
-			if(dto.getSubsType_code()==4) {
+			if("Y".equals(dto.getMember_loginLock())) {
+				model.addAttribute("msg", "제재당한 회원입니다.");
+				page = "login";
+			}else if ("Y".equals(dto.getMember_quit())) {
+				model.addAttribute("msg", "탈퇴한 회원입니다.");
+				page = "login";
+			}else if(dto.getSubsType_code()==4) {
 				page = "dashBoard";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
+			}else if(pdto.size()==0) {
+				page = "regProfile";
+				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다. 프로필을 등록해주세요");
 			}else {
 				page = "main"; // 서비스 메인 페이지로 이동
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
-			}
+			}			
+			
 		} else { // 로그인 실패
 			model.addAttribute("msg","아이디 또는 비밀번호를 확인해주세요.");
+			page = "login";
 		}
 		return page;
 	}
