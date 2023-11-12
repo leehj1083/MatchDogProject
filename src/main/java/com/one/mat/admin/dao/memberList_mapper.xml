@@ -26,7 +26,7 @@
   		SELECT m.member_idx, m.member_id, m.member_name, m.member_phone, m.member_email, 
   		m.member_dongAddr, m.member_subs, m.member_renew, m.member_loginLock, 
   		(SELECT s.subsType_code FROM subs s WHERE s.member_idx = m.member_idx) AS subsType_code
-  		FROM member m  		 
+  		FROM member m LEFT JOIN subs s ON m.member_idx = s.member_idx  		 
   		<choose>
 	        <when test="param1=='member_id'">
 	            WHERE member_id LIKE CONCAT('%', #{param2}, '%')
@@ -37,13 +37,26 @@
 	        <when test="param1=='member_dongAddr'">
 	            WHERE member_dongAddr LIKE CONCAT('%', #{param2}, '%')
 	        </when>
+	        <when test="param5=='standard'">
+	            WHERE subsType_code =1
+	        </when>
+	        <when test="param5=='plus'">
+	            WHERE subsType_code =2
+	        </when>
+	        <when test="param5=='premium'">
+	            WHERE subsType_code =3
+	        </when>
+	        <when test="param5=='admin'">
+	            WHERE subsType_code =4
+	        </when>
 	    </choose>  		
   		ORDER BY m.member_idx DESC
   		LIMIT #{param3} OFFSET #{param4}
   	</select>
   	
   	<select id="totalPage" resultType="int">
-  		SELECT CEIL(COUNT(member_idx)/#{param1}) AS pages FROM member  		
+  		SELECT CEIL(COUNT(m.member_idx)/#{param1}) AS pages FROM member m 
+  		LEFT JOIN subs s ON m.member_idx = s.member_idx	
   		<choose>
 	        <when test="param2=='member_id'">
 	            WHERE member_id LIKE CONCAT('%', #{param3}, '%')
@@ -53,6 +66,18 @@
 	        </when>
 	        <when test="param2=='member_dongAddr'">
 	            WHERE member_dongAddr LIKE CONCAT('%', #{param3}, '%')
+	        </when>
+	        <when test="param4=='standard'">
+	            WHERE subsType_code =1
+	        </when>
+	        <when test="param4=='plus'">
+	            WHERE subsType_code =2
+	        </when>
+	        <when test="param4=='premium'">
+	            WHERE subsType_code =3
+	        </when>
+	        <when test="param4=='admin'">
+	            WHERE subsType_code =4
 	        </when>
 	    </choose>
   	</select>
@@ -72,7 +97,8 @@
   	</select>
   	
   	<select id="countUser" resultType="int">
-  		SELECT COUNT(member_idx) FROM member 
+  		SELECT COUNT(m.member_idx) FROM member m 
+  		LEFT JOIN subs s ON m.member_idx = s.member_idx	
   		<choose>
 	        <when test="param1=='member_id'">
 	            WHERE member_id LIKE CONCAT('%', #{param2}, '%')
@@ -83,7 +109,30 @@
 	        <when test="param1=='member_dongAddr'">
 	            WHERE member_dongAddr LIKE CONCAT('%', #{param2}, '%')
 	        </when>
+	        <when test="param3=='standard'">
+	            WHERE subsType_code =1
+	        </when>
+	        <when test="param3=='plus'">
+	            WHERE subsType_code =2
+	        </when>
+	        <when test="param3=='premium'">
+	            WHERE subsType_code =3
+	        </when>
+	        <when test="param3=='admin'">
+	            WHERE subsType_code =4
+	        </when>
 	    </choose>
+  	</select>
+  	
+  	<select id="sancHistoryList" resultType="com.one.mat.admin.dto.CompDTO">
+  		SELECT l.member_idx, l.compHistory_idx, l.loginLock_sDate, l.loginLock_eDate,
+  		ch.comp_handleContent, ct.compType, m.member_id
+		FROM loginlock l
+		RIGHT JOIN comphistory ch ON l.compHistory_idx=ch.compHistory_idx
+		RIGHT JOIN comp c ON c.comp_idx=ch.comp_idx		
+		RIGHT JOIN comptype ct ON ct.compType_code = c.compType_code
+		RIGHT JOIN member m ON m.member_idx = l.member_idx
+		WHERE l.member_idx =#{param1} ORDER BY l.compHistory_idx DESC
   	</select>
   	
   	

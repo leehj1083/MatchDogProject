@@ -8,32 +8,62 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
+	.banner{
+		height : 120px;
+	}
+	.logo_matchDog{
+		width : 210px;
+		height : 70px;
+	}
 	.loginForm{
 		width:400px;
-		height:600px;
+		height:550px;
 		margin: 0 auto;
+		border: 1px solid black;
+		padding : 30px;
 	}
 	#login{
 		background-color : aqua;
-		height : 30px;
-		width : 100px;
+		height : 35px;
+		width : 110px;
+		text-align: center;
+		font-size: medium;
+		margin: auto;
+		display: block;
 	}
 </style>
 </head>
 <body>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+		</div>
+	</div>
+	<div class="content">
 	<form action="login.do" method="post">
 		<div class="loginForm">
-			<h2>로그인</h2>
+			<h2 style="text-align: center;">로그인</h2><br><hr/>
 			<p/><h3>아이디</h3>
-			<p/><input type="text" name="member_id" placeholder="아이디를 입력 하세요" />
+			<p/><input type="text" name="member_id" placeholder="아이디를 입력 하세요" style="width: 80%;"/>
+			<br>
 			<h3>비밀번호</h3>
-			<p/><input type="password" name="member_pw" placeholder="비밀번호를 입력 하세요" /><hr/>
-					
+			<p/><input type="password" name="member_pw" placeholder="비밀번호를 입력 하세요" style="width: 80%;"/>
+			<br>
+			<br>
+			<hr/>		
+			<br>	
 			<input type="submit" id="login" value="로그인"/>
+			<br>	
 			<hr/>
-			<a href="./idFind.go">아이디 찾기</a> / <a href="./pwFind.go">비밀번호 찾기</a> / <a href="./joinAgree.go">회원가입</a>
+			<div style="display: block; margin: auto; text-align: center;">
+			<br>	
+				<a href="./idFind.go">아이디 찾기</a> / <a href="./pwFind.go">비밀번호 찾기</a> / <a href="./joinAgree.go">회원가입</a>
+			</div>
 		</div>
 	</form>
+	</div>
+</div>
 </body>
 <script>
 var msg = "${msg}";
@@ -41,34 +71,5 @@ if(msg != ""){
 	alert(msg);
 }
 
-/* ${'#login'}.on('click',function(){
-	var id = $('input[name="id"]').val();
-	var pw = $('input[name="pw"]').val();
-	console.log(id+"/"+pw);
-	
-	$.ajax({
-		type:'post',
-		url:'login',
-		data:{'id':id, 'pw':pw},
-		dataType:'JSON',
-		success:function(data){
-			console.log(data);
-			alert(data.msg);
-			if(data.loginLock==true){
-				alert('로그인이 제한되었습니다.');
-			}
-			if(data.id!= null){
-				if(data.subsType=='admin'){
-					location.href='./dashBoard.go';
-				}else{
-					location.href='./home.go';
-				}
-			}
-		},
-		error:function(e){
-			console.log(e);
-		}		
-	});	
-}) */
 </script>
 </html>
