@@ -31,4 +31,15 @@ SET st.subs_desc = #{subs_desc}
 WHERE st.subsType_code = #{subsType_code}
 </update>
 
+<delete id="authcodeDel">
+DELETE FROM auth 
+WHERE subsType_code = #{param1}
+</delete>
+
+<insert id="newAuthCodesSave">
+INSERT INTO auth (subsType_code, authType_code)
+VALUES (#{param1}, #{param2})
+
+</insert>
+
 </mapper>  

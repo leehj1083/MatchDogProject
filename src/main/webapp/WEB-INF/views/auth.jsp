@@ -24,7 +24,7 @@ a, a:link, a:visited, a:active, a:hover {
 
 
 /* 본인 페이지 것으로 변경하기  */
-.btn_gnb .bi-chat-dots-fill, .btn_gnb.chatting{
+.btn_gnb .bi-chat-dots-fill, .btn_gnb.auth{
     color: var(--white);
     background-color: var(--green);
 }
@@ -36,14 +36,16 @@ a, a:link, a:visited, a:active, a:hover {
 .btn_gnb:hover .bi-gear-fill,
 .btn_gnb:hover .bi-people-fill,
 .btn_gnb:hover .bi-person-circle,
-.btn_gnb:hover .bi-list-ul {
+.btn_gnb:hover .bi-list-ul
+.btn_gnb:hover .bi-chat-dots-fill {
+
     background-color: var(--light);
 }
 
 /* 본인 페이지를 제외한 나머지 hover 적용 */
 .btn_gnb.home:hover,
 .btn_gnb.match:hover,
-/* .btn_gnb.chatting:hover, */
+.btn_gnb.chatting:hover,
 .btn_gnb.board:hover,
 .btn_gnb.myPage:hover,
 .btn_gnb.admin:hover{
@@ -103,7 +105,7 @@ a.highlight-link:hover {
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>회원관리</span>
 		        </a>
-		        <a href="./authList.do" class="btn_gnb chatting">
+		        <a href="./authList.do" class="btn_gnb auth">
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>권한관리</span>
 		        </a>

@@ -126,7 +126,7 @@ th:first-child, td:first-child {
 		        	<span class="bi bi-list-ul"></span>
 					<span>DASH BOARD</span>
 		        </a>
-		        <a href="./memberList.go" class="btn_gnb chatting">
+		        <a href="./memberList.go" class="btn_gnb match">
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>회원관리</span>
 		        </a>
@@ -145,7 +145,7 @@ th:first-child, td:first-child {
 			</div>
 		</div>
 		<div class="content">
-		<h2>권한 관리</h2><hr/>
+		<h2>권한 상세</h2><hr/>
 			<table>
 					<tr>
 						<th>권한명</th>

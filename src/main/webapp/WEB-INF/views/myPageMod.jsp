@@ -21,66 +21,43 @@
 	<br></br>
  	<br></br>
  	<form action="myPageModUpdate.do" method="post">
-	 	<table>	
- 		<tr>
- 			<th>이름</th>
- 			<td><input type="text" name="member_name" readonly="readonly" value="${myPage.member_name}"/></td>
- 		</tr>
- 		<tr>
- 			<th>아이디</th>
- 			<td><input type="text" name="member_id" readonly="readonly" value="${myPage.member_id}"/></td>
- 		</tr>
- 		<tr>
- 			<th>닉네임</th>
- 			<td>
- 			<input type="text" name="member_nickName"  placeholder="${myPage.member_nickName}"/>
-     		 <input type="button" id="overlayNick" value="중복확인"/>
-      <p/><span class="nickChk"></span>
-     <p/><span class="noticeNick" style="font-size : 8pt"> ※ 닉네임은 2자 이상 8자 이하로 입력해주세요</span>
-     </td>
- 		</tr>
- 		<tr>
- 			<th>성별</th>
- 			<td><input type="text" name="member_gender" readonly="readonly" value="${myPage.member_gender}"/></td>
- 		</tr>
- 		<tr>
- 			<th>비밀번호</th>
- 			<td><input type="text" name="member_pw" placeholder="비밀번호를 입력하세요" value="${myPage.member_pw}"/></td>
- 		</tr>
- 		<tr>
- 			<th>비밀번호 확인</th>
- 			<td><input type="text" name="member_pwReChk" placeholder="비밀번호를 한번 더 입력하세요" value="${myPage.member_pw}"/></td>
- 		</tr>
- 		<tr>
- 			<th>이메일</th>
- 			<td>
- 			<input type="text" id="usermail" name="member_email" placeholder="이메일 주소를 입력하세요" value="${myPage.member_email}"/>@
+ 	<div class="inputForm">
+     <h2>기본 정보</h2>
+ 	
+ 	<p>이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_name}</p>
+ 	<p>아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_id}</p>
+ 	<p>성별 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_gender}</p>
+ 	<p/>닉네임 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="member_nickName" value="${myPage.member_nickName}"/>
+      <input type="button" id="overlayNick" value="중복확인"/> <span class="nickChk"></span> <p/>
+      <span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
+     <p>비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="password" name="member_pw" placeholder="비밀번호를 입력하세요" value="${myPage.member_pw}"/>
+      <p>비밀번호 확인 <input type="password" name="member_pwReChk"  placeholder="비밀번호를 한번 더 입력하세요" value=""/>  
+ 	<p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
+ 	<p>이메일 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 	<input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" value="${myPage.member_email}"/>@
 	  <select name="emailhost" id="mailhost">
-			<option value="naver">naver.com</option>	
-			<option value="google">gmail.com</option>
-			<option value="daum">daum.net</option>
-			<option value="nate">nate.com</option>
+			<option value="naver.com">naver.com</option>	
+			<option value="gmail.com">gmail.com</option>
+			<option value="daum.net">daum.net</option>
+			<option value="nate.com">nate.com</option>
 	  </select>
- 			</td>
- 		</tr>
- 		<tr>
- 			<th>전화번호</th>
- 			<td><input type="text" name="member_phone" placeholder="핸드폰번호 입력하세요" value="${myPage.member_phone}"/></td>
- 		</tr>
- 		<tr>
- 			<th>주소<input type="text" id="postcode" placeholder="우편번호">
+	  
+	  <p>전화번호  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="member_phone" value="${myPage.member_phone}"/>
+       <p><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+	  
+	  <p/>주소<input type="text" id="postcode" placeholder="우편번호">
 	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
 	  <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소" value="${myPage.member_roadAddr}"><br/>
 	  <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소" value="${myPage.member_parcelAddr}"><br/>
 	  <span id="guide" style="color:#999;display:none"></span><br/>
 	  <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소" value="${myPage.member_detailAddr}">		  
-	  <input type="text" id="member_dongAddr" placeholder="참고항목" value="${myPage.member_dongAddr}">               
-	  </th>
- 		</tr>
- 		</table>
+	  <input type="text" id="extraAddress" placeholder="참고항목" value="${myPage.member_dongAddr}">                  
+	  
+	 	</div>
+
  		 	<br></br>
  		<input type="button" onclick="location.href='./myPageList.do'" value="수정 취소"/>
- 		<input type="submit" value="수정 완료"/>
+ 		<input type="submit" id="myPageUpdate" value="수정 완료"/>
  		 </form>
  	<br></br>
  	<br></br>
@@ -145,15 +122,29 @@ function execDaumPostcode() {
     }).open();
 }
 
+//PW 일치 확인(재입력)
+$('input[name="member_pwReChk"]').keyup(function(){
+	if($(this).val()==''){
+		$('.pwReChk').css('color','red');
+		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
+	}else if($(this).val()==$('input[name="member_pw"]').val()){
+		$('.pwReChk').css('color','green');
+		$('.pwReChk').html('비밀번호가 일치합니다.');
+	}else{
+		$('.pwReChk').css('color','red');
+		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
+	}	
+});
 
-var overlayNickChk = false;
+
+var myPageModNickOveraly = false;
 $('#overlayNick').on('click',function(){
 	var $nickName = $('input[name="member_nickName"]');
 	console.log('member_nickName='+$nickName);
 
 	$.ajax({
 		type : 'post',
-		url : 'overlayNick',
+		url : 'overlayNick.do',
 		data : {'member_nickName':$nickName.val()},
 		dataType : 'JSON',
 		success : function(data){
@@ -176,6 +167,114 @@ $('#overlayNick').on('click',function(){
 		}		
 	});	
 });
+
+
+//닉네임 정규표현식
+$('input[name="member_nickName"]').keyup(function(){
+	var getNickCheck = RegExp(/^[a-zA-Zㄱ-ㅎ가-힣0-9]{2,8}$/);
+	if($(this).val()==''){
+		$('.nickValid').css('color','red');
+		$('.nickValid').html('닉네임은 필수 입력입니다.');
+	}else if(!getNickCheck.test($(this).val())){
+		$('.nickValid').css('color','red');
+		$('.nickValid').html('닉네임이 형식에 어긋납니다.');
+	}else{
+		$('.nickValid').css('color','green');
+		$('.nickValid').html('적합한 닉네임 형식입니다.');
+		console.log($('.nickValid').html());
+	}
+});
+
+//전화번호 정규표현식
+$('input[name="member_phone"]').keyup(function(){
+	var getPhoneCheck = RegExp(/^\d{2,3}-\d{3,4}-\d{4}$/);
+	if($(this).val()==''){
+		$('.phoneValid').css('color','red');
+		$('.phoneValid').html('전화번호는 필수 입력입니다.');
+	}else if(!getPhoneCheck.test($(this).val())){
+		$('.phoneValid').css('color','red');
+		$('.phoneValid').html('전화번호가 형식에 어긋납니다.');
+	}else{
+		$('.phoneValid').css('color','green');
+		$('.phoneValid').html('적절한 전화번호 형식입니다.');
+	}
+});
+
+
+//회원 가입
+$('#myPageUpdate').on('click',function(){
+	
+	var member_pw=$('input[name="member_pw"]').val();
+	var member_nickName=$('input[name="member_nickName"]').val();
+	var member_phone=$('input[name="member_phone"]').val();	
+	var member_roadAddr=$('input[name="member_roadAddr"]').val();
+	var member_parcelAddr=$('input[name="member_parcelAddr"]').val();
+	var member_detailAddr=$('input[name="member_detailAddr"]').val();
+				
+
+	// 비밀번호 검사
+	if(member_pw == '') {
+	    alert('비밀번호를 입력해 주세요');
+	    $('input[name="member_pw"]').focus();
+	    return false;
+	}
+	/* 
+	if($('.pwValid').html() != '적합한 비밀번호 형식입니다.') {
+	    alert('비밀번호를 정확히 입력해 주세요');
+	    $('input[name="member_pw"]').focus();
+	    return false;
+	}
+	*/
+	if($('input[name="pwCheck"]').val() == '') {
+	    alert('비밀번호 확인을 위해 재입력해 주세요');
+	    $('input[name="pwCheck"]').focus();
+	    return false;
+	}
+	
+	if($('.pwReChk').html() != '비밀번호가 일치합니다.') {
+	    alert('비밀번호를 정확히 입력해 주세요');
+	    $('input[name="pwCheck"]').focus();
+	    return false;
+
+	}
+	 
+	// 전화번호 검사
+	if(member_phone == '') {
+	    alert('전화번호를 입력해 주세요');
+	    $('input[name="member_phone"]').focus();
+	    return false;
+	}
+/* 	if($('.phoneValid').html() != '적절한 전화번호 형식입니다.') {
+	    alert('전화번호를 정확히 입력해 주세요');
+	    $('input[name="member_phone"]').focus();
+	    return false;
+	} */
+
+	// 닉네임 검사
+	if(member_nickName == '') {
+	    alert('닉네임을 입력해 주세요');
+	    $('input[name="member_nickName"]').focus();
+	    return false;
+	}
+	if($('.nickValid').html() == '닉네임이 형식에 어긋납니다.') {
+	    alert('닉네임을 정확히 입력해 주세요');
+	    $('input[name="member_nickName"]').focus();
+	    return false;
+	}
+	if(overlayNickChk != true) {
+	    alert('닉네임 중복체크를 진행해주세요');
+	    return false;
+	}
+
+	// 주소 검사
+	if(member_roadAddr == '') {
+	    alert('주소를 입력해 주세요');
+	    return false;
+	}
+			
+	
+});	
+
 
 </script>
 
