@@ -77,7 +77,7 @@
 	font-size: 13px;
 	margin-top: 2px;
 	margin-bottom:12px;
-	width:116px;
+	width:130px;
 }
 
 .you_chat{
@@ -87,9 +87,19 @@
 	font-size: 13px;
 	margin-top: 2px;
 	margin-bottom:12px;
-	width:116px;
+	width:130px;
 }
 
+.bi-chevron-left{
+	position:relative;
+	margin-right:20px;
+	font-weight:800;
+	font-size:24px;
+	cursor:pointer;
+	top:40px;
+	left:20px;
+	z-index:2;
+}
 
 
 </style>
@@ -100,7 +110,7 @@
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -111,7 +121,7 @@
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./" class="btn_gnb home">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>홈</span>
 				</a>
@@ -139,6 +149,7 @@
 		</div>
 		<div class="content">
 			<div class="container">
+        		<span class="bi bi-chevron-left"></span>
         		<div class="right">
         			<!-- 신고창 -->
 		            <span class="review bi-hand-thumbs-up-fill"></span>
@@ -209,9 +220,11 @@
 		var top = '';
 		var content = '';
 		var date = new Date();
-		subsType = obj.subsType;
 		var count_me = 0;
 		var count_you = 0;
+		subsType = obj.subsType;
+		
+		
 		
 		top += '<span>'
 		top += 'To : <span class="name">'+obj.dogName+'</span>'
@@ -253,7 +266,7 @@
 			content += '</div>';
 		}else{
 				obj.totalMsg.forEach(function(item,idx){
-					console.log("photo_fileName : "+item.photo_fileName);
+		console.log("나임"+item.pro_sendIdx);
 							
 					if(obj.toFrom.pro_me == item.pro_sendIdx){
 						if(item.photo_fileName == ''){
@@ -284,20 +297,25 @@
 							content += '<img src="/photo/'+item.photo_fileName+'" width="200" />';
 							content += '</div>';
 							content += '<div class = "you_chat">' + item.regDate + '</div>' ;
-	
+
 						}
 					}
 				});
 			
+		
 		}
+		
+		
 		$('.chat').scrollTop($('.chat')[0].scrollHeight);
 		$('.chat').empty();
 		$('.chat').append(content);
 		
 		console.log("me"+count_me);
 		console.log("you"+count_you);
-		
-		if(subsType !== 1 && count_me >= 10){
+		console.log("subsType"+subsType);
+		console.log("my"+obj.toFrom.pro_me);
+			
+		if(subsType === 1 && count_me >= 10){
 			$('.send').off('click');
 			$('input[name="content"]').off("keyup");
 			$('.chatBlur').css('display', 'inline-block');
@@ -311,10 +329,11 @@
 			
 			$('.chatBlur').empty();
 			$('.chatBlur').append(content);
-			
+			$('input[name="content"]').blur();
 		}
-
 	}
+	
+
 	
 	// 채팅내용 보내기
 	$('.send').on('click',function(){

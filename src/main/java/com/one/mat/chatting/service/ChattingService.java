@@ -177,8 +177,8 @@ public class ChattingService {
 				map.put("toFrom", toFrom);
 				int chat_me = toFrom.getPro_me();
 				int chat_you = toFrom.getPro_you();
-				// logger.info("me :"+chat_me);
-				// logger.info("you :"+chat_you);
+				 logger.info("me :"+chat_me);
+				 logger.info("you :"+chat_you);
 				dao.readCheck(chat_you);
 				dogName = dao.getDogName(chat_you);
 			}

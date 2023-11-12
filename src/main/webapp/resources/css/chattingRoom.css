@@ -53,16 +53,18 @@ ul{
 }
 
 .container .right .top span {
-  font-size: 18px;
-  font-family:Pretendard;
-  font-weight: 600;
-  color: var(--grey);
+	position:relative;
+	left:35px;
+  	font-size: 18px;
+  	font-family:Pretendard;
+  	font-weight: 600;
+  	color: var(--grey);
 }
 
 .container .right .top span .name {
 	display: inline-block;
 	position: relative;
-	left:10px;
+	left:50px;
 	font-size: 20px;
 	font-family:Pretendard;
 	font-weight: 600;
@@ -210,6 +212,7 @@ ul{
 }
 .container .right .bubble.you {
   float: left;
+  margin-top: 4px;
   color: var(--dark);
   background-color: var(--light);
   font-family:Pretendard;
@@ -224,6 +227,7 @@ ul{
 .container .right .bubble.me {
   float: right;
   color: var(--white);
+  margin-top: 4px;
   background-color:var(--green);
   font-family:Pretendard;
   font-weight: 400;
@@ -238,6 +242,7 @@ ul{
   position: relative;
   width: 100%;
   margin-bottom: 27px;
+  margin-top:30px;
   text-align: center;
 }
 .container .right .conversation-start span {
@@ -249,7 +254,7 @@ ul{
   position: absolute;
   top: 10px;
   display: inline-block;
-  width: 30%;
+  width: 26%;
   height: 1px;
   content: "";
   background-color: var(--light);
@@ -388,7 +393,7 @@ ul{
 .mainContainer{
 	display:flex;
 	width:1280px;
-	margin:auto;
+	margin:0 110px;
 }
 
 .side{
@@ -505,4 +510,19 @@ ul{
 	color: var(--white);
     background-color: var(--green);
 }
+
+*::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--white);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--green);
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+
 

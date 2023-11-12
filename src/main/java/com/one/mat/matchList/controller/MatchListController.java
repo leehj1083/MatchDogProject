@@ -1,6 +1,7 @@
 package com.one.mat.matchList.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,25 +40,33 @@ public class MatchListController {
 	
 	@RequestMapping(value="/test.do")
 	@ResponseBody
-	public HashMap<String, Object> chatPhotoDo(HttpSession session, @RequestParam MultipartFile[] photos){
+	public HashMap<String, Object> chatPhotoDo(HttpSession session, @RequestParam MultipartFile[] files, @RequestParam String[] index){
+		
+		logger.info("찍히고있나요...");
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
 		int memberIdx = dto.getMember_idx();
-//		logger.info("photo : "+photos.length);
-//		logger.info("photo : "+photos);
 		
-		for (MultipartFile photo : photos) {
-            if (!photo.isEmpty()) {
-                String fileName = photo.getOriginalFilename();
-                logger.info("Received file: " + fileName);
-                // 여기에서 파일을 저장하거나 다른 작업을 수행할 수 있습니다.
-            }
-        }
-
+		for (int i = 0; i < index.length; i++) {
+			logger.info("files"+files[i].getOriginalFilename());
+			logger.info("index"+index[i]);
+		}
+		
+		
 		return map;
 	}
+		
+		
+//		for (MultipartFile photo : photos) {
+//            if (!photo.isEmpty()) {
+//                String fileName = photo.getOriginalFilename();
+//                logger.info("Received file: " + fileName);
+//                // 여기에서 파일을 저장하거나 다른 작업을 수행할 수 있습니다.
+//            }
+//        }
+
+	//}
 	
 	
 	

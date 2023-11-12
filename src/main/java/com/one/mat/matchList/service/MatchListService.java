@@ -122,8 +122,12 @@ public class MatchListService {
 	}
 
 	public int chatOpen(int match_idx) {
+		
 		int chat_idx = 0;
 		int result = 0;
+		//match_idx 에 채팅이 여러개 생성됬는지 여부
+		//ArrayList<Integer> chatDuplication = dao.chatDuplication(match_idx);
+		//if(chatDuplication.size() < 1) {
 		int row = dao.sendOpen(match_idx);
 		
 		if(row != 0) {
@@ -132,6 +136,7 @@ public class MatchListService {
 		if(result != 0) {
 			chat_idx = dao.chatMove(match_idx);
 		}
+		
 		List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
 		alarmList = dao.selectSendRecvIdx(match_idx);
 		int pro_sendIdx = 0;
@@ -140,7 +145,7 @@ public class MatchListService {
 			pro_sendIdx = alarmDTO.getPro_sendIdx();
 			pro_recvIdx = alarmDTO.getPro_recvIdx();
 		}
-		dao.newChattingRoomAlarm(pro_sendIdx, pro_recvIdx );
+		dao.newChattingRoomAlarm(pro_sendIdx, pro_recvIdx );	
 		return chat_idx;
 	}
 	

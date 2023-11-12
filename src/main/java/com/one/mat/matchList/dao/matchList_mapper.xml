@@ -43,6 +43,9 @@
 	</select>
 
 	<!-- 요청 수락 -->
+<!-- 	<select id="chatDuplication" resultType="int">
+		SELECT chat_idx FROM chat WHERE match_idx=#{param1}
+	</select> -->
 	<update id="sendOpen">
 		UPDATE `match` SET match_succeed = 'Y' WHERE match_idx = #{param1}
 	</update>
@@ -50,7 +53,7 @@
 		INSERT INTO chat(match_idx,chat_regDate) VALUES(#{param1},NOW())
 	</insert>
 	<select id="chatMove" resultType="int">
-		SELECT chat_idx FROM chat WHERE match_idx=#{param1}
+		SELECT chat_idx FROM chat WHERE match_idx=#{param1} ORDER BY chat_idx DESC LIMIT 1
 	</select>
 	
 	<select id="selectSendRecvIdx" resultType="com.one.mat.alarm.dto.AlarmDTO">
@@ -59,7 +62,7 @@
 		WHERE match_idx IN (SELECT match_idx FROM chat WHERE match_idx = #{param1})
 	</select>
 	
-	<insert id="matchingSendAlarm">
+	<insert id="newChattingRoomAlarm">
 		INSERT INTO alarm (pro_sendIdx, pro_recvIdx, alarm_type, alarm_msg) 
 		VALUES (#{param1}, #{param2}, 2, '님께 보낸 매칭이 수락되었습니다')
 </insert>

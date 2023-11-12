@@ -254,7 +254,7 @@ ul{
 .mainContainer{
 	display:flex;
 	width:1280px;
-	margin:auto;
+	margin:0 110px;
 }
 
 .side{
@@ -372,6 +372,20 @@ ul{
 	color: var(--white);
     background-color: var(--green);
 }
+
+*::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--white);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--green);
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
 
 
 

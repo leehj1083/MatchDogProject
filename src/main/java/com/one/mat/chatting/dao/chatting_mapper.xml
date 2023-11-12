@@ -59,29 +59,41 @@
 	
 	<!-- 지난 채팅 메세지 보여주기 -->
 	<select id="totalMsg" resultType="com.one.mat.chatting.dto.ChattingDTO">
-		SELECT 
-		MAX(regDate) AS regDate, 
-		total_idx, 
-		MAX(pro_sendIdx) AS pro_sendIdx, 
-		MAX(pro_recvIdx) AS pro_recvIdx, 
-		MAX(chatMsg_msg) AS chatMsg_msg,
-		MAX(chatMsg_read) AS chatMsg_read,
-		MAX(photo_fileName) AS photo_fileName
+		SELECT
+	    MAX(DATE_FORMAT(chatMsg_regDate, '%Y-%m-%d %H:%i')) AS regDate,
+	    total_idx,
+	    MAX(pro_sendIdx) AS pro_sendIdx,
+	    MAX(pro_recvIdx) AS pro_recvIdx,
+	    MAX(chatMsg_msg) AS chatMsg_msg,
+	    MAX(chatMsg_read) AS chatMsg_read,
+	    MAX(photo_fileName) AS photo_fileName
 		FROM (
-		    SELECT 
-		    TO_CHAR(chatMsg_regDate, 'YYYY-MM-DD HH:MI') AS regDate, chatMsg_idx AS total_idx, pro_sendIdx, pro_recvIdx, chatMsg_msg, chatMsg_read, NULL AS photo_fileName 
-		    FROM chatmsg 
-		    WHERE chat_idx = #{param1}
-		    UNION ALL
-		    SELECT 
-		    photo_uploadDate AS regDate, photo_idfNum AS total_idx, c.pro_sendIdx, c.pro_recvIdx, c.chatMsg_msg, c.chatMsg_read, p.photo_fileName
-		    FROM photo p 
-		    INNER JOIN chatmsg c ON p.photo_idfNum = c.chatMsg_idx 
-		    WHERE p.photo_type = 2 AND c.chat_idx = #{param1}
+	    SELECT
+	        chatMsg_idx AS total_idx,
+	        pro_sendIdx,
+	        pro_recvIdx,
+	        chatMsg_msg,
+	        chatMsg_read,
+	        chatMsg_regDate,
+	        NULL AS photo_fileName
+	    FROM chatmsg
+	    WHERE chat_idx = #{param1}
+	    UNION ALL
+	    SELECT
+	        c.chatMsg_idx AS total_idx,
+	        c.pro_sendIdx,
+	        c.pro_recvIdx,
+	        c.chatMsg_msg,
+	        c.chatMsg_read,
+	        p.photo_fileName,
+	        c.chatMsg_regDate
+	    FROM photo p
+	    INNER JOIN chatmsg c ON p.photo_idfNum = c.chatMsg_idx
+	    WHERE p.photo_type = 2 AND c.chat_idx = #{param1}
 		) AS combined_data
 		GROUP BY total_idx
 		HAVING MAX(photo_fileName) IS NULL OR MAX(photo_fileName) &lt;&gt; ''
-		ORDER BY MAX(regDate);
+		ORDER BY MAX(DATE_FORMAT(chatMsg_regDate, '%Y-%m-%d %H:%i'))
 	</select>
 	
 	<!-- 채팅 읽음여부 -->

@@ -82,7 +82,7 @@ a, a:link, a:visited, a:active, a:hover {
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -93,7 +93,7 @@ a, a:link, a:visited, a:active, a:hover {
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./" class="btn_gnb home">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>홈</span>
 				</a>
