@@ -8,6 +8,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<meta charset="UTF-8">
+<title>홈 화면</title>
+<link rel="stylesheet" href="resources/css/home.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
+<!-- 페이징 처리를 위한 라이브러리 -->
 <style>
 
 .filebox .upload-name {
@@ -97,19 +107,150 @@ textarea style ="resize: both ;"> </textarea>.modal {
 	text-decoration: none;
 	cursor: pointer;
 }
+
+
+
+	a, a:link, a:visited, a:active, a:hover {
+		text-decoration: none;
+		color: var(--black);
+	}
+	
+	
+	/* 본인 페이지 것으로 변경하기  */
+	.btn_gnb .bi-house-door-fill, .btn_gnb.home{
+	    color: var(--white);
+	    background-color: var(--green);
+	}
+	
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	/* .btn_gnb:hover .bi-house-door-fill, */
+	.btn_gnb:hover .bi-chat-dots-fill,
+	.btn_gnb:hover .bi-gear-fill,
+	.btn_gnb:hover .bi-people-fill,
+	.btn_gnb:hover .bi-person-circle,
+	.btn_gnb:hover .bi-list-ul {
+	    background-color: var(--light);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	/* .btn_gnb.home:hover, */
+	.btn_gnb.match:hover,
+	.btn_gnb.chatting:hover,	
+	.btn_gnb.board:hover,
+	.btn_gnb.myPage:hover,
+	.btn_gnb.admin:hover{
+		background-color: var(--light);
+	}
+	    #modalContent{
+	    	width: 500px;
+	    	height: 500px;
+	    	text-align: left; 
+	}
+
+	.sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #255,255,255;
+        padding-top: 20px;
+    }
+
+    .sidebar h2 {
+        color: black;
+        text-align: center;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .content {
+        margin-left: 260px;
+        padding: 20px;
+        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
+    }
+    #modalContent{
+    	width: 500px;
+    	height: 500px;
+    	text-align: left; 
+    }
+
+
+
 </style>
 </head>
 <body>
+
+
+
 <div class="container">
 		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
 	</div>
 
 
+
+
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
+			</h1>
+			<div class="gnb">
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
+			</div>
+		</div>
+
 	
 
 
 	<form action="profileSave.do" method="post" id="myForm">
-	
+	<div class="content">
          <input type="button" name="imgBtn" value="사진 선택">
        
          <div id="newModal" class="modal">
@@ -306,17 +447,19 @@ textarea style ="resize: both ;"> </textarea>.modal {
 			</tr>
 			<tr>
 			<tr>
-				<th><button>등록 완료</button></th>
+				<th><button id="submitBtn">등록 완료</button></th>
 			</tr>
 			<input type="hidden" name="charType_code" id="charType_code" value="" />
 			
 		</table>
-
+</div>
 	</form>
 
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+	
+	var submitBtn = document.getElementById("submitBtn");
     var openModalButton = document.getElementById("openModal");
     var closeModalButton = document.getElementById("closeModal");
     var imageInput = document.getElementById("imageInput");
@@ -426,6 +569,28 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("myModal").style.display = "none";
         }
     });
+    
+    submitBtn.addEventListener("click", function () {
+        // 선택된 옵션을 담고 있는 div 가져오기
+        var selectedOptionsDiv = document.getElementById("selectedOptions");
+
+        // 선택된 옵션이 있는지 확인
+        if (selectedOptionsDiv.innerHTML.trim() === "") {
+            alert("성향을 선택해주세요!");
+          
+            event.preventDefault();
+        } 
+        
+        var dogNameInput = document.getElementsByName("pro_dogName")[0]
+        ;
+        if (dogNameInput.value.trim() === "") {
+            // 강아지 이름이 없으면 alert 창을 띄우고 폼 제출을 막기
+            alert("강아지 이름을 입력해주세요!");
+            event.preventDefault();  // 폼 제출 막기
+        }
+    });
+    
+    
  //-----------------------------------------여기서 부터 이미지 파일 관련 script 문 입니다...-------------------------------------------------   
 
  // 이미지 및 파일 업로드 입력 필드 초기화 함수
