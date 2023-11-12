@@ -50,9 +50,15 @@ a, a:link, a:visited, a:active, a:hover {
 	background-color: var(--light);
 }
 
-table,th,td{
+table{
+	width :600px;
 	border: 1px solid black;
-	border-collapse: collapse;
+	border-collapse: collapse;	
+}
+th,td{
+	border : 1px solid black;
+	padding : 5px;
+	text-align : center;
 }
 
 </style>
@@ -93,7 +99,7 @@ table,th,td{
 		        	<span class="bi bi-people-fill"></span>
 					<span>신고관리</span>
 		        </a>
-		        <a href="./home.go" class="btn_gnb myPage">
+		        <a href="./HomeMatchingList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>서비스페이지</span>
 		        </a>
@@ -107,47 +113,57 @@ table,th,td{
 				<option value="15">15</option>
 				<option value="20">20</option>
 			</select>
-			<table>
-				<thead>
+			<div class="listTable">
+				<table>
+					<thead>
+						<tr>
+							<th>번호</th>			
+							<th>아이디</th>
+							<th>이름</th>
+							<th>전화번호</th>
+							<th>이메일</th>
+							<th>거주지(동)</th>
+							<th>구독여부</th>
+							<th>구독연장</th>
+							<th>제재여부</th>
+							<th>
+								<select id="subsType" name="subsType">
+									<option value="all" selected="selected">구독등급</option>
+									<option value="standard">일반회원</option>
+									<option value="plus">플러스</option>
+									<option value="premium">프리미엄</option>
+									<option value="admin">관리자</option>
+								</select>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="list">		
+					</tbody>
 					<tr>
-						<th>번호</th>			
-						<th>아이디</th>
-						<th>이름</th>
-						<th>전화번호</th>
-						<th>이메일</th>
-						<th>거주지(동)</th>
-						<th>구독여부</th>
-						<th>구독연장여부</th>
-						<th>제재여부</th>
-						<th>권한등급</th>
+						<td colspan="10" id="paging">	
+							<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
+							<div class="container">									
+								<nav aria-label="Page navigation" style="text-align:center">
+									<ul class="pagination" id="pagination"></ul>
+								</nav>					
+							</div>
+						</td>
 					</tr>
-				</thead>
-				<tbody id="list">		
-				</tbody>
-				<tr>
-					<td colspan="10" id="paging">	
-						<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
-						<div class="container">									
-							<nav aria-label="Page navigation" style="text-align:center">
-								<ul class="pagination" id="pagination"></ul>
-							</nav>					
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="10" style="text-align:center">
-						<div id="searchDIV">
-							<select id="searchType" name="searchType">
-								<option value="member_id">아이디</option>
-								<option value="member_name">이름</option>
-								<option value="member_dongAddr">거주지(동)</option>
-							</select>
-							 <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력">
-			  				 <button id="search">검색</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		  				 </div>
-					</td>
-				</tr>			
-			</table>
+					<tr>
+						<td colspan="10" style="text-align:center">
+							<div id="searchDIV">
+								<select id="searchType" name="searchType">
+									<option value="member_id">아이디</option>
+									<option value="member_name">이름</option>
+									<option value="member_dongAddr">거주지(동)</option>
+								</select>
+								 <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력">
+				  				 <button id="search">검색</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  				 </div>
+						</td>
+					</tr>			
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
@@ -156,30 +172,37 @@ table,th,td{
 var showPage = 1;
 var searchType ='';
 var searchKeyword = '';
+var subsType = '';
 
-listCall(showPage, searchType, searchKeyword);
-countUser(searchType, searchKeyword);
+listCall(showPage, searchType, searchKeyword, subsType);
+countUser(searchType, searchKeyword, subsType);
 
 
 $('#pagePerNum').change(function(){
 	// 페이지당 보여줄 게시물 갯수가 변경되면 페이징 처리 UI 를 지우고 다시 그려 준다.
 	// 안그럼 처음에 계산한 페이지 값을 그대로 들고 있게 된다.
 	$('#pagination').twbsPagination('destroy');
-	listCall(showPage, searchType, searchKeyword);
+	listCall(showPage, searchType, searchKeyword, subsType);
 });
 
 $('#search').click(function(){	
 	searchType = $('#searchType').val();
-    searchKeyword = $('input[name="searchKeyword"]').val();
+    searchKeyword = $('input[name="searchKeyword"]').val();  
     console.log(searchType);
     console.log(searchKeyword);
-    console.log(showPage);
+    console.log(showPage);    
     $('#pagination').twbsPagination('destroy');
-    listCall(showPage, searchType, searchKeyword);
+    listCall(showPage, searchType, searchKeyword, subsType);
 });
 
+$('#subsType').change(function(){
+	subsType=$('#subsType').val();
+	console.log(subsType);
+	$('#pagination').twbsPagination('destroy');
+	listCall(showPage, searchType, searchKeyword, subsType);
+});
 
-function listCall(page, searchType, searchKeyword){
+function listCall(page, searchType, searchKeyword, subsType){
 	$.ajax({
 		type:'get',
 		url:'memberList.do',
@@ -187,7 +210,8 @@ function listCall(page, searchType, searchKeyword){
 			'pagePerNum':$('#pagePerNum').val(),
 			'page':page,
 			'searchType': searchType,
-            'searchKeyword': searchKeyword
+            'searchKeyword': searchKeyword,
+            'subsType':subsType
 		},
 		dataType:'json',
 		success:function(data){
@@ -198,7 +222,7 @@ function listCall(page, searchType, searchKeyword){
 			}else{
 				console.log(data.pages);
 				drawList(data);
-				countUser(searchType, searchKeyword);
+				countUser(searchType, searchKeyword, subsType);
 			}
 		},
 		error:function(e){
@@ -248,10 +272,10 @@ function drawList(obj) {
                 if(page>obj.pages){
 					var lastPage = 0;
 					lastPage = obj.pages;
-					listCall(lastPage, searchType, searchKeyword);	
+					listCall(lastPage, searchType, searchKeyword, subsType);	
 				}else{
 					showPage=page;  // 클릭해서 다른 페이지를 보여주게 되면 현재 보고있는 페이지 번호도 변경해준다.
-					listCall(showPage, searchType, searchKeyword);
+					listCall(showPage, searchType, searchKeyword, subsType);
 				}                    
             }                
         }
@@ -266,13 +290,14 @@ $('#authorization').click(function(){
 	location.href="./auth.go";
 });
 
-function countUser(searchType, searchKeyword){
+function countUser(searchType, searchKeyword, subsType){
 	$.ajax({
 		type:'get',
 		url:'countUser.do',
 		data:{
 			'searchType': searchType,
-            'searchKeyword': searchKeyword
+            'searchKeyword': searchKeyword,
+            'subsType':subsType
 		},
 		dataType:'json',
 		success:function(data){

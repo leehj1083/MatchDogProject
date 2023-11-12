@@ -50,26 +50,21 @@ public class DashBoardService {
 		dao.updateVisitCount(member_idx);
 	}
 
-	public int getVisitTodayCount(Date today) {
-		return dao.getVisitTodayCount(today);
+	public int getVisitTodayCount() {
+		return dao.getVisitTodayCount();
 	}
 
 	public int getVisitTotalCount() {
 		return dao.getVisitTotalCount();
 	}
-/*
-	public ArrayList<VisitorDTO> getWeekCount(Date today) {
-		return dao.getWeekCount(today);
+
+	public ArrayList<VisitorDTO> getWeekCount() {
+		return dao.getWeekCount();
 	}
 
-	public ArrayList<VisitorDTO> getSevenWeekCount(Date today) {
-		return dao.getSevenWeekCount(today);
+	public ArrayList<VisitorDTO> getSevenWeekCount() {
+		return dao.getSevenWeekCount();
 	}
-
-	public ArrayList<VisitorDTO> getMonthCount(Date today) {
-		return dao.getMonthCount(today);
-	}
-*/
 
 
 
