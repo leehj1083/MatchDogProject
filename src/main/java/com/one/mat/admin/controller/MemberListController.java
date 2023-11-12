@@ -51,16 +51,17 @@ public class MemberListController {
 	@ResponseBody
 	public HashMap<String, Object> memberList(HttpSession session, @RequestParam String searchType, 
 			@RequestParam String searchKeyword, @RequestParam String pagePerNum,
-	        @RequestParam int page) {
+	        @RequestParam int page, @RequestParam String subsType) {
 		HashMap<String, Object>result = new HashMap<String, Object>();
-		ArrayList<MemberDTO>list =service.memberList(searchType, searchKeyword, Integer.parseInt(pagePerNum), page);
+		ArrayList<MemberDTO>list =service.memberList(searchType, searchKeyword, Integer.parseInt(pagePerNum), page, subsType);
 		result.put("list", list);
-		int pages = service.totalPage(Integer.parseInt(pagePerNum), searchType, searchKeyword);
+		int pages = service.totalPage(Integer.parseInt(pagePerNum), searchType, searchKeyword, subsType);
 		logger.info("페이지당 보여줄 게시글 수: " + pagePerNum);
 	    logger.info("보여줄 페이지: " + page);
 	    logger.info("검색 후 보여줄 총 페이지 수 : "+pages);
 	    logger.info("검색타입: " + searchType);
-	    logger.info("검색내용: " + searchKeyword);	   		
+	    logger.info("검색내용: " + searchKeyword);	   	
+	    logger.info("구독등급 : "+ subsType);
 		
 		result.put("currPage", page);
 		result.put("pages", pages);		
@@ -102,9 +103,11 @@ public class MemberListController {
 	
 	@RequestMapping(value="/countUser.do", method=RequestMethod.GET)
 	@ResponseBody
-	public HashMap<String, Object> countUser(@RequestParam String searchType, @RequestParam String searchKeyword) {
+	public HashMap<String, Object> countUser(@RequestParam String searchType, 
+			@RequestParam String searchKeyword, @RequestParam String subsType) {
 		HashMap<String, Object>result = new HashMap<String, Object>();
-		int cnt = service.countUser(searchType, searchKeyword);
+		System.out.println("subsType :"+subsType);
+		int cnt = service.countUser(searchType, searchKeyword, subsType);
 		result.put("cnt", cnt);
 	    logger.info("유저 수 : " + cnt);	   		
 			    
@@ -115,6 +118,22 @@ public class MemberListController {
 	public String auth() {
 		return "auth";
 	}
-
+	
+	@RequestMapping(value="/sancHistoryList.do")
+	public String sancHistoryList(Model model, HttpSession session, @RequestParam String member_idx) {
+		logger.info("해당하는 회원 : "+member_idx);
+		String page = "home";
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		if(dto != null && dto.getSubsType_code()==4) {	
+			page = "sancHistoryList";
+			ArrayList<BoardDTO>list=service.sancHistoryList(Integer.parseInt(member_idx));		
+			model.addAttribute("list",list);
+			model.addAttribute("size",list.size());
+		}else {
+			model.addAttribute("msg","접근권한이 없습니다.");
+		}		
+		return page;
+	}
+	
 	
 }

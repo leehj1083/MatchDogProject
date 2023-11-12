@@ -58,9 +58,23 @@ table, th, td{
 	text-align: center;
 }
 
-.salesGraph{
-	height : 200px;
-	width : 200px;
+.noticeToday{
+	width : 800px;
+	height : 100px;
+	display: block;
+}
+
+.visitorStatistics{
+	display:flex;
+	width:800px;
+	flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.visitorGraph{
+	height : 250px;
+	width : 600px;
 }
 
 .subsStatistics{
@@ -72,14 +86,18 @@ table, th, td{
     justify-content: center;
 }
 
+.salesGraph{
+	height : 250px;
+	width : 250px;
+}
+
 .dataTable{
-	margin-left:40px;
+	margin-left:60px;
 }
 
 </style>
 </head>
 <body>
-
 <div id="wrap">
 	<div class="banner">
 		<div class="header">
@@ -115,7 +133,7 @@ table, th, td{
 		        	<span class="bi bi-people-fill"></span>
 					<span>신고관리</span>
 		        </a>
-		        <a href="./home.go" class="btn_gnb myPage">
+		        <a href="./HomeMatchingList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>서비스페이지</span>
 		        </a>
@@ -124,22 +142,23 @@ table, th, td{
 		<div class="content">		
 		<h3>DASHBOARD</h3><hr/>
 			<div class="visitorStatistics">
-				<span id="today" name="today"></span>
-				<select id="selection" name="selection">
-					<option value="day">일</option>
-					<option value="week">주</option>
-					<option value="month">월</option>
-				</select>
-				<span>별 방문자 통계</span>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 방문자 수 : <span id="todayCount"></span>
-				&nbsp;전체 방문자 수 : <span id="totalCount"></span>
+				<div class="noticeToday">
+					<span id="today"></span>&nbsp;기준&nbsp;
+					<select id="selection" name="selection">
+						<option value="day">일</option>
+						<option value="week">주</option>
+					</select>
+					<span>별 방문자 통계</span>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 방문자 수 : <span id="todayCount"></span>
+					&nbsp;전체 방문자 수 : <span id="totalCount"></span>
+				</div>
 				<div class="visitDataGraph">
-					<canvas id="visitorGraph" width="800px" height="400px"></canvas>
+					<canvas id="visitorGraph" width="800px" height="250px"></canvas>
 				</div>
 			</div>
 			<div class="subsStatistics">
 				<div class="dataGraph">
-					<canvas id="salesGraph" width="400px"></canvas>
+					<canvas id="salesGraph" width="400px" height="250px"></canvas>
 				</div>
 				<div class="dataTable">
 					<table>
@@ -184,28 +203,30 @@ table, th, td{
 </div>
 </body>
 <script>
+/* 오늘 날짜 삽입 */
+ 
+var today = new Date();
+var Year = today.getFullYear();
+var Month = today.getMonth() + 1;
+var Day = today.getDate();
+Month = Month>=10 ? Month : '0'+Month;
+Day = Day >=10 ? Day : '0'+Day;
 
-/* 현재날짜 표기 */
-
-function getDate(){
-	var today = new Date();
-	var year = today.getFullYear();
-	var month = (today.getMonth()+1).toString().padStart(2,'0');
-	var day = today.getDate().toString().padStart(2,'0');
-	var dateString = year + '-' + month + '-' + day;
-	return dateString;
-}
+var Today = Year + '-' + Month + '-' + Day;
+$('#today').html(Today);
 
 
-$('#today').html(getDate());
-var today = getDate();
+
+/* 페이지 상단 방문자 통계 관련 파트(ajax, graph) */
+
 var selection = $('#selection').val();
 console.log("선택분류="+selection);
 
-/* 방문자 통계 관련 ajax 및 그래프 */
-visitorStatistic(selection, today);
+/* 방문자 통계 관련 ajax */
+var visitorGraph;
+visitorStatistic(selection);
 
-function visitorStatistic(selection, today){	
+function visitorStatistic(selection){	
 	
 	var timeList = [];
 	var countList = [];
@@ -213,37 +234,126 @@ function visitorStatistic(selection, today){
 	$.ajax({
 		type:'get',
 		url:'visitorStatistics.do',
-		data : {'selection':selection,
-					'today':today},
+		data : {'selection':selection},
 		dataType:'JSON',
 		success : function(data){
 			console.log(data);		
 			$('#todayCount').html(data.todayCount +' 명');
 			$('#totalCount').html(data.totalCount +' 명');	
+			if(selection === 'day'){
+				var dataArray = data.weekCount || [];
+				for(var i = 0; i<dataArray.length; i++){	
+					timeList.push(dataArray[i].visit_date);
+					countList.push(dataArray[i].visit_count);
+				};				
+				console.log(timeList);
+				console.log(countList);
+				drawVisitorStatistic(timeList, countList);				
+			}else if(selection === 'week'){
+				var weekDataArray = data.sevenWeekCount || [];
+				for(var i = 0; i<weekDataArray.length; i++){	
+					timeList.push(weekDataArray[i].visit_week);
+					countList.push(weekDataArray[i].visit_count);
+				};
+				console.log(timeList);
+				console.log(countList);
+				drawSevenWeekVisitorStatistic(timeList, countList);		
+			}
 		},
 		error : function(e){
 			console.log(e);
 		}
-	});	
-	
+	});		
 }
 
+/* 방문자 그래프 관련 */
+function drawVisitorStatistic(timeList, countList){
+	
+	var canvas = document.getElementById('visitorGraph');
+	var ctx =canvas.getContext('2d');
+	var visitorGraph = new Chart(ctx, {
+	    type: 'line',
+	    data: {
+	        labels: timeList,
+	        datasets: [{
+	            label: '매칭하시개 방문객 추이',
+	            data: countList,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	        	x: {
+	                beginAtZero: true
+	            },
+	            y: {
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+}
+
+function drawSevenWeekVisitorStatistic(timeList, countList){
+	
+	var canvas = document.getElementById('visitorGraph');
+	var ctx =canvas.getContext('2d');
+	var visitorGraph = new Chart(ctx, {
+	    type: 'line',
+	    data: {
+	        labels: ['6주전','5주전','4주전','3주전','2주전','1주전','이번주' ],
+	        datasets: [{
+	            label: '매칭하시개 7주간 방문객 추이',
+	            data: countList,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)'
+	            ],            
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	        	x: {
+	                beginAtZero: true
+	            },
+	            y: {
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+}
+
+/* 방문자 통계 기준 일/주 변경시 */
 $('#selection').on('change',function(){
-	var selection = $('#dayWeekMonth').val();
+	var selection = $('#selection').val();
 	var visitorGraph = $('#visitorGraph');
 	console.log("선택분류="+selection);
-	resetSalesCanvas();
-	salesStatistic(month);
+	resetVisitorCanvas();
+	visitorStatistic(selection);
 })
 
+/* 방문자 그래프 다시 그리기 */
 var resetVisitorCanvas = function(){
 	if(visitorGraph){
 		visitorGraph.destroy();
 	}	
 	$('#visitorGraph').remove();
-	$('.visitDataGraph').append('<canvas id="visitorGraph" width="800px" height="400px"></canvas>');
+	$('.visitDataGraph').append('<canvas id="visitorGraph" width="600px" height="300px"></canvas>');
 }
 
+
+
+/* 페이지 하단 매출 통계 관련 파트(ajax, graph) */
 
 /* 월 선택(현재 날짜의 월이 선택되어있게 하기) */
 var date = new Date();
@@ -252,10 +362,8 @@ var currMonth = date.getMonth();
 $('#month').val(currMonth+1).prop("selected", true);
 
 
-/* 매출 통계 관련 ajax 및 그래프 부 */
-
+/* 매출 통계 관련 ajax */
 salesStatistic(month);
-
 var salesGraph;
 
 function salesStatistic(month){
@@ -281,8 +389,8 @@ function salesStatistic(month){
 		});		
 }
 
+/* 매출 그래프 관련 */
 function drawSalesStatistic(obj){
-	/* 그래프 관련 */
 	var canvas = document.getElementById('salesGraph');
 	var ctx =canvas.getContext('2d');
 	var salesGraph= new Chart(ctx, {
@@ -313,6 +421,7 @@ function drawSalesStatistic(obj){
 	});
 }
 
+/* 월 바꿨을때 그래프 지우기 */
 $('#month').on('change',function(){
 	var month = $('#month').val();
 	var salesGraph = $('#salesGraph');
@@ -321,6 +430,7 @@ $('#month').on('change',function(){
 	salesStatistic(month);
 })
 
+/* 매출 그래프 다시 그리기 */
 var resetSalesCanvas = function(){
 	if(salesGraph){
 		salesGraph.destroy();
