@@ -88,7 +88,7 @@ table,th,td{
 		        	<span class="bi bi-people-fill"></span>
 					<span>신고관리</span>
 		        </a>
-		        <a href="./home.go" class="btn_gnb myPage">
+		        <a href="./HomeMatchingList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>서비스페이지</span>
 		        </a>
@@ -170,7 +170,7 @@ table,th,td{
 					<th colspan="4">
 						<input type="button" onclick="location.href='./memberList.go'" value="회원목록으로"/>
 						<input type="button" onclick="location.href='./subsHistory.do?member_idx=${dto.member_idx}'" value="구독이력보기"/>
-						<input type="button" onclick="location.href='./updateForm?member_idx=${dto.member_idx}'" value="제재이력보기"/>
+						<input type="button" onclick="location.href='./sancHistoryList.do?member_idx=${dto.member_idx}'" value="제재이력보기"/>
 						<input type="button" name="memberAuthMod" value="저장하기"/>
 					</th>	
 				</tr>

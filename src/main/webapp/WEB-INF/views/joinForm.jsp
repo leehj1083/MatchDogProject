@@ -6,82 +6,111 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
-	.inputForm{
-		width:600px;
-		height:1000px;
+	.banner{
+		height : 120px;
+	}
+	.logo_matchDog{
+		width : 210px;
+		height : 70px;
+	}
+	.content{
+		width : 500px;
+		height : 1120px;
 		margin: 0 auto;
+		border: 1px solid black;
+		padding : 30px;
+	}
+	
+	.inputForm{
+		width:500px;
+		height:1050px;
+		margin: 0 auto;		
+	}
+	#back, #join{
+		height : 30px;
+		width : 90px;
+		text-align: center;
+		font-size: medium;
+		margin: auto;
+		display: inline;
 	}
 </style>
 </head>
 <body>
-	<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+		</div>
 	</div>
-	
-	<div class="inputForm">
-     <h2>회원가입</h2>
-     <p/>회원가입에 필요한 기본 정보를 입력해주세요<br/>
-     
-     <p/>아이디<br/>  
-     <input type="text" name="member_id"/>
-     <input type="button" id="overlayId" value="중복확인"/>
-     <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해주세요</span>
-     <p/><span class="idChk"></span>
-    
-
-	  <p/>비밀번호<br/>  
-      <input type="password" name="member_pw"/>
-      <p/><span class="pwValid" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자, 특수문자를 혼합하여 8자 이상 입력해주세요</span>
-      <p/>비밀번호 확인<br/>
-      <input type="password" name="pwCheck"/>
-      <p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
-      
-      <p/>이름<br/>    
-	  <input type="text" name="member_name"/>
-      
-      <p/>생년월일<br/>   
-      <input type="date" name="member_birth"/>
-
-	  <p/>성별<br/>
-      <input type="radio" name="member_gender" value="남"/>남자
-      <input type="radio" name="member_gender" value="여"/>여자
-
-	  <p/>전화번호<br/>
-      <input type="text" name="member_phone"/>
-       <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
-
-	  <p/>닉네임<br/>
-	  <input type="text" name="member_nickName"/>
-      <input type="button" id="overlayNick" value="중복확인"/>      
-      <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
-      <p/><span class="nickChk"></span>    
-	  
-         
-      <p/>주소<input type="text" id="postcode" placeholder="우편번호">
-	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-	  <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소"><br/>
-	  <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소"><br/>
-	  <span id="guide" style="color:#999;display:none"></span><br/>
-	  <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소">		  
-	  <input type="text" id="extraAddress" placeholder="참고항목">                  
-      
-      <p/>이메일   
-      <p/><input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" />@
-	  <select name="emailhost" id="mailhost">
-			<option value="naver.com">naver.com</option>	
-			<option value="gmail.com">gmail.com</option>
-			<option value="daum.net">daum.net</option>
-			<option value="nate.com">nate.com</option>
-	  </select>
-	  <button type="button" id="identifyMail">인증요청</button>
-	  
-      <p/>&nbsp;인증번호<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해주세요"  disabled = "disabled" maxlength="6"/>
-	  <button type="button" id="checkMail" >인증하기</button>
-	  <p/><span class="mailChk"></span>
-            
-      <p/><input type="button" id="back" value="돌아가기"/><input type="button" id="join" value="회원가입"/>
-             
-     </div>
+	<div class="content">
+		<div class="inputForm">
+		    <h2 style="text-align: center;">회원가입</h2>
+		    <p/>회원가입에 필요한 기본 정보를 입력해주세요<br/><hr/>
+		     
+		    <p/>아이디<br/>  
+		    <input type="text" name="member_id" style="width: 50%;"/>
+		    <input type="button" id="overlayId" value="중복확인"/>
+		    <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해주세요</span>
+		    <p/><span class="idChk"></span>
+		    
+		
+			 <p/>비밀번호<br/>  
+		     <input type="password" name="member_pw" style="width: 50%;"/>
+		     <p/><span class="pwValid" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자, 특수문자를 혼합하여 8자 이상 입력해주세요</span>
+		     <p/>비밀번호 확인<br/>
+		     <input type="password" name="pwCheck" style="width: 50%;"/>
+		     <p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
+		      
+		     <p/>이름<br/>    
+			 <input type="text" name="member_name" style="width: 50%;"/>
+		      
+		     <p/>생년월일<br/>   
+		     <input type="date" name="member_birth" style="width: 50%;"/>
+		
+			 <p/>성별<br/>
+		     <input type="radio" name="member_gender" value="남"/>남자
+		     <input type="radio" name="member_gender" value="여"/>여자
+		
+			 <p/>전화번호<br/>
+		     <input type="text" name="member_phone" style="width: 50%;"/>
+		     <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+		
+			 <p/>닉네임<br/>
+			 <input type="text" name="member_nickName" style="width: 50%;"/>
+		     <input type="button" id="overlayNick" value="중복확인"/>      
+		     <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
+		     <p/><span class="nickChk"></span>    
+			  
+		         
+		     <p/>주소
+		     <p/><input type="text" id="postcode" placeholder="우편번호" style="width: 50%;">
+			 <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+			 <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소" style="width: 50%;"><br/>
+			 <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소" style="width: 50%;"><br/>
+			 <span id="guide" style="color:#999; display:none"></span><br/>
+			 <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소">		  
+			 <input type="text" id="extraAddress" placeholder="참고항목">                  
+		      
+		     <p/>이메일   
+		     <p/><input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" />@
+			 <select name="emailhost" id="mailhost">
+				<option value="naver.com">naver.com</option>	
+				<option value="gmail.com">gmail.com</option>
+				<option value="daum.net">daum.net</option>
+				<option value="nate.com">nate.com</option>
+			 </select>
+			 <button type="button" id="identifyMail">인증요청</button>
+			  
+		     <p/>인증번호&nbsp;&nbsp;<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해주세요"  disabled = "disabled" maxlength="6"/>
+			 <button type="button" id="checkMail" >인증하기</button>
+			 <p/><span class="mailChk"></span><hr/>
+		 </div>		  
+	     <div class="submit" style="display: block; margin: auto; text-align: center;">
+	     	<input type="button" id="back" value="돌아가기"/>&nbsp;&nbsp;<input type="button" id="join" value="회원가입"/>
+	     </div>     	     
+	 </div>
+</div>	 
 </body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

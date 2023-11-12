@@ -26,14 +26,14 @@ public class MemberListService {
 	}
 
 	public ArrayList<MemberDTO> memberList(String searchType, String searchKeyword, int pagePerNum,
-			int page) {		
+			int page, String subsType) {		
 		
 		int offset = (page-1)*pagePerNum;					    
-		return dao.memberList(searchType, searchKeyword, pagePerNum, offset);
+		return dao.memberList(searchType, searchKeyword, pagePerNum, offset, subsType);
 	}
 	
-	public int totalPage(int pagePerNum, String searchType, String searchKeyword) {
-		return dao.totalPage(pagePerNum, searchType, searchKeyword);
+	public int totalPage(int pagePerNum, String searchType, String searchKeyword, String subsType) {
+		return dao.totalPage(pagePerNum, searchType, searchKeyword, subsType);
 	}	
 
 	public void memberAuthMod(String subsType_code, String member_idx) {		
@@ -44,8 +44,12 @@ public class MemberListService {
 		return dao.subsHistory(member_idx);
 	}
 
-	public int countUser(String searchType, String searchKeyword) {
-		return dao.countUser(searchType, searchKeyword);
+	public int countUser(String searchType, String searchKeyword, String subsType) {
+		return dao.countUser(searchType, searchKeyword, subsType);
+	}
+
+	public ArrayList<BoardDTO> sancHistoryList(int member_idx) {
+		return dao.sancHistoryList(member_idx);
 	}
 
 	
