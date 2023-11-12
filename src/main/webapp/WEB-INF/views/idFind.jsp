@@ -6,41 +6,62 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
+	.banner{
+		height : 120px;
+	}
+	.logo_matchDog{
+		width : 210px;
+		height : 70px;
+	}
 	.findForm{
 		width:400px;
-		height:600px;
+		height:550px;
 		margin: 0 auto;
+		border: 1px solid black;
+		padding : 30px;
 	}
 </style>
 </head>
 <body>
-	<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
-	</div>
-	<div class="findForm">
-		<h2>아이디 찾기</h2>
-		<p/>&nbsp;<h3>이름</h3>
-		<p/><input type="text" name="member_name" placeholder="이름을 입력 하세요" />
-		<p/>&nbsp;<h3>이메일</h3>
-		<div>
-			<p/><input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" />@
-			<select name="emailhost" id="mailhost">
-				<option value="naver.com">naver.com</option>	
-				<option value="gmail.com">gmail.com</option>
-				<option value="daum.net">daum.net</option>
-				<option value="nate.com">nate.com</option>
-			</select>
-			<button type="button" id="identifymail">인증요청</button>
-			<!-- 인증요청 버튼 눌렀을 시 이름과 이메일이 일치하는 아이디가 없을 경우 해당하는 아이디가 없다고 알려줘야 함  -->
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 		</div>
-		<p/><h3>인증번호</h3>
-		<p/><input type="text" name= "certNum" placeholder="인증번호를 입력해주세요" maxlength="6"/>
-		<button type="button" id="certNumChk">인증하기</button>
-		
-		<p/><span id="informId"></span><br/><hr/>
-		
-		<a href="./">로그인</a> / <a href="./pwFind.go">비밀번호 찾기</a> / <a href="./joinAgree.go">회원가입</a>
 	</div>
+	<div class="content">
+		<div class="findForm">
+			<h2 style="text-align: center;">아이디 찾기</h2><br><hr/>
+			<p/><h3>이름</h3>
+			<p/><input type="text" name="member_name" placeholder="이름을 입력 하세요" style="width: 80%"/>
+			<br>
+			<br>
+			<p/><h3>이메일</h3>
+			<div>
+				<p/><input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" />@
+				<select name="emailhost" id="mailhost">
+					<option value="naver.com">naver.com</option>	
+					<option value="gmail.com">gmail.com</option>
+					<option value="daum.net">daum.net</option>
+					<option value="nate.com">nate.com</option>
+				</select>
+				<button type="button" id="identifymail">인증요청</button>
+				<!-- 인증요청 버튼 눌렀을 시 이름과 이메일이 일치하는 아이디가 없을 경우 해당하는 아이디가 없다고 알려줘야 함  -->
+			</div>
+			<br>
+			<p/><h3>인증번호</h3>
+			<p/><input type="text" name= "certNum" placeholder="인증번호를 입력해주세요" maxlength="6"/>
+			<button type="button" id="certNumChk">인증하기</button>
+			
+			<p/><span id="informId"></span>
+			<br/><hr/>
+			<div style="display: block; margin: auto; text-align: center;">
+			<br>
+				<a href="./">로그인</a> / <a href="./pwFind.go">비밀번호 찾기</a> / <a href="./joinAgree.go">회원가입</a>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 <script>
 

@@ -6,32 +6,51 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
-	.content{
-		width: 500px;
-		height:500px;
+	.banner{
+		height : 120px;
+	}
+	.logo_matchDog{
+		width : 210px;
+		height : 70px;
+	}
+	.content{		
+		width: 400px;
+		height:550px;
 		margin: 0 auto;
+		border: 1px solid black;
+		padding : 30px;
 	}
 	.terms_box{
-		width: 400px;
-		height:100px;
+		width: 350px;
+		height:150px;
 	}
-	
+	#next{
+		height : 30px;
+		width : 90px;
+		text-align: center;
+		font-size: medium;
+		margin: auto;
+		display: block;
+	}
 </style>
 </head>
 <body>	
-	<div class="container">
-		<a href="/home.go"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+		</div>
 	</div>
 	<div class="content">
 		<div class="form_section">
 			<div class="check_terms">
 				<input type="checkbox" id="chk_all">
 				<label for="chk_all">
-					<span>전체 동의하기</span>
+					<span style="font-weight: bold;">전체 동의하기</span><p/>
 				</label>
 			</div>
 			<div class="terms_desc">가입시 본인명의의 이메일을 인증하며, 생년월일, 주소제공 등 개인정보 제공 동의를 포함합니다.</div>
-		</div>
+		</div><p/>
 		<ul class="terms_list">
 			<li class="terms_item">
 				<div class="check_terms">
@@ -45,6 +64,7 @@
 						매칭해주개 서비스 회원으로 가입하실 경우 여러분은 본 약관 및 관련 운영 정책을 확인하거나 동의하게 됩니다.</p>
 				</div>
 			</li>
+			<br><p/>
 			<li class="terms_item">
 				<div class="check_terms">
 					<input type="checkbox" name="chk">
@@ -54,17 +74,20 @@
 				</div>
 				<div class="terms_box" style="overflow: scroll">
 					<p class="terms_text">개인정보보호법에 따라 매칭해주개에 회원가입 신청하시는 분께 수집하는 개인정보의 항목을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
-						1. 수집하는 개인정보
+						<br><p>1. 수집하는 개인정보
 						
 						회원가입 시점에 이용자로부터 수집하는 개인정보는 아래와 같습니다.
 						- 회원 가입 시 필수항목으로 아이디, 비밀번호, 이름, 생년월일, 성별, 휴대전화번호, 본인확인 이메일주소를 수집합니다. 가입 시, 중복가입 확인정보(DI)를 함께 수집합니다. 
 						- 비밀번호 없이 회원 가입 시에는 필수항목으로 아이디, 이름, 생년월일, 휴대전화번호를, 선택항목으로 비밀번호를 수집합니다.</p>
 				</div>
 			</li>	
-		</ul>
-		<input type="button" id="next" value="다음으로"/>
+		</ul><hr/>
+		<br>
+		<div style="display: block; margin: auto; text-align: center;">
+			<input type="button" id="next" value="다음으로"/>
+		</div>
 	</div>
-	
+</div>	
 </body>
 <script>
 
