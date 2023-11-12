@@ -26,21 +26,6 @@ public class MyPageController {
 	
 	@Autowired MyPageService service;
 	
-	/*
-	 * @RequestMapping(value="/login") public String login(HttpSession session,Model
-	 * model, @RequestParam String id, @RequestParam String pw) {
-	 * logger.info(id+"/"+pw); String page="login"; boolean success
-	 * =service.login(id, pw); logger.info("success : "+success);
-	 * 
-	 * if(success) { // page = "list"; <- list.jsp // page = "redirect:/list"; <-
-	 * controller 의 /list 요청을 해라
-	 * 
-	 * page="redirect:/myPageList.do"; session.setAttribute("loginId", id);
-	 * 
-	 * }else { model.addAttribute("msg", "아이디 또는 비밀번호를 확인하세요!"); }
-	 * 
-	 * return page; }
-	 */
 	
 	@RequestMapping(value = "/myPageList.do")
 	public String myPageListDo(Model model, HttpSession session) {
