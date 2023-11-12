@@ -17,5 +17,11 @@ public interface AuthDAO {
 	ArrayList<AuthDTO> authCodeListDo();
 
 	void authDetailModUpdateDo(Map<String, String> params);
-
+	
+	
+	// 기존 권한코드 삭제
+	void authcodeDel(int subsType_code);
+	//새로운 권한 코드 추가
+	void newAuthCodesSave(int subsType_code, String newAuthcode);
+	
 }

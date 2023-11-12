@@ -39,4 +39,16 @@ public class AuthService {
 		dao.authDetailModUpdateDo(params);
 		
 	}
+	
+	public void authcodeDel(int subsType_code) {
+		dao.authcodeDel(subsType_code);
+		
+	}
+	
+	public void newAuthCodesSave(int subsType_code, String newAuthcode) {
+		logger.info(newAuthcode);
+		dao.newAuthCodesSave(subsType_code, newAuthcode);
+		
+	}
+	
 }

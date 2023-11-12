@@ -95,11 +95,13 @@ public class AuthController {
 			@RequestParam(value ="newAuthCodes", required = false) String[] newAuthCodes
 			) {
 		logger.info("권한 설명 : "+params.get("subs_desc"));
+		int subsType_code=Integer.parseInt(params.get("subsType_code"));
 		
-		
-		logger.info("subsType_code: " + params.get("subsType_code"));
+		logger.info("subsType_code:"+subsType_code);
 		if (newAuthCodes != null) {
+			service.authcodeDel(subsType_code);
 	        for (String newAuthcode : newAuthCodes) {
+	        	service.newAuthCodesSave(subsType_code, newAuthcode);
 	            logger.info(newAuthcode);
 	        }
 	    }
@@ -108,12 +110,12 @@ public class AuthController {
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		if(dto != null && dto.getSubsType_code()==4) {		
 			service.authDetailModUpdateDo(params);
-			
+			page= "redirect:/authDetailList.do?subsType_code="+subsType_code;
 		}else {
 			model.addAttribute("msg","접근권한이 없습니다.");
 		}
 		
-		/* page= "redirect:/authDetailList.do"; */
+		
 		return page;
 	}
 	
