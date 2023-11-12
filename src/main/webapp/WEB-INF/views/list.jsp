@@ -9,9 +9,87 @@
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
+
+a, a:link, a:visited, a:active, a:hover {
+		text-decoration: none;
+		color: var(--black);
+	}
+	
+	
+	/* 본인 페이지 것으로 변경하기  */
+	.btn_gnb .bi-people-fill, .btn_gnb.board{
+	    color: var(--white);
+	    background-color: var(--green);
+	}
+	
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	 .btn_gnb:hover .bi-house-door-fill,
+	.btn_gnb:hover .bi-chat-dots-fill,
+	.btn_gnb:hover .bi-gear-fill,
+  /*.btn_gnb:hover .bi-people-fill, */
+	.btn_gnb:hover .bi-person-circle,
+	.btn_gnb:hover .bi-list-ul {
+	    background-color: var(--light);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+  .btn_gnb.home:hover,
+	.btn_gnb.match:hover,
+	.btn_gnb.chatting:hover,	
+	/* .btn_gnb.board:hover,*/
+	.btn_gnb.myPage:hover,
+	.btn_gnb.admin:hover{
+		background-color: var(--light);
+	}
+	    #modalContent{
+	    	width: 500px;
+	    	height: 500px;
+	    	text-align: left; 
+	}
+
+	.sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #255,255,255;
+        padding-top: 20px;
+    }
+
+    .sidebar h2 {
+        color: black;
+        text-align: center;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
+	.content {
+        margin-left: 260px;
+        padding: 20px;
+        text-align: center;
+    }
+
+
+
 	table, th, td{
 		border: 1px solid black;
 		border-collapse: collapse;
@@ -43,6 +121,49 @@
 </style>
 </head>
 <body>
+
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
+			</h1>
+			<div class="gnb">
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
+			</div>
+		</div>
+		<div class="content">
 	<select id="pagePerNum">
 		<option value="5">5</option>
 		<option value="10">10</option>
@@ -93,6 +214,9 @@
 		</tr>
 		
 	</table>
+	</div>
+	</div>
+	</div>
 </body>
 <script>
 var showPage = 1;
