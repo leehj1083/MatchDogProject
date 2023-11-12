@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.one.mat.main.dto.ProOpenDTO;
 import com.one.mat.main.service.MatchingService;
 import com.one.mat.member.dto.MatchAllDTO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.member.dto.PhotoDTO;
 import com.one.mat.member.dto.ProfileDTO;
 
 @Controller
@@ -45,33 +47,56 @@ public class MatchingController {
 	@RequestMapping(value = "/MatchingList.do")
 	@ResponseBody
 	public Map<String, Object> matchingListDo(Model model, HttpSession session) {
-		logger.info("MatchingList");
-		
-		Map<String, Object> map = new HashMap<>();
-		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-		
-		// 로그인 했을때
-		if (dto != null) {
-		int member_idx = dto.getMember_idx();
-			logger.info("member_idx : "+member_idx);
-			ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
-			
-			for (ProfileDTO profileDTO : myProfile) {
-				 if(profileDTO.getPro_rep().equals("Y")) {
-				    int pro_idx = profileDTO.getPro_idx();
-				    logger.info("pro_idx : "+pro_idx);
-				    
-				    ArrayList<MatchAllDTO> list = service.matchingList(member_idx, pro_idx);
-				    map.put("list", list);
-				}
-			}
-		} else {
-		    ArrayList<MatchAllDTO> list = service.unloginedMatchingList();
-		    map.put("list", list);
-		}
-		return map;    
+	    logger.info("MatchingList");
+
+	    Map<String, Object> map = new HashMap<>();
+	    MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+
+	    if (dto != null) {
+	        int member_idx = dto.getMember_idx();
+	        logger.info("member_idx : " + member_idx);
+	        ArrayList<ProfileDTO> myProfile = service.MyProfileListDo(member_idx);
+
+	        // 결과를 저장할 리스트
+	        List<MatchAllDTO> resultList = new ArrayList<>();
+
+	        for (ProfileDTO profileDTO : myProfile) {
+	            if (profileDTO.getPro_rep().equals("Y")) {
+	                int pro_idx = profileDTO.getPro_idx();
+	                logger.info("pro_idx : " + pro_idx);
+	                int Type = 4;
+
+	                for (int count = Type; count >= 1; count--) {
+	                    ArrayList<MatchAllDTO> list = service.matchingList(member_idx, pro_idx, count);
+	                    // 결과를 전체 리스트에 추가
+	                    resultList.addAll(list);
+	                }
+	    	        ArrayList<MatchAllDTO> list = service.unloginedMatchingList();
+	    	        resultList.addAll(list);
+	            }
+	        }
+	        // 결과 리스트를 맵에 저장
+	        map.put("list", resultList);
+	    } else {
+	        ArrayList<MatchAllDTO> list = service.unloginedMatchingList();
+	        map.put("list", list);
+	    }
+
+	    return map;
 	}
 	
+	@RequestMapping(value="/MatchingProOpen.do")
+	@ResponseBody
+	public Map<String, Object> matchingListDo(HttpSession session, @RequestParam int pro_idx) {
+		logger.info("숨김여부 pro_idx: "+pro_idx);
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<ProOpenDTO> list = service.MatchingProOpenDo(pro_idx);
+	    if (!list.isEmpty()) {
+	        map.put("list", list);
+	    }
+		logger.info("숨김여부 콘솔에 찍히는지: "+map);
+		return map;
+	}
 	
 	// 매칭보내기 요청 /HomeSend.do
 	@RequestMapping(value="/HomeSend.do")
@@ -105,28 +130,34 @@ public class MatchingController {
 			}
 		} else {
 			logger.info("실패!");
-			}
-	return  service.homeSend(map);
-}
+		}
+		return  service.homeSend(map);
+	}
 	
-// 프로필상세보기 모달창 요청 /memberDetailList.go
+	// 프로필상세보기 모달창 요청 /memberDetailList.go
 	@RequestMapping(value= "/memberDetailList.go")
-	public String memberDetailListGO(Model model, HttpSession session,@RequestParam int pro_idx) {
+	public String memberDetailListGO(Model model, HttpSession session, @RequestParam int pro_idx) {
 		logger.info("memberDetailListGo");
 		Map<String, Object> map = new HashMap<String, Object>();
-			logger.info("memberDetailListGo/pro_idx : " + pro_idx);
-			       map = service.memberDetailListGO(pro_idx);
-			       logger.info("map : "+map);
-			       model.addAttribute("map",map);
+		logger.info("memberDetailListGo/pro_idx : " + pro_idx);
+		map = service.memberDetailListGO(pro_idx);
+		ArrayList<ProOpenDTO> list = service.MatchingProOpenDo(pro_idx);
+	    if (!list.isEmpty()) {
+	        map.put("list", list);
+	    }
+		logger.info("map : "+map);
+		model.addAttribute("map",map);
+			       
 		return "memberDetailList";
 	}
-
+	
+	@RequestMapping(value="/memberDetailPhoto.do")
+	@ResponseBody
+	public Map<String, Object> memberDetailPhotoDo(HttpSession session, @RequestParam int pro_idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<PhotoDTO> list = service.memberDetailPhotoDo(pro_idx);
+		map.put("list", list);
+		return map;
+	}
 }
-
-
-
-
-
-
-
 
