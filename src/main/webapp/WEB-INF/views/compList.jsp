@@ -9,14 +9,94 @@
 <link
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet">
+	<link rel="stylesheet" href="resources/css/home.css" type="text/css">
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <!-- 페이징 처리를 위한 라이브러리 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <script src="resources/js/jquery.twbsPagination.js"
 	type="text/javascript"></script>
 <style>
+a, a:link, a:visited, a:active, a:hover {
+		text-decoration: none;
+		color: var(--black);
+	}
+	
+	
+	/* 본인 페이지 것으로 변경하기  */
+	.btn_gnb .bi-house-door-fill, .btn_gnb.home{
+	    color: var(--white);
+	    background-color: var(--green);
+	}
+	
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	/* .btn_gnb:hover .bi-house-door-fill, */
+	.btn_gnb:hover .bi-chat-dots-fill,
+	.btn_gnb:hover .bi-gear-fill,
+	.btn_gnb:hover .bi-people-fill,
+	.btn_gnb:hover .bi-person-circle,
+	.btn_gnb:hover .bi-list-ul {
+	    background-color: var(--light);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	/* .btn_gnb.home:hover, */
+	.btn_gnb.match:hover,
+	.btn_gnb.chatting:hover,	
+	.btn_gnb.board:hover,
+	.btn_gnb.myPage:hover,
+	.btn_gnb.admin:hover{
+		background-color: var(--light);
+	}
+	    #modalContent{
+	    	width: 500px;
+	    	height: 500px;
+	    	text-align: left; 
+	}
+
+	.sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #255,255,255;
+        padding-top: 20px;
+    }
+
+    .sidebar h2 {
+        color: black;
+        text-align: center;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .content {
+        margin-left: 260px;
+        padding: 20px;
+        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
+    }
+    #modalContent{
+    	width: 500px;
+    	height: 500px;
+    	text-align: left; 
+    }
 table, td, th {
 	border: 1px solid black;
 	border-collapse: collapse;
@@ -29,12 +109,18 @@ select {
 </style>
 </head>
 <body>
+
+<div class="container">
+		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+	</div>
+
 	<select id="pagePerNum">
 		<option value="5">5</option>
 		<option value="10">10</option>
 		<option value="15">15</option>
 		<option value="20">20</option>
 	</select>
+	
 	<div>안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
 		&nbsp;&nbsp;&nbsp;&nbsp;</div>
 	<form action="compList.go" method="post">
