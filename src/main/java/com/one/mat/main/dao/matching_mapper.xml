@@ -23,7 +23,7 @@ SELECT
     p.pro_dogDesc,
     p.pro_idx,
     (
-        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR '/')
+        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR ' / ')
         FROM `char` AS c
         JOIN `chartype` AS ct ON c.charType_code = ct.charType_code
         WHERE c.pro_idx = p.pro_idx
@@ -79,7 +79,7 @@ LIMIT 10;
 	    p.pro_dogDesc,   
 	    p.pro_idx, 
 	    (
-	        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR '/')
+	        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR ' / ')
 	        FROM `char` AS c
 	        JOIN `chartype` AS ct ON c.charType_code = ct.charType_code
 	        WHERE c.pro_idx = p.pro_idx
@@ -120,67 +120,59 @@ LIMIT 10;
 	            WHERE pro_idx = #{param2}
 	        )
 	        GROUP BY c.pro_idx
-	        HAVING COUNT(DISTINCT c.charType_code) = 4
+	        HAVING COUNT(DISTINCT c.charType_code) = #{param3}
 	    )
 	    AND m.member_idx != #{param1}
 	ORDER BY RAND()
 	LIMIT 10;
 </select>
 
-<!-- 4가지의 성향 모두 일치하는 성향들을 가져오는 쿼리 -->
-<select id="charType" resultType = "com.one.mat.member.dto.ProfileDTO">
-select ct.charType, ct.charType_code
-from `char` c
-INNER JOIN chartype ct ON c.charType_code = ct.charType_code where c.pro_idx=#{pro_Idx}
-</select>
-
-
-<select id="pro_dogAgeOpen" resultType = "String">
-SELECT po.open_hide
-from proopen po
-INNER JOIN pro p ON p.pro_idx = po.pro_idx
-where openType_code=1 and p.pro_idx=#{pro_Idx}
-</select>
-
-<select id="pro_dogGenderOpen" resultType = "String">
-SELECT po.open_hide
-from proopen po
-INNER JOIN pro p ON p.pro_idx = po.pro_idx
-where openType_code=2 and p.pro_idx=#{pro_Idx}
-</select>
-
-<select id="photoList" resultType = "com.one.mat.member.dto.PhotoDTO">
-	SELECT pt.photo_id, pt.photo_type, pt.photo_idfNum, pt.photo_fileName, pt.photo_uploadDate
-	FROM pro p 
-	INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{pro_Idx}
+<select id="MatchingProOpenDo" resultType="com.one.mat.main.dto.ProOpenDTO">
+	SELECT * from proopen where pro_idx = #{param1};
 </select>
 
 <!-- 매칭요청 보내기 쿼리문 -->
 <insert id="homeSend" parameterType="map" >
 	INSERT INTO `match` (pro_sendIdx ,pro_recvIdx) VALUES(#{pro_sendIdx},#{pro_recvIdx})
 </insert>
+
 <!-- 매칭요청 보내기 알림테이블 insert 쿼리문 -->
 <insert id="matchingSendAlarm">
 INSERT INTO alarm (pro_sendIdx, pro_recvIdx, alarm_type, alarm_msg) 
 VALUES (#{param1}, #{param2}, 1, '님에게서 새로운 매칭 요청이 들어왔어요!')
 </insert>
+
 <!-- 프로필 상세보기 쿼리문 -->
 <select id="memberDetailListGO" resultType="map">
 	SELECT
-	    p.pro_dogName,
-	    p.pro_dogAge,
-	    p.pro_dogGender,
-	    p.pro_dogDesc,
-	    p.pro_dogScore,
+	    p.*,
 	    m.member_gender,
-	    m.member_dongAddr,
 	    m.member_nickName,
-	    bt.breedType
-	FROM pro AS p
-	JOIN member AS m ON p.member_idx = m.member_idx
-	LEFT JOIN breed AS b ON p.pro_idx = b.pro_idx
-	LEFT JOIN breedtype AS bt ON b.breedType_code = bt.breedType_code
+	    m.member_dongAddr,
+	    (
+	        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR ' / ')
+	        FROM `char` AS c
+	        JOIN `chartype` AS ct ON c.charType_code = ct.charType_code
+	        WHERE c.pro_idx = p.pro_idx
+	    ) AS characteristics,
+	    (
+	        SELECT bt.breedType
+	        FROM `breed` AS b
+	        JOIN `breedtype` AS bt ON b.breedType_code = bt.breedType_code
+	        WHERE b.pro_idx = p.pro_idx
+	        LIMIT 1
+	    ) AS breed
+	FROM `pro` AS p
+	JOIN `member` AS m ON p.member_idx = m.member_idx
 	WHERE p.pro_idx = #{param1};
 </select>
+
+
+<select id="memberDetailPhotoDo" resultType = "com.one.mat.member.dto.PhotoDTO">
+	SELECT pt.photo_id, pt.photo_type, pt.photo_idfNum, pt.photo_fileName, pt.photo_uploadDate
+	FROM pro p 
+	INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx where pt.photo_type = 4 and p.pro_idx =#{param1}
+</select>
+
 
 </mapper>

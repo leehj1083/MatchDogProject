@@ -51,11 +51,11 @@
 	.btn_gnb.admin:hover{
 		background-color: var(--light);
 	}
-	    #modalContent{
-	    	width: 500px;
-	    	height: 500px;
-	    	text-align: left; 
-	}
+	.content {
+	        /* margin-left: 260px; */
+			/* padding: 20px; */
+	        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
+	    }
 
 	.sidebar {
         height: 100%;
@@ -86,17 +86,15 @@
         color: black;
         text-decoration: none;
     }
-
-    .content {
-        margin-left: 260px;
-        padding: 20px;
-        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
-    }
     #modalContent{
     	width: 500px;
     	height: 500px;
-    	text-align: left; 
+    	text-align: center; 
     }
+	#photo {
+		width: 300px;
+		height: 200px;
+	}
 </style>
 </head>
 <body>
@@ -108,7 +106,7 @@
 				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -159,14 +157,13 @@
     <table>
         <tbody id="matchingList"></tbody>
     </table>
-    <button id="nextButton">다음</button>
     <button id="prevButton">이전</button>
+    <button id="nextButton">다음</button>
     <button id="matchingdel">매칭리스트 삭제</button>
     <button id="matchingreq" >매칭요청 보내기</button>
     <button id="openModal" >상세 보기</button>
     <!-- 모달을 불러올 위치 -->
     <div id="modalContent"></div>
-     <div id="alarmContent"></div>
 	</div>
 	</div>
 </div>
@@ -175,6 +172,9 @@
 var matchingData = []; // 매칭 데이터 배열
 var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
 var pro_idx = ""; 
+var currentMatch = "";
+var HiddenAge = "";
+var HiddenGnd = "";
 // 페이지 로딩 시 데이터 가져오기
 matchinglist();
 
@@ -208,20 +208,59 @@ function showMatchingData(index) {
         return;
     }
     var matchingList = currentMatch;
-
-    // 각 데이터에 대한 처리
-	$('#photo').attr('src', '/photo/' + matchingList.min_photo_fileName);
-    $('#photo').attr('alt', matchingList.min_photo_fileName);
-    $('#pro_dogName').text('강아지 이름: ' + matchingList.pro_dogName);
-    $('#pro_dogAge').text('강아지 나이: ' + matchingList.pro_dogAge);
-    $('#pro_dogGender').text('강아지 성별: ' + matchingList.pro_dogGender);
-    $('#pro_dogDesc').text('강아지 설명: ' + matchingList.pro_dogDesc);
-    $('#member_dongAddr').text('동 주소: ' + matchingList.member_dongAddr);
-    $('#member_gender').text('성별: ' + matchingList.member_gender);
-    $('#characteristics').text('성향: '+matchingList.characteristics);
-    $('#proOpen').text('pro_idx: ' + matchingList.pro_idx);
     
     pro_idx = matchingList.pro_idx;
+    
+	$.ajax({
+	    type: 'get',
+	    url: 'MatchingProOpen.do',
+	    data: {pro_idx: pro_idx},
+	    dataType: 'json',
+	    success: function (data) {
+	        console.log(data);
+	        if (data.list && data.list.length > 0){    	
+	            console.log("첫번째 숨김여부"+data.list[0].open_hide);
+	            HiddenAge = data.list[0].open_hide;
+		        console.log("두번째 숨김여부"+data.list[1].open_hide);
+		        HiddenGnd = data.list[1].open_hide;
+	        }else{
+	        	console.log("데이터가 없습니다");
+	        	HiddenAge = "";
+	        	HiddenGnd = "";
+	        }
+	        // 각 데이터에 대한 처리
+	    	$('#photo').attr('src', '/photo/' + matchingList.min_photo_fileName);
+	        $('#photo').attr('alt', matchingList.min_photo_fileName);
+	        $('#pro_dogName').text('강아지 이름: ' + matchingList.pro_dogName);
+	        if (HiddenAge !== "") {
+	            if (HiddenAge == 'N') {
+	                $('#pro_dogAge').text('강아지 나이: ' + matchingList.pro_dogAge);
+	            } else {
+	                $('#pro_dogAge').text('강아지 나이: ' + '(비공개)');
+	            }
+	        } else {
+	            $('#pro_dogAge').text('강아지 나이: ' + matchingList.pro_dogAge);
+	        }
+	        if (HiddenGnd !== "") {
+	            if (HiddenGnd == 'N') {
+	                $('#pro_dogGender').text('강아지 성별: ' + matchingList.pro_dogGender);
+	            } else {
+	                $('#pro_dogGender').text('강아지 성별: ' + '(비공개)');
+	            }
+	        } else {
+	            $('#pro_dogGender').text('강아지 성별: ' + matchingList.pro_dogGender);
+	        }
+	        $('#pro_dogDesc').text('강아지 설명: ' + matchingList.pro_dogDesc);
+	        $('#member_dongAddr').text('동 주소: ' + matchingList.member_dongAddr);
+	        $('#member_gender').text('성별: ' + matchingList.member_gender);
+	        $('#characteristics').text('성향: '+matchingList.characteristics);
+	        $('#proOpen').text('pro_idx: ' + matchingList.pro_idx);
+	    },
+	    error: function (e) {
+	        console.log(e);
+	        console.log("실패");
+	    }
+	});
     
     console.log("매칭리스트 + 성향 값 : " + currentMatch);
 }
@@ -252,38 +291,38 @@ $('#matchingdel').click(function () {
 	console.log("삭제 버튼");
 	matchingData.splice(currentIndex,1);
 	showMatchingData(currentIndex);
-	
 });
 
 //매칭요청 버튼 클릭시 매칭요청 보내기
 $('#matchingreq').click(function () {
 	console.log("매칭 버튼 클릭");
-   	 
-        var currentMatch = matchingData[currentIndex];
-        var matchingList = currentMatch.matchingList[currentIndex];
-        var request = {
-      		  pro_idx: matchingList.pro_idx
-        };
-         $.ajax({
-            type: 'POST',  // HTTP 요청 방식 선택 (GET, POST 등)
-            url: 'HomeSend.do',  // 서버로 요청을 보낼 URL
-            data: JSON.stringify(request),  // 데이터를 JSON 형식으로 변환하여 보냅니다
-            contentType: 'application/json',  // 보내는 데이터의 유형 (JSON)
-            dataType: 'Json',  // 서버로부터의 응답 데이터 타입 (JSON)
-            success: function (response) {
-            		console.log("stringify 성공 : " + JSON.stringify(request));
-                console.log('매칭 요청 성공:', response);
-                alert("매칭 요청이 발송되었습니다");
-            },
-            error: function (e) {
-                // 오류 발생 시 처리하는 로직을 작성합니다
-                console.error('매칭 요청 실패:', e);
-                console.log("stringify 실패 : " + JSON.stringify(request));
-            }
-        }); 
-    });
+	  	 
+	var currentMatch = matchingData[currentIndex];
+	var matchingList = currentMatch && currentMatch.matchingList && currentMatch.matchingList[currentIndex];
+	var request = {
+    		  pro_idx: pro_idx
+    };
+	$.ajax({
+		type: 'POST',  // HTTP 요청 방식 선택 (GET, POST 등)
+		url: 'HomeSend.do',  // 서버로 요청을 보낼 URL
+		data: JSON.stringify(request),  // 데이터를 JSON 형식으로 변환하여 보냅니다
+		contentType: 'application/json',  // 보내는 데이터의 유형 (JSON)
+		dataType: 'Json',  // 서버로부터의 응답 데이터 타입 (JSON)
+		success: function (response) {
+			console.log("stringify 성공 : " + JSON.stringify(request));
+		    console.log('매칭 요청 성공:', response);
+		    alert("매칭 요청이 발송되었습니다");
+		},
+		error: function (e) {
+		    // 오류 발생 시 처리하는 로직을 작성합니다
+		    console.error('매칭 요청 실패:', e);
+		    console.log("stringify 실패 : " + JSON.stringify(request));
+		}
+	}); 
+});
 
-$('#openModal').click(function () {
+$('#openModal').click(function (e) {
+	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
 	var currentMatch = matchingData[currentIndex];
 	var matchingList = currentMatch && currentMatch.matchingList && currentMatch.matchingList[currentIndex];
 	
@@ -300,8 +339,8 @@ $('#openModal').click(function () {
 	}
 });
 
-$('#openAlarm').click(function () {
-
+$('#openAlarm').click(function (e) {
+	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
    // JSP 파일을 가져와서 모달 창에 표시
    $.get("./alarmList.go", function(data) {
    	console.log(data);
