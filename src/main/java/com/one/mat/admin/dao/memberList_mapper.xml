@@ -135,5 +135,9 @@
 		WHERE l.member_idx =#{param1} ORDER BY l.compHistory_idx DESC
   	</select>
   	
+  	<select id="getMemberId" resultType="com.one.mat.member.dto.MemberDTO">
+  		SELECT member_id, member_idx FROM member WHERE member_idx=#{param1} 
+  	</select>
+  	
   	
 </mapper>  
