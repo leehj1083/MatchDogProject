@@ -59,7 +59,6 @@ a, a:link, a:visited, a:active, a:hover {
 	    background-color: var(--green);
 	}
 	
-	
 	/* 본인 페이지를 제외한 나머지 hover 적용 */
 	 .btn_gnb:hover .bi-house-door-fill,
 	.btn_gnb:hover .bi-chat-dots-fill,
@@ -84,6 +83,11 @@ a, a:link, a:visited, a:active, a:hover {
 	    	height: 500px;
 	    	text-align: left; 
 	}
+	.mainContainer {
+    display: flex;
+    width: 1280px;
+    margin: 0px;
+}
 
 	.sidebar {
         height: 100%;
@@ -118,8 +122,6 @@ a, a:link, a:visited, a:active, a:hover {
         text-align: center;
     }
 
-
-
 	table, th, td{
 		border: 1px solid black;
 		border-collapse: collapse;
@@ -149,7 +151,14 @@ a, a:link, a:visited, a:active, a:hover {
 	}
 
 	nav{
-	margin-left: -650px;
+		margin-left: -600px;
+	}
+	#openAlarm{
+		cursor: pointer;
+	}
+	.h4, h4 {
+	    font-size: 26px;
+	    margin-left: 210px;
 	}
 </style>
 </head>
@@ -169,12 +178,11 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div id="pageButton">
 		<select id="pagePerNum">
-		<option value="5">5개씩</option>
-		<option value="10">10개씩</option>
-		<option value="15">15개씩</option>
-		<option value="20">20개씩</option>
-	</select>
-	</div>
+			<option value="10">10개씩</option>
+			<option value="15">15개씩</option>
+			<option value="20">20개씩</option>
+		</select>
+		</div>
 	</div>
 	<div class="mainContainer">
 		<div class="side">
@@ -207,12 +215,14 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
+		<!-- 
 	<div>
-	<%-- 안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
+	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="logout">로그아웃</a>   --%>
+	<a href="logout">로그아웃</a>
 	</div>
-	
+		 -->
+	<h4 id="mung">멍멍 게시판</h4>
 	<table>
 		<thead>
 		<tr>
@@ -227,10 +237,7 @@ a, a:link, a:visited, a:active, a:hover {
 		<tbody id="list">		
 		</tbody>
 		
-		
 		<!-- 페이징, 글쓰기 한 행에 두기 -->
-		
-		
 		
 		 <tr>
 			<td colspan="6" id="paging" style="text-align:center;">	
@@ -335,7 +342,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = page;
+                        showPage = 1;
                         searchCall(page, searchType, searchKeyword); // 검색 결과로 페이지 이동
                     }
                 }
@@ -347,7 +354,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = page;
+                        showPage = 1;
                         listCall(page); // 일반 목록으로 페이지 이동
                     }
                 }

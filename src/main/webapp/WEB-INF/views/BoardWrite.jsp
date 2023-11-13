@@ -101,6 +101,15 @@ a, a:link, a:visited, a:active, a:hover {
     .leftSort{
     	text-align: left;
     }
+    #openAlarm{
+		cursor: pointer;
+	}
+	th {
+    	text-align: right;
+	}
+	input {
+ 	   margin: 1px;
+	}
 </style>
 </head>
 <body>
@@ -108,7 +117,7 @@ a, a:link, a:visited, a:active, a:hover {
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -148,7 +157,7 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
-	<form action="write" method="post" enctype="multipart/form-data">
+	<form action="write" method="post" enctype="multipart/form-data" onsubmit="return noContent();">
 		<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
 		<h3 id="write">글쓰기</h3>
 		<hr>
@@ -157,10 +166,10 @@ a, a:link, a:visited, a:active, a:hover {
 			<td class="leftSort" cols="2">작성자 : &nbsp&nbsp<input id="text" type="text" name="member_nickName" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
 		</tr>
 		<tr>
-			<td class="leftSort" cols="2">제목 : &nbsp&nbsp<input id="text" type="text" name="board_subject"/></td>
+			<td class="leftSort" cols="2">제목 : <input id="text" type="text" name="board_subject" style="margin-left: 23px;"/></td>
 		</tr>
 		<tr>
-			<td class="leftSort" cols="2">사진 <input type="file" name="photos" multiple="multiple"/></td>
+			<td class="leftSort" cols="2"><input type="file" name="photos" multiple="multiple"/></td>
 		</tr> 
 		<tr>
 			<td colspan="2"><textarea rows="15" cols="140" id="boardContent" name="board_content"></textarea></td>
@@ -172,23 +181,23 @@ a, a:link, a:visited, a:active, a:hover {
 			</th>
 		</tr>
 	</table> 
-	<%-- <input type="text" name="member_nickName" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/>
-		<input type="hidden" name="member_idx" value="${sessionScope.loginInfo.member_idx}">
-		<h3 id="write">글쓰기</h3>
-		<hr>
-		<div id="subject"><input type="text" name="borad_subject" value="제목을 입력해주세요"></div>
-		<div><input type="file" name="photos" multiple="multiple"/></div>
-		<div><textarea rows="15" cols="150" id="boardContent" name="board_content">내용을 입력해주세요</textarea></div>
-		<div >
-		<input class="button" type="button" onclick="location.href='./board'" value="취소"/>
-		<button class="button">작성</button>
-		</div> --%>
 	</form>
 	</div>
 	</div>
 	</div>
 </body>
 <script>
+function noContent() {
+    var title = document.getElementsByName("board_subject")[0].value;
+    var content = document.getElementsByName("board_content")[0].value;
+
+    if (title.trim() === "" || content.trim() === "") {
+        alert("제목과 내용을 모두 입력해주세요.");
+        return false; // 제출을 취소
+    }
+    return true; // 유효성 검사 통과 시 폼 제출
+}
+
 var msg = "${msg}";
 if(msg != ""){
 	alert(msg);

@@ -95,6 +95,9 @@
 		width: 300px;
 		height: 200px;
 	}
+	#openAlarm{
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
