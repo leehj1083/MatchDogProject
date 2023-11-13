@@ -145,11 +145,14 @@ p{
 border-right: 1px solid black;
 }
 #reportButton {
-    margin-right: 10px; /* 원하는 만큼의 마진을 추가하여 위치 조절 */
-    background-color: rgb(26, 188, 156); /* 원하는 배경색으로 변경 */
-    color: white; /* 텍스트 색상을 변경 */
-    border: none; /* 기본 테두리 제거 */
-    padding: 5px 10px; /* 버튼의 내부 여백을 조절 */
+       margin-right: 10px;
+    background-color: rgb(26, 188, 156);
+    color: white;
+    border: none;
+    padding: 9px 10px;
+    text-align: center;
+    margin-top: -46px;
+    margin-bottom: 16px;
 }
 .w-btn {
 	position: relative;
@@ -541,8 +544,9 @@ opacity
     height: 36px; /* 이미지의 세로 크기에 맞게 조절 */
     border: none; /* 버튼 스타일 초기화 */
     cursor: pointer; /* 마우스를 올렸을 때 포인터로 변경 */
-    top: -10px;
-    left: -10px;
+    margin-right: 691px;
+    margin-top : 10px;
+    margin-bottom: 10px;
 }
 
 </style>
@@ -574,7 +578,7 @@ opacity
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myPageList.do" class="btn_gnb myPage">
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -589,7 +593,7 @@ opacity
 	<div class="content">
       <form action="backCompList">
 	<div class = backbutton>
-	<p id="reportButton"><button id="backButton"></button> 신고 상세보기</p>
+	<button id="backButton"></button> <p id="reportButton">신고 상세보기</p>
 	</form>
 	</div>
 	<form class="card" action="proRegist.do" method="post"
