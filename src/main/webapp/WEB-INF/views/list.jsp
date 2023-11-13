@@ -342,7 +342,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = page;
+                        showPage = 1;
                         searchCall(page, searchType, searchKeyword); // 검색 결과로 페이지 이동
                     }
                 }
