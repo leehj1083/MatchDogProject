@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.board.service.BoardService;
+import com.one.mat.member.dto.MemberDTO;
 
 @Controller
 public class BoardController {
@@ -23,7 +24,7 @@ public class BoardController {
 	
 	@Autowired BoardService service;
 	
-	@RequestMapping(value="/board")
+	@RequestMapping(value="/boardList.go")
 	public String board() {
 		return "list";
 	}
@@ -51,8 +52,16 @@ public class BoardController {
 	////////////////////////////////////////////////////
 	
 	@RequestMapping(value="/BoardWrite")
-	public String BoardWrite() {
-		return "BoardWrite";
+	public String BoardWrite(HttpSession session, Model model	) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		String page ="";
+		if(dto==null) {
+			model.addAttribute("msg","로그인해주세요.");
+			page = "login";
+		}else {
+			page="BoardWrite";
+		}
+		return page;
 	}
 
 	@RequestMapping(value="/write")
@@ -78,7 +87,7 @@ public class BoardController {
 	public String del(@RequestParam String board_id) {
 		logger.info("board_id="+board_id);
 		service.del(board_id);
-		return "redirect:/board";
+		return "redirect:/boardList.go";
 	}
 	
 	@RequestMapping(value="/updateForm")
