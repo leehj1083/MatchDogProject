@@ -162,7 +162,7 @@ th:first-child, td:first-child {
 					</tr>
 					
 			</table>
-			${authDetail.subsType_code}
+			<input type="hidden" value="${authDetail.subsType_code}"/>
 			<div class="button-container">
     <a href="./authList.do" class="button-gray">뒤로가기</a>
     <a href="./authDetailMod.go?subsType_Code=${authDetail.subsType_code}" class="button-green">수정하기</a>

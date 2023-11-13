@@ -6,10 +6,421 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="resources/css/myProfile.css" type="text/css">
+<!-- bootstrap 아이콘 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
+<!-- 페이징 처리를 위한 라이브러리 -->
+<script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
- <style></style>
+ <style>
+
+
+a, a:link, a:visited, a:active, a:hover {
+	text-decoration: none;
+	color: var(--black);
+}
+
+textarea{
+	resize: none;
+}
+
+.input_img {
+	display: none;
+}
+
+
+/* 본인 페이지 것으로 변경하기  */
+.btn_gnb .bi-person-circle, .btn_gnb.myPage{
+    color: var(--white);
+    background-color: var(--green);
+}
+
+.btn_gnb.myPageInfo{
+    color: var(--white);
+    background-color: var(--green);
+}
+
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb:hover .bi-house-door-fill,
+.btn_gnb:hover .bi-chat-dots-fill,
+.btn_gnb:hover .bi-gear-fill,
+.btn_gnb:hover .bi-people-fill,
+/*.btn_gnb:hover .bi-person-circle,*/
+.btn_gnb:hover .bi-list-ul {
+    background-color: var(--light);
+}
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb.home:hover,
+.btn_gnb.match:hover,
+.btn_gnb.chatting:hover,
+.btn_gnb.board:hover,
+/*.btn_gnb.myPage:hover,*/
+.btn_gnb.admin:hover,
+/* .btn_gnb.myPageInfo:hover{
+	background-color: var(--light);
+} */
+.btn_gnb.myProfile:hover{
+	background-color: var(--light);
+}
+
+
+.charModal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.charModal-content {
+	background-color: #fff;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 70%;
+}
+
+/*사진 모달창*/
+.photoModal {
+	display: inline-block;
+	width: 480px;
+	height: 720px;
+	border: 1px solid var(--light);
+	box-shadow: 0 0 8px 1px var(--light);
+	border-radius: 12px;
+    position: absolute; 
+    top:304px;
+    left:804px;
+    z-index: 1000;
+    background-color:var(--white);
+}
+
+.imgtable {
+	margin-top:60px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.close {
+	position: relative;
+	left: 330px;
+	top: 20px;
+	cursor: pointer;
+	font-size: 32px;
+	color:var(--grey);
+}
+
+.fileContent{
+	display:inline-block;
+}
+
+.write-link.attach{
+	display: inline-block;
+	position:relative;
+	top:100px;
+	right:20px;
+	cursor: pointer;
+	color:var(--green);
+	font-size: 33px;
+}
+
+.filebox .bi-plus-circle-fill {
+	display: inline-block;
+	position:relative;
+	top:100px;
+	right:20px;
+	cursor: pointer;
+	color:var(--green);
+	font-size: 33px;
+}
+
+.filebox .bi-dash-circle-fill {
+	display: none;
+	position:relative;
+	top:100px;
+	right:20px;
+	cursor: pointer;
+	color:var(--green);
+	font-size: 33px;
+}
+
+.image-container{
+	display:inline-block;
+	width: 104px;
+	height: 120px;
+	border: 1px solid var(--light);
+	border-radius: 8px;
+	box-shadow: 0 0 4px 1px var(--light);
+	margin-left:10px;
+	margin-bottom:40px;
+}
+
+
+.imgtable .image-container img{
+	display:inline-block;
+	right:10px;
+	width: 104px;
+	height: 120px;
+	border-radius: 8px;
+    object-fit: cover;
+}
+
+.photoTextSave{
+	display:inline-block;
+	position:relative;
+	top:22px;
+	left:32px;
+	font-size:24px;
+	font-family:Pretendard;
+	font-weight: 700;
+	text-align: center;
+	color:var(--green);
+	cursor:auto;
+}
+
+.photo_selected{
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	height: 46px;
+	top:40px;
+	padding: 12px 15px 0 15px;
+	border: 1px solid var(--light);
+	background-color: var(--green);
+	border-radius: 8px;
+	font-size:16px;
+	color:var(--white);
+	font-family:Pretendard;
+	font-weight: 500;
+	text-align: center;
+	cursor:pointer;
+}
+
+
+ 
+ /* 대표프로필 모달 */
+.RepdoModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.RepdoModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 프로필 생성 모달 */
+.regProfileGoModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.regProfileGoModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 프로필 삭제 모달 */
+.profileDelDoModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.profileDelDoModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+<textarea style ="resize: both ;"> </textarea>
+
+/* 닫기 버튼 스타일 */
+/*  .close {
+            color: #888;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        } */
+.close:hover {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+	display: none;
+}
+
+/* The slider */
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked+.slider {
+	background-color: #2196F3;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+/* p {
+	margin:0px;
+	display:inline-block;
+	font-size:15px;
+	font-weight:bold;
+} */
+ </style>
 </head>
 <body>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
+			</div>
+		</div>
+		<div class="subSide">
+			<div class="my_profile_h3">마이 페이지</div>
+			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<c:url value="/myPage" var="myPageUrl" />
+			<div class="myPageMenu">
+				<a href="./myProfileList.do" class="btn_gnb myPageInfo">
+					<span>회원 정보</span>
+			    </a>
+			    <a href="./myProfileList.do" class="btn_gnb myProfile">
+					<span>프로필</span>
+			    </a>
+		    </div>
+		</div>
 	<h3>${myPage.member_name} 님의 마이페이지</h3>
 	<a href="logout">로그아웃</a>
 	<br></br>
@@ -20,10 +431,11 @@
 	<a href="myPageMod">수정하기</a>
 	<br></br>
  	<br></br>
+ 	<div class="content">
  	<form action="myPageModUpdate.do" method="post">
  	<div class="inputForm">
      <h2>기본 정보</h2>
- 	
+ 	<input type="hidden" name=member_id value="${myPage.member_id}"/>
  	<p>이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_name}</p>
  	<p>아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_id}</p>
  	<p>성별 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_gender}</p>
@@ -47,11 +459,11 @@
 	  
 	  <p/>주소<input type="text" id="postcode" placeholder="우편번호">
 	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-	  <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소" value="${myPage.member_roadAddr}"><br/>
-	  <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소" value="${myPage.member_parcelAddr}"><br/>
+	  <input type="text" id="roadAddress"  name = "member_roadAddr" placeholder="도로명주소" value="${myPage.member_roadAddr}"><br/>
+	  <input type="text" id="jibunAddress" name = "member_parcelAddr" placeholder="지번주소" value="${myPage.member_parcelAddr}"><br/>
 	  <span id="guide" style="color:#999;display:none"></span><br/>
-	  <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소" value="${myPage.member_detailAddr}">		  
-	  <input type="text" id="extraAddress" placeholder="참고항목" value="${myPage.member_dongAddr}">                  
+	  <input type="text" id="detailAddress" name = "member_detailAddr" placeholder="상세주소" value="${myPage.member_detailAddr}">		  
+	  <input type="text" id="extraAddress" name="member_dongAddr" placeholder="참고항목" value="${myPage.member_dongAddr}">                  
 	  
 	 	</div>
 
@@ -61,7 +473,9 @@
  		 </form>
  	<br></br>
  	<br></br>
-
+ 	</div>
+ 	</div>
+</div>
 
 </body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
