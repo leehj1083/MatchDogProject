@@ -148,6 +148,9 @@ a, a:link, a:visited, a:active, a:hover {
 	    color: black;
 	}
 
+	nav{
+	margin-left: -650px;
+	}
 </style>
 </head>
 <body>
@@ -159,7 +162,7 @@ a, a:link, a:visited, a:active, a:hover {
 				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
-				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 			
@@ -188,7 +191,7 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>채팅</span>
 		        </a>
-		        <a href="./board" class="btn_gnb board">
+		        <a href="./boardList.go" class="btn_gnb board">
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
@@ -203,6 +206,7 @@ a, a:link, a:visited, a:active, a:hover {
 			</div>
 		</div>
 		<div class="content">
+		<div id="alarmContent"></div>
 	<div>
 	<%-- 안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
 	&nbsp;&nbsp;&nbsp;&nbsp;
@@ -380,6 +384,15 @@ function searchCall(page, searchType, searchKeyword) {
         }
     });
 }
+
+$('#openAlarm').click(function (e) {
+	   // JSP 파일을 가져와서 모달 창에 표시
+	   $.get("./alarmList.go", function(data) {
+	   	console.log(data);
+	   	console.log("#alarmContent");
+	       $("#alarmContent").html(data);
+	   });
+	});
 
 </script>
 </html>

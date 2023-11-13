@@ -90,7 +90,7 @@ a, a:link, a:visited, a:active, a:hover {
 				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
-				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 			
@@ -126,6 +126,7 @@ a, a:link, a:visited, a:active, a:hover {
 			</div>
 		</div>
 		<div class="content">
+		<div id="alarmContent"></div>
 	<form action="update" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="board_id" value="${board.board_id}"/>
 	<input type="hidden" name="delphotoArray" value=""/>
@@ -184,6 +185,15 @@ $('#cancel').click(function() {
         location.href = './detail?board_id=${board.board_id}';
     }
 });
+
+$('#openAlarm').click(function (e) {
+	   // JSP 파일을 가져와서 모달 창에 표시
+	   $.get("./alarmList.go", function(data) {
+	   	console.log(data);
+	   	console.log("#alarmContent");
+	       $("#alarmContent").html(data);
+	   });
+	});
 
 </script>
 </html>

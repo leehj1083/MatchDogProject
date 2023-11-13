@@ -642,6 +642,7 @@ opacity
 
 			<form action="profileSave.do" method="post" id="myForm">
 				<div class="content">
+				<div id="alarmContent"></div>
 					<input type="button" name="imgBtn" id="imgBtn" value=" ">
 
 					<div id="newModal" class="modal">
@@ -1149,5 +1150,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
 });
+
+$('#openAlarm').click(function (e) {
+	   // JSP 파일을 가져와서 모달 창에 표시
+	   $.get("./alarmList.go", function(data) {
+	   	console.log(data);
+	   	console.log("#alarmContent");
+	       $("#alarmContent").html(data);
+	   });
+	});
 </script>
 </html>

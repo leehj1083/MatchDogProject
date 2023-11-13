@@ -73,7 +73,7 @@ th,td{
 				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -108,6 +108,7 @@ th,td{
 			</div>
 		</div>
 		<div class="content">
+		<div id="alarmContent"></div>
 		<h2>매칭해주개 회원 리스트</h2><hr/>
 			<span style="font-size: medium; font-weight: bold;">총 회원 수&nbsp;<span id="totalUser"></span>&nbsp;명</span>
 			<select id="pagePerNum" style="float: right;">
@@ -312,6 +313,15 @@ var msg = "${msg}";
 if(msg != ""){
 	alert(msg);
 }
+
+$('#openAlarm').click(function (e) {
+	   // JSP 파일을 가져와서 모달 창에 표시
+	   $.get("./alarmList.go", function(data) {
+	   	console.log(data);
+	   	console.log("#alarmContent");
+	       $("#alarmContent").html(data);
+	   });
+	});
 
 </script>
 </html>

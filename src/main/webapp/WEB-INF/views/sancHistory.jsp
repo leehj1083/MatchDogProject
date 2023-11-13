@@ -213,6 +213,14 @@ var compLocValue = getCompLoc(compLoc);
 document.getElementById("compTypeValue").textContent = compTypeValue;
 document.getElementById("compLocValue").textContent = compLocValue;
 
+$('#openAlarm').click(function (e) {
+	   // JSP 파일을 가져와서 모달 창에 표시
+	   $.get("./alarmList.go", function(data) {
+	   	console.log(data);
+	   	console.log("#alarmContent");
+	       $("#alarmContent").html(data);
+	   });
+	});
 
 </script>
 </html>

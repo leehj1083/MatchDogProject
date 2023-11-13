@@ -85,7 +85,7 @@ a, a:link, a:visited, a:active, a:hover {
 				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -120,7 +120,7 @@ a, a:link, a:visited, a:active, a:hover {
 			</div>
 		</div>
 		<div class="content">
-		
+		<div id="alarmContent"></div>
 		<!-- 여기다가 각자 내용 추가하기 -->
 				<div class="container">
 			        <div class="left">
@@ -257,6 +257,15 @@ function drawList(obj){
 	$('.next').children().addClass('bi bi-chevron-right');
 	
 } 
+
+$('#openAlarm').click(function (e) {
+	   // JSP 파일을 가져와서 모달 창에 표시
+	   $.get("./alarmList.go", function(data) {
+	   	console.log(data);
+	   	console.log("#alarmContent");
+	       $("#alarmContent").html(data);
+	   });
+	});
 
 
 </script>
