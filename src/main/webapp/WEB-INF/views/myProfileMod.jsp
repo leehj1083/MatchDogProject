@@ -252,7 +252,7 @@ textarea{
 			</div>
 		</div>
 		<div class="subSide">
-			<div class="my_profile_h3">마이 페이지</div>
+			<div class="my_profile_h3">마이페이지</div>
 			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
