@@ -435,6 +435,7 @@ ul{
 	color: var(--black) ;
 	font-size: 28px;
 	top:4px;
+	cursor:pointer;
 }
 
 .bi-house-door-fill, .bi-chat-dots-fill, .bi-gear-fill, 

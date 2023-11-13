@@ -109,6 +109,7 @@
 }
 
 
+
 </style>
 </head>
 <body>
@@ -144,7 +145,7 @@
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        <a href="./myPageList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -156,6 +157,8 @@
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
+		
+		
 			<div class="container">
         		<span class="bi bi-chevron-left"></span>
         		<div class="right">
@@ -491,9 +494,8 @@
 	$('#openAlarm').click(function (e) {
 		   // JSP 파일을 가져와서 모달 창에 표시
 		   $.get("./alarmList.go", function(data) {
-		   	console.log(data);
-		   	console.log("#alarmContent");
 		       $("#alarmContent").html(data);
+		       $("#alarmModal").css("display", "inline-block");
 		   });
 		});
 	

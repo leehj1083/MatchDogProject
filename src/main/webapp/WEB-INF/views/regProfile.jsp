@@ -621,20 +621,31 @@ opacity
 		<div class="mainContainer">
 			<div class="side">
 				<div class="menu">
-					<a href="./HomeMatchingList.do" class="btn_gnb home"> <span
-						class="bi bi-house-door-fill"></span> <span>홈</span>
-					</a> <a href="./recvMatchingList.go" class="btn_gnb match"> <span
-						class="bi bi-list-ul"></span> <span>매칭리스트</span>
-					</a> <a href="./chattingList.go" class="btn_gnb chatting"> <span
-						class="bi bi-chat-dots-fill"></span> <span>채팅</span>
-					</a> <a href="./boardList.go" class="btn_gnb board"> <span
-						class="bi bi-people-fill"></span> <span>커뮤니티</span>
-					</a> <a href="./myProfileList.do" class="btn_gnb myPage"> <span
-						class="bi bi-person-circle"></span> <span>마이페이지</span>
-					</a> <a href="./adminList.go" class="btn_gnb admin"> <span
-						class="bi bi-gear-fill"></span> <span>관리자페이지</span>
-					</a>
-				</div>
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myPageList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
+			</div>
 			</div>
 
 
