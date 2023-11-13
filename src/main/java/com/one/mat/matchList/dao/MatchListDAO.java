@@ -33,5 +33,7 @@ public interface MatchListDAO {
 
 	void newChattingRoomAlarm(int pro_sendIdx, int pro_redvIdx);
 
+	int adminCheckDo(int memberIdx);
+
 
 }
