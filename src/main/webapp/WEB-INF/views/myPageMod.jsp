@@ -409,7 +409,7 @@ input:checked+.slider:before {
 			</div>
 		</div>
 		<div class="subSide">
-			<div class="my_profile_h3">마이 페이지</div>
+			<div class="my_profile_h3">${myPage.member_name} 님의 마이 페이지</div>
 			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
@@ -421,14 +421,7 @@ input:checked+.slider:before {
 			    </a>
 		    </div>
 		</div>
-	<h3>${myPage.member_name} 님의 마이페이지</h3>
-	<a href="logout">로그아웃</a>
-	<br></br>
-	<a href="myPage">회원정보</a>
-	<br></br>
-	<a href="myProfile">프로필</a>
-	<br></br>
-	<a href="myPageMod">수정하기</a>
+
 	<br></br>
  	<br></br>
  	<div class="content">
