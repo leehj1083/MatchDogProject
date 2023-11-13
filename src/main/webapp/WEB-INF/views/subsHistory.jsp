@@ -132,6 +132,13 @@ th,td{
 	padding : 5px 7px;
 	font-family:pretendard;
 }
+th{
+	background-color: #bebebe;
+}
+#back{
+	text-align: right;
+}
+
 
 </style>
 </head>
@@ -192,14 +199,14 @@ th,td{
 			</c:if>
 			<c:forEach items="${list}" var="subs">
 				<tr>
-					<th>${subs.subsHistory_idx}</th>			
-					<th>${subs.subsType}</th>
-					<th>${subs.subsHistory_start}</th>
-					<th>${subs.subsHistory_exp}</th>
+					<td>${subs.subsHistory_idx}</td>			
+					<td>${subs.subsType}</td>
+					<td>${subs.subsHistory_start}</td>
+					<td>${subs.subsHistory_exp}</td>
 				</tr>
 			</c:forEach>				
-		</table>
-		<input type="button" onclick="location.href='./memberDetail?member_idx=${member_idx}'" value="뒤로가기"/>
+		</table><br>
+		<input type="button" onclick="location.href='./memberDetail?member_idx=${member_idx}'" value="뒤로가기" id="back"/>
 		</div>
 	</div>
 </div>	

@@ -185,63 +185,63 @@ th,td{
 			<h2 style="font-family:pretendard">회원상세보기</h2><hr/>
 			<table>
 				<tr>
-					<th>회원번호</th>
+					<th style="background-color: #FDF5E6;">회원번호</th>
 					<td>${dto.member_idx}</td>
-					<th>아이디</th>
+					<th style="background-color: #FDF5E6;">아이디</th>
 					<td>${dto.member_id}</td>
 				</tr>
 				<tr>
-					<th>이름</th>
+					<th style="background-color: #FDF5E6;">이름</th>
 					<td>${dto.member_name}</td>
-					<th>닉네임</th>
+					<th style="background-color: #FDF5E6;">닉네임</th>
 					<td>${dto.member_nickName}</td>
 				</tr>
 				<tr>
-					<th>이메일</th>
+					<th style="background-color: #FDF5E6;">이메일</th>
 					<td>${dto.member_email}</td>
-					<th>전화번호</th>
+					<th style="background-color: #FDF5E6;">전화번호</th>
 					<td>${dto.member_phone}</td>
 				</tr>
 				<tr>
-					<th>지번주소</th>
+					<th style="background-color: #FDF5E6;">지번주소</th>
 					<td>${dto.member_parcelAddr}</td>
-					<th>도로명주소</th>
+					<th style="background-color: #FDF5E6;">도로명주소</th>
 					<td>${dto.member_roadAddr}</td>
 				</tr>
 				<tr>
-					<th>동주소</th>
+					<th style="background-color: #FDF5E6;">동주소</th>
 					<td>${dto.member_dongAddr}</td>
-					<th>생년월일</th>
+					<th style="background-color: #FDF5E6;">생년월일</th>
 					<td>${dto.member_birth}</td>
 				</tr>
 				<tr>
-					<th>성별</th>
+					<th style="background-color: #FDF5E6;">성별</th>
 					<td>${dto.member_gender}</td>
-					<th>가입일</th>
+					<th style="background-color: #FDF5E6;">가입일</th>
 					<td>${dto.member_regDate}</td>
 				</tr>
 				<tr>
-					<th>구독여부</th>
+					<th style="background-color: #FDF5E6;">구독여부</th>
 					<td>${dto.member_subs}</td>
-					<th>구독연장여부</th>
+					<th style="background-color: #FDF5E6;">구독연장여부</th>
 					<td>${dto.member_renew}</td>
 				</tr>
 				<tr>
-					<th>구독시작일자</th>
+					<th style="background-color: #FDF5E6;">구독시작일자</th>
 					<td>${dto.subsHistory_start}</td>
-					<th>구독만료일자</th>
+					<th style="background-color: #FDF5E6;">구독만료일자</th>
 					<td>${dto.subsHistory_exp}</td>
 				</tr>
 				<tr>
-					<th>구독등급</th>
+					<th style="background-color: #FDF5E6;">구독등급</th>
 					<td>${dto.subsType_code}</td>
-					<th>탈퇴여부</th>
+					<th style="background-color: #FDF5E6;">탈퇴여부</th>
 					<td>${dto.member_quit}</td>
 				</tr>
 				<tr>
-					<th>제재여부</th>
+					<th style="background-color: #FDF5E6;">제재여부</th>
 					<td>${dto.member_loginLock}</td>
-					<th>권한수정</th>
+					<th style="background-color: #FDF5E6;">권한수정</th>
 					<td>
 						<select id="subsType_code" name="subsType_code">
 							<option value="1">일반회원</option>
