@@ -83,6 +83,11 @@ a, a:link, a:visited, a:active, a:hover {
 	    	height: 500px;
 	    	text-align: left; 
 	}
+	.mainContainer {
+    display: flex;
+    width: 1280px;
+    margin: 0px;
+}
 
 	.sidebar {
         height: 100%;
@@ -117,8 +122,6 @@ a, a:link, a:visited, a:active, a:hover {
         text-align: center;
     }
 
-
-
 	table, th, td{
 		border: 1px solid black;
 		border-collapse: collapse;
@@ -148,7 +151,10 @@ a, a:link, a:visited, a:active, a:hover {
 	}
 
 	nav{
-	margin-left: -650px;
+		margin-left: -650px;
+	}
+	#openAlarm{
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -168,7 +174,6 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div id="pageButton">
 		<select id="pagePerNum">
-		<option value="5">5개씩</option>
 		<option value="10">10개씩</option>
 		<option value="15">15개씩</option>
 		<option value="20">20개씩</option>
@@ -211,7 +216,7 @@ a, a:link, a:visited, a:active, a:hover {
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="logout">로그아웃</a>   --%>
 	</div>
-	
+	<h4 id="mung">멍멍 게시판</h4>
 	<table>
 		<thead>
 		<tr>
@@ -226,10 +231,7 @@ a, a:link, a:visited, a:active, a:hover {
 		<tbody id="list">		
 		</tbody>
 		
-		
 		<!-- 페이징, 글쓰기 한 행에 두기 -->
-		
-		
 		
 		 <tr>
 			<td colspan="6" id="paging" style="text-align:center;">	
