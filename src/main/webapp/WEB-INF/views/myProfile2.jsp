@@ -59,10 +59,6 @@ textarea{
 	background-color: var(--light);
 }
 
-.myPageMenu .myProfile{
-	color: var(--white);
-    background-color: var(--green);
-}
 
 .charModal {
 	display: none;
@@ -401,8 +397,73 @@ input:checked+.slider:before {
 	border-radius: 50%;
 }
 
+/* p {
+	margin:0px;
+	display:inline-block;
+	font-size:15px;
+	font-weight:bold;
+} */
 
-/*슬라이드 */
+#slider {
+  position: relative;
+  overflow: hidden;
+  margin: 20px auto 0 auto;
+  border-radius: 4px;
+}
+
+#slider ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 200px;
+  list-style: none;
+}
+
+#slider ul li {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 500px;
+  height: 300px;
+  background: #ccc;
+  text-align: center;
+  line-height: 300px;
+}
+
+a.control_prev, a.control_next {
+  position: absolute;
+  top: 40%;
+  z-index: 999;
+  display: block;
+  padding: 4% 3%;
+  width: auto;
+  height: auto;
+  background: #2a2a2a;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+a.control_prev:hover, a.control_next:hover {
+  opacity: 1;
+  -webkit-transition: all 0.2s ease;
+}
+
+a.control_prev {
+  border-radius: 0 2px 2px 0;
+}
+
+a.control_next {
+  right: 0;
+  border-radius: 2px 0 0 2px;
+}
+
+
 
 
 </style>
@@ -417,7 +478,7 @@ input:checked+.slider:before {
 				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -441,7 +502,7 @@ input:checked+.slider:before {
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myPageList.do" class="btn_gnb myPage">
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -458,7 +519,7 @@ input:checked+.slider:before {
 			</div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
-				<a href="./myPageList.do" class="btn_gnb myPageInfo">
+				<a href="./myProfileList.do" class="btn_gnb myPageInfo">
 					<span>회원 정보</span>
 			    </a>
 			    <a href="./myProfileList.do" class="btn_gnb myProfile">
@@ -468,158 +529,177 @@ input:checked+.slider:before {
 		</div>
 		
 		<div class="content">
-		<div id="alarmContent"></div>
-<!-- c:forEach 로 돌리는 프로필란... -->
-<c:forEach items="${myProfile}" var="Profile" varStatus="loop">
-	<div>${loop.index}</div>
-		<c:if test="${Profile.pro_quit == 'N'}"> <!-- CHECK -->
-			<span class="my_profile_h4">${Profile.pro_dogName}</span>
-			<span class="my_profile_h4 black">님의 프로필 페이지</span>
-			
-			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() <= 1}">
-				<button id='regProfileGo'>+</button>
-			    <div id="regProfileGoModal" class="regProfileGoModal">
-				  	<div class="regProfileGoModal-content">
-						<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-						<button id="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
-						<button id="regProfileGoConfirmNo">아니오</button>
-					</div>
-				</div>
-			</c:if>
-		
-			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() == 2 }">
-				<button class='regProfileGo' value="${Profile.member_idx}">+</button>
-			    <div class="regProfileGoModal">
-			  		<div class="regProfileGoModal-content">
-					  	<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-					  	<button class="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
-					  	<button class="regProfileGoConfirmNo">아니오</button>
-			  		</div>
-			  	</div>
-				<!-- 프로필 삭제 버튼  -->
-				<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
-			</c:if>
-			
-			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() >= 3}">
-				<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
-			</c:if>
-			
-		    
-		    <c:if test="${Profile.pro_rep == 'Y'}">
-		    	<span class="repProfile" >대표프로필</span>
-		    </c:if>
-		    <c:if test="${Profile.pro_rep == 'N'}">
-		    	<button class="repProfile" id='myProfileRepdo'>대표프로필 지정</button>
-		    	<div id="RepdoModal" class="RepdoModal">
-			    	<div class="RepdoModal-content">
+
+				<div id="slider">
+				  <a href="#" class="control_next">></a>
+				  <a href="#" class="control_prev"><</a>
+				<ul>
+					
+
+				<!-- c:forEach 로 돌리는 프로필란... -->
+				<c:forEach items="${myProfile}" var="Profile">
+				<li>
+				<div class="ProfileContent">
+					<c:if test="${Profile.pro_quit == 'N'}">
+						<span class="my_profile_h4">${Profile.pro_dogName}</span>
+						<span class="my_profile_h4 black">님의 프로필 페이지</span>
+				     <c:if test="${Profile.pro_quit == 'N' && myProfile.size() <= 1}">
+				    	 <button id='regProfileGo'>+</button>
+				    	 <div id="regProfileGoModal" class="regProfileGoModal">
+				  		  <div class="regProfileGoModal-content">
+				        	<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
+				        	<button id="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
+				        	<button id="regProfileGoConfirmNo">아니오</button>
+				   		 </div>
+						</div>
+					</c:if>
+				
+					<c:if test="${Profile.pro_quit == 'N' && myProfile.size() == 2 }">
+						<button class='regProfileGo' value="${Profile.member_idx}">+</button>
+				    	 <div class="regProfileGoModal">
+				  		  <div class="regProfileGoModal-content">
+				       		 <h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
+				     	   <button class="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
+				        	<button class="regProfileGoConfirmNo">아니오</button>
+				   		 </div>
+						</div>
+						
+						<!-- 프로필 삭제 버튼  -->
+						<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
+				    	 
+				
+				
+				
+						
+					</c:if>
+					<c:if test="${Profile.pro_quit == 'N' && myProfile.size() >= 3}">
+						<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
+					</c:if>
+					
+				    
+				    <c:if test="${Profile.pro_rep == 'Y'}">
+				    <span class="repProfile" >대표프로필</span>
+				    </c:if>
+				    <c:if test="${Profile.pro_rep == 'N'}">
+				    <button class="repProfile" id='myProfileRepdo'>대표프로필 지정</button>
+				    <div id="RepdoModal" class="RepdoModal">
+				    <div class="RepdoModal-content">
 				        <h2>대표 프로필로<br/>지정하시겠습니까?</h2>
 				        <button id="RepdoConfirmYes" value="${Profile.pro_idx}">예</button>
 				        <button id="RepdoConfirmNo">아니오</button>
-			    	</div>
-				</div>
-			</c:if>
-			
-			
-			
-		    <form action="myProfileMod.go" method="post">
-		    
-		    <div pro_idx="${Profile.pro_idx}">
-		    
-				<c:set var="minPhotoId" value="9999" />
-				<c:set var="minFileName" value="" />
-				<c:forEach items="${Profile.photoList}" var="photo" varStatus="loop">
-					<c:if test="${photo.photo_id < minPhotoId}">
-	 					<c:set var="minPhotoId" value="${photo.photo_id}" />
-						<c:set var="minFileName" value="${photo.photo_fileName}" />
+				    </div>
+					</div>
 					</c:if>
-				</c:forEach>
-		   		<div><img src="/photo/${minFileName}" class="profilePhoto"/></div>
-						
+				    <form action="myProfileMod.go" method="post">
+				    
+				    <div pro_idx="${Profile.pro_idx}">
+				    
+				        <c:set var="minPhotoId" value="9999" />
+						<c:set var="minFileName" value="" />
+						<c:forEach items="${Profile.photoList}" var="photo" varStatus="loop">
+    						<c:if test="${photo.photo_id < minPhotoId}">
+       		 					<c:set var="minPhotoId" value="${photo.photo_id}" />
+       							<c:set var="minFileName" value="${photo.photo_fileName}" />
+    						</c:if>
+						</c:forEach>
+				   		<div><img src="/photo/${minFileName}" class="profilePhoto"/></div>
+								
 
-				<div class="myProfileContent">
-					<div class="dogName menu">
-						<div class="dog_text">내 강아지 이름</div>
-						<div class="dog_text">${Profile.pro_dogName}</div>
-					</div>
-					
-					<div class="dogBreed menu">
-						<div class="dog_text">내 강아지 견종</div>
-						<div class="dog_text">${Profile.breedType}</div>
-					</div>
-					
-					<div class="dogAge menu">
-						<div class="dog_text">내 강아지 나이</div>
-						<div class="dog_text size">${Profile.pro_dogAge}</div>
-					<c:if test="${Profile.pro_dogAgeOpen == 'Y'}">
-						<label class="switch"> 
-						<input type="checkbox" id="ageOpen" checked> 
-						<span class="slider round"></span>
-						</label>
-					</c:if>
-					<c:if test="${Profile.pro_dogAgeOpen != 'Y'}">
-						<label class="switch">
-						<input type="checkbox" id="ageOpen"> 
-						<span class="slider round"></span>
-						</label>
-					</c:if>
-					</div>
-					
-					<div class="dogGender menu">
-						<div class="dog_text">내 강아지 성별</div>
-						<div class="dog_text size">${Profile.pro_dogGender}</div>
-					<c:if test="${Profile.pro_dogGenderOpen == 'Y'}">
-						<label class="switch"> <input type="checkbox" id="genderOpen" checked> 
-						<span class="slider round"></span>
-						</label>
-					</c:if>
-					<c:if test="${Profile.pro_dogGenderOpen != 'Y'}">
-						<label class="switch"> <input type="checkbox" id="genderOpen"> 
-						<span class="slider round"></span>
-						</label>
-					</c:if>
-					</div>
-					
-					<div class="dogCharType menu">
-						<div class="dog_text">내 강아지 성향</div>
-						<div id="selectedCharTypes">
-							<c:forEach items="${Profile.charTypeList}" var="charType" varStatus="loop">
-			        			${charType.charType}
-			        		<c:if test="${!loop.last}">&nbsp;&nbsp;</c:if>
-		   					</c:forEach>
-						</div>
-					</div>
-					
-					<div class="dogStmt menu">
-							<div class="dog_text">내 강아지 상태</div>
-							<div class="dog_text">
-								<c:if test="${Profile.pro_dogScore >= 10}">
-								<td> 매너견이에요!</td>
-								</c:if>
-								<c:if test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
-								<td> 매너견이 되어보세요!</td>
-								</c:if>
-								<c:if test="${Profile.pro_dogScore < 0}">
-								<td> 비매너견이에요ㅜㅜ</td>
-								</c:if>
+						<div class="myProfileContent">
+							<div class="dogName menu">
+								<div class="dog_text">내 강아지 이름</div>
+								<div class="dog_text">${Profile.pro_dogName}</div>
 							</div>
-					</div>
-
-					<div class="dogDesc menu">
-							<div class="dog_text desc">내 강아지 소개</div>
-							<div class="dog_text desc i">${Profile.pro_dogDesc}</div>
-					</div>
-					
-					<div>
-						<button class="cancelComp" type="button" onclick="location.href='./myProfileMod.go?pro_idx=${Profile.pro_idx}'">수정 하기</button>
-					</div>
+							
+							<div class="dogBreed menu">
+								<div class="dog_text">내 강아지 견종</div>
+								<div class="dog_text">${Profile.breedType}</div>
+							</div>
+							
+							<div class="dogAge menu">
+								<div class="dog_text">내 강아지 나이</div>
+								<div class="dog_text size">${Profile.pro_dogAge}</div>
+							<c:if test="${Profile.pro_dogAgeOpen == 'Y'}">
+								<label class="switch"> 
+								<input type="checkbox" id="ageOpen" checked> 
+								<span class="slider round"></span>
+								</label>
+							</c:if>
+							<c:if test="${Profile.pro_dogAgeOpen != 'Y'}">
+								<label class="switch">
+								<input type="checkbox" id="ageOpen"> 
+								<span class="slider round"></span>
+								</label>
+							</c:if>
+							</div>
+							
+							<div class="dogGender menu">
+								<div class="dog_text">내 강아지 성별</div>
+								<div class="dog_text size">${Profile.pro_dogGender}</div>
+							<c:if test="${Profile.pro_dogGenderOpen == 'Y'}">
+								<label class="switch"> <input type="checkbox" id="genderOpen" checked> 
+								<span class="slider round"></span>
+								</label>
+							</c:if>
+							<c:if test="${Profile.pro_dogGenderOpen != 'Y'}">
+								<label class="switch"> <input type="checkbox" id="genderOpen"> 
+								<span class="slider round"></span>
+								</label>
+							</c:if>
+							</div>
+							
+							<div class="dogCharType menu">
+								<div class="dog_text">내 강아지 성향</div>
+								<div id="selectedCharTypes">
+									<c:forEach items="${Profile.charTypeList}" var="charType" varStatus="loop">
+					        			${charType.charType}
+					        		<c:if test="${!loop.last}">&nbsp;&nbsp;</c:if>
+				   					</c:forEach>
+								</div>
+							</div>
+							
+							<div class="dogStmt menu">
+									<div class="dog_text">내 강아지 상태</div>
+									<div class="dog_text">
+										<c:if test="${Profile.pro_dogScore >= 10}">
+										<td> 매너견이에요!</td>
+										</c:if>
+										<c:if test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
+										<td> 매너견이 되어보세요!</td>
+										</c:if>
+										<c:if test="${Profile.pro_dogScore < 0}">
+										<td> 비매너견이에요ㅜㅜ</td>
+										</c:if>
+									</div>
+							</div>
+							
+							<div class="dogDesc menu">
+									<div class="dog_text desc">내 강아지 소개</div>
+									<div class="dog_text desc i">${Profile.pro_dogDesc}</div>
+							</div>
+							
+							
+							<div>
+								<button class="cancelComp" type="button" onclick="location.href='./myProfileMod.go?pro_idx=${Profile.pro_idx}'">수정 하기</button>
+							</div>
+							
+							
+						</div>
+				   	</div>
+					</form>
+				
+				</c:if>
 				</div>
-			</div>
-			</form>
-		</c:if>
-	<div>${loop.index}</div>
-</c:forEach>
-						
-					
+				
+				
+				</li>
+				
+				
+				</c:forEach>
+				
+				
+				</ul>
+				</div>
 				
 				
 				<div id="profileDelDoModal" class="profileDelDoModal">
@@ -813,19 +893,47 @@ console.log(pro_idx);
 	});
 	
 	
-	$('#openAlarm').click(function (e) {
-		   // JSP 파일을 가져와서 모달 창에 표시
-		   $.get("./alarmList.go", function(data) {
-		   	console.log(data);
-		   	console.log("#alarmContent");
-		       $("#alarmContent").html(data);
-		   });
-		});
 	
 	
 	
+	//슬라이드
+ 
+	var slideCount = $('#slider ul li').length;
+	var slideWidth = $('#slider ul li').width();
+	var slideHeight = $('#slider ul li').height();
+	var sliderUlWidth = slideCount * slideWidth;
 	
+	$('#slider').css({ width: slideWidth, height: slideHeight });
 	
+	$('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
+	
+    $('#slider ul li:last-child').prependTo('#slider ul');
+
+    function moveLeft() {
+        $('#slider ul').animate({
+            left: + slideWidth
+        }, 200, function () {
+            $('#slider ul li:last-child').prependTo('#slider ul');
+            $('#slider ul').css('left', '');
+        });
+    };
+
+    function moveRight() {
+        $('#slider ul').animate({
+            left: - slideWidth
+        }, 200, function () {
+            $('#slider ul li:first-child').appendTo('#slider ul');
+            $('#slider ul').css('left', '');
+        });
+    };
+
+    $('a.control_prev').click(function () {
+        moveLeft();
+    });
+
+    $('a.control_next').click(function () {
+        moveRight();
+    });
 	
 	
 	

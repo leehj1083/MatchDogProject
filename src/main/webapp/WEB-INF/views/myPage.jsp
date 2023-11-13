@@ -34,15 +34,12 @@ textarea{
 
 
 /* 본인 페이지 것으로 변경하기  */
-.btn_gnb .bi-person-circle, .btn_gnb.myPage{
+.btn_gnb .bi-person-circle, .btn_gnb.myPage, .btn_gnb.myPageInfo{
     color: var(--white);
     background-color: var(--green);
 }
 
-.btn_gnb.myPageInfo{
-    color: var(--white);
-    background-color: var(--green);
-}
+
 
 /* 본인 페이지를 제외한 나머지 hover 적용 */
 .btn_gnb:hover .bi-house-door-fill,
@@ -61,12 +58,11 @@ textarea{
 .btn_gnb.board:hover,
 /*.btn_gnb.myPage:hover,*/
 .btn_gnb.admin:hover,
-/* .btn_gnb.myPageInfo:hover{
-	background-color: var(--light);
-} */
+/*.btn_gnb.myPageInfo:hover,*/
 .btn_gnb.myProfile:hover{
 	background-color: var(--light);
-}
+} 
+
 
 
 .content {

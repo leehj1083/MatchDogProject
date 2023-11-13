@@ -8,90 +8,140 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <!-- bootstrap 아이콘 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<!-- pretendard 폰트 -->
+	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
     <style>
         .alarmModal {
-           	background-color: #C2E9E2;
-			position: relative;
-			top: -960px;
-			left: 30px;
-			z-index: 2;
 			display: inline-block;
+        	position:absolute;
+           	background-color: var(--white);
+			top: 46px;
+			left: 808px;
+			z-index: 9999;
 			width: 420px;
 			height: 600px;
+			font-family:pretendard;
 			font-size: 12px;
+			border: 1px solid var(--light);
+			box-shadow: 0 0 8px 1px var(--light);
+			border-radius:10px;
 			overflow-y: auto;
         }
-
+        
+        .alram_top{
+        	display:inline-block;
+        }
+        
+        .alarm_line{
+        	width:100%;
+        	height:1px;
+        	background-color:var(--light);
+        }
+        
+        .alarm_subject{
+        	display:inline-block;
+			position:relative;
+			margin: 20px 40px;
+			top:5px;
+			width: 200px;
+			height:30px;
+			font-size:20px;
+			font-family:Pretendard;
+			font-weight: 600;
+			color:var(--green);
+			cursor:auto;
+        }
+        
         .alarmTable {
-            width: 80%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        	display:flex;
+        	align-items: center;
+        	margin : 20px auto;
+            width: 90%;
+            border-bottom:1px solid var(--light);
         }
-        .alarmTable 	img{
-        		border: none;
+        
+        .alarmTable img{
+        	display:inline-block;
+        	border: 1px solid var(--light);
+        	box-shadow: 0 0 2px 1px var(--light);
+        	width:100px;
+        	height:100px;
+        	object-fit: cover;
+        	margin: 8px;
+        	border-radius: 50%;
+        	
         }
-
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
+        
+        .alarm_part{
+        	display:flex;
+        	flex-direction: column;
+    		margin-left: 20px;
         }
-
-        .alarmTable img {
-            max-width: 100px;
-            max-height: 100px;
-            border: none;
+        
+        .alarm_text{
+        	display:inline-block;
+        	font-size:16px;
+			font-family:Pretendard;
+			color:var(--dark);
+			font-weight: 600;
+			width:220px;
+			word-break: break-all;
+        	
         }
+        
 
         .closeButton {
-            cursor: pointer;
             position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 16px;
+			left: 370px;
+			top: 10px;
+			cursor: pointer;
+			font-size: 32px;
+			color:var(--grey);
         }
+        
         .noneAlarm {
-        		margin-top: 190px;
-        		}
-    		.noneAlarm span{
-    			font-size: 60px;
-    		}
-    		.noneAlarm p{
-    			font-size: 17px;
-    		}
+        	margin : 190px 30px;
+        }
+    	.noneAlarm span{
+    		font-size: 30px;
+    		margin-right:16px;
+    	}
+    	.noneAlarm div{
+    		font-size: 18px;
+    	}
     </style>
 </head>
 <body>
 <div class="alarmModal">
     <span class="closeButton" onclick="closeModal()">&times;</span>
-    <h2>알람</h2>
-    <hr>
+    <div class="alram_top">
+    	<div class="alarm_subject">알람</div>
+    </div>
+    <div class ="alarm_line"></div>
     <c:choose>
         <c:when test="${not empty alarmList}">
             <c:forEach var="alarm" items="${alarmList}">
-                <table class="alarmTable">
-                    <tr>
-                        <td>
-                            <img src="${alarm.photo_fileName}" alt="min_photo_fileName" class="noBorder">
-                        </td>
-                        <td>
+                <div class="alarmTable">
+                           <img src="${alarm.photo_fileName}" alt="min_photo_fileName" class="noBorder">
+                	<div class="alarm_part">
                             <c:if test="${alarm.alarm_type == 1}">
-                                <h3>${alarm.member_nickName}&nbsp${alarm.alarm_msg}</h3>
+                                <span class="alarm_text bold">${alarm.member_nickName}&nbsp${alarm.alarm_msg}</span>
                                 <p>${alarm.alarm_genDate}</p>
                             </c:if>
                             <c:if test="${alarm.alarm_type == 2}">
-                                <h3>${alarm.member_nickName}&nbsp${alarm.alarm_msg}😊</h3>
+                                <div class="alarm_text bold">${alarm.member_nickName}&nbsp${alarm.alarm_msg}😊</div>
                                 <p>${alarm.alarm_genDate}</p>
                             </c:if>
-                        </td>
-                    </tr>
-                </table>
+					</div>
+                </div>
             </c:forEach>
         </c:when>
         <c:otherwise>
         <div class = "noneAlarm">
         <span class="bi bi-bell"></span>
-            <p>새로운 소식이 없습니다.</p>
+            <div class="alarm_text bold">새로운 소식이 없습니다.</div>
          </div>
         </c:otherwise>
     </c:choose>

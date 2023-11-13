@@ -398,7 +398,7 @@ input:checked+.slider:before {
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        <a href="./myPageList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
