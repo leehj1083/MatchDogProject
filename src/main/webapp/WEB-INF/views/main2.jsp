@@ -95,9 +95,6 @@
 		width: 300px;
 		height: 200px;
 	}
-	#openAlarm{
-		cursor: pointer;
-	}
 </style>
 </head>
 <body>
@@ -106,7 +103,7 @@
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -137,7 +134,7 @@
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
+	            <a href="./dashBoard.go" class="btn_gnb admin">
 	            	<span class="bi bi-gear-fill"></span>
 					<span>관리자페이지</span>
 	            </a>
