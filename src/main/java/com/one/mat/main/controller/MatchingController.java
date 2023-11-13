@@ -147,7 +147,7 @@ public class MatchingController {
 	    }
 		logger.info("map : "+map);
 		model.addAttribute("map",map);
-			       
+		
 		return "memberDetailList";
 	}
 	

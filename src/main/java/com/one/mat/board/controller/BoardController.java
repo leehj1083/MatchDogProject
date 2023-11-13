@@ -27,7 +27,7 @@ public class BoardController {
 	public String board() {
 		return "list";
 	}
-
+	
 	@RequestMapping(value="/list")
 	@ResponseBody
 	public Map<String, Object> list(HttpSession session,@RequestParam String pagePerNum,
