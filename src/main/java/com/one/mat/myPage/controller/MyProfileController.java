@@ -43,8 +43,11 @@ public class MyProfileController {
 			msg = "";
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
+			String id = dto.getMember_id();
 			logger.info("idx="+idx);
 			service.MyProfileListDo(idx, model);
+			/* MemberDTO member = service.MyPageListDo(id); */
+			/* model.addAttribute("myPage", member); */
 		}
 		model.addAttribute("msg", msg);
 		return page;

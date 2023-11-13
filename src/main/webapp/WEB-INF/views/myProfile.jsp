@@ -452,7 +452,7 @@ input:checked+.slider:before {
 			</div>
 		</div>
 		<div class="subSide">
-			<div class="my_profile_h3">마이페이지</div>
+			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
 			<div pro_idx="${Profile.pro_idx}">
 			<div><img src="/photo/${minFileName}" class="profilePhoto"/></div>
 			</div>
