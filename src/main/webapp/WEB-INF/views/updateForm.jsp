@@ -82,10 +82,12 @@ a, a:link, a:visited, a:active, a:hover {
     #board_content{
     		resize: none;
     }
-    #modButton{
-    	text-align: right;
+    .modButton{
     	color: #fff;
     	background-color: #1FBF92;
+    }
+    #button{
+    	text-align: right;
     }
     </style>
 </head>
@@ -154,7 +156,7 @@ a, a:link, a:visited, a:active, a:hover {
 			<td cols="2"><textarea id="board_content" name="board_content" rows="15" cols="140">${board.board_content}</textarea></td>
 		</tr>
 		<tr>
-			<th colspan="2">
+			<th colspan="2" id="button">
 				<input class="modButton" type="button" id="cancel" value="취소"/>
 				<input class="modButton" type="submit" value="저장"/>
 			</th>

@@ -84,6 +84,9 @@ a, a:link, a:visited, a:active, a:hover {
     #boardContent {
     	resize: none;
     }
+    #replySubmit{
+    	margin-left: 10px;
+    }
     </style>
 </head>
 <body>
@@ -197,7 +200,7 @@ a, a:link, a:visited, a:active, a:hover {
         		</td>
         		<c:if test="${not empty sessionScope.loginInfo.member_idx}">
         		<td width="60px">
-        			<input type="submit" value="댓글 작성"/>
+        			<input id="replySubmit" type="submit" value="댓글 작성"/>
         		</td>
         		</c:if>
         	</tr>
