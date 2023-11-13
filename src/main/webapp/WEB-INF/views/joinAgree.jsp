@@ -6,13 +6,34 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <style>
-	.banner{
-		height : 120px;
-	}
-	.logo_matchDog{
-		width : 210px;
-		height : 70px;
-	}
+.banner{
+	width:1500px;
+	display:inline-block;
+	border-bottom: 1px solid var(--light);
+}
+
+.header{
+	display:flex;
+	width:1280px;
+	height:72px;
+	margin:0 110px;
+	align-items:center;
+}
+
+.logo{
+	position: relative;
+	width:241px;
+	height:70px;
+}
+
+.logo_matchDog{
+	position: absolute;
+	top:8px;
+	left:20px;
+	display:block;
+	width:auto;
+	height:44px;
+}
 	.content{		
 		width: 400px;
 		height:550px;
