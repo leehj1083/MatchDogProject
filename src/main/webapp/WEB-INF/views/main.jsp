@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/chattingRoom.css" type="text/css">
+<link rel="stylesheet" href="resources/css/home.css" type="text/css">
 <!-- bootstrap 아이콘 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- pretendard 폰트 -->
@@ -75,6 +75,9 @@
   	text-align:center;
 }
 
+.mainContainer{
+cursor:pointer;
+}
 
 .content {
 	        text-align: center; 
@@ -149,23 +152,23 @@ background-color: rgba(0, 100, 0, 0.1);
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="" class="btn_gnb home">
+				<a class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>홈</span>
 				</a>
-		        <a href="" class="btn_gnb match">
+		        <a class="btn_gnb match">
 		        	<span class="bi bi-list-ul"></span>
 					<span>매칭리스트</span>
 		        </a>
-		        <a href="" class="btn_gnb chatting">
+		        <a class="btn_gnb chatting">
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>채팅</span>
 		        </a>
-		        <a href="" class="btn_gnb board">
+		        <a class="btn_gnb board">
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="" class="btn_gnb myPage">
+		        <a class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -212,6 +215,8 @@ $('.mainContainer').on('click', function(){
     });
     location.href = "./login.go";
 });
+
+
 
 
 var matchingData = []; // 매칭 데이터 배열
