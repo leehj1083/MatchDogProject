@@ -77,38 +77,7 @@ a, a:link, a:visited, a:active, a:hover {
 	    	text-align: left; 
 	}
 
-	.sidebar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #255,255,255;
-        padding-top: 20px;
-    }
-
-    .sidebar h2 {
-        color: black;
-        text-align: center;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar a {
-        color: black;
-        text-decoration: none;
-    }
-
     .content {
-        margin-left: 260px;
         padding: 20px;
         text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
     }
@@ -126,11 +95,19 @@ a, a:link, a:visited, a:active, a:hover {
 </style>
 </head>
 <body>
-<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -196px;"/></a>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
 	</div>
-
-<div class="mainContainer">
+	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
 				<span class="btn_gnb home">
@@ -159,9 +136,8 @@ a, a:link, a:visited, a:active, a:hover {
 		        </a>
 			</div>
 		</div>
-
-
-
+		<div class="content">	
+		<div id="alarmContent"></div>
 
 
 
@@ -192,10 +168,13 @@ a, a:link, a:visited, a:active, a:hover {
 </c:if></td>
 </tr>
 <form action="backCompList">
-<button style="position: absolute; bottom: 150px; right: 477px;">뒤로가기</button></td>
+<button style="position: relative; right: 477px;">뒤로가기</button></td>
 </form>
 </table>
 
+</div>
+</div>
+</div>
 
 </body>
 
