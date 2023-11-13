@@ -59,6 +59,7 @@ a, a:link, a:visited, a:active, a:hover {
 	    background-color: var(--green);
 	}
 	
+	
 	/* 본인 페이지를 제외한 나머지 hover 적용 */
 	 .btn_gnb:hover .bi-house-door-fill,
 	.btn_gnb:hover .bi-chat-dots-fill,
