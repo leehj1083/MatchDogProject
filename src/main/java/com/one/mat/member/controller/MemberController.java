@@ -178,7 +178,7 @@ public class MemberController {
 				page = "regProfile";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다. 프로필을 등록해주세요");
 			}else {
-				page = "main"; // 서비스 메인 페이지로 이동
+				page = "home"; // 서비스 메인 페이지로 이동
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
 			}			
 			

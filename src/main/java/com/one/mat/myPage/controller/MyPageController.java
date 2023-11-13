@@ -26,7 +26,6 @@ public class MyPageController {
 	
 	@Autowired MyPageService service;
 	
-	
 	@RequestMapping(value = "/myPageList.do")
 	public String myPageListDo(Model model, HttpSession session) {
 		logger.info("마이페이지 list 요청 받음");

@@ -11,7 +11,8 @@
     <style>
         .alarmModal {
            	background-color: #C2E9E2;
-			position: relative;
+           	/* z-index: 9999; */
+			/* position: relative; */
 			top: -960px;
 			left: 30px;
 			z-index: 2;
@@ -72,7 +73,7 @@
                 <table class="alarmTable">
                     <tr>
                         <td>
-                            <img src="${alarm.photo_fileName}" alt="min_photo_fileName" class="noBorder">
+                    <img src="${alarm.photo_fileName}" alt="min_photo_fileName" class="noBorder"> 
                         </td>
                         <td>
                             <c:if test="${alarm.alarm_type == 1}">

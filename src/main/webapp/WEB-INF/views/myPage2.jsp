@@ -226,7 +226,7 @@ font-family:pretendard;
 				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarmModal" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -426,9 +426,17 @@ font-family:pretendard;
 	<input type="hidden" value= "${myPage.member_renew}"/>
 
 	<br></br>
-	<div class="content">
-		<div id="alarmContent"></div>
-	</div>
+
+<!-- 		<div id="alarmContent"></div> -->
+
+<!-- 알람 모달 창 -->
+<!-- 	<div id="alarmModal" class="modal"> -->
+		<div id="alarmModal" class="modal">
+<!-- 			<span id="closeAlarmModal" style="float: right; cursor: pointer;">&times;</span> -->
+			<div id="alarmContent"></div>
+		</div>
+<!-- 	</div> -->
+	
 	<!-- 업그레이드 모달 창 -->
 	<div id="subsModal" class="modal">
 		<div class="modal-content">
@@ -466,14 +474,26 @@ font-family:pretendard;
 
 <script>
 
-$('#openAlarm').click(function (e) {
-	   // JSP 파일을 가져와서 모달 창에 표시
-	   $.get("./alarmList.go", function(data) {
-	   	console.log(data);
-	   	console.log("#alarmContent");
-	       $("#alarmContent").html(data);
-	   });
-	});
+//알람 모달 스크립트
+var alarmModal = $("#alarmModal");
+var alarmContent = $("#alarmContent");
+var openAlarmModal = $("#openAlarmModal");
+/* var closeAlarmModal = $("#closeAlarmModal"); */
+
+openAlarmModal.click(function() {
+    // JSP 파일을 가져와서 모달 창에 표시
+    $.get("./alarmList.go", function(data) {
+    	console.log(data);
+    	alarmContent.html(data);
+    	alarmModal.css("display", "block");
+    });
+});
+
+/* closeAlarmModal.click(function() {
+	alarmModal.css("display", "none");
+}); */
+
+
 
 // 구독 색깔 지정
 var subsTypeSpan = document.getElementById("subsTypeSpan");

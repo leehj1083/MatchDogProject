@@ -1,11 +1,16 @@
+<%@page import="com.one.mat.member.dto.ProfileDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/chattingRoom.css" type="text/css">
-<!-- bootstrap 아이콘 -->
+<title>홈 화면</title>
+<link rel="stylesheet" href="resources/css/home.css" type="text/css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- pretendard 폰트 -->
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
@@ -13,82 +18,44 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
-<script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
-
-#input_img{
-	display:none;
-}
-
-/* 본인 페이지 것으로 변경하기  */
-.btn_gnb .bi-house-door-fill, .btn_gnb.home{
-    color: var(--white);
-    background-color: var(--green);
-}
-
-
-/* 본인 페이지를 제외한 나머지 hover 적용 */
-/* .btn_gnb:hover .bi-house-door-fill, */
-.btn_gnb:hover .bi-chat-dots-fill,
-.btn_gnb:hover .bi-gear-fill,
-.btn_gnb:hover .bi-people-fill,
-.btn_gnb:hover .bi-person-circle,
-.btn_gnb:hover .bi-list-ul {
-    background-color: var(--light);
-}
-
-/* 본인 페이지를 제외한 나머지 hover 적용 */
-/* .btn_gnb.home:hover, */
-.btn_gnb.match:hover,
-.btn_gnb.chatting:hover,
-.btn_gnb.board:hover,
-.btn_gnb.myPage:hover,
-.btn_gnb.admin:hover{
-	background-color: var(--light);
-}
-
-
-.chatBlur{
-	display:none;
-    position: absolute;
-    left: 30px;
-    top: 568px;
-    width: 390px;
-    height: 42px;
-    background-color: rgba(0,0,0,0.1);
-    z-index: 2;	
-}
-
-.blur{
-	display:flex;
-	align-items: center;
-    justify-content: center;
-    height: 42px;
-}
-
-.blur span{
-	font-size: 14px;
-	line-height: 22px;
-	color: var(--dark);
-	font-weight: 600;
-  	font-family:Pretendard;
-  	text-align:center;
-}
-
-
-.content {
-	        text-align: center; 
-	        filter: blur(3px);
-			
+	a, a:link, a:visited, a:active, a:hover {
+		text-decoration: none;
+		color: var(--black);
+	}
+	
+	
+	/* 본인 페이지 것으로 변경하기  */
+	.btn_gnb .bi-house-door-fill, .btn_gnb.home{
+	    color: var(--white);
+	    background-color: var(--green);
+	}
+	
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	/* .btn_gnb:hover .bi-house-door-fill, */
+	.btn_gnb:hover .bi-chat-dots-fill,
+	.btn_gnb:hover .bi-gear-fill,
+	.btn_gnb:hover .bi-people-fill,
+	.btn_gnb:hover .bi-person-circle,
+	.btn_gnb:hover .bi-list-ul {
+	    background-color: var(--light);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	/* .btn_gnb.home:hover, */
+	.btn_gnb.match:hover,
+	.btn_gnb.chatting:hover,	
+	.btn_gnb.board:hover,
+	.btn_gnb.myPage:hover,
+	.btn_gnb.admin:hover{
+		background-color: var(--light);
+	}
+	.content {
+	        /* margin-left: 260px; */
+			/* padding: 20px; */
+	        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
 	    }
-
-.overlay{
-color : ;
-text-align: center; 
-font-family:Pretendard;
-height: 650px;
-background-color: rgba(0, 100, 0, 0.1);
-}
 
 	.sidebar {
         height: 100%;
@@ -128,21 +95,19 @@ background-color: rgba(0, 100, 0, 0.1);
 		width: 300px;
 		height: 200px;
 	}
-
-
 </style>
 </head>
 <body>
 
-<div id="wrap">
+ <div id="wrap">
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
-				<a href="./login.go"><span class="logout">로그인</span></a>
-				<a href="./join.do"><span class="logout">회원가입</span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
 	</div>
@@ -165,17 +130,18 @@ background-color: rgba(0, 100, 0, 0.1);
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        <a href="./myPageList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+	            <a href="./dashBoard.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
 		</div>
-<div class="overlay">서비스를 이용하려면 로그인 해주세요!
-		<div class="content">
-		
+	<div class="content">
     <h3>우리 동네 리스트</h3>
-    
 	<div>
 	    <img id="photo">
         <p id="member_dongAddr"></p>
@@ -201,9 +167,8 @@ background-color: rgba(0, 100, 0, 0.1);
     <div id="alarmContent"></div>
 	</div>
 	</div>
-	</div>
 </div>
-</body>
+</body>	
 <script>
 var matchingData = []; // 매칭 데이터 배열
 var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
@@ -374,6 +339,20 @@ $('#openModal').click(function (e) {
 	    });
 	}
 });
-	
+
+$('#openAlarm').click(function (e) {
+   // JSP 파일을 가져와서 모달 창에 표시
+   $.get("./alarmList.go", function(data) {
+   	console.log(data);
+   	console.log("#alarmContent");
+       $("#alarmContent").html(data);
+   });
+});
+
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+
 </script>
 </html>

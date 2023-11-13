@@ -412,183 +412,142 @@ input:checked+.slider:before {
 				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a id="openAlarmModal" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
 	</div>
-		<div class="mainContainer">
-			<div class="side">
-				<div class="menu">
-					<a href="./HomeMatchingList.do" class="btn_gnb home"> <span
-						class="bi bi-house-door-fill"></span> <span>홈</span>
-					</a> <a href="./recvMatchingList.go" class="btn_gnb match"> <span
-						class="bi bi-list-ul"></span> <span>매칭리스트</span>
-					</a> <a href="./chattingList.go" class="btn_gnb chatting"> <span
-						class="bi bi-chat-dots-fill"></span> <span>채팅</span>
-					</a> <a href="./boardList.go" class="btn_gnb board"> <span
-						class="bi bi-people-fill"></span> <span>커뮤니티</span>
-					</a> <a href="./myProfileList.do" class="btn_gnb myPage"> <span
-						class="bi bi-person-circle"></span> <span>마이페이지</span>
-					</a> <a href="./adminList.go" class="btn_gnb admin"> <span
-						class="bi bi-gear-fill"></span> <span>관리자페이지</span>
-					</a>
-				</div>
-			</div>
-			<div class="subSide">
-				<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
-				<div>
-					<img src="/photo/${photoName}" class="profilePhoto" />
-				</div>
-				<c:url value="/myPage" var="myPageUrl" />
-				<div class="myPageMenu">
-					<a href="./myProfileList.do" class="btn_gnb myPageInfo"> <span>회원
-							정보</span>
-					</a> <a href="./myProfileList.do" class="btn_gnb myProfile"> <span>프로필</span>
-					</a>
-				</div>
-			</div>
-
-			<br></br>
-			<div class="content">
-				<div id="alarmContent"></div>
-				<form action="myPageModUpdate.do" method="post">
-					<div class="inputForm">
-						<h3 style="color : var(--green);">기본 정보</h3>
-						<br></br> <input type="hidden" name=member_id
-							value="${myPage.member_id}" />
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>이름</strong>
-							</div>
-							<div class="name-value">
-								<p>${myPage.member_name}</p>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>아이디</strong>
-							</div>
-							<div class="name-value">
-								<p>${myPage.member_id}</p>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>성별</strong>
-							</div>
-							<div class="name-value">
-								<p>${myPage.member_gender}</p>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>닉네임</strong>
-							</div>
-							<div class="name-value">
-								<p>
-									<input type="text" name="member_nickName"
-										value="${myPage.member_nickName}" />&nbsp;<input type="button"
-										id="overlayNick" value="중복확인" />&nbsp;<span class="nickChk"></span>
-								</p>
-								<span class="nickValid" style="font-size: 8pt"> ※ 닉네임은
-									문자와 숫자로 구성하여 2~8자까지 입력해주세요</span>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>비밀번호</strong>
-							</div>
-							<div class="name-value">
-								<p>
-									<input type="password" name="member_pw"
-										placeholder="비밀번호를 입력하세요" value="${myPage.member_pw}" />
-								</p>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>비밀번호 확인</strong>
-							</div>
-							<div class="name-value">
-								<p>
-									<input type="password" name="member_pwReChk"
-										placeholder="비밀번호를 한번 더 입력하세요" value="" />
-								</p>
-								<p />
-								<span class="pwReChk" style="font-size: 8pt"> ※ 비밀번호를 다시
-									한 번 입력해주세요</span>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>이메일</strong>
-							</div>
-							<div class="name-value">
-								<p>
-									<input type="text" id="usermail" name="member_email"
-										placeholder="메일 주소를 입력 하세요" value="${myPage.member_email}" />@
-									<select name="emailhost" id="mailhost">
-										<option value="naver.com">naver.com</option>
-										<option value="gmail.com">gmail.com</option>
-										<option value="daum.net">daum.net</option>
-										<option value="nate.com">nate.com</option>
-									</select>
-								</p>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>전화번호</strong>
-							</div>
-							<div class="name-value">
-								<p>
-									<input type="text" name="member_phone"
-										value="${myPage.member_phone}" />
-								</p>
-								<p>
-									<span class="phoneValid" style="font-size: 8pt"> ※ 전화번호는
-										-를 포함하여 입력하여 주십시오</span>
-							</div>
-						</div>
-						<div class="profile-info">
-							<div class="name-label">
-								<strong>주소</strong>
-							</div>
-							<div class="name-value">
-								<p>
-									<input type="text" id="postcode" placeholder="우편번호"> <input
-										type="button" id="findpostcode" onclick="execDaumPostcode()"
-										value="우편번호 찾기"><br> <input type="text"
-										id="roadAddress" name="member_roadAddr" placeholder="도로명주소"
-										value="${myPage.member_roadAddr}"><br /> <input
-										type="text" id="jibunAddress" name="member_parcelAddr"
-										placeholder="지번주소" value="${myPage.member_parcelAddr}"><br />
-									<span id="guide" style="color: #999; display: none"></span><br />
-									<input type="text" id="detailAddress" name="member_detailAddr"
-										placeholder="상세주소" value="${myPage.member_detailAddr}">
-									<input type="text" id="extraAddress" name="member_dongAddr"
-										placeholder="참고항목" value="${myPage.member_dongAddr}">
-								</p>
-							</div>
-						</div>
-					</div>
-					<br></br>
-					<div style="display: flex; justify-content: space-between;">
-						<span> <input type="button"
-							onclick="location.href='./myPageList.do'" class="button-gray"
-							value="수정 취소" />
-						</span> <span> <input type="submit" id="myPageUpdate"
-							class="button-green" value="수정 완료" />
-						</span>
-					</div>
-				</form>
-				<br></br> <br></br>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
 		</div>
-	</div>
+		<div class="subSide">
+			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
+			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<c:url value="/myPage" var="myPageUrl" />
+			<div class="myPageMenu">
+				<a href="./myProfileList.do" class="btn_gnb myPageInfo">
+					<span>회원 정보</span>
+			    </a>
+			    <a href="./myProfileList.do" class="btn_gnb myProfile">
+					<span>프로필</span>
+			    </a>
+		    </div>
+		</div>
 
-	
+ 	<br></br>
+ 	<div class="content">
+ 	<div id="alarmContent"></div>
+ 	<form action="myPageModUpdate.do" method="post">
+ 	<div class="inputForm">
+     <h3 style="color : var(--green);">기본 정보</h3>
+<br></br>
+ 	<input type="hidden" name=member_id value="${myPage.member_id}"/>
+ 	<div class="profile-info">
+  <div class="name-label">
+    <strong>이름</strong>
+  </div>
+  <div class="name-value">
+    <p>${myPage.member_name}</p>
+  </div>
+</div>
+<div class="profile-info">
+  <div class="name-label">
+    <strong>아이디</strong>
+  </div>
+<div class="name-value">
+    <p>${myPage.member_id}</p>
+  </div>
+</div>
+<div class="profile-info">
+  <div class="name-label">
+    <strong>성별</strong>
+  </div>
+  <div class="name-value">
+    <p>${myPage.member_gender}</p>
+  </div>
+</div>
+<div class="profile-info">
+  <div class="name-label">
+    <strong>닉네임</strong>
+  </div>
+  <div class="name-value">
+    <p><input type="text" name="member_nickName" value="${myPage.member_nickName}"/><input type="button" id="overlayNick" value="중복확인"/><span class="nickChk"></span></p>
+  	<span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
+  </div>
+</div>
+ 	<p>이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_name}</p>
+ 	<p>아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_id}</p>
+ 	<p>성별 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_gender}</p>
+ 	<p/>닉네임 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="member_nickName" value="${myPage.member_nickName}"/>
+      <input type="button" id="overlayNick" value="중복확인"/> <span class="nickChk"></span> <p/>
+      <span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
+     <p>비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="password" name="member_pw" placeholder="비밀번호를 입력하세요" value="${myPage.member_pw}"/>
+      <p>비밀번호 확인 <input type="password" name="member_pwReChk"  placeholder="비밀번호를 한번 더 입력하세요" value=""/>  
+ 	<p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
+ 	<p>이메일 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 	<input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" value="${myPage.member_email}"/>@
+	  <select name="emailhost" id="mailhost">
+			<option value="naver.com">naver.com</option>	
+			<option value="gmail.com">gmail.com</option>
+			<option value="daum.net">daum.net</option>
+			<option value="nate.com">nate.com</option>
+	  </select>
+	  
+	  <p>전화번호  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="member_phone" value="${myPage.member_phone}"/>
+       <p><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+	  
+	  <p/>주소<input type="text" id="postcode" placeholder="우편번호">
+	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+	  <input type="text" id="roadAddress"  name = "member_roadAddr" placeholder="도로명주소" value="${myPage.member_roadAddr}"><br/>
+	  <input type="text" id="jibunAddress" name = "member_parcelAddr" placeholder="지번주소" value="${myPage.member_parcelAddr}"><br/>
+	  <span id="guide" style="color:#999;display:none"></span><br/>
+	  <input type="text" id="detailAddress" name = "member_detailAddr" placeholder="상세주소" value="${myPage.member_detailAddr}">		  
+	  <input type="text" id="extraAddress" name="member_dongAddr" placeholder="참고항목" value="${myPage.member_dongAddr}">                  
+	  
+	 	</div>
+ 		 	<br></br>
+ 		 	<div style="display: flex; justify-content: space-between;">
+<span>
+  <input type="button" onclick="location.href='./myPageList.do'" class="button-gray" value="수정 취소"/>
+</span>
+<span>
+  <input type="submit" id="myPageUpdate" class="button-green" value="수정 완료"/>
+</span>
+</div>
+<!--  		<input type="button" onclick="location.href='./myPageList.do'" class="button-gray" value="수정 취소"/>
+ 		<input type="submit" id="myPageUpdate" class="button-green" value="수정 완료"/> -->
+ 		 </form>
+ 	<br></br>
+ 	<br></br>
+ 	</div>
+ 	</div>
+</div>
 
 </body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
