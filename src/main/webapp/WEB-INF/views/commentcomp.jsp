@@ -420,7 +420,8 @@ opacity
 </tr>
 
 <tr>
-<td colspan="3"><textarea name="comp_content" spellcheck="false">내용을입력해주세요</textarea></td>
+<td colspan="3"><textarea name="comp_content" spellcheck="false" rows="8"
+									cols="50">내용을입력해주세요</textarea></td>
 </tr>
 
 <tr>

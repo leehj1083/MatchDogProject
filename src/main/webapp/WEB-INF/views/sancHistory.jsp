@@ -17,8 +17,18 @@
 <!-- 페이징 처리를 위한 라이브러리 -->
 
 <style>
-table,td{
-border: 1px solid black;
+table,th,td{
+	
+	border-collapse: collapse;
+	padding: 0.6rem;
+	font-family:pretendard;
+}
+td, th {
+border: 1px solid #aaa;
+  padding: 0.6rem;
+  min-width: 10rem;
+  text-align: left;
+  margin: 0;
 }
 a, a:link, a:visited, a:active, a:hover {
 		text-decoration: none;
@@ -98,11 +108,17 @@ a, a:link, a:visited, a:active, a:hover {
     	height: 500px;
     	text-align: left; 
     }
+    #compli{
+    border: none;
+    }
+    #compFirst{
+    background-color: lightgray;
+    }
 </style>
 </head>
 <body>
 <div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -196px;"/></a>
 	</div>
 
 <div class="mainContainer">
@@ -124,7 +140,7 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myPageList.do" class="btn_gnb myPage">
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -138,19 +154,20 @@ a, a:link, a:visited, a:active, a:hover {
 
 
 
+
+
 <table>
 <tr>
+<td colspan="5" style="border: none;"><h2 id = "memberPont">회원 제제 이력 보기</h2></td>
+</tr>
+<tr id = "compFirst">
 <td>번호</td>
 <td>제제 종류</td>
 <td>제제 시작일</td>
 <td>제제 종료일</td>
 <td>제제사유</td>
 </tr>
-<tr>
-<td colspan="5"><c:if test="${empty compList}">
-    <p>제제 이력이 없습니다.</p>
-</c:if></td>
-</tr>
+
 <c:forEach items="${compList}" var="comp">
 								<tr>
 								<td>${comp.loginLock_id}</td>
@@ -160,8 +177,14 @@ a, a:link, a:visited, a:active, a:hover {
 								<td>${comp.comp_handleContent}</td>
 								</tr>
 							</c:forEach>
-
-
+							<tr>
+<td colspan="5" id = "compli" style="border: none;"><c:if test="${empty compList}">
+    <p><h2>제제 이력이 없습니다.</h2></p>
+</c:if></td>
+</tr>
+<form action="backCompList">
+<button style="position: absolute; bottom: 150px; right: 477px;">뒤로가기</button></td>
+</form>
 </table>
 
 
