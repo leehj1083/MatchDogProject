@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +36,12 @@ public class MyProfileService {
 		ArrayList<ProfileDTO> myProfileList = new ArrayList<ProfileDTO>();
 
 		ArrayList<ProfileDTO> myProfile = dao.MyProfileListDo(idx);
+		
 
 		for (ProfileDTO profileDTO : myProfile) {
 			int pro_idx = profileDTO.getPro_idx();
-
+			
+			
 			// 성향 정보를 가져옴
 			ArrayList<ProfileDTO> charTypeList = dao.charType(pro_idx);
 
@@ -78,9 +82,14 @@ public class MyProfileService {
 		ProfileDTO MyProfileModList = dao.MyProfileModList(pro_idx);
 		ArrayList<ProfileDTO> charTypeList = dao.charType(pro_idx);
 		ArrayList<PhotoDTO> photoList = dao.photoList(pro_idx);
-		// 세연 추가
+		
+		
+		// 세연 추가 -- 프로필 대표 사진
 		String photoName = dao.photoName(pro_idx);
-
+		
+		
+		
+		
 		// MyProfileModList 에 다른 정보도 담아서 한 뭉테기로 만들기
 		MyProfileModList.setCharTypeList(charTypeList);
 		MyProfileModList.setPhotoList(photoList);
@@ -131,37 +140,30 @@ public class MyProfileService {
 
 	}
 
-	
-	
 	// 세연 코드 추가
-	public void photoInsert(MultipartFile[] uploadFiles, int pro_idx, String[] dataIndex) {
-		
-		
-		// 기존 사진 데이터는 지워주기
+	public void photoInsert(MultipartFile[] uploadFiles, int pro_idx, String[] dataIndex, String delPhotoName) {
+
 		int row = dao.photoDel(pro_idx);
+		
+		// 새로 들어온 사진들
+		for (int i = 0; i < dataIndex.length; i++) {
+			MultipartFile photo = uploadFiles[i];
+			String oriFileName = uploadFiles[i].getOriginalFilename();
+			String idx = dataIndex[i];
 
-		if (row != 0) {
-
-			for (int i = 0; i < dataIndex.length; i++) {
-				MultipartFile photo = uploadFiles[i];
-				String oriFileName = uploadFiles[i].getOriginalFilename();
-				String idx = dataIndex[i];
-
-				if (!oriFileName.equals("")) {
-					String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
-					String fileName = System.currentTimeMillis() + "_" + idx + ext;
-					logger.info(fileName);
-
-					byte[] arr;
-					try {
-						arr = photo.getBytes();
-						Path tempPath = Paths.get(root + fileName);
-						Files.write(tempPath, arr);
-						// 새로 사진 추가
-						dao.photoInsert(pro_idx,fileName);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+			if (!oriFileName.equals("")) {
+				String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+				String fileName = System.currentTimeMillis() + "_" + idx + ext;
+				
+				byte[] arr;
+				try {
+					arr = photo.getBytes();
+					Path tempPath = Paths.get(root + fileName);
+					Files.write(tempPath, arr);
+					// 새로 사진 추가
+					dao.photoInsert(pro_idx, fileName);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -169,16 +171,14 @@ public class MyProfileService {
 	}
 
 	public HashMap<String, Object> photoUploadDo(int pro_idx) {
-		
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
+
 		ArrayList<String> photos = dao.photoUploadDo(pro_idx);
-		
+
 		map.put("photos", photos);
-		
+
 		return map;
 	}
 
 }
-
-

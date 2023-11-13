@@ -78,13 +78,15 @@ public class MyProfileController {
 			@RequestParam(value = "selectedCharTypesCode", required = false) String selectedCharTypesCode,
 			// 세연 추가 코드
 			MultipartFile[] uploadFiles,
-            @RequestParam String[] dataIndex
+            @RequestParam String[] dataIndex,
+            @RequestParam String delPhotoName
 			) {
 		
 		
 		logger.info("선택한 코드들 :"+selectedCharTypesCode);
 		int pro_idx = Integer.parseInt(params.get("pro_idx"));
 		logger.info("pro_idx:"+pro_idx);
+		logger.info("delPhotoName의 값 : "+delPhotoName);
 		
 		if(params.get("charTypeCodes") != null ) {
 			
@@ -147,7 +149,7 @@ public class MyProfileController {
 			service.myProfileModUpdateDo(params);
 			
 			// 세연 추가 코드
-			service.photoInsert(uploadFiles,pro_idx,dataIndex);
+			service.photoInsert(uploadFiles,pro_idx,dataIndex,delPhotoName);
 			
 
 			page = "redirect:/myProfileList.do";

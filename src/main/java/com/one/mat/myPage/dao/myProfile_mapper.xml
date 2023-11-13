@@ -125,6 +125,10 @@ WHERE pro_idx = #{param1}
 		WHERE pt.photo_type = 4 AND p.pro_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1
 	</select>
 	
+	<delete id="delPhotoName">
+		DELETE FROM photo WHERE photo_type = 4 AND photo_fileName = #{param1}
+	</delete>
+	
 	<delete id="photoDel">
 		DELETE FROM photo WHERE photo_type = 4 AND photo_idfNum = #{param1}
 	</delete>
@@ -138,6 +142,9 @@ WHERE pro_idx = #{param1}
 		SELECT photo_fileName FROM photo WHERE photo_type = 4 AND photo_idfNum = #{param1}
 	</select>
 
+	<select id="getPhoto" resultType="String">
+		SELECT photo_fileName FROM photo WHERE photo_type = 4 AND photo_idfNum = #{param1}
+	</select>
 
 
 </mapper>

@@ -51,6 +51,10 @@ public interface MyProfileDAO {
 	void photoInsert(int pro_idx, String fileName);
 
 	ArrayList<String> photoUploadDo(int pro_idx);
+
+	ArrayList<String> getPhoto(int pro_idx);
+
+	void delPhotoName(String delExistPhoto);
 	
 
 

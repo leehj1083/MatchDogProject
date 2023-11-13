@@ -198,6 +198,8 @@ textarea{
 }
 
 
+
+
 </style>
 </head>
 <body>
@@ -263,7 +265,7 @@ textarea{
 			<span class="my_profile_h4">${MyProfileMod.pro_dogName}</span>
 			<span class="my_profile_h4 black">님의 프로필 페이지</span>
 			
-			<form action="myProfileModUpdate.do" method="post" enctype="multipart/form-data">
+			<form id="form" action="myProfileModUpdate.do" method="post" enctype="multipart/form-data">
 			<!-- 		<input type="file" name="photos" multiple="multiple" value="사진 선택"> -->
 			<input type="hidden" name="pro_idx" value="${MyProfileMod.pro_idx}">
 					<c:set var="minPhotoId" value="9999" />
@@ -272,7 +274,7 @@ textarea{
 			    				<c:if test="${photo.photo_id < minPhotoId}">
 			       		 			<c:set var="minPhotoId" value="${photo.photo_id}" />
 			       					<c:set var="minFileName" value="${photo.photo_fileName}" />
-									<div><img src="/photo/${minFileName}" class="profilePhoto"/></div>
+									<div class="changePhoto"><img src="/photo/default.png" class="profilePhoto"/></div>
 			    				</c:if>
 							</c:forEach>
 							
@@ -301,8 +303,9 @@ textarea{
 												      </span>
 												      <span class="bi bi-dash-circle-fill"></span>
 												    </div>
-												    <input type="hidden" name="dataIndex" value="${i}">
+												    <input type="hidden" name="dataIndex" value="${i}" />
 												  </c:forEach>
+												  <input type="hidden" name="delPhotoName"/>
 											
 											<span class="photo_selected">선택 완료</span>
 										</div>
@@ -312,17 +315,7 @@ textarea{
 							</div>
 							
 							
-					
-							<%-- <p>내 강아지 사진들</p>
-						
-						<c:forEach items="${MyProfileMod.photoList}" var="photo" varStatus="loop">
-						   ${photo.photo_id} 
-						   ${photo.photo_type}
-						   ${photo.photo_idfNum}
-						   ${photo.photo_fileName}
-						   ${photo.photo_uploadDate}
-						   <c:if test="${!loop.last}">, </c:if>
-						</c:forEach> --%>
+			
 			
 							<div class="myProfileContent">
 							
@@ -393,9 +386,7 @@ textarea{
 								
 								<div class="dogDesc menu">
 									<div class="dog_text">내 강아지 소개</div>
-									<textarea class="pro_dogDesc" name="pro_dogDesc" spellcheck="false">
-										${MyProfileMod.pro_dogDesc}
-									</textarea>
+									<textarea class="pro_dogDesc" name="pro_dogDesc" spellcheck="false">${MyProfileMod.pro_dogDesc}</textarea>
 								</div>
 								
 							</div>
@@ -416,7 +407,7 @@ textarea{
 							</div>
 
 							<button class="cancelEdit" type="button" onclick="location.href='./myProfileList.do'">수정 취소</button>
-					 		<button class="cancelComp">수정 완료</button>
+					 		<button class="cancelComp" type="button">수정 완료</button>
 					 		
 			</form>
 		</div>
@@ -482,89 +473,17 @@ submitFormButton.on("click", function (e) {
 
 
 
-
-
 //포토 모달 스크립트
+
+var pro_idx = ${MyProfileMod.pro_idx};
+	
+
+// 사진 모달창 팝업 오픈
 $('.openPhotoModal').on('click',function () {
-
-	var pro_idx = ${MyProfileMod.pro_idx};
-	
-	console.log(pro_idx);
-	
-	$.ajax({
-        type: 'post',
-        url: 'photoUpload.do',
-        data: {"pro_idx":pro_idx},
-        dataType:'JSON',
-        success: function (data) {
-			
-        	var photos = data.photos;
-        	var index = [];
-        	
-			for (var i = 0; i < photos.length; i++) {
-	            var parts = photos[i].split('_'); // "_"를 기준으로 문자열을 나눕니다
-	            console.log(parts);
-	            if (parts.length >= 2) {
-	                var indices = parts[1].split('.')[0]; // 첫 번째 부분을 가져오고 확장자 부분을 제거합니다
-	                index.push(indices);
-	            } else {
-	                index.push(null); // 적절한 형식이 아닐 경우 null을 배열에 추가
-	            }
-	        }
-			
-			for (var i = 0; i < photos.length; i++) {
-	        	console.log("찾으려는거!"+photos[i]);
-	        	console.log("찾으려는거!"+index[i]);
-	        	
-	        	var parentContainer = $('#file'+index[i]).closest('.filebox').prev('.image-container');
-				var content = '';
-				content += '<img class="photoList" src="/photo/' + photos[i] + '" />';
-				parentContainer.html(content);  
-	        }
-			
-			var fileInput = $('#file' + index[i]);
-			console.log(fileInput);
-			handleFilePhotoChange(fileInput);
-				
-	
-			    
-            // 가져온 정보를 기반으로 모달에 이미지 추가
- /*            if (data && data.length > 0) {
-                data.forEach(function (photo) {
-                    var imageContainer = $('#imageContainer' + photo.index);
-
-                    // 이미지를 생성하고 추가
-                    var img = document.createElement('img');
-                    img.src = '/path/to/your/photo/folder/' + photo.fileName; // 이미지 경로를 수정하세요.
-                    imageContainer.empty().append(img);
-
-                    // 기존 파일 입력 상자 업데이트
-                    var fileInput = $('#file' + photo.index)[0];
-                    fileInput.value = ''; // 파일 선택 초기화
-                    handleFileInputChange(fileInput);
-                });
-            } */
-        },
-        error: function (e) {
-        	console.log(e);
-            console.log('서버에서 사진 정보를 가져오지 못했습니다.');
-        }
-    });
-	
 	$('.photoModal').css('display','inline-block');
 });
 
-function handleFilePhotoChange(input) {
-    var filebox = $(input).closest('.filebox');
-    var label = filebox.find('.fileContent');
-    var dashIcon = filebox.find('.bi-dash-circle-fill');
-
-    label.css('display', 'none');
-    dashIcon.css('display', 'inline-block');
-
-	}
-
-
+// input[type="file"]들
 var fileInputIds = ['#file1', '#file2', '#file3', '#file4', '#file5', '#file6', '#file7', '#file8', '#file9'];
 
 fileInputIds.forEach(function (inputId) {
@@ -574,7 +493,7 @@ fileInputIds.forEach(function (inputId) {
     });
 });
 
-// 파일 선택 전에는 + 고 파일 선택 시 삭제하게 만드는 버튼 나타나게...
+// 파일 선택 전에는 + 고 파일 선택 시 - 삭제하게 만드는 버튼 나타나게...
 function handleFileInputChange(input) {
 	  var label = $(input).closest('.filebox').find('.fileContent');
 	  var plusIcon = label.find('.bi-plus-circle-fill');
@@ -589,18 +508,53 @@ function handleFileInputChange(input) {
 	  }
 	}
 	
-// 파일객체 삭제하는 버튼 누르면 삭제
+//기존에 사진 데이터를 삭제처리했을 시 실질적으로 삭제되는 코드
+//저장되어있는 사진 삭제하려는 코드
+var delPhotoName = [];
+
+// - 삭제하는 버튼 누르면 파일 객체 삭제됨. 
 $('.bi-dash-circle-fill').on('click', function () {
     var fileInput = $(this).closest('.filebox').find('.input_img')[0];
     fileInput.value = ''; // 파일 선택을 초기화
     handleFileInputChange(fileInput);
     
+    var parentContainer2 = $(this).closest('.filebox').prev('.image-container');
     var parentContainer = $(fileInput).closest('.filebox').prev('.image-container');
-    parentContainer.html('');
+    
+    var htmlString = parentContainer.html();
+    var startIndex = htmlString.lastIndexOf('/') + 1;
+    var endIndex = htmlString.indexOf('">'); // "> 문자를 찾음
+    var filename = htmlString.substring(startIndex, endIndex);
+    
+    if (isValidFileName(filename)) {
+        // 유효한 파일 이름인 경우만 삭제 배열에 추가
+        delPhotoName.push(filename);
+        //console.log(filename); // 출력: "1699782507616_1.jpg"
+		//console.log("제발찍히세요 : "+delPhotoName);
+        updateDelPhotoNameInput();
+    } else {
+        console.log("유효하지 않은 파일 이름입니다.");
+    }
+    parentContainer.html(''); 
+    parentContainer2.html(''); 
 });
 
 
-// 함수들....
+function isValidFileName(fileName) {
+    // 정규식을 사용하여 파일 이름 형식을 확인
+	var regex = /^\d+_\d+\.jpg$/; // 큰따옴표 및 빈 문자열을 제외한 형식
+    return regex.test(fileName);
+}
+
+function updateDelPhotoNameInput() {
+	var input = $('input[name="delPhotoName"]');
+	var delPhotoNameValue = delPhotoName.join(',');
+	 input.val(delPhotoNameValue);
+}
+
+
+
+// 등록된 사진 보여주는 함수
  function photoReview(input) {
 	 	var files = input.files;
 	    var filesArr = Array.prototype.slice.call(files);
@@ -640,7 +594,8 @@ $('.bi-dash-circle-fill').on('click', function () {
 	        $('.photoModal').css('display', 'inline-block');
 	    }
 	}
-	
+
+// 선택 완료 버튼 클릭
  $('.photo_selected').on('click', function () {
 	    var selectedInput = $(this).closest('.photoModal-content').find('input[type="file"]');
 	    var selectedFiles = [];
@@ -655,21 +610,33 @@ $('.bi-dash-circle-fill').on('click', function () {
 	        	selectedFiles.push({ file: files[i], index: index });
 	        }
 	    });
+	    
 	   
-	    if (selectedFiles.length > 0) {
-	        //uploadFilesToDB(selectedFiles);
-		    $('.photoModal').css('display', 'none');
+	    var parentContainer = $('.filebox').prev('.image-container');
+	    var imageTags = parentContainer.find('img');
+	    
+	    if (imageTags.length > 0) {
+	 
+	        // 이미지 태그가 하나라도 존재하면 모달창을 닫음
+	        $('.photoModal').css('display', 'none');
+	        
+	    	// .changePhoto 내부의 이미지 태그 업데이트
+	        var nearestImg = $(this).closest('.photoModal').find('.image-container img').first();
+	        var imageUrl = nearestImg.attr('src');
+	        $('.changePhoto img').attr('src', imageUrl);
 	    } else {
+	        // 이미지가 하나도 없는 경우 alert 메시지 표시
 	        alert('사진은 1개 이상 무조건 선택해주세요!');
 	    }
+	   
 	    
 	});
 	
 	
 // 모달창 닫을때
 $('.close').on('click', function () {
-    resetInputFile(); // 파일 선택 상자를 초기화하기 위해 함수를 호출
-    $('.image-container').empty();
+    //resetInputFile(); // 파일 선택 상자를 초기화하기 위해 함수를 호출
+    //$('.image-container').empty();
     $('.photoModal').css('display', 'none');
 });
 
@@ -679,43 +646,21 @@ function resetInputFile() {
     inputFile.val(''); // 파일 선택 상자의 값을 초기화
 }
 
+$('.cancelComp').on('click', function () {
+	
+	var parentContainer = $('.filebox').prev('.image-container');
+    var imageTags = parentContainer.find('img');
+    
+    if (imageTags.length > 0) {
+        // 이미지 태그가 하나라도 존재하면 모달창을 닫음
+	    $('form').submit();
+    } else {
+        // 이미지가 하나도 없는 경우 alert 메시지 표시
+        alert('사진은 1개 이상 무조건 선택해주세요!');
+    }
+	
+});
 
-/* var sendData = [];
-
- function uploadFilesToDB(selectedFiles) {
-	 
-	    $('.photoModal').css('display', 'none');
-	    
-	    var formData = new FormData();
-	    
-	    for (var i = 0; i < selectedFiles.length; i++) {
-	        var file = selectedFiles[i].file;
-	        var index = selectedFiles[i].index;
-	        
-	        console.log("파일"+file);
-	        console.log("인덱스 : "+index);
-
-	        formData.append("files", file); // "file" 키로 파일 추가
-	        formData.append("index", index); // "index" 키로 인덱스 추가
-	    }
-	    
-	    $.ajax({
-	        type: 'post',
-	        url: 'photoUpload.do',
-	        data: formData,
-	        processData: false,
-	        contentType: false,
-	        success: function (data) {
-	            console.log(data);
-	            data.newFileName.forEach(function(item,idx){
-	            	sendData.push(item);
-	            });
-	        },
-	        error: function (e) {
-	            console.log(e);
-	        }
-	    });
-	}*/
 
 
 
