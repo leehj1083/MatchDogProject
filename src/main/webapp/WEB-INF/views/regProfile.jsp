@@ -169,7 +169,7 @@ a, a:link, a:visited, a:active, a:hover {
 }
 
 .w-btn-green {
-    background-color: #77af9c;
+    background-color: rgb(26, 188, 156);
     color: #d7fff1;
 }
 
@@ -386,6 +386,9 @@ opacity
 	#ph_td9 {
 	vertical-align: bottom;
 }
+#openAlarm{
+cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -393,7 +396,7 @@ opacity
 
 
 	<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -265px;"/></a>
+		<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog" style="width: 150px; height: auto; margin: 0 0 0 -265px;"/></a>
 	</div>
 
 
@@ -437,7 +440,7 @@ opacity
 				<div class="content">
 				<h2>프로필 생성</h2>
 				<div id="alarmContent"></div>
-					<input type="button" name="imgBtn" id="imgBtn" value=" ">
+					대표 프로필 사진:  <input type="button" name="imgBtn" id="imgBtn" value=" ">
 
 					<div id="newModal" class="modal">
 						<div class="modal-content">
@@ -638,7 +641,7 @@ opacity
 						</tr>
 						<tr>
 						<tr>
-							<th colspan="2"><button class="w-btn w-btn-green">등록 완료</button></th>
+							<th colspan="2"><button class="w-btn w-btn-green" id="submitBtn">등록 완료</button></th>
 
 						</tr>
 						<input type="hidden" name="charType_code" id="charType_code"
@@ -694,7 +697,24 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectCompleteButton = document.getElementById("selectComplete");
     selectCompleteButton.addEventListener("click", function () {
         document.getElementById("newModal").style.display = "none";
+        
+        var selectedImageContainer = document.getElementById("imageContainer1");
+
+        // 선택된 컨테이너에서 이미지 엘리먼트 가져오기
+        var selectedImages = selectedImageContainer.querySelectorAll("img");
+
+        // 선택된 컨테이너에 이미지가 하나 이상 있는지 확인
+        if (selectedImages.length > 0) {
+            // 첫 번째 이미지 소스 가져와서 버튼의 배경으로 설정
+            var firstImageSrc = selectedImages[0].src;
+            document.getElementById("imgBtn").style.background = "url('" + firstImageSrc + "') no-repeat";
+            document.getElementById("imgBtn").style.backgroundSize = "cover";
+            document.getElementById("imgBtn").style.color = "transparent";
+        }
+        
+        
     });
+    
     
     // "성향 선택" 버튼을 클릭했을 때 모달 창 열기
     
@@ -757,6 +777,26 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(",");
 
             document.getElementById("myModal").style.display = "none";
+        }
+    });
+    var submitBtn = document.getElementById("submitBtn");
+    submitBtn.addEventListener("click", function () {
+        // 선택된 옵션을 담고 있는 div 가져오기
+        var selectedOptionsDiv = document.getElementById("selectedOptions");
+
+        // 선택된 옵션이 있는지 확인
+        if (selectedOptionsDiv.innerHTML.trim() === "") {
+            alert("성향을 선택해주세요!");
+          
+            event.preventDefault();
+        } 
+        
+        var dogNameInput = document.getElementsByName("pro_dogName")[0]
+        ;
+        if (dogNameInput.value.trim() === "") {
+            // 강아지 이름이 없으면 alert 창을 띄우고 폼 제출을 막기
+            alert("강아지 이름을 입력해주세요!");
+            event.preventDefault();  // 폼 제출 막기
         }
     });
  //-----------------------------------------여기서 부터 이미지 파일 관련 script 문 입니다...-------------------------------------------------   
@@ -918,6 +958,19 @@ document.addEventListener("DOMContentLoaded", function () {
             imageContainer9.appendChild(imageElement);
         }
     });
+    $('#openAlarm').click(function (e) {
+    	   // JSP 파일을 가져와서 모달 창에 표시
+    	   $.get("./alarmList.go", function(data) {
+    	   	console.log(data);
+    	   	console.log("#alarmContent");
+    	       $("#alarmContent").html(data);
+    	   });
+    	});
+
+    	var msg = "${msg}";
+    	if(msg != ""){
+    		alert(msg);
+    	}
     
 });
 </script>
