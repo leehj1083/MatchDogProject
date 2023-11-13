@@ -122,6 +122,23 @@ background-color: rgb(26, 188, 156);
 nav {
     margin-left: -650px; 
 }
+.pagination > .active > a,
+    .pagination > .active > a:focus,
+    .pagination > .active > a:hover,
+    .pagination > .active > span,
+    .pagination > .active > span:focus,
+    .pagination > .active > span:hover {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #1FBF92; 
+        border-color: #1FBF92;
+    }
+    
+    .pagination > li > a,
+    .pagination > li > span {
+        color: black;
+    }
 </style>
 </head>
 <body>
@@ -147,7 +164,7 @@ nav {
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myPageList.do" class="btn_gnb myPage">
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -158,6 +175,9 @@ nav {
 			</div>
 		</div>
 		<div class="content1">
+		
+		
+		
 	<select id="pagePerNum">
 		<option value="5">5</option>
 		<option value="10">10</option>
@@ -312,14 +332,14 @@ nav {
 						content += '<td>'
 								+ '<a href="compDetail?comp_idx='
 								+ item.comp_idx
-								+ '">'
+								+ '"style="color: blue;">'
 								+ (item.comp_content.length > 10 ? item.comp_content
 										.substring(0, 10)
 										+ '...'
 										: item.comp_content) + '('
 								+ getCompType(item.compType) + ')' + '</a>' + '</td>';
-						content += '<td>' + '<a href="sancHistory.go?comp_idx='
-								+ item.comp_reportIdx + '">'
+						content += '<td>' + '<a href="sancHistory.go?comp_idx=' 
+								+ item.comp_reportIdx + '" style="color: blue;">'
 								+ item.comp_reportIdx + '</a>' + '</td>';
 						var regDate = new Date(item.comp_receiveDate);
 						var formattedRegDate = regDate.getFullYear() + "-"

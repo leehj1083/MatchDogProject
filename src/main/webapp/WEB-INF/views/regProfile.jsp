@@ -8,8 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<meta charset="UTF-8">
-<title>홈 화면</title>
 <link rel="stylesheet" href="resources/css/home.css" type="text/css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -22,6 +20,7 @@
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <style>
+
 .filebox .upload-name {
 	display: inline-block;
 	height: 40px;
@@ -169,50 +168,36 @@ a, a:link, a:visited, a:active, a:hover {
 	transition: 0.25s;
 }
 
-.w-btn-indigo {
-	background-color: aliceblue;
-	color: #1e6b7b;
-}
-
-.w-btn-indigo-outline {
-	border: 3px solid aliceblue;
-	color: #1e6b7b;
-}
-
-.w-btn-indigo-outline:hover {
-	color: #1e6b7b;
-	background: aliceblue;
-}
-
 .w-btn-green {
-	background-color: #77af9c;
-	color: #d7fff1;
+    background-color: #77af9c;
+    color: #d7fff1;
 }
 
 .w-btn-green2 {
-	background-color: #519d9e;
-	color: #9dc8c8;
+    background-color: #519d9e;
+    color: #9dc8c8;
 }
 
 .w-btn-green-outline {
-	border: 3px solid #77af9c;
-	color: darkgray;
+    border: 3px solid #77af9c;
+    color: darkgray;
 }
 
 .w-btn-green2-outline {
-	border: 3px solid #519d9e;
-	color: darkgray;
+    border: 3px solid #519d9e;
+    color: darkgray;
 }
 
 .w-btn-green-outline:hover {
-	background-color: #77af9c;
-	color: #d7fff1;
+    background-color: #77af9c;
+    color: #d7fff1;
 }
 
 .w-btn-green2-outline:hover {
-	background-color: #519d9e;
-	color: #9dc8c8;
+    background-color: #519d9e;
+    color: #9dc8c8;
 }
+
 
 .w-btn-brown {
 	background-color: #ce6d39;
@@ -239,85 +224,7 @@ a, a:link, a:visited, a:active, a:hover {
 	color: #d4dfe6;
 }
 
-.w-btn-gray {
-	background-color: #a3a1a1;
-	color: #e3dede;
-}
 
-.w-btn-red {
-	background-color: #ff5f2e;
-	color: #e1eef6;
-}
-
-.w-btn-skin {
-	background-color: #f8e6e0;
-	color: #6e6e6e;
-}
-
-.w-btn-yellow {
-	background-color: #fce205;
-	color: #6e6e6e;
-}
-
-.w-btn-blue-outline {
-	border: 3px solid #6aafe6;
-	color: #6e6e6e;
-}
-
-.w-btn-pink-outline {
-	border: 3px solid #f199bc;
-	color: #6e6e6e;
-}
-
-.w-btn-gray-outline {
-	border: 3px solid #a3a1a1;
-	color: #6e6e6e;
-}
-
-.w-btn-red-outline {
-	border: 3px solid #ff5f2e;
-	color: #6e6e6e;
-}
-
-.w-btn-skin-outline {
-	border: 3px solid #f8e6e0;
-	color: #6e6e6e;
-}
-
-.w-btn-yellow-outline {
-	border: 3px solid #fce205;
-	color: #6e6e6e;
-}
-
-.w-btn-blue-outline:hover {
-	background-color: #6aafe6;
-	color: #d4dfe6;
-}
-
-.w-btn-pink-outline:hover {
-	background-color: #f199bc;
-	color: #d4dfe6;
-}
-
-.w-btn-gray-outline:hover {
-	background-color: #a3a1a1;
-	color: #e3dede;
-}
-
-.w-btn-red-outline:hover {
-	background-color: #ff5f2e;
-	color: #e1eef6;
-}
-
-.w-btn-skin-outline:hover {
-	background-color: #f8e6e0;
-	color: #6e6e6e;
-}
-
-.w-btn-yellow-outline:hover {
-	background-color: #fce205;
-	color: #6e6e6e;
-}
 
 .w-btn:hover {
 	letter-spacing: 2px;
@@ -339,117 +246,54 @@ a, a:link, a:visited, a:active, a:hover {
 	transform: scale(1.5);
 }
 
-.w-btn-gra1 {
-	background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);
-	color: white;
-}
 
-.w-btn-gra2 {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	color: white;
-}
-
-.w-btn-gra3 {
-	background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5,
-		#002bff, #7a00ff, #ff00c8, #ff0000);
-	color: white;
-}
-
-.w-btn-gra-anim {
-	background-size: 400% 400%;
-	animation: gradient1 5s ease infinite;
-}
-
-@
 keyframes gradient1 { 0% {
 	background-position: 0% 50%;
 }
-
 50
-
-
 %
 {
 background-position
-
-
 :
-
-
 100
 %
-
-
 50
 %;
-
-
 }
 100
-
-
 %
 {
 background-position
-
-
 :
-
-
 0
 %
-
-
 50
 %;
-
-
 }
 }
 @
 keyframes gradient2 { 0% {
 	background-position: 100% 50%;
 }
-
 50
-
-
 %
 {
 background-position
-
-
 :
-
-
 0
 %
-
-
 50
 %;
-
-
 }
 100
-
-
 %
 {
 background-position
-
-
 :
-
-
 100
 %
-
-
 50
 %;
-
-
 }
 }
 @
@@ -458,75 +302,24 @@ keyframes ring { 0% {
 	height: 30px;
 	opacity: 1;
 }
-
 100
-
-
 %
 {
 width
-
-
 :
-
-
 300px
 ;
-
-
 height
-
-
 :
-
-
 300px
 ;
-
-
 opacity
-
-
 :
-
-
 0
 ;
-
-
 }
 }
-.w-btn-neon2 {
-	position: relative;
-	border: none;
-	min-width: 200px;
-	min-height: 50px;
-	background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%,
-		rgba(79, 209, 197, 1) 100%);
-	border-radius: 1000px;
-	color: darkslategray;
-	cursor: pointer;
-	box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
-	font-weight: 700;
-	transition: 0.3s;
-}
 
-.w-btn-neon2:hover {
-	transform: scale(1.2);
-}
-
-.w-btn-neon2:hover::after {
-	content: "";
-	width: 30px;
-	height: 30px;
-	border-radius: 100%;
-	border: 6px solid #00ffcb;
-	position: absolute;
-	z-index: -1;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	animation: ring 1.5s infinite;
 }
 
 #modalContent {
@@ -566,7 +359,7 @@ opacity
 }
 
 .content {
-	margin-left: 260px;
+	margin-left: 86px;
 	padding: 20px;
 	text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
 }
@@ -621,31 +414,20 @@ opacity
 		<div class="mainContainer">
 			<div class="side">
 				<div class="menu">
-				<a href="./HomeMatchingList.do" class="btn_gnb home">
-					<span class="bi bi-house-door-fill"></span>
-					<span>홈</span>
-				</a>
-		        <a href="./recvMatchingList.go" class="btn_gnb match">
-		        	<span class="bi bi-list-ul"></span>
-					<span>매칭리스트</span>
-		        </a>
-		        <a href="./chattingList.go" class="btn_gnb chatting">
-		        	<span class="bi bi-chat-dots-fill"></span>
-					<span>채팅</span>
-		        </a>
-		        <a href="./boardList.go" class="btn_gnb board">
-		        	<span class="bi bi-people-fill"></span>
-					<span>커뮤니티</span>
-		        </a>
-		        <a href="./myPageList.do" class="btn_gnb myPage">
-		        	<span class="bi bi-person-circle"></span>
-					<span>마이페이지</span>
-		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
-	            	<span class="bi bi-gear-fill"></span>
-					<span>관리자페이지</span>
-	            </a>
-			</div>
+					<a href="./HomeMatchingList.do" class="btn_gnb home"> <span
+						class="bi bi-house-door-fill"></span> <span>홈</span>
+					</a> <a href="./recvMatchingList.go" class="btn_gnb match"> <span
+						class="bi bi-list-ul"></span> <span>매칭리스트</span>
+					</a> <a href="./chattingList.go" class="btn_gnb chatting"> <span
+						class="bi bi-chat-dots-fill"></span> <span>채팅</span>
+					</a> <a href="./boardList.go" class="btn_gnb board"> <span
+						class="bi bi-people-fill"></span> <span>커뮤니티</span>
+					</a> <a href="./myProfileList.do" class="btn_gnb myPage"> <span
+						class="bi bi-person-circle"></span> <span>마이페이지</span>
+					</a> <a href="./adminList.go" class="btn_gnb admin"> <span
+						class="bi bi-gear-fill"></span> <span>관리자페이지</span>
+					</a>
+				</div>
 			</div>
 
 
@@ -653,6 +435,7 @@ opacity
 
 			<form action="profileSave.do" method="post" id="myForm">
 				<div class="content">
+				<h2>프로필 생성</h2>
 				<div id="alarmContent"></div>
 					<input type="button" name="imgBtn" id="imgBtn" value=" ">
 
@@ -867,8 +650,6 @@ opacity
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-	
-	var submitBtn = document.getElementById("submitBtn");
     var openModalButton = document.getElementById("openModal");
     var closeModalButton = document.getElementById("closeModal");
     var imageInput = document.getElementById("imageInput");
@@ -929,7 +710,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 선택된 체크박스 항목들을 가져와서 화면에 표시
         var selectedOptions = document.querySelectorAll('input[type="checkbox"]:checked');
         var selectedLabels = Array.from(selectedOptions).map(option => option.parentElement.textContent.trim());
-        selectedOptionsDiv.innerHTML = "" + selectedLabels.join(", ");
+        selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(", ");
         
         // 추가: 선택된 성향의 value 값을 CharType에 설정
         var charTypeInput = document.getElementById("charType_code");
@@ -973,33 +754,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 추가: 선택된 성향의 내용을 selectedOptions div에 표시
             var selectedLabels = Array.from(selectedOptions).map(option => option.parentElement.textContent.trim());
-            selectedOptionsDiv.innerHTML = "" + selectedLabels.join(",");
+            selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(",");
 
             document.getElementById("myModal").style.display = "none";
         }
     });
-    
-    submitBtn.addEventListener("click", function () {
-        // 선택된 옵션을 담고 있는 div 가져오기
-        var selectedOptionsDiv = document.getElementById("selectedOptions");
-
-        // 선택된 옵션이 있는지 확인
-        if (selectedOptionsDiv.innerHTML.trim() === "") {
-            alert("성향을 선택해주세요!");
-          
-            event.preventDefault();
-        } 
-        
-        var dogNameInput = document.getElementsByName("pro_dogName")[0]
-        ;
-        if (dogNameInput.value.trim() === "") {
-            // 강아지 이름이 없으면 alert 창을 띄우고 폼 제출을 막기
-            alert("강아지 이름을 입력해주세요!");
-            event.preventDefault();  // 폼 제출 막기
-        }
-    });
-    
-    
  //-----------------------------------------여기서 부터 이미지 파일 관련 script 문 입니다...-------------------------------------------------   
 
  // 이미지 및 파일 업로드 입력 필드 초기화 함수
@@ -1161,14 +920,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
 });
-
-$('#openAlarm').click(function (e) {
-	   // JSP 파일을 가져와서 모달 창에 표시
-	   $.get("./alarmList.go", function(data) {
-	   	console.log(data);
-	   	console.log("#alarmContent");
-	       $("#alarmContent").html(data);
-	   });
-	});
 </script>
 </html>
