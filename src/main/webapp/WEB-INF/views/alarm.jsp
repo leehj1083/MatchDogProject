@@ -11,15 +11,15 @@
     <style>
         .alarmModal {
            	background-color: #C2E9E2;
-						position: relative;
-						top: -960px;
-						left: 30px;
-						z-index: 2;
-						display: inline-block;
-						width: 420px;
-						height: 600px;
-						font-size: 12px;
-						
+			position: relative;
+			top: -960px;
+			left: 30px;
+			z-index: 2;
+			display: inline-block;
+			width: 420px;
+			height: 600px;
+			font-size: 12px;
+			overflow-y: auto;
         }
 
         .alarmTable {
