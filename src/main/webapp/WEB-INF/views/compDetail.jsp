@@ -66,38 +66,7 @@ a, a:link, a:visited, a:active, a:hover {
 	    	text-align: left; 
 	}
 
-	.sidebar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #255,255,255;
-        padding-top: 20px;
-    }
-
-    .sidebar h2 {
-        color: black;
-        text-align: center;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar a {
-        color: black;
-        text-decoration: none;
-    }
-
     .content {
-        margin-left: 260px;
         padding: 20px;
         text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
     }
@@ -562,15 +531,22 @@ opacity
 
 </head>
 <body>
-<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -265px;"/></a>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
 	</div>
-	
-	
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<span class="btn_gnb home">
+				<span class="btn_gnb admin">
 					<span class="bi bi-gear-fill"></span>
 					<span>관리자 페이지</span>
 				</span>
@@ -596,23 +572,22 @@ opacity
 		        </a>
 			</div>
 		</div>
-	
-	
-	<div class="content">
-      <form action="backCompList">
-	<div class = backbutton>
-	<button id="backButton"></button> <p id="reportButton">신고 상세보기</p>
-	</form>
-	</div>
-	<form class="card" action="proRegist.do" method="post"
-		id="compForm">
-		<input type="hidden" name="comp_idx" value="${cpd.comp_idx}">
-		<div class="row1">
-			<p>신고번호</p>
-			<p>${cpd.comp_idx}</p>
-			<p>신고코드</p>
-			<p id="compTypeValue">${cpd.compType_code}</p>
-		</div>
+		<div class="content">		
+			<div id="alarmContent"></div>
+	     	 <form action="backCompList">
+				<div class = backbutton></div>
+				<button id="backButton"></button> <p id="reportButton">신고 상세보기</p>
+				</form>
+				</div>
+			<form class="card" action="proRegist.do" method="post"
+				id="compForm">
+				<input type="hidden" name="comp_idx" value="${cpd.comp_idx}">
+				<div class="row1">
+					<p>신고번호</p>
+					<p>${cpd.comp_idx}</p>
+					<p>신고코드</p>
+					<p id="compTypeValue">${cpd.compType_code}</p>
+				</div>
 		<div class="row2">
 			<p>신고분류</p>
 			<p id ="compLocValue">${cpd.comp_loc}</p>
@@ -695,7 +670,7 @@ opacity
     </div>
 </c:if>
 </div>
-	
+	</div>
 </body>
 <script>
 

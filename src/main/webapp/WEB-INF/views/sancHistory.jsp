@@ -160,7 +160,7 @@ a, a:link, a:visited, a:active, a:hover {
 			</div>
 		</div>
 
-
+</div>
 
 
 
