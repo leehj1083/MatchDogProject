@@ -82,12 +82,12 @@ public class BoardService {
 	    //logger.info("dto: " + dto);
 	    int board_id = dto.getBoard_id();
 	    logger.info("board_id="+board_id);
-	    String page = "redirect:/board";
+	    String page = "redirect:/boardList.go";
 	    
 	    if(board_id>0) {
 	        try {
 	            saveFile(board_id, photos);
-	            page = "redirect:/board";
+	            page = "redirect:/boardList.go";
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }

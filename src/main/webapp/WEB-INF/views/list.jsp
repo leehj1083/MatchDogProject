@@ -9,12 +9,44 @@
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="resources/css/board.css" type="text/css">
 <!-- pretendard 폰트 -->
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
 
+
+.pagination > .active > a,
+    .pagination > .active > a:focus,
+    .pagination > .active > a:hover,
+    .pagination > .active > span,
+    .pagination > .active > span:focus,
+    .pagination > .active > span:hover {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #1FBF92; 
+        border-color: #1FBF92;
+    }
+    
+    .pagination > li > a,
+    .pagination > li > span {
+        color: black;
+    }
+    #search {
+    	color: #fff;
+        cursor: default;
+        background-color: #1FBF92; 
+    }
+    
+    #pageButton,
+    #writeButton
+    {
+    	text-align: right;
+    }
+	    
 a, a:link, a:visited, a:active, a:hover {
 		text-decoration: none;
 		color: var(--black);
@@ -83,8 +115,6 @@ a, a:link, a:visited, a:active, a:hover {
         text-decoration: none;
     }
 	.content {
-        margin-left: 260px;
-        padding: 20px;
         text-align: center;
     }
 
@@ -129,10 +159,19 @@ a, a:link, a:visited, a:active, a:hover {
 				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
 			</h1>
 			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
+			
 		</div>
+		<div id="pageButton">
+		<select id="pagePerNum">
+		<option value="5">5개씩</option>
+		<option value="10">10개씩</option>
+		<option value="15">15개씩</option>
+		<option value="20">20개씩</option>
+	</select>
+	</div>
 	</div>
 	<div class="mainContainer">
 		<div class="side">
@@ -149,7 +188,7 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>채팅</span>
 		        </a>
-		        <a href="./boardList.go" class="btn_gnb board">
+		        <a href="./board" class="btn_gnb board">
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
@@ -164,18 +203,12 @@ a, a:link, a:visited, a:active, a:hover {
 			</div>
 		</div>
 		<div class="content">
-	<select id="pagePerNum">
-		<option value="5">5</option>
-		<option value="10">10</option>
-		<option value="15">15</option>
-		<option value="20">20</option>
-	</select>
 	<div>
-	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
+	<%-- 안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="logout">로그아웃</a>  
+	<a href="logout">로그아웃</a>   --%>
 	</div>
-	<button onclick="location.href='BoardWrite'">글쓰기</button>
+	
 	<table>
 		<thead>
 		<tr>
@@ -189,13 +222,21 @@ a, a:link, a:visited, a:active, a:hover {
 		</thead>
 		<tbody id="list">		
 		</tbody>
-		<tr>
-			<td colspan="6" id="paging">	
-				<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
+		
+		
+		<!-- 페이징, 글쓰기 한 행에 두기 -->
+		
+		
+		
+		 <tr>
+			<td colspan="6" id="paging" style="text-align:center;">	
 				<div class="container">									
 					<nav aria-label="Page navigation" style="text-align:center">
 						<ul class="pagination" id="pagination"></ul>
 					</nav>					
+				</div>
+				<div id="writeButton">
+			<button onclick="location.href='BoardWrite'">글쓰기</button>
 				</div>
 			</td>
 		</tr>
