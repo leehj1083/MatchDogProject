@@ -58,13 +58,18 @@
 	
 	<select id="selectSendRecvIdx" resultType="com.one.mat.alarm.dto.AlarmDTO">
 		SELECT pro_sendIdx, pro_recvIdx 
-		FROM `match`
+		FROM match
 		WHERE match_idx IN (SELECT match_idx FROM chat WHERE match_idx = #{param1})
 	</select>
 	
 	<insert id="newChattingRoomAlarm">
 		INSERT INTO alarm (pro_sendIdx, pro_recvIdx, alarm_type, alarm_msg) 
 		VALUES (#{param1}, #{param2}, 2, '님께 보낸 매칭이 수락되었습니다')
-</insert>
+	</insert>
+	
+	<select id="adminCheckDo" resultType="int">
+		SELECT subsType_code FROM member m INNER JOIN subs s ON m.member_idx =s.member_idx WHERE m.member_idx =#{param1}
+	</select>
+	
  
   </mapper>

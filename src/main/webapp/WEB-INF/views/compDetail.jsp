@@ -66,38 +66,7 @@ a, a:link, a:visited, a:active, a:hover {
 	    	text-align: left; 
 	}
 
-	.sidebar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #255,255,255;
-        padding-top: 20px;
-    }
-
-    .sidebar h2 {
-        color: black;
-        text-align: center;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .sidebar ul li {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .sidebar a {
-        color: black;
-        text-decoration: none;
-    }
-
     .content {
-        margin-left: 260px;
         padding: 20px;
         text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
     }
@@ -562,15 +531,22 @@ opacity
 
 </head>
 <body>
-<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -265px;"/></a>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
 	</div>
-	
-	
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<span class="btn_gnb home">
+				<span class="btn_gnb admin">
 					<span class="bi bi-gear-fill"></span>
 					<span>관리자 페이지</span>
 				</span>
@@ -596,106 +572,107 @@ opacity
 		        </a>
 			</div>
 		</div>
-	
-	
-	<div class="content">
-      <form action="backCompList">
-	<div class = backbutton>
-	<button id="backButton"></button> <p id="reportButton">신고 상세보기</p>
-	</form>
-	</div>
-	<form class="card" action="proRegist.do" method="post"
-		id="compForm">
-		<input type="hidden" name="comp_idx" value="${cpd.comp_idx}">
-		<div class="row1">
-			<p>신고번호</p>
-			<p>${cpd.comp_idx}</p>
-			<p>신고코드</p>
-			<p id="compTypeValue">${cpd.compType_code}</p>
-		</div>
-		<div class="row2">
-			<p>신고분류</p>
-			<p id ="compLocValue">${cpd.comp_loc}</p>
-			<p>게시물번호</p>
-			<p>${cpd.comp_idfNum}</p>
-
-		</div>
-		<div class="row3">
-			<p>신고자ID</p>
-			<p>${mem}</p>
-			<p>피신고자ID</p>
-			<p>${pem}</p>
-		</div>
-		<div class="row4">
-			<p>신고처리상태</p>
-			<p><select name="comp_handleState">
-				<option value="미처리">미처리</option>
-				<option value="처리중">처리중</option>
-				<option value="처리완료">처리완료</option>
-			</select></p>
-			<p>블라인드여부</p>
-			<p>
-				<select name="comp_blindStete">
-					<option value="N">N</option>
-					<option value="Y">Y</option>
-				</select>
-			</p>
-		</div>
-		<div class="row5">
-			<p>신고일자</p>
-			<p>${cpd.comp_receiveDate}</p>
-			<p>처리일자</p>
-			<p>${cpd.comp_handleDate}</p>
-		</div>
-		<div class="row6">
-			<p>로그인 제한 여부</p>
-			<p><select name="member_loginLock">
-				<option value="N">N</option>
-				<option value="Y">Y</option>
-			</select></p>
-			<p>로그인 제한 시작일</p>
-			<p>
-				<input type="date" id="loginLock_sDate" name="loginLock_sDate">
-			</p>
-			<p>로그인 제한 종료일</p>
-			<p>
-				<input type="date" id="loginLock_eDate" name="loginLock_eDate">
-			</p>
-		</div>
-		<div class="row7">
-			<p>신고사유</p>
-			<p>신고사진</p>
-		</div>
-		<div class="row8">
-			<p>${cpd.comp_content}</p>
-			<p>${cpd.photo_fileName}</p>
-		</div>
-		<div class="row9">
-			<p>관리자</p>
-			<p>${cpd.member_id}</p>
-		</div>
-		<div class="row10">
-		<input name="comp_handleContent" type="text" placeholder="관리자 코맨트"/>
-		</div>
-		<div class="buttons">
-			<button class="w-btn w-btn-green">처리 등록하기</button>
+		<div class="content">		
+			<div id="alarmContent"></div>
 			
-		</div>
-	</form>
-	<div class="row11">
-		<p>신고 처리 히스토리</p>
-		</div>
+			
+	     	 <form action="backCompList">
+				<div class = backbutton>
+					<button id="backButton"></button>
+					<p id="reportButton">신고 상세보기</p>
+				</div>
+			</form>
+			<form class="card" action="proRegist.do" method="post" id="compForm">
+				<input type="hidden" name="comp_idx" value="${cpd.comp_idx}">
+				<div class="row1">
+					<p>신고번호</p>
+					<p>${cpd.comp_idx}</p>
+					<p>신고코드</p>
+					<p id="compTypeValue">${cpd.compType_code}</p>
+				</div>
+				<div class="row2">
+					<p>신고분류</p>
+					<p id ="compLocValue">${cpd.comp_loc}</p>
+					<p>게시물번호</p>
+					<p>${cpd.comp_idfNum}</p>
+				</div>
+				<div class="row3">
+					<p>신고자ID</p>
+					<p>${mem}</p>
+					<p>피신고자ID</p>
+					<p>${pem}</p>
+				</div>
+				<div class="row4">
+					<p>신고처리상태</p>
+					<p><select name="comp_handleState">
+						<option value="미처리">미처리</option>
+						<option value="처리중">처리중</option>
+						<option value="처리완료">처리완료</option>
+					</select></p>
+					<p>블라인드여부</p>
+					<p>
+						<select name="comp_blindStete">
+							<option value="N">N</option>
+							<option value="Y">Y</option>
+						</select>
+					</p>
+				</div>
+				<div class="row5">
+					<p>신고일자</p>
+					<p>${cpd.comp_receiveDate}</p>
+					<p>처리일자</p>
+					<p>${cpd.comp_handleDate}</p>
+				</div>
+				<div class="row6">
+					<p>로그인 제한 여부</p>
+					<p><select name="member_loginLock">
+						<option value="N">N</option>
+						<option value="Y">Y</option>
+					</select></p>
+					<p>로그인 제한 시작일</p>
+					<p>
+						<input type="date" id="loginLock_sDate" name="loginLock_sDate">
+					</p>
+					<p>로그인 제한 종료일</p>
+					<p>
+						<input type="date" id="loginLock_eDate" name="loginLock_eDate">
+					</p>
+				</div>
+				<div class="row7">
+					<p>신고사유</p>
+					<p>신고사진</p>
+				</div>
+				<div class="row8">
+					<p>${cpd.comp_content}</p>
+					<p>${cpd.photo_fileName}</p>
+				</div>
+				<div class="row9">
+					<p>관리자</p>
+					<p>${cpd.member_id}</p>
+				</div>
+				<div class="row10">
+				<input name="comp_handleContent" type="text" placeholder="관리자 코맨트"/>
+				</div>
+				<div class="buttons">
+					<button class="w-btn w-btn-green">처리 등록하기</button>
+					
+				</div>
+			</form>
+			<div class="row11">
+			<p>신고 처리 히스토리</p>
+			</div>
 		<c:if test="${not empty cpd.comp_handleDate}">
-    <div class="row12" style="overflow:scroll; width:100%; height:150px;">
-        (가장최근에 처리한 히스토리 내용입니다.)<br>
-        신고번호:${cpd.comp_idx}/신고코드:${cpd.compType_code}/신고분류:
-        ${cpd.comp_loc}/게시물번호:${cpd.comp_idfNum}/신고자 ID:${mem}/
-        피신고자 ID:${pem}/로그인 제제여부:${his.member_loginLock}/로그인 제한 시작일:${his.loginLock_sDate}/
-        로그인 제한 종료일:${his.loginLock_eDate},관리자코멘트:${his.comp_handleContent}
-    </div>
-</c:if>
-</div>
-	
+    	<div class="row12" style="overflow:scroll; width:100%; height:150px;">
+		        (가장최근에 처리한 히스토리 내용입니다.)<br>
+		        신고번호:${cpd.comp_idx}/신고코드:${cpd.compType_code}/신고분류:
+		        ${cpd.comp_loc}/게시물번호:${cpd.comp_idfNum}/신고자 ID:${mem}/
+		        피신고자 ID:${pem}/로그인 제제여부:${his.member_loginLock}/로그인 제한 시작일:${his.loginLock_sDate}/
+		        로그인 제한 종료일:${his.loginLock_eDate},관리자코멘트:${his.comp_handleContent}
+    	</div>
+		</c:if>
+	</div>
+	</div>
+	</div>
 </body>
 <script>
 
