@@ -148,6 +148,18 @@ public class MatchListService {
 		dao.newChattingRoomAlarm(pro_sendIdx, pro_recvIdx );	
 		return chat_idx;
 	}
+
+	
+	// 세션체크
+	public HashMap<String, Object> adminCheckDo(int memberIdx) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		int admin = dao.adminCheckDo(memberIdx);
+		logger.info("admin 값 :"+admin);
+		map.put("admin", admin);
+		
+		return map;
+	}
 	
 	
 }

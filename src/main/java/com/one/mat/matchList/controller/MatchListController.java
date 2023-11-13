@@ -28,6 +28,14 @@ public class MatchListController {
 	public String testGo() {
 		return "chattingList2";
 	}
+	
+	@RequestMapping(value="/adminCheck.do")
+	@ResponseBody
+	public HashMap<String, Object> adminCheckDo(HttpSession session) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		int memberIdx = dto.getMember_idx();
+		return service.adminCheckDo(memberIdx);
+	}
 
 	 //매칭받은 리스트 페이지로 이동
 	@RequestMapping(value="/recvMatchingList.go")
