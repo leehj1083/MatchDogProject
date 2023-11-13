@@ -133,6 +133,12 @@ public class MemberController {
 		return result;
 	}
 	
+	@RequestMapping(value="/login.go")
+	public String login() {
+		return "login";
+	}
+	
+	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(Model model, HttpSession session, @RequestParam String member_id, @RequestParam String member_pw) {
 		String page = "login";
@@ -150,6 +156,7 @@ public class MemberController {
 			logger.info("제재여부 ="+dto.getMember_loginLock());
 			logger.info("탈퇴여부 ="+dto.getMember_quit());			
 			logger.info("프로필 갯수 : "+pdto.size());
+			boolean hasRegProfile = checkRegProfile(pdto);
 			
 			VisitorDTO VisitorDTO = DBService.selectVisitCount(member_idx);
 			if(VisitorDTO==null) {
@@ -167,7 +174,7 @@ public class MemberController {
 			}else if(dto.getSubsType_code()==4) {
 				page = "dashBoard";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
-			}else if(pdto.size()==0) {
+			}else if(hasRegProfile) {				
 				page = "regProfile";
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다. 프로필을 등록해주세요");
 			}else {
@@ -182,6 +189,15 @@ public class MemberController {
 		return page;
 	}
 		
+	private boolean checkRegProfile(ArrayList<ProfileDTO> pdto) {
+		for (ProfileDTO profileDTO : pdto) {
+			if(profileDTO.getPro_idx() == 0) {
+				return true;
+			};
+		}		
+		return false;
+	}
+
 	@RequestMapping(value="/idFind.go")
 	public String idFind() {
 		return "idFind";

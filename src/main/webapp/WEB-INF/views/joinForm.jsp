@@ -15,7 +15,7 @@
 	}
 	.content{
 		width : 500px;
-		height : 1120px;
+		height : 1250px;
 		margin: 0 auto;
 		border: 1px solid black;
 		padding : 30px;
@@ -23,8 +23,17 @@
 	
 	.inputForm{
 		width:500px;
-		height:1050px;
+		height:1150px;
 		margin: 0 auto;		
+		display: block;
+	}
+	.submit{
+		width:500px;
+		height:80px;
+		margin: 0 auto;		
+		display: block;
+		text-align: center;
+		padding-top: 10px;
 	}
 	#back, #join{
 		height : 30px;
@@ -104,9 +113,9 @@
 			  
 		     <p/>인증번호&nbsp;&nbsp;<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해주세요"  disabled = "disabled" maxlength="6"/>
 			 <button type="button" id="checkMail" >인증하기</button>
-			 <p/><span class="mailChk"></span><hr/>
+			 <p/><span class="mailChk"></span><p/><hr/>
 		 </div>		  
-	     <div class="submit" style="display: block; margin: auto; text-align: center;">
+	     <div class="submit">
 	     	<input type="button" id="back" value="돌아가기"/>&nbsp;&nbsp;<input type="button" id="join" value="회원가입"/>
 	     </div>     	     
 	 </div>
@@ -161,6 +170,7 @@ function execDaumPostcode() {
                 var expJibunAddr = data.autoJibunAddress;
                 guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
                 guideTextBox.style.display = 'block';
+                document.getElementById("jibunAddress").value=expJibunAddr;
             } else {
                 guideTextBox.innerHTML = '';
                 guideTextBox.style.display = 'none';

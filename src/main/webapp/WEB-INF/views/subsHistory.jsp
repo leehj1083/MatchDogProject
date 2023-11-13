@@ -49,9 +49,21 @@ a, a:link, a:visited, a:active, a:hover {
 .btn_gnb.admin:hover{
 	background-color: var(--light);
 }
-table,th,td{
+table{
+	width :950px;
 	border: 1px solid black;
-	border-collapse: collapse;
+	border-collapse: collapse;	
+	table-layout: fixed;
+	font-size: 14px;
+}
+th,td{
+	border : 1px solid black;
+	text-align : center;
+	padding : 5px 7px;
+}
+.logo_matchDog{
+	width : 120px;
+	height : 40px;
 }
 
 </style>
@@ -61,7 +73,7 @@ table,th,td{
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -72,11 +84,11 @@ table,th,td{
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./dashBoard.go" class="btn_gnb home">
+				<a href="./adminList.go" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>관리자 페이지</span>
 				</a>
-		        <a href="./dashBoard.go" class="btn_gnb match">
+		        <a href="./adminList.go" class="btn_gnb match">
 		        	<span class="bi bi-list-ul"></span>
 					<span>DASH BOARD</span>
 		        </a>
@@ -99,7 +111,7 @@ table,th,td{
 			</div>
 		</div>
 		<div class="content">	
-		<h2>회원 구독 이력 보기(${list[0].member_id}님)</h2><hr/>
+		<h2>회원 구독 이력 보기(${member_id}님)</h2><hr/>
 		<table>			
 			<tr>
 				<th>번호</th>			
@@ -119,7 +131,7 @@ table,th,td{
 				</tr>
 			</c:forEach>				
 		</table>
-		<input type="button" onclick="location.href='./memberList.go'" value="회원 목록으로"/>
+		<input type="button" onclick="location.href='./memberDetail?member_idx=${member_idx}'" value="뒤로가기"/>
 		</div>
 	</div>
 </div>	
