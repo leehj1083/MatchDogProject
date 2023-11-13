@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
+import com.one.mat.myPage.service.MyPageService;
 import com.one.mat.myPage.service.MyProfileService;
 
 
@@ -29,7 +30,7 @@ public class MyProfileController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MyProfileService service;
-
+	@Autowired MyPageService pageService;
 
 	
 	//리스트 불러오기
@@ -46,8 +47,8 @@ public class MyProfileController {
 			String id = dto.getMember_id();
 			logger.info("idx="+idx);
 			service.MyProfileListDo(idx, model);
-			/* MemberDTO member = service.MyPageListDo(id); */
-			/* model.addAttribute("myPage", member); */
+			MemberDTO member = pageService.MyPageListDo(id);
+			model.addAttribute("myPage", member);
 		}
 		model.addAttribute("msg", msg);
 		return page;
