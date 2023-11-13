@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.one.mat.admin.dao.MemberListDAO;
+import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.board.dto.BoardDTO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.myPage.DTO.SubsDTO;
 
 @Service
 public class MemberListService {
@@ -40,7 +42,7 @@ public class MemberListService {
 		dao.memberAuthMod(Integer.parseInt(subsType_code), Integer.parseInt(member_idx));
 	}
 
-	public ArrayList<BoardDTO> subsHistory(Model model, int member_idx) {
+	public ArrayList<SubsDTO> subsHistory(int member_idx) {
 		return dao.subsHistory(member_idx);
 	}
 
@@ -48,8 +50,12 @@ public class MemberListService {
 		return dao.countUser(searchType, searchKeyword, subsType);
 	}
 
-	public ArrayList<BoardDTO> sancHistoryList(int member_idx) {
+	public ArrayList<CompDTO> sancHistoryList(int member_idx) {
 		return dao.sancHistoryList(member_idx);
+	}
+
+	public MemberDTO getMemberId(int member_idx) {
+		return dao.getMemberId(member_idx);
 	}
 
 	

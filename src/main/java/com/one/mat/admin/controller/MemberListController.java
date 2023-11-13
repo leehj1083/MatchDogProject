@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.admin.service.MemberListService;
 import com.one.mat.board.controller.BoardController;
 import com.one.mat.board.dto.BoardDTO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.myPage.DTO.SubsDTO;
 
 @Controller
 public class MemberListController {
@@ -29,14 +31,21 @@ public class MemberListController {
 	@Autowired MemberListService service;
 	
 	@RequestMapping(value="/memberList.go")
-	public String memberList() {
-		return "memberList";
+	public String memberList(HttpSession session, Model model) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		String page = "login";
+		if(dto != null && dto.getSubsType_code()==4) {			
+			page = "memberList";
+		}else {
+			model.addAttribute("msg","접근권한이 없습니다.");
+		}
+		return page;
 	}
 		
 	@RequestMapping(value="/memberDetail", method=RequestMethod.GET)
 	public String MemberDetail(HttpSession session, Model model, @RequestParam String member_idx){
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-		String page = "./home";
+		String page = "login";
 		if(dto != null && dto.getSubsType_code()==4) {			
 			service.memberDetail(model, member_idx);
 			page = "memberDetail";
@@ -88,13 +97,17 @@ public class MemberListController {
 	@RequestMapping(value="/subsHistory.do")
 	public String subsHistory(Model model, HttpSession session, @RequestParam String member_idx) {		
 		logger.info("해당하는 회원 : "+member_idx);
-		String page = "home";
+		String page = "login";
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		if(dto != null && dto.getSubsType_code()==4) {	
 			page = "subsHistory";
-			ArrayList<BoardDTO>list=service.subsHistory(model, Integer.parseInt(member_idx));		
+			ArrayList<SubsDTO>list=service.subsHistory(Integer.parseInt(member_idx));		
 			model.addAttribute("list",list);
 			model.addAttribute("size",list.size());
+			
+			MemberDTO member = service.getMemberId(Integer.parseInt(member_idx));
+			model.addAttribute("member_id", member.getMember_id());
+			model.addAttribute("member_idx", member.getMember_idx());
 		}else {
 			model.addAttribute("msg","접근권한이 없습니다.");
 		}		
@@ -115,25 +128,38 @@ public class MemberListController {
 	}
 	
 	@RequestMapping(value="/auth.go")
-	public String auth() {
-		return "auth";
+	public String auth(HttpSession session, Model model) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		String page = "login";
+		if(dto != null && dto.getSubsType_code()==4) {			
+			page = "auth";
+		}else {
+			model.addAttribute("msg","접근권한이 없습니다.");
+		}
+		return page;
 	}
 	
 	@RequestMapping(value="/sancHistoryList.do")
 	public String sancHistoryList(Model model, HttpSession session, @RequestParam String member_idx) {
 		logger.info("해당하는 회원 : "+member_idx);
-		String page = "home";
+		String page = "login";
 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 		if(dto != null && dto.getSubsType_code()==4) {	
 			page = "sancHistoryList";
-			ArrayList<BoardDTO>list=service.sancHistoryList(Integer.parseInt(member_idx));		
+			ArrayList<CompDTO>list=service.sancHistoryList(Integer.parseInt(member_idx));		
 			model.addAttribute("list",list);
 			model.addAttribute("size",list.size());
+			
+			MemberDTO member = service.getMemberId(Integer.parseInt(member_idx));
+			model.addAttribute("member_id", member.getMember_id());
+			model.addAttribute("member_idx", member.getMember_idx());
 		}else {
 			model.addAttribute("msg","접근권한이 없습니다.");
 		}		
 		return page;
 	}
+	
+	
 	
 	
 }
