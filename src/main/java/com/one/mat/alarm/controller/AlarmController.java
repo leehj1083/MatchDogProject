@@ -1,10 +1,5 @@
 package com.one.mat.alarm.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.one.mat.alarm.dto.AlarmDTO;
 import com.one.mat.alarm.service.AlarmService;
 import com.one.mat.member.dto.MemberDTO;
-import com.one.mat.member.dto.ProfileDTO;
 
 @Controller
 public class AlarmController {
@@ -43,7 +36,7 @@ public class AlarmController {
 	 	   	int member_idx = dto.getMember_idx();
 	 			logger.info("member_idx : "+member_idx);
 	 			service.alarmListGo(model, member_idx);
-	 			}
+	 		}
 	 	    return "alarm";
 		}
 }
