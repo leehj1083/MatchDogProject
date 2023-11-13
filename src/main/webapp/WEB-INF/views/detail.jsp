@@ -168,7 +168,9 @@ a, a:link, a:visited, a:active, a:hover {
 			<th colspan="2">
 				<input type="button" onclick="location.href='./boardList.go'" value="리스트"/>
 				<c:if test="${board.member_idx == sessionScope.loginInfo.member_idx}">
-				    <input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/>
+				    <%-- <input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/> --%>
+				    <input type="button" onclick="confirmDelete(${board.board_id})" value="삭제"/>
+				    
 				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
 				</c:if>
 				<input type="button" onclick="location.href='./boardcompTypeList.do?board_id=${board.board_id}'" value="신고"/>
@@ -572,6 +574,18 @@ $('#openAlarm').click(function (e) {
 	       $("#alarmContent").html(data);
 	   });
 	});
+	
+	// 게시물 삭제 버튼 클릭시 함수 호출
+function confirmDelete(boardId) {
+   var result = confirm("게시물을 삭제하시겠습니까?");
+   if (result) {
+       // 사용자가 확인을 눌렀을 때만 컨트롤러로 요청 보내기
+       location.href = './del?board_id=' + boardId;
+   } else {
+       // 사용자가 취소를 눌렀을 때의 동작 (생략 가능)
+   }
+}
+
 
 </script>
 </html>
