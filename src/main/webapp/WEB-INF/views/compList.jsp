@@ -6,52 +6,55 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- bootstrap : 디자인을 위한 프레임워크 -->
-<link
-	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet">
-	<link rel="stylesheet" href="resources/css/home.css" type="text/css">
+<link	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"	rel="stylesheet">
+<link rel="stylesheet" href="resources/css/home.css" type="text/css">
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script
-	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
-<script src="resources/js/jquery.twbsPagination.js"
-	type="text/javascript"></script>
+<script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
 a, a:link, a:visited, a:active, a:hover {
 		text-decoration: none;
 		color: var(--black);
 	}
 	
-	
-	/* 본인 페이지 것으로 변경하기  */
-	.btn_gnb .bi-house-door-fill, .btn_gnb.home{
-	    color: var(--white);
-	    background-color: var(--green);
-	    
-	}
-	
-	
-	/* 본인 페이지를 제외한 나머지 hover 적용 */
-	/* .btn_gnb:hover .bi-house-door-fill, */
-	.btn_gnb:hover .bi-chat-dots-fill,
-	.btn_gnb:hover .bi-gear-fill,
-	.btn_gnb:hover .bi-people-fill,
-	.btn_gnb:hover .bi-person-circle,
-	.btn_gnb:hover .bi-list-ul {
-	    background-color: var(--light);
-	}
-	
-	/* 본인 페이지를 제외한 나머지 hover 적용 */
-	/* .btn_gnb.home:hover, */
-	.btn_gnb.match:hover,
-	.btn_gnb.chatting:hover,	
-	.btn_gnb.board:hover,
-	.btn_gnb.myPage:hover,
-	.btn_gnb.admin:hover{
-		background-color: var(--light);
-	}
+/* admin페이지 side bar 메뉴 아이콘 */
+.bi-gear-fill, .bi-reception-3,  .bi-people-fill, 
+.bi-person-gear, .bi-person-x-fill, .bi-door-open-fill {
+	position:relative;
+	color: var(--black) ;
+	font-size: 22px;
+	margin-right:10px;
+}
+
+/* 본인 페이지 것으로 변경하기  */
+.btn_gnb .bi-person-x-fill, .btn_gnb.comp{
+    color: var(--white);
+    background-color: var(--green);
+}
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb:hover .bi-gear-fill,
+.btn_gnb:hover .bi-reception-3,
+.btn_gnb:hover .bi-people-fill,
+.btn_gnb:hover .bi-person-gear,
+/* .btn_gnb:hover .bi-person-x-fill, */
+.btn_gnb:hover .bi-door-open-fill {
+    background-color: var(--light);
+}
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb.home:hover,
+.btn_gnb.dash:hover,
+.btn_gnb.user:hover, 
+.btn_gnb.auth:hover,
+/* .btn_gnb.comp:hover, */
+.btn_gnb.service:hover{
+	background-color: var(--light);
+}
+
 	    #modalContent{
 	    	width: 500px;
 	    	height: 500px;
@@ -148,30 +151,30 @@ nav {
 	</div>
 <div class="side">
 			<div class="menu">
-				<a href="./HomeMatchingList.do" class="btn_gnb home">
-					<span class="bi bi-house-door-fill"></span>
-					<span>홈</span>
-				</a>
-		        <a href="./recvMatchingList.go" class="btn_gnb match">
-		        	<span class="bi bi-list-ul"></span>
-					<span>매칭리스트</span>
+				<span class="btn_gnb home">
+					<span class="bi bi-gear-fill"></span>
+					<span>관리자 페이지</span>
+				</span>
+		        <a href="./adminList.go" class="btn_gnb dash">
+		        	<span class="bi bi-reception-3"></span>
+					<span>DASH BOARD</span>
 		        </a>
-		        <a href="./chattingList.go" class="btn_gnb chatting">
-		        	<span class="bi bi-chat-dots-fill"></span>
-					<span>채팅</span>
-		        </a>
-		        <a href="./boardList.go" class="btn_gnb board">
+		        <a href="./memberList.go" class="btn_gnb user">
 		        	<span class="bi bi-people-fill"></span>
-					<span>커뮤니티</span>
+					<span>회원관리</span>
 		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
-		        	<span class="bi bi-person-circle"></span>
-					<span>마이페이지</span>
+		        <a href="./authList.do" class="btn_gnb auth">
+	                <span class="bi bi-person-gear"></span>
+	                <span>권한관리</span>
+               </a>
+		        <a href="./compList.go" class="btn_gnb comp">
+		        	<span class="bi bi-person-x-fill"></span>
+					<span>신고관리</span>
 		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
-	            	<span class="bi bi-gear-fill"></span>
-					<span>관리자페이지</span>
-	            </a>
+		        <a href="./HomeMatchingList.do" class="btn_gnb service">
+		        	<span class="bi bi-door-open-fill"></span>
+					<span>서비스페이지</span>
+		        </a>
 			</div>
 		</div>
 		<div class="content1">
