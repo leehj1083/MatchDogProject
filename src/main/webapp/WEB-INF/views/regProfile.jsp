@@ -169,7 +169,7 @@ a, a:link, a:visited, a:active, a:hover {
 }
 
 .w-btn-green {
-    background-color: #77af9c;
+    background-color: rgb(26, 188, 156);
     color: #d7fff1;
 }
 
@@ -386,6 +386,9 @@ opacity
 	#ph_td9 {
 	vertical-align: bottom;
 }
+#openAlarm{
+cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -393,7 +396,7 @@ opacity
 
 
 	<div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -265px;"/></a>
+		<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog" style="width: 150px; height: auto; margin: 0 0 0 -265px;"/></a>
 	</div>
 
 
@@ -437,7 +440,7 @@ opacity
 				<div class="content">
 				<h2>프로필 생성</h2>
 				<div id="alarmContent"></div>
-					<input type="button" name="imgBtn" id="imgBtn" value=" ">
+					대표 프로필 사진:  <input type="button" name="imgBtn" id="imgBtn" value=" ">
 
 					<div id="newModal" class="modal">
 						<div class="modal-content">
@@ -694,7 +697,24 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectCompleteButton = document.getElementById("selectComplete");
     selectCompleteButton.addEventListener("click", function () {
         document.getElementById("newModal").style.display = "none";
+        
+        var selectedImageContainer = document.getElementById("imageContainer1");
+
+        // 선택된 컨테이너에서 이미지 엘리먼트 가져오기
+        var selectedImages = selectedImageContainer.querySelectorAll("img");
+
+        // 선택된 컨테이너에 이미지가 하나 이상 있는지 확인
+        if (selectedImages.length > 0) {
+            // 첫 번째 이미지 소스 가져와서 버튼의 배경으로 설정
+            var firstImageSrc = selectedImages[0].src;
+            document.getElementById("imgBtn").style.background = "url('" + firstImageSrc + "') no-repeat";
+            document.getElementById("imgBtn").style.backgroundSize = "cover";
+            document.getElementById("imgBtn").style.color = "transparent";
+        }
+        
+        
     });
+    
     
     // "성향 선택" 버튼을 클릭했을 때 모달 창 열기
     
@@ -918,6 +938,19 @@ document.addEventListener("DOMContentLoaded", function () {
             imageContainer9.appendChild(imageElement);
         }
     });
+    $('#openAlarm').click(function (e) {
+    	   // JSP 파일을 가져와서 모달 창에 표시
+    	   $.get("./alarmList.go", function(data) {
+    	   	console.log(data);
+    	   	console.log("#alarmContent");
+    	       $("#alarmContent").html(data);
+    	   });
+    	});
+
+    	var msg = "${msg}";
+    	if(msg != ""){
+    		alert(msg);
+    	}
     
 });
 </script>
