@@ -22,17 +22,14 @@ a, a:link, a:visited, a:active, a:hover {
 	color: var(--black);
 }
 
-
 /* 본인 페이지 것으로 변경하기  */
 .btn_gnb .bi-chat-dots-fill, .btn_gnb.chatting{
     color: var(--white);
     background-color: var(--green);
 }
 
-
 /* 본인 페이지를 제외한 나머지 hover 적용 */
 .btn_gnb:hover .bi-house-door-fill,
-/* .btn_gnb:hover .bi-chat-dots-fill, */
 .btn_gnb:hover .bi-gear-fill,
 .btn_gnb:hover .bi-people-fill,
 .btn_gnb:hover .bi-person-circle,
@@ -43,7 +40,6 @@ a, a:link, a:visited, a:active, a:hover {
 /* 본인 페이지를 제외한 나머지 hover 적용 */
 .btn_gnb.home:hover,
 .btn_gnb.match:hover,
-/* .btn_gnb.chatting:hover, */
 .btn_gnb.board:hover,
 .btn_gnb.myPage:hover,
 .btn_gnb.admin:hover{
@@ -51,14 +47,20 @@ a, a:link, a:visited, a:active, a:hover {
 }
 
 table{
-	width :600px;
+	width :950px;
 	border: 1px solid black;
 	border-collapse: collapse;	
+	table-layout: fixed;
+	font-size: 14px;
 }
 th,td{
 	border : 1px solid black;
-	padding : 5px;
 	text-align : center;
+	padding : 5px 7px;
+}
+.logo_matchDog{
+	width : 120px;
+	height : 40px;
 }
 
 </style>
@@ -68,7 +70,7 @@ th,td{
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -79,11 +81,11 @@ th,td{
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./dashBoard.go" class="btn_gnb home">
+				<a href="./adminList.go" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>관리자 페이지</span>
 				</a>
-		        <a href="./dashBoard.go" class="btn_gnb match">
+		        <a href="./adminList.go" class="btn_gnb match">
 		        	<span class="bi bi-list-ul"></span>
 					<span>DASH BOARD</span>
 		        </a>
@@ -117,16 +119,16 @@ th,td{
 				<table>
 					<thead>
 						<tr>
-							<th>번호</th>			
-							<th>아이디</th>
-							<th>이름</th>
-							<th>전화번호</th>
-							<th>이메일</th>
+							<th style="width: 60px;">번호</th>			
+							<th style="width: 90px;">아이디</th>
+							<th style="width: 90px;">이름</th>
+							<th style="width: 120px;">전화번호</th>
+							<th style="width: 180px;">이메일</th>
 							<th>거주지(동)</th>
-							<th>구독여부</th>
-							<th>구독연장</th>
-							<th>제재여부</th>
-							<th>
+							<th style="width: 75px;">구독여부</th>
+							<th style="width: 75px;">구독연장</th>
+							<th style="width: 75px;">제재여부</th>
+							<th style="width: 85px;">
 								<select id="subsType" name="subsType">
 									<option value="all" selected="selected">구독등급</option>
 									<option value="standard">일반회원</option>
@@ -140,17 +142,13 @@ th,td{
 					<tbody id="list">		
 					</tbody>
 					<tr>
-						<td colspan="10" id="paging">	
+						<td colspan="10" id="paging" style="padding-bottom: 30px; padding-top: 15px;"> 	
 							<!-- 	플러그인 사용	(twbsPagination)	- 이렇게 사용하라고 tutorial 에서 제공-->
 							<div class="container">									
-								<nav aria-label="Page navigation" style="text-align:center">
-									<ul class="pagination" id="pagination"></ul>
+								<nav aria-label="Page navigation">
+									<ul class="pagination" id="pagination" style="display: block; text-align: center;"></ul>
 								</nav>					
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="10" style="text-align:center">
+							</div><p><br>
 							<div id="searchDIV">
 								<select id="searchType" name="searchType">
 									<option value="member_id">아이디</option>
@@ -161,7 +159,7 @@ th,td{
 				  				 <button id="search">검색</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			  				 </div>
 						</td>
-					</tr>			
+					</tr>							
 				</table>
 			</div>
 		</div>
@@ -308,6 +306,11 @@ function countUser(searchType, searchKeyword, subsType){
 			console.log(e);
 		}
 	});
+}
+
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
 }
 
 </script>

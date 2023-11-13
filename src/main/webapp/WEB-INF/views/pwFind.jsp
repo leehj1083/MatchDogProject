@@ -79,52 +79,40 @@ $('#identifymail').on('click',function(){
 		contentType:'application/json; charset=utf-8',
 		dataType : 'JSON',
 		success : function(data){
-			console.log("data :"+data.authNumber);
-			code = data.authNumber;
-			alert(data.msg);			
+			console.log("인증번호 :"+data.authNumber);
+			alert(data.msg);		
+			
+			$('#certNumChk').on('click',function(){
+				var inputCode = $('input[name="certNum"]').val();
+				console.log('id='+member_id+"/"+'email='+member_email);
+				if(data.authNumber == inputCode){
+					$.ajax({
+						type:'post',
+						url : 'sendPwMail.do',
+						data : {'member_email' : member_email, 'member_id' : member_id},
+						dataType :'JSON',
+						success : function(data){
+							console.log(data);						
+							$('#informPw').html('임시 비밀번호를 이메일로 보내드렸습니다.');
+	       					$('#informPw').css('color','green');
+	       					$('#identifyMail').attr('disabled',true);
+	       					$('#usermail').attr('readonly',true);
+	       					$('#mailhost').attr('readonly',true);	
+	                       },
+	                   error: function (e) {
+	                	   console.log(e);
+	                       }
+			           });	
+				}else{
+					$('#informPw').html('인증번호가 일치하지 않습니다.');
+					$('#informPw').css('color','red');
+				}								
+			});				
 		},
 		error : function(e){
 			console.log(e);
 		}		
-	});
-		
-	$('#certNumChk').on('click',function(){
-		var inputCode = $('input[name="certNum"]').val();
-		var member_id = $('input[name="member_id"]').val();
-		var member_email = $('input[name="member_email"]').val()+"@"+$('select[name="emailhost"]').val();
-
-		console.log('id='+member_id+"/"+'email='+member_email);
-		
-		var memberDTO={
-				member_id : member_id,
-				member_email : member_email
-		}
-					
-		$.ajax({
-			type:'post',
-			url : 'sendPwMail.do',
-			data : {'member_email' : member_email, 'member_id' : member_id},
-			dataType :'JSON',
-			success : function(data){
-				console.log(data);
-				if(inputCode==code){
-					$('#informPw').html('임시 비밀번호를 이메일로 보내드렸습니다.');
-					$('#informPw').css('color','green');
-					$('#identifyMail').attr('disabled',true);
-					$('#usermail').attr('readonly',true);
-					$('#mailhost').attr('readonly',true);	
-				}else{
-					$('#informPw').html('인증번호가 일치하지 않습니다.');
-					$resultMsg.css('color','red');
-				}
-			},
-			error : function(e){
-				console.log(e)
-			}
-		});
-	});
-
-	
+	});	
 });
 
 
