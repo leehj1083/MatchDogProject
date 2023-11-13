@@ -151,10 +151,14 @@ a, a:link, a:visited, a:active, a:hover {
 	}
 
 	nav{
-		margin-left: -650px;
+		margin-left: -600px;
 	}
 	#openAlarm{
 		cursor: pointer;
+	}
+	.h4, h4 {
+	    font-size: 26px;
+	    margin-left: 210px;
 	}
 </style>
 </head>
@@ -174,11 +178,11 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div id="pageButton">
 		<select id="pagePerNum">
-		<option value="10">10개씩</option>
-		<option value="15">15개씩</option>
-		<option value="20">20개씩</option>
-	</select>
-	</div>
+			<option value="10">10개씩</option>
+			<option value="15">15개씩</option>
+			<option value="20">20개씩</option>
+		</select>
+		</div>
 	</div>
 	<div class="mainContainer">
 		<div class="side">
@@ -211,11 +215,13 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
+		<!-- 
 	<div>
-	<%-- 안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
+	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="logout">로그아웃</a>   --%>
+	<a href="logout">로그아웃</a>
 	</div>
+		 -->
 	<h4 id="mung">멍멍 게시판</h4>
 	<table>
 		<thead>

@@ -107,6 +107,9 @@ a, a:link, a:visited, a:active, a:hover {
 	th {
     	text-align: right;
 	}
+	input {
+ 	   margin: 1px;
+	}
 </style>
 </head>
 <body>
@@ -163,7 +166,7 @@ a, a:link, a:visited, a:active, a:hover {
 			<td class="leftSort" cols="2">작성자 : &nbsp&nbsp<input id="text" type="text" name="member_nickName" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
 		</tr>
 		<tr>
-			<td class="leftSort" cols="2">제목 : <input id="text" type="text" name="board_subject" left="20px"/></td>
+			<td class="leftSort" cols="2">제목 : <input id="text" type="text" name="board_subject" style="margin-left: 23px;"/></td>
 		</tr>
 		<tr>
 			<td class="leftSort" cols="2"><input type="file" name="photos" multiple="multiple"/></td>
