@@ -146,7 +146,7 @@ public class MemberController {
 		MemberDTO dto = service.login(member_id, member_pw);
 		logger.info("dto :"+dto);
 		ArrayList<ProfileDTO> pdto = service.loginProf(member_id, member_pw);		
-				
+		
 		if (dto != null) {
 			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보		
 			session.setAttribute("loginInfo", dto);
@@ -181,7 +181,7 @@ public class MemberController {
 				page = "home"; // 서비스 메인 페이지로 이동
 				model.addAttribute("msg", dto.getMember_nickName()+"님 환영합니다.");
 			}			
-			
+
 		} else { // 로그인 실패
 			model.addAttribute("msg","아이디 또는 비밀번호를 확인해주세요.");
 			page = "login";

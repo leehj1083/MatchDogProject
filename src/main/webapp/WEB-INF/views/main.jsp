@@ -142,30 +142,30 @@ background-color: rgba(0, 100, 0, 0.1);
 			</h1>
 			<div class="gnb">
 				<a href="./login.go"><span class="logout">로그인</span></a>
-				<a href="./join.do"><span class="logout">회원가입</span></a>
+				<a href="./joinForm.go"><span class="logout">회원가입</span></a>
 			</div>
 		</div>
 	</div>
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./HomeMatchingList.do" class="btn_gnb home">
+				<a href="" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>홈</span>
 				</a>
-		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        <a href="" class="btn_gnb match">
 		        	<span class="bi bi-list-ul"></span>
 					<span>매칭리스트</span>
 		        </a>
-		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        <a href="" class="btn_gnb chatting">
 		        	<span class="bi bi-chat-dots-fill"></span>
 					<span>채팅</span>
 		        </a>
-		        <a href="./boardList.go" class="btn_gnb board">
+		        <a href="" class="btn_gnb board">
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        <a href="" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -205,6 +205,15 @@ background-color: rgba(0, 100, 0, 0.1);
 </div>
 </body>
 <script>
+
+$('.mainContainer').on('click', function(){
+    alert("로그인이 필요한 서비스입니다.", function(){
+        console.log("확인 버튼이 눌렸습니다.");
+    });
+    location.href = "./login.go";
+});
+
+
 var matchingData = []; // 매칭 데이터 배열
 var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
 var pro_idx = ""; 
