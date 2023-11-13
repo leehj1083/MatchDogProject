@@ -79,6 +79,16 @@ a, a:link, a:visited, a:active, a:hover {
         color: black;
         text-decoration: none;
     }
+    #board_content{
+    		resize: none;
+    }
+    .modButton{
+    	color: #fff;
+    	background-color: #1FBF92;
+    }
+    #button{
+    	text-align: right;
+    }
     </style>
 </head>
 <body>
@@ -87,7 +97,7 @@ a, a:link, a:visited, a:active, a:hover {
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<!-- <a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a> -->
+				<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -140,19 +150,18 @@ a, a:link, a:visited, a:active, a:hover {
 			<td cols="2">제목 : &nbsp&nbsp<input type="text" name="board_subject" value="${board.board_subject}"/></td>
 		</tr> 
 		<tr>
-			<td cols="2"><textarea name="board_content" rows="15" cols="140">${board.board_content}</textarea></td>
-		</tr>
-		<tr>
 			<td colspan="2"><input type="file" name="photos" multiple="multiple"/></td>
 		</tr>
 		<tr>
-			<th colspan="2">
-				<input type="button" id="cancel" value="취소"/>
-				<input type="submit" value="수정저장"/>
+			<td cols="2"><textarea id="board_content" name="board_content" rows="15" cols="140">${board.board_content}</textarea></td>
+		</tr>
+		<tr>
+			<th colspan="2" id="button">
+				<input class="modButton" type="button" id="cancel" value="취소"/>
+				<input class="modButton" type="submit" value="저장"/>
 			</th>
 		</tr>
 	</table>
-		<p>사진</p>
         <c:if test="${photos.size() > 0}">
 			<c:forEach items="${photos}" var="photo">               
 				<div class="photo-item" style="display: inline;">
