@@ -23,6 +23,11 @@ public class MatchListController {
 	
 	@Autowired
 	MatchListService service;
+	
+	@RequestMapping(value="/test.go")
+	public String testGo() {
+		return "chattingList2";
+	}
 
 	 //매칭받은 리스트 페이지로 이동
 	@RequestMapping(value="/recvMatchingList.go")

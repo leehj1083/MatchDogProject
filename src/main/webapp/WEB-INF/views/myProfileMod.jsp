@@ -37,6 +37,11 @@ textarea{
     background-color: var(--green);
 }
 
+.myPageMenu .myProfile{
+	color: var(--white);
+    background-color: var(--green);
+}
+
 
 /* 본인 페이지를 제외한 나머지 hover 적용 */
 .btn_gnb:hover .bi-house-door-fill,
@@ -55,7 +60,8 @@ textarea{
 .btn_gnb.board:hover,
 /*.btn_gnb.myPage:hover,*/
 .btn_gnb.admin:hover,
-.btn_gnb.myPageInfo:hover{
+/*.btn_gnb.myPageInfo:hover*/
+.btn_gnb.myProfile:hover{
 	background-color: var(--light);
 }
 
@@ -235,7 +241,7 @@ textarea{
 		        	<span class="bi bi-people-fill"></span>
 					<span>커뮤니티</span>
 		        </a>
-		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        <a href="./myPageList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
@@ -250,7 +256,7 @@ textarea{
 			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
-				<a href="./myProfileList.do" class="btn_gnb myPageInfo">
+				<a href="./myPageList.do" class="btn_gnb myPageInfo">
 					<span>회원 정보</span>
 			    </a>
 			    <a href="./myProfileList.do" class="btn_gnb myProfile">
