@@ -125,11 +125,13 @@ table{
 	border-collapse: collapse;	
 	table-layout: fixed;
 	font-size: 14px;
+	font-family:pretendard;
 }
 th,td{
 	border : 1px solid black;
 	text-align : center;
 	padding : 5px 7px;
+	font-family:pretendard;
 }
 
 </style>
@@ -178,7 +180,7 @@ th,td{
 		</div>
 		<div class="content">	
 		<div id="alarmContent"></div>
-		<h2>회원 제재 이력 보기(${member_id}님)</h2><hr/>
+		<h2 style="font-family:pretendard">회원 제재 이력 보기(${member_id}님)</h2><hr/>
 		<table>			
 			<tr>
 				<th>신고이력번호</th>			

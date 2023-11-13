@@ -10,8 +10,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- pretendard 폰트 -->
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- bootstrap : 디자인을 위한 프레임워크 -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <style>
 .banner{
 	width:1500px;
@@ -123,11 +125,13 @@ table{
 	border-collapse: collapse;	
 	table-layout: fixed;
 	font-size: 14px;
+	font-family:pretendard;
 }
 th,td{
 	border : 1px solid black;
 	text-align : center;
 	padding : 5px 7px;
+	font-family:pretendard;
 }
 
 </style>
@@ -178,7 +182,7 @@ th,td{
 		<div id="alarmContent"></div>
 			<form action="memberDetail" method="get">
 			<input type="hidden" name="member_idx" value="${dto.member_idx}"/>
-			<h3>회원상세보기</h3><hr/>
+			<h2 style="font-family:pretendard">회원상세보기</h2><hr/>
 			<table>
 				<tr>
 					<th>회원번호</th>

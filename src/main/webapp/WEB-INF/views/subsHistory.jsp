@@ -10,9 +10,9 @@
 <!-- pretendard 폰트 -->
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- bootstrap : 디자인을 위한 프레임워크 -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
@@ -124,11 +124,13 @@ table{
 	border-collapse: collapse;	
 	table-layout: fixed;
 	font-size: 14px;
+	font-family:pretendard;
 }
 th,td{
 	border : 1px solid black;
 	text-align : center;
 	padding : 5px 7px;
+	font-family:pretendard;
 }
 
 </style>
@@ -177,7 +179,7 @@ th,td{
 		</div>
 		<div class="content">	
 		<div id="alarmContent"></div>
-		<h2>회원 구독 이력 보기(${member_id}님)</h2><hr/>
+		<h2 style="font-family:pretendard">회원 구독 이력 보기(${member_id}님)</h2><hr/>
 		<table>			
 			<tr>
 				<th>번호</th>			
