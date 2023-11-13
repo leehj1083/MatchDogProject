@@ -5,21 +5,35 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<style>
-	.banner{
-		height : 120px;
-	}
-	.logo_matchDog{
-		width : 210px;
-		height : 70px;
-	}
-	.content{
-		width : 500px;
-		height : 1250px;
-		margin: 0 auto;
-		border: 1px solid black;
-		padding : 30px;
-	}
+<style>	
+.banner{
+	width:1500px;
+	display:inline-block;
+	border-bottom: 1px solid var(--light);
+}
+
+.header{
+	display:flex;
+	width:1280px;
+	height:72px;
+	margin:0 110px;
+	align-items:center;
+}
+
+.logo{
+	position: relative;
+	width:241px;
+	height:70px;
+}
+
+.logo_matchDog{
+	position: absolute;
+	top:8px;
+	left:20px;
+	display:block;
+	width:auto;
+	height:44px;
+}
 	
 	.inputForm{
 		width:500px;
@@ -567,7 +581,7 @@ function join(){
 		success : function(data){
 			if(data.success>0){
 				alert('회원가입에 성공했습니다.');
-				location.href='./';
+				location.href='./HomeMatchingList.do';
 			}else{
 				alert('회원가입에 실패했습니다.');
 			}
