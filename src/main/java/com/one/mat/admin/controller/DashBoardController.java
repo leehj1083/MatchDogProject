@@ -1,15 +1,15 @@
 package com.one.mat.admin.controller;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.one.mat.admin.dto.VisitorDTO;
 import com.one.mat.admin.service.DashBoardService;
+import com.one.mat.member.dto.MemberDTO;
 
 @Controller
 public class DashBoardController {
@@ -24,9 +25,16 @@ public class DashBoardController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired DashBoardService service;
 	
-	@RequestMapping(value="/dashBoard.go")
-	public String dashBoard() {
-		return "dashBoard";
+	@RequestMapping(value="/adminList.go")
+	public String dashBoard(HttpSession session, Model model) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		String page = "login";
+		if(dto != null && dto.getSubsType_code()==4) {			
+			page = "dashBoard";
+		}else {
+			model.addAttribute("msg","접근권한이 없습니다.");
+		}
+		return page;
 	}
 		
 	@RequestMapping(value="/visitorStatistics.do", method=RequestMethod.GET)

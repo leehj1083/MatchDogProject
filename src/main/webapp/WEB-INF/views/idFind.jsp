@@ -89,7 +89,7 @@ $('#identifymail').on('click',function(){
 			$('#certNumChk').on('click',function(){
 				var inputCode = $('input[name="certNum"]').val();
 				
-				if(data.authNumber=inputCode){
+				if(data.authNumber==inputCode){
 					console.log(inputCode);
 					console.log(data.member_id);
 					$('#informId').html('귀하의 아이디는 '+data.member_id+' 입니다.');
@@ -99,7 +99,7 @@ $('#identifymail').on('click',function(){
 					$('#mailhost').attr('readonly',true);	
 				}else{
 					$('#informId').html('인증번호가 일치하지 않습니다.');
-					$resultMsg.css('color','red');
+					$('#informId').css('color','red');
 				}
 			});
 			
