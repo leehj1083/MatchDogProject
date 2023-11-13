@@ -29,6 +29,7 @@ a, a:link, a:visited, a:active, a:hover {
 	.btn_gnb .bi-house-door-fill, .btn_gnb.home{
 	    color: var(--white);
 	    background-color: var(--green);
+	    
 	}
 	
 	
@@ -87,10 +88,11 @@ a, a:link, a:visited, a:active, a:hover {
         text-decoration: none;
     }
 
-    .content {
+    .content1 {
         margin-left: 260px;
         padding: 20px;
-        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
+        text-align: left; /* "우리 동네 리스트"를 가운데 정렬 */
+        margin-top: -415px;
     }
     #modalContent{
     	width: 500px;
@@ -102,18 +104,60 @@ table, td, th {
 	border-collapse: collapse;
 	padding: 5px 10px;
 }
+td{
+text-align: left;}
 
 select {
 	margin: 5px 0px;
+}
+#proSucButton {
+    margin-left: -340px; 
+    margin-top: -70px;
+}
+button{
+background-color: rgb(26, 188, 156); 
+    color: white; 
+    border: none;
+}
+nav {
+    margin-left: -650px; 
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" /></a>
+		<a href="./"><img src="./resources/img/maticon.PNG" src="매칭해주개메인" style="width: 150px; height: auto; margin: 0 0 0 -265px;" /></a>
 	</div>
-
+<div class="side">
+			<div class="menu">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
+			</div>
+		</div>
+		<div class="content1">
 	<select id="pagePerNum">
 		<option value="5">5</option>
 		<option value="10">10</option>
@@ -180,6 +224,7 @@ select {
 		</tr>
 
 	</table>
+	</div>
 </body>
 <script>
 	var showPage = 1;
