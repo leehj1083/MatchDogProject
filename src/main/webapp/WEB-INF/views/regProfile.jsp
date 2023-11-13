@@ -641,7 +641,7 @@ cursor: pointer;
 						</tr>
 						<tr>
 						<tr>
-							<th colspan="2"><button class="w-btn w-btn-green">등록 완료</button></th>
+							<th colspan="2"><button class="w-btn w-btn-green" id="submitBtn">등록 완료</button></th>
 
 						</tr>
 						<input type="hidden" name="charType_code" id="charType_code"
@@ -777,6 +777,26 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedOptionsDiv.innerHTML = "선택된 성향: " + selectedLabels.join(",");
 
             document.getElementById("myModal").style.display = "none";
+        }
+    });
+    var submitBtn = document.getElementById("submitBtn");
+    submitBtn.addEventListener("click", function () {
+        // 선택된 옵션을 담고 있는 div 가져오기
+        var selectedOptionsDiv = document.getElementById("selectedOptions");
+
+        // 선택된 옵션이 있는지 확인
+        if (selectedOptionsDiv.innerHTML.trim() === "") {
+            alert("성향을 선택해주세요!");
+          
+            event.preventDefault();
+        } 
+        
+        var dogNameInput = document.getElementsByName("pro_dogName")[0]
+        ;
+        if (dogNameInput.value.trim() === "") {
+            // 강아지 이름이 없으면 alert 창을 띄우고 폼 제출을 막기
+            alert("강아지 이름을 입력해주세요!");
+            event.preventDefault();  // 폼 제출 막기
         }
     });
  //-----------------------------------------여기서 부터 이미지 파일 관련 script 문 입니다...-------------------------------------------------   
