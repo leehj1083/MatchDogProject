@@ -354,7 +354,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = page;
+                        showPage = 1;
                         listCall(page); // 일반 목록으로 페이지 이동
                     }
                 }
