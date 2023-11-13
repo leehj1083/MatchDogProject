@@ -108,7 +108,11 @@ a, a:link, a:visited, a:active, a:hover {
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
+<<<<<<< HEAD
 				<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+=======
+				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+>>>>>>> 0306750dba34dfe0b710b0d7151160dbeeb29de0
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>

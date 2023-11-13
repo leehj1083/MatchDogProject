@@ -27,7 +27,7 @@ public class ChattingController {
 	
 	@RequestMapping(value="/")
 	public String index() {
-		return "login";
+		return "main";
 	}
 	
 	// 채팅방 리스트 페이지로 이동 ( 세션 체크 )

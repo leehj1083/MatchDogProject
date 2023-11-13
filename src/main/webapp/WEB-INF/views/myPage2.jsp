@@ -34,12 +34,15 @@ textarea{
 
 
 /* 본인 페이지 것으로 변경하기  */
-.btn_gnb .bi-person-circle, .btn_gnb.myPage, .btn_gnb.myPageInfo{
+.btn_gnb .bi-person-circle, .btn_gnb.myPage{
     color: var(--white);
     background-color: var(--green);
 }
 
-
+.btn_gnb.myPageInfo{
+    color: var(--white);
+    background-color: var(--green);
+}
 
 /* 본인 페이지를 제외한 나머지 hover 적용 */
 .btn_gnb:hover .bi-house-door-fill,
@@ -58,11 +61,12 @@ textarea{
 .btn_gnb.board:hover,
 /*.btn_gnb.myPage:hover,*/
 .btn_gnb.admin:hover,
-/*.btn_gnb.myPageInfo:hover,*/
+/* .btn_gnb.myPageInfo:hover{
+	background-color: var(--light);
+} */
 .btn_gnb.myProfile:hover{
 	background-color: var(--light);
-} 
-
+}
 
 
 .content {
@@ -222,7 +226,7 @@ font-family:pretendard;
 				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a id="openAlarmModal" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
 			</div>
 		</div>
@@ -250,6 +254,10 @@ font-family:pretendard;
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+	            <a href="./dashBoard.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
 		</div>
 		<div class="subSide">
@@ -418,9 +426,17 @@ font-family:pretendard;
 	<input type="hidden" value= "${myPage.member_renew}"/>
 
 	<br></br>
-	<div class="content">
-		<div id="alarmContent"></div>
-	</div>
+
+<!-- 		<div id="alarmContent"></div> -->
+
+<!-- 알람 모달 창 -->
+<!-- 	<div id="alarmModal" class="modal"> -->
+		<div id="alarmModal" class="modal">
+<!-- 			<span id="closeAlarmModal" style="float: right; cursor: pointer;">&times;</span> -->
+			<div id="alarmContent"></div>
+		</div>
+<!-- 	</div> -->
+	
 	<!-- 업그레이드 모달 창 -->
 	<div id="subsModal" class="modal">
 		<div class="modal-content">
@@ -458,14 +474,26 @@ font-family:pretendard;
 
 <script>
 
-$('#openAlarm').click(function (e) {
-	   // JSP 파일을 가져와서 모달 창에 표시
-	   $.get("./alarmList.go", function(data) {
-	   	console.log(data);
-	   	console.log("#alarmContent");
-	       $("#alarmContent").html(data);
-	   });
-	});
+//알람 모달 스크립트
+var alarmModal = $("#alarmModal");
+var alarmContent = $("#alarmContent");
+var openAlarmModal = $("#openAlarmModal");
+/* var closeAlarmModal = $("#closeAlarmModal"); */
+
+openAlarmModal.click(function() {
+    // JSP 파일을 가져와서 모달 창에 표시
+    $.get("./alarmList.go", function(data) {
+    	console.log(data);
+    	alarmContent.html(data);
+    	alarmModal.css("display", "block");
+    });
+});
+
+/* closeAlarmModal.click(function() {
+	alarmModal.css("display", "none");
+}); */
+
+
 
 // 구독 색깔 지정
 var subsTypeSpan = document.getElementById("subsTypeSpan");
