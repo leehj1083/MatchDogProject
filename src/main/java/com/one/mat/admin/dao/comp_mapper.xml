@@ -37,7 +37,7 @@ LIMIT #{param1} OFFSET #{param2}
 FROM comp
 INNER JOIN comptype ON comp.compType_code = comptype.compType_code
 LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
-WHERE comphistory.comp_handleState = 'Null'ORDER BY comp.comp_idx DESC
+WHERE comphistory.comp_handleState = 'Null' OR comphistory.comp_handleState = '미처리' ORDER BY comp.comp_idx DESC
 LIMIT #{param1} OFFSET #{param2}
 	</select>
 	<select id="list4" resultType="com.one.mat.admin.dto.CompDTO">
