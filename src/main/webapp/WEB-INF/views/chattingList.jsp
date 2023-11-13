@@ -14,6 +14,26 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+	$.ajax({
+		type:'post',
+		url:'adminCheck.do',
+		dataType:'JSON',
+	    success : function(data){
+	    	console.log(data);
+	    	if(data.admin === 4){
+	    		$('.adminOpen').css('display', 'none');
+	    	}
+	    },
+	    error: function(e){
+	    	console.log(e);
+	    }
+	});
+	
+	
+
+</script>
 <style>
 
 
@@ -60,7 +80,7 @@ a, a:link, a:visited, a:active, a:hover {
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -91,10 +111,12 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+		        <span class="adminOpen">
 	            <a href="./adminList.go" class="btn_gnb admin">
 	            	<span class="bi bi-gear-fill"></span>
 					<span>관리자페이지</span>
 	            </a>
+	            </span>
 			</div>
 		</div>
 		<div class="content">
@@ -293,6 +315,7 @@ $('#openAlarm').click(function (e) {
 	       $("#alarmContent").html(data);
 	   });
 	});
+
 
 
 </script>
