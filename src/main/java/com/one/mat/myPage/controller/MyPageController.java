@@ -64,7 +64,8 @@ public class MyPageController {
 	@RequestMapping(value = "/myPageModUpdate.do")
 	public String myPageModUpdateDo(Model model, HttpSession session, @RequestParam Map<String, String> params) {
 		logger.info("params : " + params);
-		String page = "redirect:/myPageMod.go";
+	
+		String page = "redirect:/myPageList.do";
 
 		if (session.getAttribute("loginInfo") == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");

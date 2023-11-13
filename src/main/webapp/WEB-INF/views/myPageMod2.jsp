@@ -7,9 +7,408 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
- <style></style>
+ <style>
+/*  <link rel="stylesheet" href="resources/css/myProfile.css" type="text/css"> */
+<!-- bootstrap 아이콘 -->
+/* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> */
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+
+
+
+a, a:link, a:visited, a:active, a:hover {
+	text-decoration: none;
+	color: var(--black);
+}
+
+textarea{
+	resize: none;
+}
+
+.input_img {
+	display: none;
+}
+
+
+/* 본인 페이지 것으로 변경하기  */
+.btn_gnb .bi-person-circle, .btn_gnb.myPage{
+    color: var(--white);
+    background-color: var(--green);
+}
+
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb:hover .bi-house-door-fill,
+.btn_gnb:hover .bi-chat-dots-fill,
+.btn_gnb:hover .bi-gear-fill,
+.btn_gnb:hover .bi-people-fill,
+/*.btn_gnb:hover .bi-person-circle,*/
+.btn_gnb:hover .bi-list-ul {
+    background-color: var(--light);
+}
+
+/* 본인 페이지를 제외한 나머지 hover 적용 */
+.btn_gnb.home:hover,
+.btn_gnb.match:hover,
+.btn_gnb.chatting:hover,
+.btn_gnb.board:hover,
+/*.btn_gnb.myPage:hover,*/
+.btn_gnb.admin:hover,
+.btn_gnb.myPageInfo:hover{
+	background-color: var(--light);
+}
+
+
+.charModal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.charModal-content {
+	background-color: #fff;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 70%;
+}
+
+/*사진 모달창*/
+.photoModal {
+	display: inline-block;
+	width: 480px;
+	height: 720px;
+	border: 1px solid var(--light);
+	box-shadow: 0 0 8px 1px var(--light);
+	border-radius: 12px;
+    position: absolute; 
+    top:304px;
+    left:804px;
+    z-index: 1000;
+    background-color:var(--white);
+}
+
+.imgtable {
+	margin-top:60px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.close {
+	position: relative;
+	left: 330px;
+	top: 20px;
+	cursor: pointer;
+	font-size: 32px;
+	color:var(--grey);
+}
+
+.fileContent{
+	display:inline-block;
+}
+
+.write-link.attach{
+	display: inline-block;
+	position:relative;
+	top:100px;
+	right:20px;
+	cursor: pointer;
+	color:var(--green);
+	font-size: 33px;
+}
+
+.filebox .bi-plus-circle-fill {
+	display: inline-block;
+	position:relative;
+	top:100px;
+	right:20px;
+	cursor: pointer;
+	color:var(--green);
+	font-size: 33px;
+}
+
+.filebox .bi-dash-circle-fill {
+	display: none;
+	position:relative;
+	top:100px;
+	right:20px;
+	cursor: pointer;
+	color:var(--green);
+	font-size: 33px;
+}
+
+.image-container{
+	display:inline-block;
+	width: 104px;
+	height: 120px;
+	border: 1px solid var(--light);
+	border-radius: 8px;
+	box-shadow: 0 0 4px 1px var(--light);
+	margin-left:10px;
+	margin-bottom:40px;
+}
+
+
+.imgtable .image-container img{
+	display:inline-block;
+	right:10px;
+	width: 104px;
+	height: 120px;
+	border-radius: 8px;
+    object-fit: cover;
+}
+
+.photoTextSave{
+	display:inline-block;
+	position:relative;
+	top:22px;
+	left:32px;
+	font-size:24px;
+	font-family:Pretendard;
+	font-weight: 700;
+	text-align: center;
+	color:var(--green);
+	cursor:auto;
+}
+
+.photo_selected{
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	height: 46px;
+	top:40px;
+	padding: 12px 15px 0 15px;
+	border: 1px solid var(--light);
+	background-color: var(--green);
+	border-radius: 8px;
+	font-size:16px;
+	color:var(--white);
+	font-family:Pretendard;
+	font-weight: 500;
+	text-align: center;
+	cursor:pointer;
+}
+
+
+ 
+ /* 대표프로필 모달 */
+.RepdoModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.RepdoModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 프로필 생성 모달 */
+.regProfileGoModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.regProfileGoModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 프로필 삭제 모달 */
+.profileDelDoModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+.profileDelDoModal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+<textarea style ="resize: both ;"> </textarea>
+
+/* 닫기 버튼 스타일 */
+/*  .close {
+            color: #888;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        } */
+.close:hover {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+	display: none;
+}
+
+/* The slider */
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked+.slider {
+	background-color: #2196F3;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+/* p {
+	margin:0px;
+	display:inline-block;
+	font-size:15px;
+	font-weight:bold;
+} */
+ </style>
 </head>
 <body>
+<div id="wrap">
+	<div class="banner">
+		<div class="header">
+			<h1 class="logo">
+				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+			</h1>
+			<div class="gnb">
+				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
+				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="mainContainer">
+		<div class="side">
+			<div class="menu">
+				<a href="./HomeMatchingList.do" class="btn_gnb home">
+					<span class="bi bi-house-door-fill"></span>
+					<span>홈</span>
+				</a>
+		        <a href="./recvMatchingList.go" class="btn_gnb match">
+		        	<span class="bi bi-list-ul"></span>
+					<span>매칭리스트</span>
+		        </a>
+		        <a href="./chattingList.go" class="btn_gnb chatting">
+		        	<span class="bi bi-chat-dots-fill"></span>
+					<span>채팅</span>
+		        </a>
+		        <a href="./boardList.go" class="btn_gnb board">
+		        	<span class="bi bi-people-fill"></span>
+					<span>커뮤니티</span>
+		        </a>
+		        <a href="./myProfileList.do" class="btn_gnb myPage">
+		        	<span class="bi bi-person-circle"></span>
+					<span>마이페이지</span>
+		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
+			</div>
+		</div>
+		<div class="subSide">
+			<div class="my_profile_h3">마이 페이지</div>
+			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<c:url value="/myPage" var="myPageUrl" />
+			<div class="myPageMenu">
+				<a href="./myProfileList.do" class="btn_gnb myPageInfo">
+					<span>회원 정보</span>
+			    </a>
+			    <a href="./myProfileList.do" class="btn_gnb myProfile">
+					<span>프로필</span>
+			    </a>
+		    </div>
+		</div>
 	<h3>${myPage.member_name} 님의 마이페이지</h3>
 	<a href="logout">로그아웃</a>
 	<br></br>
@@ -20,71 +419,51 @@
 	<a href="myPageMod">수정하기</a>
 	<br></br>
  	<br></br>
+ 	<div class="content">
  	<form action="myPageModUpdate.do" method="post">
-	 	<table>	
- 		<tr>
- 			<th>이름</th>
- 			<td><input type="text" name="member_name" readonly="readonly" value="${myPage.member_name}"/></td>
- 		</tr>
- 		<tr>
- 			<th>아이디</th>
- 			<td><input type="text" name="member_id" readonly="readonly" value="${myPage.member_id}"/></td>
- 		</tr>
- 		<tr>
- 			<th>닉네임</th>
- 			<td>
- 			<input type="text" name="member_nickName"  value="${myPage.member_nickName}"/>
-     		 <input type="button" id="overlayNick" value="중복확인"/>
-      <p/><span class="nickChk"></span>
-     <p/><span class="noticeNick" style="font-size : 8pt"> ※ 닉네임은 2자 이상 8자 이하로 입력해주세요</span>
-     </td>
- 		</tr>
- 		<tr>
- 			<th>성별</th>
- 			<td><input type="text" name="member_gender" readonly="readonly" value="${myPage.member_gender}"/></td>
- 		</tr>
- 		<tr>
- 			<th>비밀번호</th>
- 			<td><input type="text" name="member_pw" placeholder="비밀번호를 입력하세요" value="${myPage.member_pw}"/></td>
- 		</tr>
- 		<tr>
- 			<th>비밀번호 확인</th>
- 			<td><input type="text" name="member_pwReChk" placeholder="비밀번호를 한번 더 입력하세요" value="${myPage.member_pw}"/></td>
- 		</tr>
- 		<tr>
- 			<th>이메일</th>
- 			<td>
- 			<input type="text" id="usermail" name="member_email" placeholder="이메일 주소를 입력하세요" value="${myPage.member_email}"/>@
+ 	<div class="inputForm">
+     <h2>기본 정보</h2>
+ 	<input type="hidden" name=member_id value="${myPage.member_id}"/>
+ 	<p>이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_name}</p>
+ 	<p>아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_id}</p>
+ 	<p>성별 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${myPage.member_gender}</p>
+ 	<p/>닉네임 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="member_nickName" value="${myPage.member_nickName}"/>
+      <input type="button" id="overlayNick" value="중복확인"/> <span class="nickChk"></span> <p/>
+      <span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
+     <p>비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="password" name="member_pw" placeholder="비밀번호를 입력하세요" value="${myPage.member_pw}"/>
+      <p>비밀번호 확인 <input type="password" name="member_pwReChk"  placeholder="비밀번호를 한번 더 입력하세요" value=""/>  
+ 	<p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
+ 	<p>이메일 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 	<input type="text" id="usermail" name="member_email" placeholder="메일 주소를 입력 하세요" value="${myPage.member_email}"/>@
 	  <select name="emailhost" id="mailhost">
-			<option value="naver">naver.com</option>	
-			<option value="google">gmail.com</option>
-			<option value="daum">daum.net</option>
-			<option value="nate">nate.com</option>
+			<option value="naver.com">naver.com</option>	
+			<option value="gmail.com">gmail.com</option>
+			<option value="daum.net">daum.net</option>
+			<option value="nate.com">nate.com</option>
 	  </select>
- 			</td>
- 		</tr>
- 		<tr>
- 			<th>전화번호</th>
- 			<td><input type="text" name="member_phone" placeholder="핸드폰번호 입력하세요" value="${myPage.member_phone}"/></td>
- 		</tr>
- 		<tr>
- 			<th>주소<input type="text" id="postcode" placeholder="우편번호">
+	  
+	  <p>전화번호  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="member_phone" value="${myPage.member_phone}"/>
+       <p><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+	  
+	  <p/>주소<input type="text" id="postcode" placeholder="우편번호">
 	  <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-	  <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소" value="${myPage.member_roadAddr}"><br/>
-	  <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소" value="${myPage.member_parcelAddr}"><br/>
+	  <input type="text" id="roadAddress"  name = "member_roadAddr" placeholder="도로명주소" value="${myPage.member_roadAddr}"><br/>
+	  <input type="text" id="jibunAddress" name = "member_parcelAddr" placeholder="지번주소" value="${myPage.member_parcelAddr}"><br/>
 	  <span id="guide" style="color:#999;display:none"></span><br/>
-	  <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소" value="${myPage.member_detailAddr}">		  
-	  <input type="text" id="member_dongAddr" placeholder="참고항목" value="${myPage.member_dongAddr}">               
-	  </th>
- 		</tr>
- 		</table>
+	  <input type="text" id="detailAddress" name = "member_detailAddr" placeholder="상세주소" value="${myPage.member_detailAddr}">		  
+	  <input type="text" id="extraAddress" name="member_dongAddr" placeholder="참고항목" value="${myPage.member_dongAddr}">                  
+	  
+	 	</div>
+
  		 	<br></br>
  		<input type="button" onclick="location.href='./myPageList.do'" value="수정 취소"/>
- 		<input type="submit" value="수정 완료"/>
+ 		<input type="submit" id="myPageUpdate" value="수정 완료"/>
  		 </form>
  	<br></br>
  	<br></br>
-
+ 	</div>
+ 	</div>
+</div>
 
 </body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -145,6 +524,21 @@ function execDaumPostcode() {
     }).open();
 }
 
+//PW 일치 확인(재입력)
+$('input[name="member_pwReChk"]').keyup(function(){
+	if($(this).val()==''){
+		$('.pwReChk').css('color','red');
+		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
+	}else if($(this).val()==$('input[name="member_pw"]').val()){
+		$('.pwReChk').css('color','green');
+		$('.pwReChk').html('비밀번호가 일치합니다.');
+	}else{
+		$('.pwReChk').css('color','red');
+		$('.pwReChk').html('비밀번호를 다시 입력해주세요.');
+	}	
+});
+
+
 var myPageModNickOveraly = false;
 $('#overlayNick').on('click',function(){
 	var $nickName = $('input[name="member_nickName"]');
@@ -177,6 +571,111 @@ $('#overlayNick').on('click',function(){
 });
 
 
+//닉네임 정규표현식
+$('input[name="member_nickName"]').keyup(function(){
+	var getNickCheck = RegExp(/^[a-zA-Zㄱ-ㅎ가-힣0-9]{2,8}$/);
+	if($(this).val()==''){
+		$('.nickValid').css('color','red');
+		$('.nickValid').html('닉네임은 필수 입력입니다.');
+	}else if(!getNickCheck.test($(this).val())){
+		$('.nickValid').css('color','red');
+		$('.nickValid').html('닉네임이 형식에 어긋납니다.');
+	}else{
+		$('.nickValid').css('color','green');
+		$('.nickValid').html('적합한 닉네임 형식입니다.');
+		console.log($('.nickValid').html());
+	}
+});
+
+//전화번호 정규표현식
+$('input[name="member_phone"]').keyup(function(){
+	var getPhoneCheck = RegExp(/^\d{2,3}-\d{3,4}-\d{4}$/);
+	if($(this).val()==''){
+		$('.phoneValid').css('color','red');
+		$('.phoneValid').html('전화번호는 필수 입력입니다.');
+	}else if(!getPhoneCheck.test($(this).val())){
+		$('.phoneValid').css('color','red');
+		$('.phoneValid').html('전화번호가 형식에 어긋납니다.');
+	}else{
+		$('.phoneValid').css('color','green');
+		$('.phoneValid').html('적절한 전화번호 형식입니다.');
+	}
+});
+
+
+//회원 가입
+$('#myPageUpdate').on('click',function(){
+	
+	var member_pw=$('input[name="member_pw"]').val();
+	var member_nickName=$('input[name="member_nickName"]').val();
+	var member_phone=$('input[name="member_phone"]').val();	
+	var member_roadAddr=$('input[name="member_roadAddr"]').val();
+	var member_parcelAddr=$('input[name="member_parcelAddr"]').val();
+	var member_detailAddr=$('input[name="member_detailAddr"]').val();
+				
+
+	// 비밀번호 검사
+	if(member_pw == '') {
+	    alert('비밀번호를 입력해 주세요');
+	    $('input[name="member_pw"]').focus();
+	    return false;
+	}
+	/* 
+	if($('.pwValid').html() != '적합한 비밀번호 형식입니다.') {
+	    alert('비밀번호를 정확히 입력해 주세요');
+	    $('input[name="member_pw"]').focus();
+	    return false;
+	}
+	*/
+	if($('input[name="pwCheck"]').val() == '') {
+	    alert('비밀번호 확인을 위해 재입력해 주세요');
+	    $('input[name="pwCheck"]').focus();
+	    return false;
+	}
+	
+	if($('.pwReChk').html() != '비밀번호가 일치합니다.') {
+	    alert('비밀번호를 정확히 입력해 주세요');
+	    $('input[name="pwCheck"]').focus();
+	    return false;
+
+	}
+	 
+	// 전화번호 검사
+	if(member_phone == '') {
+	    alert('전화번호를 입력해 주세요');
+	    $('input[name="member_phone"]').focus();
+	    return false;
+	}
+/* 	if($('.phoneValid').html() != '적절한 전화번호 형식입니다.') {
+	    alert('전화번호를 정확히 입력해 주세요');
+	    $('input[name="member_phone"]').focus();
+	    return false;
+	} */
+
+	// 닉네임 검사
+	if(member_nickName == '') {
+	    alert('닉네임을 입력해 주세요');
+	    $('input[name="member_nickName"]').focus();
+	    return false;
+	}
+	if($('.nickValid').html() == '닉네임이 형식에 어긋납니다.') {
+	    alert('닉네임을 정확히 입력해 주세요');
+	    $('input[name="member_nickName"]').focus();
+	    return false;
+	}
+	if(overlayNickChk != true) {
+	    alert('닉네임 중복체크를 진행해주세요');
+	    return false;
+	}
+
+	// 주소 검사
+	if(member_roadAddr == '') {
+	    alert('주소를 입력해 주세요');
+	    return false;
+	}
+			
+	
+});	
 
 
 </script>

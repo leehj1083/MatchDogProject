@@ -167,7 +167,7 @@ th:first-child, td:first-child {
 		<div class="content">
 		<h2 style="font-family:pretendard">권한 수정</h2><hr/>
 		<form action="./authDetailModUpdate.do" method="post">
-		<input type="text" name="subsType_code" value="${authDetail.subsType_code}">
+		<input type="hidden" name="subsType_code" value="${authDetail.subsType_code}">
 		
 			<table>
 					<tr>

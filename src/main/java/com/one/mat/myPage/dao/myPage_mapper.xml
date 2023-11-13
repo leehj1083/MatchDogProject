@@ -18,7 +18,7 @@
 	FROM member m LEFT JOIN subs s ON m.member_idx=s.member_idx where member_id =#{id};
 
 	</select>
-	<update id="myPageModUpdateDo">
+	<update id="myPageModUpdateDo"  parameterType="map">
   		UPDATE member SET
   		member_nickName=#{member_nickName},
   		member_pw=#{member_pw},

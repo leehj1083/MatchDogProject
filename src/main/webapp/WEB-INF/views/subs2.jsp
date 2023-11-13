@@ -12,10 +12,10 @@
 <body>
 
 	<main>
-
 		<c:if test="${myPage.subsType == 'standard'}">
 
 			<div class="col">
+<!-- 				<input type="button" onclick="location.href='./myPageList.do'" value="x" /> -->
 				<div class="card mb-4 rounded-3 shadow-sm">
 					<div class="card-header py-3">
 						<h4 class="my-0 fw-normal">plus</h4>
@@ -29,12 +29,14 @@
 							<li>플러스 업그레이드로 더 많은 산책 요청을 받아보세요.</li>
 						</ul>
 						<input type="submit" id="plusSubs" value="PLUS 구독 시작하기" />
+<!-- 						<button type="button" class="plus" name= "plus">구독 시작하기</button> -->
 
 					</div>
 				</div>
 			</div>
 				<br></br>
 		<div class="col">
+<!-- 			<input type="button" onclick="location.href='./myPageList.do'" value="x" /> -->
 			<div class="card mb-4 rounded-3 shadow-sm border-primary">
 				<div class="card-header py-3 text-bg-primary border-primary">
 					<h4 class="my-0 fw-normal">premium</h4>
@@ -49,6 +51,7 @@
 						<li>프리미엄 업그레이드로 더 많은 대화를 나눠보세요.</li>
 					</ul>
 					<input type="submit" id="premiumSubs" value="PREMIUM 구독 시작하기" />
+	<!-- 				<button type="button" class="w-100 btn btn-lg btn-primary">구독 시작하기</button> -->
 				</div>
 			</div>
 		</div>
@@ -58,6 +61,7 @@
 		
 		<c:if test="${myPage.subsType == 'plus'}">
 			<div class="col">
+<!-- 				<input type="button" onclick="location.href='./myPageList.do'" value="x" /> -->
 				<div class="card mb-4 rounded-3 shadow-sm border-primary">
 					<div class="card-header py-3 text-bg-primary border-primary">
 						<h4 class="my-0 fw-normal">premium</h4>

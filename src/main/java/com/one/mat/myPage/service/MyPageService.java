@@ -2,6 +2,8 @@ package com.one.mat.myPage.service;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.one.mat.myPage.dao.MyPageDAO;
 @Service
 public class MyPageService {
 
+	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MyPageDAO dao;
 	public boolean login(String id, String pw) {
 
@@ -22,6 +25,7 @@ public class MyPageService {
 		return dao.MyPageListDo(id);	
 	}
 	public int myPageModUpdateDo(Map<String, String> params) {
+		logger.info("params : " + params);
 		return dao.myPageModUpdateDo(params);
 		
 	}
