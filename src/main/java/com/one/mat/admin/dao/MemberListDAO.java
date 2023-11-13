@@ -3,8 +3,10 @@ package com.one.mat.admin.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.board.dto.BoardDTO;
 import com.one.mat.member.dto.MemberDTO;
+import com.one.mat.myPage.DTO.SubsDTO;
 
 public interface MemberListDAO {
 
@@ -16,11 +18,13 @@ public interface MemberListDAO {
 
 	void memberAuthMod(int subsType_code, int member_idx);
 
-	ArrayList<BoardDTO> subsHistory(int member_idx);
+	ArrayList<SubsDTO> subsHistory(int member_idx);
 
 	int countUser(String searchType, String searchKeyword, String subsType);
 
-	ArrayList<BoardDTO> sancHistoryList(int member_idx);
+	ArrayList<CompDTO> sancHistoryList(int member_idx);
+
+	MemberDTO getMemberId(int member_idx);
 
 
 }

@@ -58,14 +58,8 @@ table, th, td{
 	text-align: center;
 }
 
-.noticeToday{
-	width : 800px;
-	height : 100px;
-	display: block;
-}
-
 .visitorStatistics{
-	display:flex;
+	display:block;
 	width:800px;
 	flex-direction: row;
     align-items: center;
@@ -84,6 +78,7 @@ table, th, td{
 	flex-direction: row;
     align-items: center;
     justify-content: center;
+    align-content: center;
 }
 
 .salesGraph{
@@ -94,6 +89,10 @@ table, th, td{
 .dataTable{
 	margin-left:60px;
 }
+.logo_matchDog{
+	width : 120px;
+	height : 40px;
+}
 
 </style>
 </head>
@@ -102,7 +101,7 @@ table, th, td{
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a href="./alarmList.go" class="alarm"><span class="bi bi-bell-fill"></span></a>
@@ -113,11 +112,11 @@ table, th, td{
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./dashBoard.go" class="btn_gnb home">
+				<a href="./adminList.go" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>관리자 페이지</span>
 				</a>
-		        <a href="./dashBoard.go" class="btn_gnb match">
+		        <a href="./adminList.go" class="btn_gnb match">
 		        	<span class="bi bi-list-ul"></span>
 					<span>DASH BOARD</span>
 		        </a>
@@ -142,16 +141,16 @@ table, th, td{
 		<div class="content">		
 		<h3>DASHBOARD</h3><hr/>
 			<div class="visitorStatistics">
-				<div class="noticeToday">
-					<span id="today"></span>&nbsp;기준&nbsp;
+				<div class="noticeToday" style="font-size:medium; display: flex; align-content:center;">
+					<span id="today"></span>&nbsp;기준&nbsp;&nbsp;
 					<select id="selection" name="selection">
 						<option value="day">일</option>
 						<option value="week">주</option>
 					</select>
 					<span>별 방문자 통계</span>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 방문자 수 : <span id="todayCount"></span>
-					&nbsp;전체 방문자 수 : <span id="totalCount"></span>
-				</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 방문자 수 : &nbsp;<span id="todayCount"></span>
+					&nbsp;/&nbsp;전체 방문자 수 : &nbsp;<span id="totalCount"></span>
+				</div><p>
 				<div class="visitDataGraph">
 					<canvas id="visitorGraph" width="800px" height="250px"></canvas>
 				</div>
@@ -348,7 +347,7 @@ var resetVisitorCanvas = function(){
 		visitorGraph.destroy();
 	}	
 	$('#visitorGraph').remove();
-	$('.visitDataGraph').append('<canvas id="visitorGraph" width="600px" height="300px"></canvas>');
+	$('.visitDataGraph').append('<canvas id="visitorGraph" width="800px" height="250px"></canvas>');
 }
 
 
@@ -439,5 +438,9 @@ var resetSalesCanvas = function(){
 	$('.dataGraph').append('<canvas id="salesGraph" width="400px"></canvas>');
 }
 
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
 </script>
 </html>
