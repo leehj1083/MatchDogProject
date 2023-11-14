@@ -64,6 +64,9 @@ public class MyProfileController {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			String id = dto.getMember_id();
 			service.MyProfileModList(pro_idx, model);
+			int idx = dto.getMember_idx();
+			logger.info("idx="+idx);
+			service.MyProfileListDo(idx, model);
 			ArrayList<ProfileDTO> charTypeList=service.charTypeList();
 			ArrayList<ProfileDTO> breedTypeList=service.breedTypeList();
 			logger.info("charTypeList:"+charTypeList);
@@ -94,6 +97,7 @@ public class MyProfileController {
 		int pro_idx = Integer.parseInt(params.get("pro_idx"));
 		logger.info("pro_idx:"+pro_idx);
 		logger.info("delPhotoName의 값 : "+delPhotoName);
+		
 		
 		if(params.get("charTypeCodes") != null ) {
 			
@@ -152,7 +156,7 @@ public class MyProfileController {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
 		} else {
 			/* service.MyProfileModList(pro_idx, model); */
-
+			
 			service.myProfileModUpdateDo(params);
 			
 			// 세연 추가 코드

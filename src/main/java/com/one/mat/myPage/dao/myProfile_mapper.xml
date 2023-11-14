@@ -115,6 +115,12 @@ WHERE pro_idx = #{param1}
 </update>
 
 
+<select id="repPhotoName" resultType="String">
+		SELECT pt.photo_fileName
+		FROM pro p 
+		INNER JOIN photo pt ON pt.photo_idfNum = p.pro_idx 
+		WHERE pt.photo_type = 4 AND p.pro_rep='Y' AND p.member_idx = #{param1} ORDER BY pt.photo_id ASC LIMIT 1
+	</select>
 
 <!-- 세연 추가 -->
 
