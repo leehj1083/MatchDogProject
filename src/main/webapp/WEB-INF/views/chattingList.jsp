@@ -21,9 +21,9 @@
 		url:'adminCheck.do',
 		dataType:'JSON',
 	    success : function(data){
-	    	console.log(data);
-	    	if(data.admin === 4){
-	    		$('.adminOpen').css('display', 'none');
+	    	console.log(data.admin);
+	    	if(data.admin !== 4){
+	    		$('.btn_gnb.admin').css('display', 'none');
 	    	}
 	    },
 	    error: function(e){
@@ -36,6 +36,9 @@
 </script>
 <style>
 
+.adminOpen{
+	display:inline-block;
+}
 
 a, a:link, a:visited, a:active, a:hover {
 	text-decoration: none;
@@ -68,6 +71,19 @@ a, a:link, a:visited, a:active, a:hover {
 .btn_gnb.myPage:hover,
 .btn_gnb.admin:hover{
 	background-color: var(--light);
+}
+
+.recvMatchingList{
+	display:inline-block;
+	position:relative;
+	top:10px;
+	width: 200px;
+	height:30px;
+	font-size:20px;
+	font-family:Pretendard;
+	font-weight: 700;
+	color:var(--green);
+	cursor:auto;
 }
 
 
@@ -111,12 +127,10 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
-		        <span class="adminOpen">
 	            <a href="./adminList.go" class="btn_gnb admin">
 	            	<span class="bi bi-gear-fill"></span>
 					<span>관리자페이지</span>
 	            </a>
-	            </span>
 			</div>
 		</div>
 		<div class="content">
@@ -126,8 +140,7 @@ a, a:link, a:visited, a:active, a:hover {
 				<div class="container">
 			        <div class="left">
 			            <div class="top">
-			                <input type="text" placeholder="Search" />
-			                <a href="javascript:;" class="search"></a>
+			            	<div class="recvMatchingList">채팅리스트</div>
 			            </div>
 						<!-- 리스트 -->
 			            <ul class="people">

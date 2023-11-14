@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="resources/css/chattingRoom.css" type="text/css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<jsp:include page="chattingList4.jsp" />
 <style>
 
 #input_img{

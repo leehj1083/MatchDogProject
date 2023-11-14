@@ -16,19 +16,12 @@
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<jsp:include page="chattingList4.jsp" />    
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <style>
 	a, a:link, a:visited, a:active, a:hover {
 		text-decoration: none;
 		color: var(--black);
-	}
-	
-	button{
-	  border: 0;
-	  background-color: transparent;
-	  cursor : pointer;
 	}
 	
 	
@@ -64,173 +57,47 @@
 	        text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
 	    }
 
+	.sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #255,255,255;
+        padding-top: 20px;
+    }
+
+    .sidebar h2 {
+        color: black;
+        text-align: center;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
     #modalContent{
     	width: 500px;
     	height: 500px;
     	text-align: center; 
-    	z-index:1000
     }
 	#photo {
-	    position: relative;
-    	left: 0px;
-		width: 360px;
-	    height: 520px;
-	    border-radius: 12px;
-  		object-fit: cover;
-  		box-shadow: 0 0 8px 1px var(--light);
-  		text-align: center; 
-		
+		width: 300px;
+		height: 200px;
 	}
 	#openAlarm{
 		cursor: pointer;
 	}
-	
-	.mainContent{
-		display:flex;
-		flex-direction: column;
-	}
-	
-
-	.btn{
-		display: inline-block;
-		position: absolute;
-		width: 100px;
-		height: 32px;
-		padding: 6px 15px 0 15px;
-		background-color: var(--green);
-		border-radius: 16px;
-		color:var(--white);
-		font-family:Pretendard;
-		font-weight: 500;
-		text-align: center;
-		z-index:100;	
-	}
-	
-	.btn_ch{
-		display: inline-block;
-		position: relative;
-		width: 92px;
-		height: 28px;
-		padding: 6px 15px 0 15px;
-		background-color: var(--green);
-		border-radius: 14px;
-		color:var(--white);
-		font-family:Pretendard;
-		font-weight: 500;
-		font-size:14px;
-		text-align: center;
-		z-index:100;	
-		margin: 2px;
-	}
-	
-	.text{
-        	display:inline-block;
-        	position: absolute;
-			width:120px;
-        	font-size:16px;
-			font-family:Pretendard;
-			color:var(--dark);
-			font-weight: 600;
-			word-break: break-all;
-			text-align:left;
-        }
-	
-	.main_subject{
-        	display:inline-block;
-        	position: relative;
-        	font-size:20px;
-			font-family:Pretendard;
-			color:var(--green);
-			font-weight: 800;
-			word-break: break-all;
-			text-align:left;
-			left:300px;
-			margin-bottom:20px;
-        }
-	
-	#member_dongAddr{
-		top:180px;
-		left:938px;
-	}
-	
-	#member_gender{
-		top:180px;
-		left:718px;
-	}
-	
-	#pro_dogName{
-		font-size:30px;
-		color:var(--green);
-		top:431px;
-		left:720px;
-	}
-	
-	#pro_dogAge{
-		top:471px;
-		left:726px;
-		text-align:left;
-	}
-	
-	#pro_dogGender{
-		top:471px;
-		left:780px;
-		text-align:left;
-	}
-	
-	.ch_flex{
-		display:flex;
-		flex-wrap: wrap;
-		width:200px;
-	}
-	
-	.mat_flex{
-		position:absolute;
-		top:605px;
-		left:720px;
-		display:flex;
-		width:300px;
-		justify-content: space-around;
-    	align-items: center;
-	}
-	
-	.btn_flex{
-		position:absolute;
-		top: 336px;
-    	left: 424px;
-		display:flex;
-		width:910px;
-		justify-content: space-around;
-    	align-items: center;
-	}
-
-	#characteristics{
-		display:inline-block;
-		position:absolute;
-		top:498px;
-		left:720px;
-	}
-
-	#pro_dogDesc{
-		top:571px;
-		left:724px;
-		width:308px;
-		height: 50px;
-	}
-	
-	.bi-x-lg, .bi-heart-fill, .bi-chevron-compact-left, .bi-chevron-compact-right{
-		font-weight: 900;
-		font-size:42px;
-	}
-
-	.bi-heart-fill{
-		color:var(--red);
-	}
-	
-	.bi-x-lg{
-		color:var(--green);
-	}
-
-	
 </style>
 </head>
 <body>
@@ -277,42 +144,30 @@
 			</div>
 		</div>
 	<div class="content">
-		<div class="mainContent">
-			<div class="main_subject">우리동네 매칭리스트</div>
-			<div class="mat_card">
-			    <button id="openModal" ><img id="photo"></button>
-		        <div class="btn" id="member_dongAddr"></div>
-		        <div class="btn" id="member_gender"></div>
-			    <div class="text" id="pro_dogName"></div>
-			    <div class="text" id="pro_dogAge"></div>
-			    <div class="text" id="pro_dogGender"></div>	        
-		        <div class="text" id="pro_dogDesc"></div>
-		        <div id="characteristics">
-		        	<div class="ch_flex">
-			        	<div class="btn1 btn_ch"></div>
-			        	<div class="btn2 btn_ch"></div>
-			        	<div class="btn3 btn_ch"></div>
-			        	<div class="btn4 btn_ch"></div>
-		        	</div>
-		        </div>
-		        <div class="btn" id="proOpen" style="display: none;"></div>
-			    <table>
-			        <tbody id="matchingList"></tbody>
-			    </table>
-			    <div class="btn_flex">
-			    <button id="prevButton"><span class="bi bi-chevron-compact-left"></span></button>
-			    <button id="nextButton"><span class="bi bi-chevron-compact-right"></span></button>
-			    </div>
-			    <div class="mat_flex">
-				    <button id="matchingdel"><span class="bi bi-x-lg"></span></button>
-				    <button id="matchingreq" ><span class="bi bi-heart-fill"></span></button>
-			    </div>
-			    <!-- 모달을 불러올 위치 -->
-			    <div id="modalContent"></div>
-			    <div id="alarmContent"></div>
-			</div>
-		    
-		</div>
+    <h3>우리 동네 리스트</h3>
+	<div>
+	    <img id="photo">
+        <p id="member_dongAddr"></p>
+        <p id="member_gender"></p>
+        <p id="pro_dogName"></p>
+        <p id="pro_dogAge"></p>
+        <p id="pro_dogGender"></p>
+        <p id="pro_dogDesc"></p>
+        <p id="characteristics"></p>
+        <p id="proOpen" style="display: none;"></p>
+	</div>
+    
+    <table>
+        <tbody id="matchingList"></tbody>
+    </table>
+    <button id="prevButton">이전</button>
+    <button id="nextButton">다음</button>
+    <button id="matchingdel">매칭리스트 삭제</button>
+    <button id="matchingreq" >매칭요청 보내기</button>
+    <button id="openModal" >상세 보기</button>
+    <!-- 모달을 불러올 위치 -->
+    <div id="modalContent"></div>
+    <div id="alarmContent"></div>
 	</div>
 	</div>
 </div>
@@ -380,41 +235,29 @@ function showMatchingData(index) {
 	        // 각 데이터에 대한 처리
 	    	$('#photo').attr('src', '/photo/' + matchingList.min_photo_fileName);
 	        $('#photo').attr('alt', matchingList.min_photo_fileName);
-	        $('#pro_dogName').text(matchingList.pro_dogName);
+	        $('#pro_dogName').text('강아지 이름: ' + matchingList.pro_dogName);
 	        if (HiddenAge !== "") {
 	            if (HiddenAge == 'N') {
-	                $('#pro_dogAge').html(matchingList.pro_dogAge+'살&nbsp;&nbsp;&nbsp;&nbsp;/');
+	                $('#pro_dogAge').text('강아지 나이: ' + matchingList.pro_dogAge);
 	            } else {
-	                $('#pro_dogAge').text('(비공개)');
+	                $('#pro_dogAge').text('강아지 나이: ' + '(비공개)');
 	            }
 	        } else {
-	            $('#pro_dogAge').html(matchingList.pro_dogAge+'살&nbsp;&nbsp;&nbsp;&nbsp;/');
+	            $('#pro_dogAge').text('강아지 나이: ' + matchingList.pro_dogAge);
 	        }
 	        if (HiddenGnd !== "") {
 	            if (HiddenGnd == 'N') {
-	                $('#pro_dogGender').text(matchingList.pro_dogGender+'아');
+	                $('#pro_dogGender').text('강아지 성별: ' + matchingList.pro_dogGender);
 	            } else {
-	                $('#pro_dogGender').text('(비공개)');
+	                $('#pro_dogGender').text('강아지 성별: ' + '(비공개)');
 	            }
 	        } else {
-	            $('#pro_dogGender').text(matchingList.pro_dogGender+'아');
+	            $('#pro_dogGender').text('강아지 성별: ' + matchingList.pro_dogGender);
 	        }
-	        $('#pro_dogDesc').text(matchingList.pro_dogDesc);
-	        $('#member_dongAddr').text(matchingList.member_dongAddr);
-	        $('#member_gender').text(matchingList.member_gender+'성');
-	        
-
-	        var ch = $('#characteristics');
-	        var characteristicsArray = matchingList.characteristics.split(" / ");
-	        
-	        // 4개로 끊기.
-	        for (var i = 0; i < characteristicsArray.length; i++) {
-    			var characteristic = characteristicsArray[i];
-    			var targetClass = "btn" + (i + 1); // 각 요소에 해당하는 클래스 이름
-    			ch.find("." + targetClass).html(characteristic);
-	        }
-	        
-	        //$('#characteristics').text(matchingList.characteristics);
+	        $('#pro_dogDesc').text('강아지 설명: ' + matchingList.pro_dogDesc);
+	        $('#member_dongAddr').text('동 주소: ' + matchingList.member_dongAddr);
+	        $('#member_gender').text('성별: ' + matchingList.member_gender);
+	        $('#characteristics').text('성향: '+matchingList.characteristics);
 	        $('#proOpen').text('pro_idx: ' + matchingList.pro_idx);
 	    },
 	    error: function (e) {

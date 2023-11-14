@@ -78,9 +78,10 @@ public class MatchListService {
 			// 담을 그릇
 			MatchListDTO matDTO = new MatchListDTO();
 			
+			logger.info("사진이 들어왔는가:"+ProInfo);
 				
-			if(ProInfo != null && myDogName != null && charInfo != null 
-					&& matSucceed.equals("N")) {
+			if(ProInfo != null && matSucceed.equals("N")) {
+			logger.info("사진이 들어왔는가:"+myDogName);
 			matDTO.setMyDogName(myDogName);
 			matDTO.setMatch_idx(matIdx);
 			matDTO.setMatchTime(dto.getMatchTime());

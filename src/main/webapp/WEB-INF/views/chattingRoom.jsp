@@ -14,6 +14,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<jsp:include page="chattingList4.jsp" />
 <style>
 
 #input_img{
@@ -157,6 +158,7 @@
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
+		<div id="compContent"></div>
 		
 		
 			<div class="container">
@@ -216,7 +218,7 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					setTimeout(longPolling, 3000);
+					//setTimeout(longPolling, 3000);
 				},
 				timeout:3000,
 				error:function(e){
@@ -265,9 +267,15 @@
 			});
 		}else{
 			$('.chatComp').css("color", "var(--red)");
-			$('.chatComp').on('click',function(){
-				location.href="./chattcompTypeList.do?comp_reportIdx="+obj.toFrom.pro_you + "&comp_idfNum=" + chat_idx;
+			$('.chatComp').click(function (e) {
+				$.get("./chattcompTypeList.do?comp_reportIdx="+obj.toFrom.pro_you + "&comp_idfNum=" + chat_idx, function(data) {
+				    $("#compContent").html(data);
+				});
 			});
+			
+			/* $('.chatComp').on('click',function(){
+				location.href="./chattcompTypeList.do?comp_reportIdx="+obj.toFrom.pro_you + "&comp_idfNum=" + chat_idx;
+			}); */
 		}
 
 		if(obj.totalMsg.length == 0){

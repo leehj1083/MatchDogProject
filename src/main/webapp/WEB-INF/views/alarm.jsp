@@ -91,7 +91,6 @@
         	
         }
         
-
         .closeButton {
             position: absolute;
 			left: 370px;

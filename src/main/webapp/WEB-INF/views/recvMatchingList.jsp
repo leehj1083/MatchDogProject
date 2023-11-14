@@ -14,6 +14,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<jsp:include page="chattingList4.jsp" />
 <style>
 
 
@@ -234,18 +235,18 @@ function drawList(obj){
 
 	// 페이징 처리 UI 그리기(플러그인 사용)
 	$('#pagination').twbsPagination({
-		startPage:obj.currPage, // 보여줄 페이지
-		totalPages:obj.pages,// 총 페이지 수(총갯수/페이지당보여줄게시물수) : 서버에서 계산해서 가져와야함
-		visiblePages:5,//[1][2][3][4][5]
-		onPageClick:function(e,page){ // 번호 클릭시 실행할 내용
-			//console.log(e);
-			if(showPage != page){
-				console.log(page);
-				showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
-				listCall(page);
+			startPage:obj.currPage, // 보여줄 페이지
+			totalPages:obj.pages,// 총 페이지 수(총갯수/페이지당보여줄게시물수) : 서버에서 계산해서 가져와야함
+			visiblePages:5,//[1][2][3][4][5]
+			onPageClick:function(e,page){ // 번호 클릭시 실행할 내용
+				//console.log(e);
+				if(showPage != page){
+					console.log(page);
+					showPage = page; // 클릭해서 다른 페이지를 보여주게 되면 현재 보고 있는 페이지 번호도 변경해 준다.
+					listCall(page);
+				}
 			}
-		}
-	});
+		});
 	// 페이징 처리 css 변경
 	$('.first').children().empty();
 	$('.last').children().empty();
