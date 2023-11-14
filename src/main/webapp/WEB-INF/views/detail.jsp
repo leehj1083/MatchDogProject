@@ -135,6 +135,7 @@ a, a:link, a:visited, a:active, a:hover {
 		<div class="content">
 		<div id="alarmContent"></div>
 		<div id="boardContent"></div>
+		<div id="commendContent"></div>
 	<form action="detail" method="post">
 	<table>
 		<tr>
@@ -174,7 +175,8 @@ a, a:link, a:visited, a:active, a:hover {
 				    
 				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
 				</c:if>
-				<input type="button" id = "openBoardComp" value="신고"/>
+				<!--  <input type="button" onclick="location.href='./boardcompTypeList.do?board_id=${board.board_id}'" value="신고"/> -->
+				   <input type="button" id = "openBoardComp" value="신고"/> 
 			</th>
 		</tr>
 	</table>
@@ -318,7 +320,8 @@ function drawList(obj) {
                     replyList += '<td width="40px"><input type="button" onclick="deleteReply(' + item.reply_id + ')" value="삭제"/></td>';
                     replyList += '<td width="40px"><input type="button" onclick="editReply(' + item.reply_id + ')" value="수정"/></td>';
                 }else{
-                	replyList += '<td colspan="2" width="40px"><input type="button" onclick="reportReply(' + item.reply_id + ')" value="신고"/></td>';
+                	replyList += '<td colspan="2" width="40px"><input type="button" id="openCommendComp_' + item.reply_id + '" class="openCommendCompBtn" value="신고"/></td>';
+                //	onclick="reportReply(' + item.reply_id + ')"
                 }
             }
             replyList += '</tr>';
@@ -603,6 +606,14 @@ $('#openBoardComp').click(function (e) {
     // Ajax를 통해 모달 내용을 가져옵니다.
     $.get("./boardcompTypeList.do", { board_id: boardId },function(data) {
         $("#boardContent").html(data);
+    });
+});
+$(document).on('click', '.openCommendCompBtn', function(e) {
+    e.preventDefault();
+    var replyId = this.id.split('_')[1]; // 버튼 id에서 reply_id 추출
+    // 모달 로직에서 replyId를 사용합니다.
+    $.get("./commentcompTypeList.do", { reply_id: replyId }, function(data) {
+        $("#commendContent").html(data);
     });
 });
 </script>

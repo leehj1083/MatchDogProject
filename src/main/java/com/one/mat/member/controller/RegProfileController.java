@@ -188,7 +188,13 @@ public class RegProfileController {
 	}
 
 	@RequestMapping("/chattcompTypeList.do")
-	public String compTypeList(Model model) {
+	public String compTypeList(Model model,@RequestParam(name = "comp_idfNum", required = false) String chattId,@RequestParam(name="comp_reportIdx", required = false)String reportId, HttpSession session) {
+		
+		session.setAttribute("reportId", reportId);
+		session.setAttribute("chattId", chattId);
+		
+		logger.info("reportId : "+reportId);
+		logger.info("chattId : "+chattId);
 		
 		ArrayList<CompDTO> compList = service.compList();
 		model.addAttribute("compList", compList);
@@ -227,11 +233,23 @@ public class RegProfileController {
 		String currentRequestURI = request.getRequestURI();
 		
 		 MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginInfo"); 
-		    int memberIdx = memberDTO.getMember_idx();
+		 String chattIdStr = (String) session.getAttribute("chattId");
+		 int chattId = Integer.parseInt(chattIdStr);
+		 String reportIdStr = (String) session.getAttribute("reportId");
+		 int reportId = Integer.parseInt(reportIdStr);
+		 
+		 int memberIdx = memberDTO.getMember_idx();
+		    
 		    logger.info("Member Index: " + memberIdx);
-		
+		    logger.info("chattId: " + chattId);
+		    logger.info("reportId: " + reportId);
+		    
+		params.put("chattId", String.valueOf(chattId));
+		params.put("reportId", String.valueOf(reportId));
 		params.put("memberIdx", String.valueOf(memberIdx));
 	    logger.info("params : " + params);
+	    
+	    
 	   
 	    
 	    
@@ -262,41 +280,31 @@ public class RegProfileController {
 		    String boardIdStr = (String) session.getAttribute("boardId");
 
 		 // 문자열을 정수로 변환
+		 int boardId = Integer.parseInt(boardIdStr);
 		    
+		    logger.info("boardId : "+boardId);
+		    logger.info("Member Index: " + memberIdx);
 		    
-		    
-		    int boardId;
-		    
-		    if (boardIdStr != null && !boardIdStr.isEmpty()) {
-		        boardId = Integer.parseInt(boardIdStr);
-		        logger.info("boardId : "+boardId);
-			    logger.info("Member Index: " + memberIdx);
-			    
-			
-			params.put("memberIdx", String.valueOf(memberIdx));
-			params.put("boardId", String.valueOf(boardId));
-		    logger.info("params : " + params);
-		   
-		    
-		    
-		    String photo = params.get("photo");
-	      	session.setAttribute("photo", photo);
-		    service.boardcompSave(params);
-		    
-		    if (currentRequestURI.contains("/chattingcompSave.do")) {
-		        redirectURL = "redirect:/chattcompTypeList.do";
-		    } else if (currentRequestURI.contains("/commentcompSave.do")) {
-		        redirectURL = "redirect:/commentcompTypeList.do";
-		    } else if (currentRequestURI.contains("/boardcompSave.do")) {
-		        redirectURL = "redirect:/boardcompTypeList.do";
-		    }
- 
-		    } else {
-		       logger.info("null 값입니다.");
-		    }
-		 
-		    
-		   
+		
+		params.put("memberIdx", String.valueOf(memberIdx));
+		params.put("boardId", String.valueOf(boardId));
+	    logger.info("params : " + params);
+	   
+	    
+	    
+	    String photo = params.get("photo");
+      	session.setAttribute("photo", photo);
+	    service.boardcompSave(params);
+	    
+	    if (currentRequestURI.contains("/chattingcompSave.do")) {
+	        redirectURL = "redirect:/chattcompTypeList.do";
+	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
+	        redirectURL = "redirect:/commentcompTypeList.do";
+	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
+	        redirectURL = "redirect:/boardcompTypeList.do";
+	    }
+		
+		
 		
 		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
 		return "redirect:/compHistory"; 
@@ -352,11 +360,18 @@ public class RegProfileController {
 		 service.compPhoto(photo);
     	 service.historySave(memberIdx);
     	 
-    	 
-    	 
-    	 
-    	   
-    	 return redirectURL;
+    	 if ("/commentcompSave.do".equals(currentRequestURI)) {
+    	        // "/compHistoryFromPage1" URI로부터 들어온 경우
+    	        // 특정 처리 수행
+    	        return "redirect:/boardList.go";
+    	    } else if ("/compHistoryFromPage2".equals(currentRequestURI)) {
+    	        // "/compHistoryFromPage2" URI로부터 들어온 경우
+    	        // 다른 처리 수행
+    	        return "redirect:/page2";
+    	    } else {
+    	       
+    	        return "redirect:/boardList.go";
+    	    }
      }
 	@RequestMapping("/memberDetailList")
 	public String memberDetail(Model model,HttpSession session) {

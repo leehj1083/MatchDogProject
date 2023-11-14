@@ -27,6 +27,8 @@ public class CompDTO {
 	private int board_id;
 	private int reply_id;
 	private int chat_idx;
+
+	
 	
 	public int getBoard_id() {
 		return board_id;
