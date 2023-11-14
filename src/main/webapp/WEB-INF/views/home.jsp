@@ -342,11 +342,6 @@ $(document).ready(function() {
     $('.btn4').css('background-color', color4);
 });
 
-
-
-
-
-
 var matchingData = []; // 매칭 데이터 배열
 var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
 var pro_idx = ""; 
