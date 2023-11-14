@@ -22,7 +22,7 @@
   		UPDATE member SET
   		member_nickName=#{member_nickName},
   		member_pw=#{member_pw},
-  		member_email=#{member_email},
+<!--   		member_email=#{member_email}, -->
   		member_phone=#{member_phone},
   		member_roadAddr=#{member_roadAddr},
   		member_parcelAddr=#{member_parcelAddr},
@@ -31,7 +31,11 @@
   		WHERE member_id=#{member_id} 
   	</update>
   	
-  
+  <update id="fullEmailUpdate">
+  UPDATE member SET
+  member_email=#{param1}
+  WHERE member_idx=#{param2} 
+  </update>
   
  
   <update id="memberQuitDo">

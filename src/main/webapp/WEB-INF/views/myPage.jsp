@@ -255,11 +255,16 @@ font-family:pretendard;
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+		        <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
 		</div>
 		<div class="subSide">
 			<div class="my_profile_h3"> ${myPage.member_name} 님의 마이페이지</div>
- 			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+ 			<div><img src="/photo/${repPhotoName}" class="profilePhoto"/></div>
+ 			
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
 				<a href="./myPageList.do" class="btn_gnb myPageInfo">
@@ -291,7 +296,6 @@ font-family:pretendard;
 </div>
 
 <input type="hidden" value="${myPage.member_idx}"/>
-<br></br>
 <br></br>
 <input type="hidden" name=member_id value="${myPage.member_id}"/>
 <div class="profile-info">

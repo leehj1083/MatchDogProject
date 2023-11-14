@@ -37,6 +37,7 @@ public class MyProfileService {
 
 		ArrayList<ProfileDTO> myProfile = dao.MyProfileListDo(idx);
 		
+		String repPhotoName=dao.repPhotoName(idx);
 
 		for (ProfileDTO profileDTO : myProfile) {
 			int pro_idx = profileDTO.getPro_idx();
@@ -73,6 +74,7 @@ public class MyProfileService {
 
 		model.addAttribute("myProfile", myProfileList);
 		/* model.addAttribute("charType", charTypeList); */
+		model.addAttribute("repPhotoName", repPhotoName);
 
 	}
 
@@ -83,7 +85,10 @@ public class MyProfileService {
 		ArrayList<ProfileDTO> charTypeList = dao.charType(pro_idx);
 		ArrayList<PhotoDTO> photoList = dao.photoList(pro_idx);
 		
-		
+		// 멤버 중 대표 프로필의 사진
+		/*
+		String repPhotoName=dao.repPhotoName(member_idx);
+		*/
 		// 세연 추가 -- 프로필 대표 사진
 		String photoName = dao.photoName(pro_idx);
 		
@@ -97,7 +102,7 @@ public class MyProfileService {
 		logger.info("가져올 정보:" + MyProfileModList);
 		logger.info("성향들:" + charTypeList);
 		logger.info("사진이름들:" + photoList);
-
+		/* model.addAttribute("repPhotoName", repPhotoName); */
 		model.addAttribute("MyProfileMod", MyProfileModList);
 		// 세연 추가
 		model.addAttribute("photoName", photoName);

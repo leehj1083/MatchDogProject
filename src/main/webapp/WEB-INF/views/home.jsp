@@ -318,6 +318,35 @@
 </div>
 </body>	
 <script>
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// 각 버튼에 랜덤 색상 적용
+$(document).ready(function() {
+    // 랜덤 색상 생성
+    var color1 = getRandomColor();
+    var color2 = getRandomColor();
+    var color3 = getRandomColor();
+    var color4 = getRandomColor();
+
+    // 각 버튼에 색상 적용
+    $('.btn1').css('background-color', color1);
+    $('.btn2').css('background-color', color2);
+    $('.btn3').css('background-color', color3);
+    $('.btn4').css('background-color', color4);
+});
+
+
+
+
+
+
 var matchingData = []; // 매칭 데이터 배열
 var currentIndex = 0; // 현재 표시 중인 데이터 인덱스
 var pro_idx = ""; 

@@ -453,7 +453,7 @@ input:checked+.slider:before {
 		</div>
 		<div class="subSide">
 			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
-			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<div><img src="/photo/${repPhotoName}" class="profilePhoto"/></div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
 				<a href="./myProfileList.do" class="btn_gnb myPageInfo">
@@ -543,13 +543,14 @@ input:checked+.slider:before {
 							<div class="name-value">
 								<p>
 									<input type="text" id="usermail" name="member_email"
-										placeholder="메일 주소를 입력 하세요" value="${myPage.member_email}" />@
+										placeholder="메일 주소를 입력 하세요" value="${emailPrefix}" />@
 									<select name="emailhost" id="mailhost">
 										<option value="naver.com">naver.com</option>
 										<option value="gmail.com">gmail.com</option>
 										<option value="daum.net">daum.net</option>
 										<option value="nate.com">nate.com</option>
 									</select>
+
 								</p>
 							</div>
 						</div>
@@ -629,7 +630,7 @@ function execDaumPostcode() {
             }
             // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
             if(extraRoadAddr !== ''){
-                extraRoadAddr = ' (' + extraRoadAddr + ')';
+                extraRoadAddr = extraRoadAddr;
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
@@ -655,6 +656,9 @@ function execDaumPostcode() {
                 var expJibunAddr = data.autoJibunAddress;
                 guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
                 guideTextBox.style.display = 'block';
+                document.getElementById("jibunAddress").value=expJibunAddr;
+                guideTextBox.innerHTML = '';
+                guideTextBox.style.display = 'none';
             } else {
                 guideTextBox.innerHTML = '';
                 guideTextBox.style.display = 'none';

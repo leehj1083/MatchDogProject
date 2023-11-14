@@ -29,13 +29,17 @@ public class MyPageService {
 		return dao.myPageModUpdateDo(params);
 		
 	}
-
+	public void fullEmailUpdate(String fullEmail, int idx) {
+		dao.fullEmailUpdate(fullEmail, idx);
+		
+	}
 
 	
 	public void memberQuitDo(int member_idx) {
 		dao.memberQuitDo(member_idx);
 		
 	}
+	
 	
 
 

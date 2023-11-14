@@ -44,6 +44,9 @@ public interface MyProfileDAO {
 	void myProfileModUpdateDo(Map<String, String> params);
 	void charTypeSave(int pro_idx, int charType1, int charType2, int charType3, int charType4);
 
+	//대표프로필 사진 가져오기
+	String repPhotoName(int member_idx);
+	
 	// 세연 추가
 	String photoName(int pro_idx);
 

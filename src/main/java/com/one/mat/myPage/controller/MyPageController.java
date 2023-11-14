@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.myPage.service.MyPageService;
+import com.one.mat.myPage.service.MyProfileService;
 
 
 @Controller
@@ -25,6 +26,7 @@ public class MyPageController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MyPageService service;
+	@Autowired MyProfileService proService;
 	
 	@RequestMapping(value = "/myPageList.do")
 	public String myPageListDo(Model model, HttpSession session) {
@@ -36,8 +38,13 @@ public class MyPageController {
 			msg = "";
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			String id = dto.getMember_id();
+			int idx = dto.getMember_idx();
+			proService.MyProfileListDo(idx, model);
 			MemberDTO member = service.MyPageListDo(id);
+			
+			
 			logger.info(member.toString());
+			
 			model.addAttribute("myPage", member);
 		}
 		model.addAttribute("msg", msg);
@@ -52,8 +59,18 @@ public class MyPageController {
 		} else {
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			String id = dto.getMember_id();
-			/* MemberDTO member=service.MyPageListDo(id); */
-			model.addAttribute("myPage", service.MyPageListDo(id));
+			int idx = dto.getMember_idx();
+			proService.MyProfileListDo(idx, model);
+
+			MemberDTO member = service.MyPageListDo(id);
+			String[] emailParts = member.getMember_email().split("@");
+			String emailPrefix = emailParts[0];
+			String emailSuffix = emailParts[1];
+			logger.info(emailPrefix);
+			logger.info(emailSuffix);
+			model.addAttribute("emailPrefix", emailPrefix);
+			model.addAttribute("emailSuffix", emailSuffix);
+			model.addAttribute("myPage", member);
 			page = "myPageMod";
 		}
 		return page;
@@ -63,12 +80,23 @@ public class MyPageController {
 	@RequestMapping(value = "/myPageModUpdate.do")
 	public String myPageModUpdateDo(Model model, HttpSession session, @RequestParam Map<String, String> params) {
 		logger.info("params : " + params);
-	
+		logger.info("이메일 앞자리 : " + params.get("member_email"));
+		logger.info("이메일 뒷자리 : " + params.get("emailhost"));
 		String page = "redirect:/myPageList.do";
 
 		if (session.getAttribute("loginInfo") == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
 		} else {
+			// 이메일 앞자리와 뒷자리 가져오기
+		    String emailPrefix = params.get("member_email");
+		    String emailHost = params.get("emailhost");
+
+		    // @를 포함한 이메일 주소 생성
+		    String fullEmail = emailPrefix + "@" + emailHost;
+		    MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			int idx = dto.getMember_idx();
+		    logger.info("전체 이메일 : " + fullEmail);
+		    service.fullEmailUpdate(fullEmail, idx);
 			service.myPageModUpdateDo(params);
 			page = "redirect:/myPageList.do";
 		}

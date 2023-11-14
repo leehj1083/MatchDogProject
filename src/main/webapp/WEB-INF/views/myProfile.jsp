@@ -529,7 +529,7 @@ height: 30px;
 		</div>
 		<div class="subSide">
 			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
-			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<div><img src="/photo/${repPhotoName}" class="profilePhoto"/></div>
 			<div pro_idx="${Profile.pro_idx}">
 <%-- 			<div><img src="/photo/${minFileName}" class="profilePhoto"/></div> --%>
 			</div>
@@ -548,13 +548,13 @@ height: 30px;
 		<div id="alarmContent"></div>
 <!-- c:forEach 로 돌리는 프로필란... -->
 <c:forEach items="${myProfile}" var="Profile" varStatus="loop">
-	<div>${loop.index}</div>
+	<div><input type="hidden" value="${loop.index}"/></div>
 		<c:if test="${Profile.pro_quit == 'N'}"> <!-- CHECK -->
 			<span class="my_profile_h4">${Profile.pro_dogName}</span>
 			<span class="my_profile_h4 black">님의 프로필 페이지</span>
 			
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() <= 1}">
-				<button id='regProfileGo' class='regProfileGo' value="${Profile.member_idx}">+</button><input type="text" value="${Profile.pro_idx}"/>
+				<button class='regProfileGo' value="${Profile.member_idx}">+</button><input type="hidden" value="${Profile.pro_idx}"/>
 			    <div id="regProfileGoModal" class="regProfileGoModal">
 				  	<div class="regProfileGoModal-content">
 						<h3>프로필을 추가로<br/>생성하시겠습니까?</h3>
@@ -567,7 +567,7 @@ height: 30px;
 			</c:if>
 		
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() == 2 }">
-				<button  id='regProfileGo' class='regProfileGo' value="${Profile.member_idx}">+</button> <input type="text" value="${Profile.pro_idx}"/>
+				<button class='regProfileGo' value="${Profile.member_idx}">+</button> <input type="hidden" value="${Profile.pro_idx}"/>
 			    <div id="regProfileGoModal" class="regProfileGoModal">
 			  		<div class="regProfileGoModal-content">
 					  	<h3>프로필을 추가로<br/>생성하시겠습니까?</h3>
@@ -582,7 +582,7 @@ height: 30px;
 			</c:if>
 			
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() >= 3}">
-				<button class='profileDelDo' value="${Profile.pro_idx}">-</button><input type="text" value="${Profile.pro_idx}"/>
+				<button class='profileDelDo' value="${Profile.pro_idx}">-</button><input type="hidden" value="${Profile.pro_idx}"/>
 			</c:if>
 			
 		    
@@ -701,6 +701,8 @@ height: 30px;
 		</c:if>
 	<div>${loop.index}</div>
 <br></br>
+<hr style="border-top: 1px solid #D3D3D3;">
+<br></br>
 </c:forEach>
 
 						
@@ -806,7 +808,7 @@ console.log(pro_idx);
 	/* 프로필 생성 이동 스크립트 */
 
 	var regProfileGoModal = $(".regProfileGoModal");
-	$('#regProfileGo').on("click", function(e) {
+	$('.regProfileGo').on("click", function(e) {
 		console.log("생성");
 		var member_idx = $(this).attr("value");
 		console.log(member_idx);

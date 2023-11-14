@@ -16,6 +16,8 @@ public interface MyPageDAO {
 	
 	void memberQuitDo(int member_idx);
 
+	void fullEmailUpdate(String fullEmail, int idx);
+
 	
 
 

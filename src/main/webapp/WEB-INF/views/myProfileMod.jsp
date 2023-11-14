@@ -262,7 +262,7 @@ textarea{
 		</div>
 		<div class="subSide">
 			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
-			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<div><img src="/photo/${repPhotoName}" class="profilePhoto"/></div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
 				<a href="./myPageList.do" class="btn_gnb myPageInfo">
@@ -278,7 +278,7 @@ textarea{
 		<div id="alarmContent"></div>
 
 
-			<span class="my_profile_h4">${MyProfileMod.pro_dogName}</span>
+			<span class="my_profile_h4" style="width: 100px;">${MyProfileMod.pro_dogName}</span>
 			<span class="my_profile_h4 black">님의 프로필 페이지</span>
 			
 			<form id="form" action="myProfileModUpdate.do" method="post" enctype="multipart/form-data">
