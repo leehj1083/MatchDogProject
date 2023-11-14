@@ -207,6 +207,10 @@
 	var review = '${review}';
 	var subsType = 0;
 	
+	$('.bi-chevron-left').on('click',function(){
+		location.href="./chattingList.go";
+	});
+	
 	longPolling();
 
 
@@ -218,12 +222,12 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 1000);
 				},
 				timeout:3000,
 				error:function(e){
 					console.log(e);
-					setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 1000);
 				}
 			});
 		}
