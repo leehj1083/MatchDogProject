@@ -212,6 +212,19 @@ VALUES (
     #{loginLock_eDate}
 );
 </insert>
+<update id="memberUpdate" parameterType="com.one.mat.admin.dto.CompDTO">
+UPDATE member
+SET member_loginLock = 'Y'
+WHERE member_idx IN (
+    SELECT member_idx
+    FROM loginlock
+    WHERE compHistory_idx IN (
+        SELECT compHistory_idx
+        FROM compHistory
+        WHERE comp_idx = #{comp_idx};
+    )
+);
+</update>
 
 <update id="proRegistUpdate" parameterType="com.one.mat.admin.dto.CompDTO">
 UPDATE comphistory

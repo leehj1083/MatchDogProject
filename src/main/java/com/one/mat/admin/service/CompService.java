@@ -213,6 +213,7 @@ public class CompService {
 	}
 
 	public void loginLock(Map<String, String> params) {
+		
 		CompDTO dto = new CompDTO();
 		dto.setLoginLock_sDate(params.get("loginLock_sDate"));
 		dto.setLoginLock_eDate(params.get("loginLock_eDate"));
@@ -252,6 +253,21 @@ public class CompService {
 		
 		
 		return dao.CompList(compIdx);
+	}
+
+	public void memberUpdate(Map<String, String> params) {
+	CompDTO dto = new CompDTO();
+	
+		
+	String comp_idxstr = params.get("comp_idx");
+	int comp_idx = Integer.parseInt(comp_idxstr);
+	dto.setComp_idx(comp_idx);
+	
+	logger.info("comp_idx :: " +comp_idx);
+	
+	dao.memberUpdate(dto);
+		
+		
 	}
 
 
