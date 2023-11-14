@@ -530,7 +530,8 @@ textarea{
 										내 강아지 성향을 선택해주세요
 									<c:forEach items="${list}" var="myChar">
 									<p>
-										<input type="checkbox" name="selectedCharTypesCode" value="${myChar.charType_code}" data-char-type="${myChar.charType}" />
+										<input type="checkbox" name="selectedCharTypesCode" value="${myChar.charType_code}" 
+											data-char-type="${myChar.charType}" charType_code="${myChar.charType_code}" />
 										${myChar.charType}
 									</p>
 									</c:forEach>
@@ -538,8 +539,7 @@ textarea{
 								</div>
 							</div>
 
-							<button class="cancelEdit" type="button" onclick="location.href='./myProfileList.do'">수정 취소</button>
-					 		<button class="cancelComp" type="button">수정 완료</button>
+					 		<button class="cancelComp" type="button">등록 완료</button>
 					 		
 			</form>
 		</div>
