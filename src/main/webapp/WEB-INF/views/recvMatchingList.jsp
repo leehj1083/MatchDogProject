@@ -122,6 +122,7 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
+		<div id="modalContent"></div>
 		<!-- 여기다가 각자 내용 추가하기 -->
 				<div class="container">
 			        <div class="left">
@@ -145,6 +146,7 @@ a, a:link, a:visited, a:active, a:hover {
 <script>
 
 var showPage = 1;
+var pro_idx = "";
 
 listCall(showPage);
 
@@ -177,7 +179,8 @@ function drawList(obj){
 		obj.matList.forEach(function(item, idx){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
-			content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			content += '<a id="openModal"> 상세보기 이동</a>'
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
@@ -189,6 +192,8 @@ function drawList(obj){
 			content+='<span class="charTypeList">'
 			item.charType.forEach(function(charType,idx){
 				content +='<span class="charType">'+charType+'</span>';
+			pro_idx = item.pro_idx;
+			
 			});
 			content+='</span>'
 			content +='</li>';
@@ -205,7 +210,8 @@ function drawList(obj){
 		
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
-			content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			content += '<a id="openModal"> 상세보기 이동</a>'
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
@@ -260,14 +266,32 @@ function drawList(obj){
 } 
 
 $('#openAlarm').click(function (e) {
-	   // JSP 파일을 가져와서 모달 창에 표시
-	   $.get("./alarmList.go", function(data) {
-	   	console.log(data);
-	   	console.log("#alarmContent");
-	       $("#alarmContent").html(data);
-	   });
-	});
+   // JSP 파일을 가져와서 모달 창에 표시
+   $.get("./alarmList.go", function(data) {
+   	console.log(data);
+   	console.log("#alarmContent");
+       $("#alarmContent").html(data);
+   });
+});
 
+// 상세보기
+$('#openModal').click(function (e) {
+	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
+	var currentMatch = matchingData[currentIndex];
+	var matchingList = currentMatch && currentMatch.matchingList && currentMatch.matchingList[currentIndex];
+	
+	console.log("모달클릭");
+	console.log("pro_idx 값: "+pro_idx);
+
+   // JSP 파일을 가져와서 모달 창에 표시
+	if (pro_idx !== '') {
+	    $.get("./memberDetailList.go?pro_idx=" + pro_idx, function(data) {
+	        console.log(data);
+	        console.log("#modalContent");
+	        $("#modalContent").html(data);
+	    });
+	}
+});
 
 </script>
 </html>
