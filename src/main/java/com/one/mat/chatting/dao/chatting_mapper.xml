@@ -85,8 +85,8 @@
 	        c.pro_recvIdx,
 	        c.chatMsg_msg,
 	        c.chatMsg_read,
-	        p.photo_fileName,
-	        c.chatMsg_regDate
+	        c.chatMsg_regDate,
+	        p.photo_fileName
 	    FROM photo p
 	    INNER JOIN chatmsg c ON p.photo_idfNum = c.chatMsg_idx
 	    WHERE p.photo_type = 2 AND c.chat_idx = #{param1}
