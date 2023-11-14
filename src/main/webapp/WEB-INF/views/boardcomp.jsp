@@ -149,6 +149,8 @@ textarea{
 </style>
 </head>
 <body>
+
+
 	<form action="boardcompSave.do" method="post" id="myForm">
 	<div class="compModal">
 	<span class="closeButton" onclick="closeModal()">&times;</span>
@@ -227,6 +229,13 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
         }
     });
+    
+    function closeModal() {
+        $("#myModal").removeClass('active');
+    }
+    
+    
+    
 });
 </script>
 </html>
