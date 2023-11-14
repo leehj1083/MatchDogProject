@@ -336,9 +336,9 @@ public class RegProfileController {
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
 	        redirectURL = "redirect:/chattcompTypeList.do";
 	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
-	        redirectURL = "redirect:/commentcompTypeList.do";
+	        redirectURL = "redirect:/boardList.go";
 	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
-	        redirectURL = "redirect:/boardcompTypeList.do";
+	        redirectURL = "redirect:/boardList.go";
 	    }
 		
 		
@@ -360,18 +360,9 @@ public class RegProfileController {
 		 service.compPhoto(photo);
     	 service.historySave(memberIdx);
     	 
-    	 if ("/commentcompSave.do".equals(currentRequestURI)) {
-    	        // "/compHistoryFromPage1" URI로부터 들어온 경우
-    	        // 특정 처리 수행
-    	        return "redirect:/boardList.go";
-    	    } else if ("/compHistoryFromPage2".equals(currentRequestURI)) {
-    	        // "/compHistoryFromPage2" URI로부터 들어온 경우
-    	        // 다른 처리 수행
-    	        return "redirect:/page2";
-    	    } else {
-    	       
-    	        return "redirect:/boardList.go";
-    	    }
+    	 
+    	
+    	 return redirectURL;
      }
 	@RequestMapping("/memberDetailList")
 	public String memberDetail(Model model,HttpSession session) {
