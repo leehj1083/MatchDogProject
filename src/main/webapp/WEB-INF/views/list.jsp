@@ -44,49 +44,38 @@
     	text-align: right;
     }
 	    
-a, a:link, a:visited, a:active, a:hover {
-	text-decoration: none;
-	color: var(--black);
-}
+	a, a:link, a:visited, a:active, a:hover {
+		text-decoration: none;
+		color: var(--black);
+	}
+	
+	
+	/* 본인 페이지 것으로 변경하기  */
+	.btn_gnb .bi-people-fill, .btn_gnb.board{
+	    color: var(--white);
+	    background-color: var(--green);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	 .btn_gnb:hover .bi-house-door-fill,
+	.btn_gnb:hover .bi-chat-dots-fill,
+	.btn_gnb:hover .bi-gear-fill,
+  /*.btn_gnb:hover .bi-people-fill, */
+	.btn_gnb:hover .bi-person-circle,
+	.btn_gnb:hover .bi-list-ul {
+	    background-color: var(--light);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+ 	.btn_gnb.home:hover,
+	.btn_gnb.match:hover,
+	.btn_gnb.chatting:hover,	
+	/* .btn_gnb.board:hover,*/
+	.btn_gnb.myPage:hover,
+	.btn_gnb.admin:hover{
+		background-color: var(--light);
+	}
 
-textarea{
-	resize: none;
-}
-
-.input_img {
-	display: none;
-}
-
-
-/* 본인 페이지 것으로 변경하기  */
-.btn_gnb .bi-person-circle, .btn_gnb.myPage, .btn_gnb.myPageInfo{
-    color: var(--white);
-    background-color: var(--green);
-}
-
-
-
-/* 본인 페이지를 제외한 나머지 hover 적용 */
-.btn_gnb:hover .bi-house-door-fill,
-.btn_gnb:hover .bi-chat-dots-fill,
-.btn_gnb:hover .bi-gear-fill,
-.btn_gnb:hover .bi-people-fill,
-/*.btn_gnb:hover .bi-person-circle,*/
-.btn_gnb:hover .bi-list-ul {
-    background-color: var(--light);
-}
-
-/* 본인 페이지를 제외한 나머지 hover 적용 */
-.btn_gnb.home:hover,
-.btn_gnb.match:hover,
-.btn_gnb.chatting:hover,
-.btn_gnb.board:hover,
-/*.btn_gnb.myPage:hover,*/
-.btn_gnb.admin:hover,
-/*.btn_gnb.myPageInfo:hover,*/
-.btn_gnb.myProfile:hover{
-	background-color: var(--light);
-} 
 
 
 
@@ -140,6 +129,8 @@ font-family:pretendard;
 	border-radius: 8px;
     object-fit: cover;
 }
+
+
 
 
 	.content {
