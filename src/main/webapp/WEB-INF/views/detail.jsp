@@ -134,6 +134,7 @@ a, a:link, a:visited, a:active, a:hover {
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
+		<div id="boardContent"></div>
 	<form action="detail" method="post">
 	<table>
 		<tr>
@@ -173,7 +174,7 @@ a, a:link, a:visited, a:active, a:hover {
 				    
 				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
 				</c:if>
-				<input type="button" onclick="location.href='./boardcompTypeList.do?board_id=${board.board_id}'" value="신고"/>
+				<input type="button" id = "openBoardComp" value="신고"/>
 			</th>
 		</tr>
 	</table>
@@ -260,6 +261,16 @@ $('#replyForm').submit(function() {
         }
     });
 });
+
+
+
+
+
+
+
+
+
+
 
 function loadReplyList() {
     $.ajax({
@@ -585,7 +596,14 @@ function confirmDelete(boardId) {
        // 사용자가 취소를 눌렀을 때의 동작 (생략 가능)
    }
 }
-
-
+$('#openBoardComp').click(function (e) {
+	
+	e.preventDefault();
+	var boardId = '${board.board_id}'
+    // Ajax를 통해 모달 내용을 가져옵니다.
+    $.get("./boardcompTypeList.do", { board_id: boardId },function(data) {
+        $("#boardContent").html(data);
+    });
+});
 </script>
 </html>
