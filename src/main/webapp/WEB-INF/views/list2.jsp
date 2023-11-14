@@ -4,17 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/myProfile.css" type="text/css">
-<!-- bootstrap 아이콘 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<!-- pretendard 폰트 -->
-<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+<!-- bootstrap : 디자인을 위한 프레임워크 -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <!-- jquery 는 사용하는 플러그인과 다른 라이브러리와의 충돌 여부를 확인해야 한다. -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="resources/css/board.css" type="text/css">
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <jsp:include page="adminCheck.jsp" />
 <style>
 	.pagination > .active > a,
@@ -44,104 +44,77 @@
     	text-align: right;
     }
 	    
-a, a:link, a:visited, a:active, a:hover {
-	text-decoration: none;
-	color: var(--black);
-}
+	a, a:link, a:visited, a:active, a:hover {
+		text-decoration: none;
+		color: var(--black);
+	}
+	
+	
+	/* 본인 페이지 것으로 변경하기  */
+	.btn_gnb .bi-people-fill, .btn_gnb.board{
+	    color: var(--white);
+	    background-color: var(--green);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+	 .btn_gnb:hover .bi-house-door-fill,
+	.btn_gnb:hover .bi-chat-dots-fill,
+	.btn_gnb:hover .bi-gear-fill,
+  /*.btn_gnb:hover .bi-people-fill, */
+	.btn_gnb:hover .bi-person-circle,
+	.btn_gnb:hover .bi-list-ul {
+	    background-color: var(--light);
+	}
+	
+	/* 본인 페이지를 제외한 나머지 hover 적용 */
+ 	.btn_gnb.home:hover,
+	.btn_gnb.match:hover,
+	.btn_gnb.chatting:hover,	
+	/* .btn_gnb.board:hover,*/
+	.btn_gnb.myPage:hover,
+	.btn_gnb.admin:hover{
+		background-color: var(--light);
+	}
+	#modalContent{
+    	width: 500px;
+    	height: 500px;
+    	text-align: left; 
+	}
+	.mainContainer {
+	    display: flex;
+	    width: 1280px;
+	    margin: auto;
+	}
 
-textarea{
-	resize: none;
-}
+	.sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #255,255,255;
+        padding-top: 20px;
+    }
 
-.input_img {
-	display: none;
-}
+    .sidebar h2 {
+        color: black;
+        text-align: center;
+    }
 
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
 
-/* 본인 페이지 것으로 변경하기  */
-.btn_gnb .bi-person-circle, .btn_gnb.myPage, .btn_gnb.myPageInfo{
-    color: var(--white);
-    background-color: var(--green);
-}
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
 
-
-
-/* 본인 페이지를 제외한 나머지 hover 적용 */
-.btn_gnb:hover .bi-house-door-fill,
-.btn_gnb:hover .bi-chat-dots-fill,
-.btn_gnb:hover .bi-gear-fill,
-.btn_gnb:hover .bi-people-fill,
-/*.btn_gnb:hover .bi-person-circle,*/
-.btn_gnb:hover .bi-list-ul {
-    background-color: var(--light);
-}
-
-/* 본인 페이지를 제외한 나머지 hover 적용 */
-.btn_gnb.home:hover,
-.btn_gnb.match:hover,
-.btn_gnb.chatting:hover,
-.btn_gnb.board:hover,
-/*.btn_gnb.myPage:hover,*/
-.btn_gnb.admin:hover,
-/*.btn_gnb.myPageInfo:hover,*/
-.btn_gnb.myProfile:hover{
-	background-color: var(--light);
-} 
-
-
-
-.content {
-padding: 1.6rem;
-margin: 1.6rem;
-font-family:pretendard;
-}
-
-.close {
-	position: relative;
-	left: 330px;
-	top: 20px;
-	cursor: pointer;
-	font-size: 32px;
-	color:var(--grey);
-}
-
-.fileContent{
-	display:inline-block;
-}
-
-.write-link.attach{
-	display: inline-block;
-	position:relative;
-	top:100px;
-	right:20px;
-	cursor: pointer;
-	color:var(--green);
-	font-size: 33px;
-}
-
-
-.image-container{
-	display:inline-block;
-	width: 104px;
-	height: 120px;
-	border: 1px solid var(--light);
-	border-radius: 8px;
-	box-shadow: 0 0 4px 1px var(--light);
-	margin-left:10px;
-	margin-bottom:40px;
-}
-
-
-.imgtable .image-container img{
-	display:inline-block;
-	right:10px;
-	width: 104px;
-	height: 120px;
-	border-radius: 8px;
-    object-fit: cover;
-}
-
-
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
 	.content {
         text-align: center;
     }
@@ -196,12 +169,12 @@ font-family:pretendard;
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
+				<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
-			</div>
+			</div>	
 		</div>
 	</div>
 	<div class="mainContainer">
@@ -227,14 +200,14 @@ font-family:pretendard;
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
-		        <a href="./adminList.go" class="btn_gnb admin">
+		      	<a href="./adminList.go" class="btn_gnb admin">
 	            	<span class="bi bi-gear-fill"></span>
 					<span>관리자페이지</span>
 	            </a>
 			</div>
 		</div>
 		<div class="content">
-		
+		<div id="alarmContent"></div>
 		<h4 id="mung">멍멍 게시판</h4>
 		<div id="pageButton">
 			<select id="pagePerNum">
@@ -287,7 +260,6 @@ font-family:pretendard;
 		
 	</table>
 	</div>
-	<div id="alarmContent"></div>
 	</div>
 	</div>
 </body>
