@@ -199,7 +199,7 @@ function displayFileName(input) {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
+//document.addEventListener("DOMContentLoaded", function () {
     var checkboxes = document.querySelectorAll("input[type='checkbox']");
     
     checkboxes.forEach(function (checkbox) {
@@ -213,19 +213,35 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     });
+    function closeModal() {
+        // 모달 창을 닫기 위한 로직 추가 (예: display 속성을 'none'으로 설정)
+        var modal = document.querySelector('.compModal');
+        modal.style.display = 'none';
+    }
+    
     var reportButton = document.getElementById("reportButton");
 
     reportButton.addEventListener("click", function () {
-        var confirmation = confirm("정말 신고하시겠습니까?");
-        
-        if (confirmation) {
-            // 여기에 확인을 눌렀을 때 Controller로 요청을 보내는 코드를 추가합니다.
-            document.getElementById("myForm").submit();
+        // 체크박스의 값 가져오기
+        var compTypeCode = document.getElementById("compType_code").value;
+
+        // 값이 null인 경우 알림창 띄우고 요청 취소
+        if (compTypeCode === null || compTypeCode === "") {
+            alert("신고사유를 선택해주세요!");
+            event.preventDefault(); // 요청 취소
         } else {
-            alert("신고가 취소되었습니다.");
-            event.preventDefault();
+            // 값이 있으면 확인 메시지 표시
+            var confirmation = confirm("정말 신고하시겠습니까?");
+            
+            if (confirmation) {
+                // 여기에 확인을 눌렀을 때 Controller로 요청을 보내는 코드를 추가합니다.
+                document.getElementById("myForm").submit();
+            } else {
+                alert("신고가 취소되었습니다.");
+                event.preventDefault();
+            }
         }
     });
-});
+//});
 </script>
 </html>
