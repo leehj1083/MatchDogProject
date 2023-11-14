@@ -193,9 +193,6 @@ function drawList(obj){
 			content +='<span class="breedType">'+item.breedType+'</span>';
 			content +='<span class="time">'+item.msgTime+'</span>';
 			content +='<span class="preview">'+item.chatMsg_msg+'</span>';
-			if(item.chatMsg_read != 0){
-			content +='<span class="msgRead">'+item.chatMsg_read+'</span>';
-			}
 			content +='</a>'
 			content +='</li>';
 			

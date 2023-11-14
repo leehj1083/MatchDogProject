@@ -207,6 +207,10 @@
 	var review = '${review}';
 	var subsType = 0;
 	
+	$('.bi-chevron-left').on('click',function(){
+		location.href="./chattingList.go";
+	});
+	
 	longPolling();
 
 

@@ -259,7 +259,7 @@ public class RegProfileController {
 	    
 	  
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
-	        redirectURL = "redirect:/chattcompTypeList.do";
+	        redirectURL = "redirect:/chattingList.go";
 	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
 	        redirectURL = "redirect:/boardList.go";
 	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
