@@ -182,7 +182,7 @@ function drawList(obj){
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
-			content +='<button class="openModal"></button>'
+			content +='<button class="openModal" value='+item.pro_idx+'></button>'
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
 			content +='<span class="breedType">'+item.breedType+'</span>';
 			content +='</span>'
@@ -210,7 +210,7 @@ function drawList(obj){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-			content +='<button id="openModal" ></button>'
+			content +='<button class="openModal"></button>'
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
@@ -274,10 +274,11 @@ $('#openAlarm').click(function (e) {
 });
 
 // 상세보기
-$('.openModal').click(function (e) {
+$(document).on('click', '.openModal', function (e) {
 	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
 	
 	console.log("모달클릭");
+	var pro_idx = $(this).val();
 	console.log("pro_idx 값: "+pro_idx);
 
    // JSP 파일을 가져와서 모달 창에 표시
