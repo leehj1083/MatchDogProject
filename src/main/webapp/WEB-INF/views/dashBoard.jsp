@@ -251,7 +251,7 @@ table, th, td{
 							<span>월 통계</span>
 						</tr>
 						<tr>
-							<th style="background-color: #FDF5E6;">총 구독자수</th>
+							<th style="background-color: #FDF5E6;">현재 총 구독자수</th>
 							<td id="totalSubs"></td>
 						</tr>
 						<tr>

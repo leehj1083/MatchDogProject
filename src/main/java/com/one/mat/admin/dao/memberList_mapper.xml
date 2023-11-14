@@ -132,7 +132,7 @@
 		RIGHT JOIN comp c ON c.comp_idx=ch.comp_idx		
 		RIGHT JOIN comptype ct ON ct.compType_code = c.compType_code
 		RIGHT JOIN member m ON m.member_idx = l.member_idx
-		WHERE l.member_idx =#{param1} ORDER BY l.compHistory_idx DESC
+		WHERE l.member_idx =#{param1} ORDER BY l.loginLock_sDate DESC
   	</select>
   	
   	<select id="getMemberId" resultType="com.one.mat.member.dto.MemberDTO">
