@@ -170,7 +170,7 @@ function listCall(page){
 // 나에게 요청 보낸 리스트 보기
 function drawList(obj){
 	
-	if(obj.subsType != 1 || obj.matList.length <= 3){
+	if(obj.subsType != 1 && obj.matList.length <= 3){
 		
 		console.log("일반회원이 아닙니다!");
 	

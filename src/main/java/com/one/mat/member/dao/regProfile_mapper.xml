@@ -6,153 +6,86 @@
 
 <mapper namespace="com.one.mat.member.dao.RegProfileDAO">
 
+	<insert id="chattingcompSave"
+		parameterType="com.one.mat.admin.dto.CompDTO">
+		INSERT INTO
+		comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx)
+		VALUES(#{member_idx},#{compType_code},3,#{comp_idfNum},#{comp_content},(select
+		DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),#{comp_reportIdx});
+	</insert>
 
-<insert id="writemyProfile" parameterType="com.one.mat.member.dto.ProfileDTO">
-    INSERT INTO pro (member_idx, pro_dogName, pro_dogAge, pro_dogGender, pro_dogDesc,pro_rep)
-    VALUES (#{member_idx}, #{pro_dogName}, #{pro_dogAge}, #{pro_dogGender}, #{pro_dogDesc},'N');
-</insert>
-<insert id="chattingcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
+	<insert id="compPhoto" parameterType="String">
+		insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate)
+		value(3,(select max(comp_idx) from comp),#{photo},(select
+		DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	</insert>
 
-INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},3,#{comp_idfNum},#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),#{comp_reportIdx});
-</insert>
+	<insert id="boardcompSave"
+		parameterType="com.one.mat.admin.dto.CompDTO">
+		INSERT INTO
+		comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx)
+		VALUES(#{member_idx},#{compType_code},1,#{board_id},#{comp_content},(select
+		DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),(SELECT member_idx FROM board
+		WHERE board_id = #{board_id}));
+	</insert>
 
-<insert id="compPhoto" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(3,(select max(comp_idx) from comp),#{photo},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+	<insert id="commentcompSave"
+		parameterType="com.one.mat.admin.dto.CompDTO">
+		INSERT INTO
+		comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx)
+		VALUES(#{member_idx},#{compType_code},2,#{reply_id},#{comp_content},(select
+		DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),(SELECT member_idx FROM reply
+		WHERE reply_id = #{reply_id}));
+	</insert>
 
-</insert>
-
-<insert id="boardcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
-
-INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},1,#{board_id},#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),(SELECT member_idx FROM board WHERE board_id = #{board_id}));
-</insert>
-
-<insert id="commentcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
-
-INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},2,#{reply_id},#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),(SELECT member_idx FROM reply  WHERE reply_id = #{reply_id}));
-</insert>
-
-
-
- <insert id="breedTypeSave" parameterType="int">
-        INSERT INTO breed (pro_idx, breedType_code)
-        SELECT MAX(pro_idx), #{bt_code} FROM pro
-    </insert>
-    
-    <insert id="charSave" parameterType="java.util.Map">
-    INSERT INTO `char` (pro_idx, charType_code)
-    SELECT MAX(pro_idx), #{charType1} FROM pro
-    UNION
-    SELECT MAX(pro_idx), #{charType2} FROM pro
-    UNION
-    SELECT MAX(pro_idx), #{charType3} FROM pro
-    UNION
-    SELECT MAX(pro_idx), #{charType4} FROM pro;
-</insert>
-
-
-<select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
-		SELECT charType_code,charType FROM chartype
-	</select>
-	<select id="list2" resultType="com.one.mat.member.dto.ProfileDTO">
-		SELECT breedType_code,breedType FROM breedtype
-	</select>
-	
 	<select id="compList" resultType="com.one.mat.admin.dto.CompDTO">
-	SELECT compType_code,compType  FROM comptype;
+		SELECT compType_code,compType FROM comptype;
 	</select>
-	
-	<insert id="photos1" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_1},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
+
+	<insert id="historySave" parameterType="int">
+		INSERT INTO comphistory (admin_memberIdx, comp_idx, comp_handleContent,
+		comp_handleState, comp_blindStete, member_loginLock)
+		VALUES (#{memberIdx}, (SELECT MAX(comp_idx) FROM comp), NULL,'Null', 'N',
+		'N');
 	</insert>
-	<insert id="photos2" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_2},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos3" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_3},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos4" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_4},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos5" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_5},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos6" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_6},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos7" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_7},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos8" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_8},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	<insert id="photos9" parameterType="String">
-	insert into photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate) 
-value(4,(select MAX(pro_idx) from pro),#{ph_9},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')));
-	</insert>
-	
-	<update id="proReq" parameterType="com.one.mat.member.dto.MemberDTO">
-  UPDATE pro
-  SET pro_rep = 'Y'
-  WHERE member_idx = #{member_idx}
-  AND (SELECT COUNT(*) FROM pro WHERE member_idx = #{member_idx}) = 1;
-</update>
-	
-	
-  <select id="memberDetail" resultType="com.one.mat.member.dto.MemberDTO">
-  SELECT member.member_gender, member.member_dongAddr, member.member_nickName
-FROM member
-JOIN pro ON member.member_idx = pro.member_idx
-WHERE pro.pro_idx = 13;
-  </select>
-  
-  <select id="proDetail" resultType="com.one.mat.member.dto.ProfileDTO">
-  SELECT
-    pro.pro_dogName,
-    pro.pro_dogAge,
-    pro.pro_dogGender,
-    pro.pro_dogDesc,
-    pro.pro_dogScore,
-    breedType.breedType
-FROM pro
-LEFT JOIN breed ON pro.pro_idx = breed.pro_idx
-LEFT JOIN breedType ON breed.breedType_code = breedType.breedType_code
-WHERE pro.pro_idx = 13;
-  </select>
-  
-  <select id="charlist" resultType="com.one.mat.member.dto.ProfileDTO">
-SELECT chartype.charType
-FROM `char`
-JOIN chartype ON `char`.charType_code = chartype.charType_code
-WHERE `char`.pro_idx = 13;
-</select>
-  
-  <select id="memberDetailListPhoto" resultType="com.one.mat.member.dto.PhotoDTO">
-  select photo_fileName from photo p where photo_idfNum = 61;
-  </select>
-  
-  <insert id="proopen1">
-    INSERT INTO proopen (pro_idx, openType_code)
-    SELECT MAX(pro_idx), 1 FROM pro;
-  </insert>
-   <insert id="proopen2">
-    INSERT INTO proopen (pro_idx, openType_code)
-    SELECT MAX(pro_idx), 2 FROM pro;
-  </insert>
-  
-  <insert id="historySave" parameterType="int">
-        INSERT INTO comphistory (admin_memberIdx, comp_idx, comp_handleContent, comp_handleState, comp_blindStete, member_loginLock)
-        VALUES (#{memberIdx}, (SELECT MAX(comp_idx) FROM comp), NULL,'Null', 'N', 'N');
-    </insert>
-	
-	
+
+	<select id="memberDetail"
+		resultType="com.one.mat.member.dto.MemberDTO">
+		SELECT member.member_gender, member.member_dongAddr, member.member_nickName
+		FROM member
+		JOIN pro ON member.member_idx = pro.member_idx
+		WHERE pro.pro_idx = 13;
+	</select>
+	<select id="charlist"
+		resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT chartype.charType
+		FROM `char`
+		JOIN chartype ON `char`.charType_code = chartype.charType_code
+		WHERE `char`.pro_idx = 13;
+	</select>
+	<select id="memberDetailListPhoto"
+		resultType="com.one.mat.member.dto.PhotoDTO">
+		select photo_fileName from photo p where photo_idfNum = 61;
+	</select>
+	<select id="proDetail"
+		resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT
+		pro.pro_dogName,
+		pro.pro_dogAge,
+		pro.pro_dogGender,
+		pro.pro_dogDesc,
+		pro.pro_dogScore,
+		breedType.breedType
+		FROM pro
+		LEFT JOIN breed ON pro.pro_idx = breed.pro_idx
+		LEFT JOIN breedType ON breed.breedType_code = breedType.breedType_code
+		WHERE pro.pro_idx = 13;
+	</select>
+
+
+
+
+
+
 
 </mapper>

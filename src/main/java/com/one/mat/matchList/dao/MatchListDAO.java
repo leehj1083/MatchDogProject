@@ -35,5 +35,7 @@ public interface MatchListDAO {
 
 	int adminCheckDo(int memberIdx);
 
+	int subsTypeCheck(int memberIdx);
+
 
 }
