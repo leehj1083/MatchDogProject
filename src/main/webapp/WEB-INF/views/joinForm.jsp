@@ -5,6 +5,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<!-- pretendard 폰트 -->
+<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
+
 <style>	
 .banner{
 	width:1500px;
@@ -36,27 +40,100 @@
 }
 	
 	.inputForm{
-		width:500px;
+		width:400px;
 		height:1150px;
 		margin: 0 auto;		
 		display: block;
+		font-family:pretendard;
 	}
-	.submit{
+/* 	.submit{
 		width:500px;
 		height:80px;
 		margin: 0 auto;		
 		display: block;
 		text-align: center;
 		padding-top: 10px;
-	}
-	#back, #join{
+		font-family:pretendard;
+	} */
+	.button-gray {
+        padding: 6px 20px;
+        font-size: 13px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #808080;
+        color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #808080;
+        cursor: pointer;
+    }
+	.button-green {
+        padding: 6px 20px;
+        font-size: 13px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #1abc9c;
+        cursor: pointer;
+    }
+    .button{
+    padding: 6px 5px;
+        font-size: 11px;
+        text-align: center;
+        width: 90px;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #1abc9c;
+        cursor: pointer;
+    }
+.inputForm input[type="text"],
+.inputForm input[type="password"],
+.inputForm input[type="date"] {
+    height: 25px; /* 높이를 조절하고자 하는 값으로 수정 */
+    font-family:pretendard;
+    margin: 2px;  
+}
+select {
+        height: 25px; /* <select> 요소의 높이를 조절할 부분 */
+        font-family:pretendard;
+    	margin: 2px;  
+    }
+    
+.gender-button {
+        padding: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: inline-block; /* 인라인 블록 요소로 설정하여 가로 정렬 */
+        text-align: center; /* 텍스트 중앙 정렬 */
+        width: 100px; /* 버튼 너비 설정 */
+    }    
+ .gender-button.selected {
+        background-color: #1abc9c; /* 선택된 상태일 때의 배경색 */
+        color: #fff; /* 선택된 상태일 때의 글자색 */
+    }
+/* 	#back, #join{
 		height : 30px;
 		width : 90px;
 		text-align: center;
 		font-size: medium;
 		margin: auto;
 		display: inline;
-	}
+		font-family:pretendard;
+	} */
+	
+.radio-wrap {
+    display: inline-flex; /* 인라인 블록 요소로 설정하여 일렬로 표시 */
+    align-items: center;
+    margin-right: 10px; /* 각 라디오 버튼 사이의 간격 조절 */
+    
+  }
+
+	
 </style>
 </head>
 <body>
@@ -69,48 +146,48 @@
 	<div class="content">
 		<div class="inputForm">
 		    <h2 style="text-align: center;">회원가입</h2>
-		    <p/>회원가입에 필요한 기본 정보를 입력해주세요<br/><hr/>
-		     
+		    <p style="text-align: center;"/>회원가입에 필요한 기본 정보를 입력해 주세요.
+		    <br><br/>
 		    <p/>아이디<br/>  
-		    <input type="text" name="member_id" style="width: 50%;"/>
-		    <input type="button" id="overlayId" value="중복확인"/>
-		    <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해주세요</span>
+		    <input type="text" name="member_id" style="width: 70%;"/>
+		    <input type="button" class="button" id="overlayId" value="중복확인"/>
+		    <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해 주세요.</span>
 		    <p/><span class="idChk"></span>
 		    
 		
 			 <p/>비밀번호<br/>  
-		     <input type="password" name="member_pw" style="width: 50%;"/>
-		     <p/><span class="pwValid" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자, 특수문자를 혼합하여 8자 이상 입력해주세요</span>
+		     <input type="password" name="member_pw" style="width: 92%;"/>
+		     <p/><span class="pwValid" style="font-size : 8pt"> ※ 비밀번호는 문자와 숫자, 특수문자를 혼합하여 8자 이상 입력해 주세요.</span>
 		     <p/>비밀번호 확인<br/>
-		     <input type="password" name="pwCheck" style="width: 50%;"/>
-		     <p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한 번 입력해주세요</span>
+		     <input type="password" name="pwCheck" style="width: 92%;"/>
+		     <p/><span class="pwReChk" style="font-size : 8pt"> ※ 비밀번호를 다시 한번 입력해 주세요.</span>
 		      
 		     <p/>이름<br/>    
-			 <input type="text" name="member_name" style="width: 50%;"/>
+			 <input type="text" name="member_name" style="width: 92%;"/>
 		      
 		     <p/>생년월일<br/>   
-		     <input type="date" name="member_birth" style="width: 50%;"/>
+		     <input type="date" name="member_birth" style="width: 92%;"/>
 		
 			 <p/>성별<br/>
-		     <input type="radio" name="member_gender" value="남"/>남자
-		     <input type="radio" name="member_gender" value="여"/>여자
+		     <div class="radio-wrap"><input type="radio" class="gender-button" name="member_gender" value="남"/>남자</div>
+		     <div class="radio-wrap"><input type="radio" class="gender-button" name="member_gender" value="여"/>여자</div>
 		
 			 <p/>전화번호<br/>
-		     <input type="text" name="member_phone" style="width: 50%;"/>
-		     <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오</span>
+		     <input type="text" name="member_phone" style="width: 92%;"/>
+		     <p/><span class="phoneValid" style="font-size : 8pt"> ※ 전화번호는 -를 포함하여 입력하여 주십시오.</span>
 		
 			 <p/>닉네임<br/>
-			 <input type="text" name="member_nickName" style="width: 50%;"/>
-		     <input type="button" id="overlayNick" value="중복확인"/>      
-		     <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해주세요</span>
+			 <input type="text" name="member_nickName" style="width: 70%;"/>
+		     <input type="button" class="button"  id="overlayNick" value="중복확인"/>      
+		     <p/><span class="nickValid" style="font-size : 8pt"> ※ 닉네임은 문자와 숫자로 구성하여 2~8자 까지 입력해 주세요.</span>
 		     <p/><span class="nickChk"></span>    
 			  
 		         
 		     <p/>주소
-		     <p/><input type="text" id="postcode" placeholder="우편번호" style="width: 50%;">
-			 <input type="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-			 <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소" style="width: 50%;"><br/>
-			 <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소" style="width: 50%;"><br/>
+		     <p/><input type="text" id="postcode" placeholder="우편번호" style="width: 70%;">
+			 <input type="button" class="button" id="findpostcode" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+			 <input type="text" id="roadAddress"  name = member_roadAddr placeholder="도로명주소" style="width: 92%;"><br/>
+			 <input type="text" id="jibunAddress" name = member_parcelAddr placeholder="지번주소" style="width: 92%;"><br/>
 			 <span id="guide" style="color:#999; display:none"></span><br/>
 			 <input type="text" id="detailAddress" name = member_detailAddr placeholder="상세주소">		  
 			 <input type="text" id="extraAddress" placeholder="참고항목">                  
@@ -123,15 +200,24 @@
 				<option value="daum.net">daum.net</option>
 				<option value="nate.com">nate.com</option>
 			 </select>
-			 <button type="button" id="identifyMail">인증요청</button>
+			 <button type="button" class="button" id="identifyMail">인증요청</button>
 			  
-		     <p/>인증번호&nbsp;&nbsp;<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해주세요"  disabled = "disabled" maxlength="6"/>
-			 <button type="button" id="checkMail" >인증하기</button>
-			 <p/><span class="mailChk"></span><p/><hr/>
+		     <p/>인증번호&nbsp;&nbsp;<input type="text" name= "checkNum" placeholder="인증번호 6자리를 입력해 주세요"  disabled = "disabled" maxlength="6" style="width: 57.5%;"/>
+			 <button type="button" class="button" id="checkMail" >인증하기</button>
+			 <p/><span class="mailChk"></span><p/>
+			 <br></br>
+			 <div class="submit" style="display: flex; justify-content: space-between;">
+    <input type="button" class="button-gray" id="back" value="돌아가기" />
+    <input type="button" class="button-green" id="join" value="회원가입" />
+</div>
+<br></br>
+<br></br>
+<br></br>		 
+<!-- 			 <div class="submit">
+	     	<input type="button" class="button-gray" id="back" value="돌아가기"/>&nbsp;&nbsp;<input type="button" class="button-green"  id="join" value="회원가입"/>
+	     </div>      -->
 		 </div>		  
-	     <div class="submit">
-	     	<input type="button" id="back" value="돌아가기"/>&nbsp;&nbsp;<input type="button" id="join" value="회원가입"/>
-	     </div>     	     
+	     	     
 	 </div>
 </div>	 
 </body>

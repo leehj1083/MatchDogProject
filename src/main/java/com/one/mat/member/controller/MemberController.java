@@ -143,7 +143,6 @@ public class MemberController {
 		MemberDTO dto = service.login(member_id, member_pw);
 		logger.info("dto :"+dto);
 		ArrayList<ProfileDTO> pdto = service.loginProf(member_id, member_pw);		
-		
 		if (dto != null) {
 			// 1. 프로필이 있는지 / 2.로그인 금지 제재 여부 / 3. 구독 여부 / 4. 탈퇴 여부 -> dto에 넣을 정보		
 			session.setAttribute("loginInfo", dto);

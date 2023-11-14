@@ -209,7 +209,12 @@ font-family:pretendard;
         border: 1px solid #1abc9c;
         cursor: pointer;
     } 
-  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px; /* 버튼과 텍스트 사이의 간격을 조절합니다. */
+}
 
 </style>
 </head>
@@ -434,18 +439,23 @@ font-family:pretendard;
 	<!-- 회원 탈퇴 모달창 -->
 	<div id="memberQuitDoModal" class="QuitModal" >
 		<div class="QuitModal-content" >
-			<h2>정말 탈퇴하시겠습니까?<br/>모든 정보가 삭제됩니다.</h2>
+			<h3>정말 탈퇴하시겠습니까?<br/>모든 정보가 삭제됩니다.</h3>
+			<div class="button-container">
         <button id="QuitConfirmYes" class="button-gray" data-member_idx="${myPage.member_idx}">예</button>
         <button id="QuitConfirmNo" class="button-green" >아니오</button>
+        </div>
 		</div>
 	</div>
 	
 	<!-- 구독 취소 모달창 -->
 	<div id="subsDeleteModal" class="modal" >
 		<div class="modal-content" >
-			<h2>정말 취소하시겠습니까?<br/>모든 혜택이 사라집니다.</h2>
+		
+			<h3>정말 취소하시겠습니까?<br/>모든 혜택이 사라집니다.</h3>
+        <div class="button-container">
         <button id="subsDeleteYes" class="button-gray" data-member_idx="${myPage.member_idx}">예</button>
         <button id="subsDeleteNo" class="button-green" >아니오</button>
+		</div>
 		</div>
 	</div>
 </c:if>

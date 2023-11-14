@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.member.dto.MemberDTO;
 import com.one.mat.member.dto.ProfileDTO;
+import com.one.mat.myPage.service.MyPageService;
 import com.one.mat.myPage.service.MyProfileService;
 
 
@@ -29,7 +30,7 @@ public class MyProfileController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MyProfileService service;
-
+	@Autowired MyPageService pageService;
 
 	
 	//리스트 불러오기
@@ -43,8 +44,11 @@ public class MyProfileController {
 			msg = "";
 			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
 			int idx = dto.getMember_idx();
+			String id = dto.getMember_id();
 			logger.info("idx="+idx);
 			service.MyProfileListDo(idx, model);
+			MemberDTO member = pageService.MyPageListDo(id);
+			model.addAttribute("myPage", member);
 		}
 		model.addAttribute("msg", msg);
 		return page;
@@ -57,6 +61,8 @@ public class MyProfileController {
 		if (session.getAttribute("loginInfo") == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
 		} else {
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			String id = dto.getMember_id();
 			service.MyProfileModList(pro_idx, model);
 			ArrayList<ProfileDTO> charTypeList=service.charTypeList();
 			ArrayList<ProfileDTO> breedTypeList=service.breedTypeList();
@@ -64,7 +70,8 @@ public class MyProfileController {
 			logger.info("breedTypeList:"+breedTypeList);
 			model.addAttribute("charTypeList", charTypeList);
 			model.addAttribute("breedTypeList", breedTypeList);
-				
+			MemberDTO member = pageService.MyPageListDo(id);
+			model.addAttribute("myPage", member);
 			
 			page = "myProfileMod";
 		}

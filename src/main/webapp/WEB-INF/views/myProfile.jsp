@@ -213,6 +213,23 @@ textarea{
 	margin-bottom : 40px;
 }
 
+.repProfileOne{
+	margin-left:20px;
+	display: inline-block;
+	position: relative;
+	width: 120px;
+	height: 32px;
+	padding: 5px 15px;
+	border: 1px solid var(--light);
+	background-color: #DAA520;
+	color:var(--white);
+	border-radius: 8px;
+	font-family:Pretendard;
+	font-weight: 500;
+	text-align: center;
+	cursor:pointer;
+}
+
 .repProfile{
 	margin-left:20px;
 	display: inline-block;
@@ -404,6 +421,65 @@ input:checked+.slider:before {
 
 /*슬라이드 */
 
+#randomColorTag {
+        padding: 6px 20px;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 20px;
+/*         border: 1px solid #1abc9c; */
+    }
+
+    .button-green {
+        padding: 6px 10px;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 100px;
+        border: 1px solid #1abc9c;
+
+    } 
+/* .regProfileGoConfirmNo{
+padding: 6px 20px;
+width:80px;
+height: 30px;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #808080;
+        color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #808080;
+        cursor: pointer;
+        font-family:Pretendard;
+
+}
+.regProfileGoConfirmYes {
+        padding: 6px 20px;
+        font-size: 12px;
+        width: 80px;
+		height: 30px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #1abc9c;
+        cursor: pointer;
+        font-family:Pretendard;
+    } 
+.button-container {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    width: 200px;
+    margin-top: 20px;
+    font-family:Pretendard;
+} */
 
 </style>
 </head>
@@ -452,9 +528,10 @@ input:checked+.slider:before {
 			</div>
 		</div>
 		<div class="subSide">
-			<div class="my_profile_h3">마이페이지</div>
+			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
+			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
 			<div pro_idx="${Profile.pro_idx}">
-			<div><img src="/photo/${minFileName}" class="profilePhoto"/></div>
+<%-- 			<div><img src="/photo/${minFileName}" class="profilePhoto"/></div> --%>
 			</div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
@@ -477,36 +554,40 @@ input:checked+.slider:before {
 			<span class="my_profile_h4 black">님의 프로필 페이지</span>
 			
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() <= 1}">
-				<button id='regProfileGo'>+</button>
+				<button id='regProfileGo' class='regProfileGo' value="${Profile.member_idx}">+</button><input type="text" value="${Profile.pro_idx}"/>
 			    <div id="regProfileGoModal" class="regProfileGoModal">
 				  	<div class="regProfileGoModal-content">
-						<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-						<button id="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
-						<button id="regProfileGoConfirmNo">아니오</button>
+						<h3>프로필을 추가로<br/>생성하시겠습니까?</h3>
+						<div class="button-container">
+						<button class="regProfileGoConfirmNo" >아니오</button>
+						<button class="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
+						</div>
 					</div>
 				</div>
 			</c:if>
 		
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() == 2 }">
-				<button class='regProfileGo' value="${Profile.member_idx}">+</button>
-			    <div class="regProfileGoModal">
+				<button  id='regProfileGo' class='regProfileGo' value="${Profile.member_idx}">+</button> <input type="text" value="${Profile.pro_idx}"/>
+			    <div id="regProfileGoModal" class="regProfileGoModal">
 			  		<div class="regProfileGoModal-content">
-					  	<h2>프로필을 추가로<br/>생성하시겠습니까?</h2>
-					  	<button class="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
+					  	<h3>프로필을 추가로<br/>생성하시겠습니까?</h3>
+					  	<div class="button-container">
 					  	<button class="regProfileGoConfirmNo">아니오</button>
+					  	<button class="regProfileGoConfirmYes" value="${Profile.member_idx}">예</button>
+			  			</div>
 			  		</div>
 			  	</div>
 				<!-- 프로필 삭제 버튼  -->
-				<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
+				<button class='profileDelDo' value="${Profile.pro_idx}">-</button>
 			</c:if>
 			
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() >= 3}">
-				<button class='profileDelDo' value="${Profile.pro_idx}">-${Profile.pro_idx}</button>
+				<button class='profileDelDo' value="${Profile.pro_idx}">-</button><input type="text" value="${Profile.pro_idx}"/>
 			</c:if>
 			
 		    
 		    <c:if test="${Profile.pro_rep == 'Y'}">
-		    	<span class="repProfile" >대표프로필</span>
+		    	<span class="repProfileOne" >대표프로필</span>
 		    </c:if>
 		    <c:if test="${Profile.pro_rep == 'N'}">
 		    	<button class="repProfile" id='myProfileRepdo'>대표프로필 지정</button>
@@ -549,16 +630,16 @@ input:checked+.slider:before {
 					
 					<div class="dogAge menu">
 						<div class="dog_text">내 강아지 나이</div>
-						<div class="dog_text size">${Profile.pro_dogAge}</div>
+						<div class="dog_text size">${Profile.pro_dogAge}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<c:if test="${Profile.pro_dogAgeOpen == 'Y'}">
 						<label class="switch"> 
-						<input type="checkbox" id="ageOpen" checked> 
+						<input type="checkbox" value="${Profile.pro_idx}" id="ageOpen" checked> 
 						<span class="slider round"></span>
 						</label>
 					</c:if>
 					<c:if test="${Profile.pro_dogAgeOpen != 'Y'}">
 						<label class="switch">
-						<input type="checkbox" id="ageOpen"> 
+						<input type="checkbox" value="${Profile.pro_idx}" id="ageOpen"> 
 						<span class="slider round"></span>
 						</label>
 					</c:if>
@@ -566,14 +647,14 @@ input:checked+.slider:before {
 					
 					<div class="dogGender menu">
 						<div class="dog_text">내 강아지 성별</div>
-						<div class="dog_text size">${Profile.pro_dogGender}</div>
+						<div class="dog_text size">${Profile.pro_dogGender}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<c:if test="${Profile.pro_dogGenderOpen == 'Y'}">
-						<label class="switch"> <input type="checkbox" id="genderOpen" checked> 
+						<label class="switch"> <input type="checkbox" value="${Profile.pro_idx}" id="genderOpen" checked> 
 						<span class="slider round"></span>
 						</label>
 					</c:if>
 					<c:if test="${Profile.pro_dogGenderOpen != 'Y'}">
-						<label class="switch"> <input type="checkbox" id="genderOpen"> 
+						<label class="switch"> <input type="checkbox" value="${Profile.pro_idx}" id="genderOpen"> 
 						<span class="slider round"></span>
 						</label>
 					</c:if>
@@ -583,41 +664,45 @@ input:checked+.slider:before {
 						<div class="dog_text">내 강아지 성향</div>
 						<div id="selectedCharTypes">
 							<c:forEach items="${Profile.charTypeList}" var="charType" varStatus="loop">
-			        			${charType.charType}
+			        			<span id="randomColorTag" class="charTag">${charType.charType}</span>
 			        		<c:if test="${!loop.last}">&nbsp;&nbsp;</c:if>
 		   					</c:forEach>
 						</div>
 					</div>
-					
-					<div class="dogStmt menu">
-							<div class="dog_text">내 강아지 상태</div>
-							<div class="dog_text">
-								<c:if test="${Profile.pro_dogScore >= 10}">
-								<td> 매너견이에요!</td>
-								</c:if>
-								<c:if test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
-								<td> 매너견이 되어보세요!</td>
-								</c:if>
-								<c:if test="${Profile.pro_dogScore < 0}">
-								<td> 비매너견이에요ㅜㅜ</td>
-								</c:if>
-							</div>
-					</div>
+									<div class="dogStmt menu">
+										<div class="dog_text">내 강아지 상태</div>
+										<div class="dog_text">
+											<c:if test="${Profile.pro_dogScore >= 10}">
+												<p>매너견이에요!😊 &nbsp;&nbsp;<span class="button-green">${Profile.pro_dogScore}</span></p>
+											</c:if>
+											<c:if
+												test="${Profile.pro_dogScore > 0 && Profile.pro_dogScore < 10}">
+												<p>매너견이 되어보세요😮 &nbsp;&nbsp;<span class="button-green">${Profile.pro_dogScore}</span></p>
+											</c:if>
+											<c:if test="${Profile.pro_dogScore < 0}">
+												<p>비매너견이에요😢 &nbsp;&nbsp;<span class="button-green">${Profile.pro_dogScore}</span></p>
+											</c:if>
+											<!-- 여기에 이미지를 추가하고 싶다면 아래와 같이 추가할 수 있습니다. -->
+										</div>
+									</div>
 
-					<div class="dogDesc menu">
+
+									<div class="dogDesc menu">
 							<div class="dog_text desc">내 강아지 소개</div>
 							<div class="dog_text desc i">${Profile.pro_dogDesc}</div>
 					</div>
 					
 					<div>
-						<button class="cancelComp" type="button" onclick="location.href='./myProfileMod.go?pro_idx=${Profile.pro_idx}'">수정 하기</button>
+						<button class="cancelComp" type="button" onclick="location.href='./myProfileMod.go?pro_idx=${Profile.pro_idx}'">수정하기</button>
 					</div>
 				</div>
 			</div>
 			</form>
 		</c:if>
 	<div>${loop.index}</div>
+<br></br>
 </c:forEach>
+
 						
 					
 				
@@ -625,8 +710,8 @@ input:checked+.slider:before {
 				<div id="profileDelDoModal" class="profileDelDoModal">
 				  	<div class="profileDelDoModal-content">
 				       	<h2>정말 프로필을<br/>삭제하시겠습니까?</h2>
+				       	<button class="profileDelDoConfirmNo">아니오</button>
 				     	 <button class="profileDelDoConfirmYes" value="Y">예</button>
-				        <button class="profileDelDoConfirmNo">아니오</button>
 				   	</div>
 				</div>
 
@@ -643,7 +728,27 @@ input:checked+.slider:before {
 
 
 </body>
+
+
 <script>
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 랜덤 색상 적용
+    var charTags = document.querySelectorAll('.charTag');
+
+    charTags.forEach(function(tag) {
+        tag.style.backgroundColor = getRandomColor();
+    });
+});
+
 var profileDelDoModal = $(".profileDelDoModal");
 var profileDelDo = $(".profileDelDo");
 var profileDelDoConfirmYes = $(".profileDelDoConfirmYes");
@@ -701,7 +806,7 @@ console.log(pro_idx);
 	/* 프로필 생성 이동 스크립트 */
 
 	var regProfileGoModal = $(".regProfileGoModal");
-	$('.regProfileGo').on("click", function(e) {
+	$('#regProfileGo').on("click", function(e) {
 		console.log("생성");
 		var member_idx = $(this).attr("value");
 		console.log(member_idx);
@@ -768,7 +873,7 @@ console.log(pro_idx);
 	});
 
 	$('input[type="checkbox"]').on("change", function(e) {
-		var pro_idx = $(this).closest('table').attr('pro_idx');
+		var pro_idx = $(this).attr('value');
 		console.log(pro_idx);
 		var isChecked = $(this).is(":checked");
 		console.log(isChecked);
