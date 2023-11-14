@@ -149,10 +149,6 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
-	            	<span class="bi bi-gear-fill"></span>
-					<span>관리자페이지</span>
-	            </a>
 			</div>
 		</div>
 		<div class="content">
@@ -166,13 +162,13 @@ a, a:link, a:visited, a:active, a:hover {
 			<td class="leftSort" cols="2">작성자 : &nbsp&nbsp<input id="text" type="text" name="member_nickName" value="${sessionScope.loginInfo.member_nickName}" readonly="readonly"/></td>
 		</tr>
 		<tr>
-			<td class="leftSort" cols="2">제목 : <input id="text" type="text" name="board_subject" style="margin-left: 23px;"/></td>
+			<td class="leftSort" cols="2">제목 : <input id="text" type="text" name="board_subject" placeholder="제목을 입력하세요" style="margin-left: 23px;"/></td>
 		</tr>
 		<tr>
 			<td class="leftSort" cols="2"><input type="file" name="photos" multiple="multiple"/></td>
 		</tr> 
 		<tr>
-			<td colspan="2"><textarea rows="15" cols="140" id="boardContent" name="board_content"></textarea></td>
+			<td colspan="2"><textarea rows="15" cols="140" id="boardContent" name="board_content" placeholder="내용을 입력하세요"></textarea></td>
 		</tr>
 		<tr>
 			<th colspan="2">

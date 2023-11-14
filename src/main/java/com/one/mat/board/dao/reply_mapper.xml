@@ -21,11 +21,10 @@
 	</select>
 	
 	<select id="replyPro" resultType="com.one.mat.board.dto.PhotoReplyProDTO">
-		SELECT photo_fileName
-		FROM photo p
-		INNER JOIN member m ON m.member_idx = #{param1}
-			WHERE photo_type = 4 AND m.member_idx = p.photo_idfNum
-		ORDER BY p.photo_id
+		SELECT * FROM photo pt
+		INNER JOIN pro p on p.member_idx = #{param1}
+			WHERE photo_type = 4 AND p.pro_idx = pt.photo_idfNum
+		ORDER BY pt.photo_id
 		LIMIT 1;
 	</select>
 	

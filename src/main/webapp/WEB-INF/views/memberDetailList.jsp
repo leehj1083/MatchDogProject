@@ -19,7 +19,7 @@
 		position: relative;
 		top: -595px;
 		left: 223px;
-		z-index: 2;
+		z-index: 999;
 		margin: 20px auto;
 		background-color: #f4f4f4; /*모달 배경 색상변경*/
 		padding: 20px;
@@ -173,18 +173,18 @@
 		        }
 		        if (HiddenAge !== "") {
 		            if (HiddenAge == 'N') {
-		                $('#ProdogAge').text('강아지 나이: ' + ${map.pro_dogAge});
-		            } else {
 		                $('#ProdogAge').text('강아지 나이: ' + '(비공개)');
+		            } else {
+		                $('#ProdogAge').text('강아지 나이: ' + ${map.pro_dogAge});
 		            }
 		        } else {
 		            $('#ProdogAge').text('강아지 나이: ' + ${map.pro_dogAge});
 		        }
 		        if (HiddenGnd !== "") {
 		            if (HiddenGnd == 'N') {
-		                $('#ProdogGender').text('강아지 성별: ' + ${map.pro_dogGender});
-		            } else {
 		                $('#ProdogGender').text('강아지 성별: ' + '(비공개)');
+		            } else {
+		                $('#ProdogGender').text('강아지 성별: ' + ${map.pro_dogGender});
 		            }
 		        } else {
 		            $('#ProdogGender').text('강아지 성별: ' + ${map.pro_dogGender});
