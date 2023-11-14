@@ -459,7 +459,7 @@ $('#nextButton').click(function () {
 
 // 이전 버튼 클릭 시 이전 매칭 데이터 표시
 $('#prevButton').click(function () {
-		console.log("이전 버튼");
+	console.log("이전 버튼");
     currentIndex = (currentIndex - 1) % matchingData.length;
     console.log("인덱스 -1 = "+currentIndex);
     if(currentIndex < 0){
@@ -470,6 +470,15 @@ $('#prevButton').click(function () {
    	 showMatchingData(currentIndex);
     }
 });
+
+/* 이거는 이전버튼 누르고 삭제 눌렀을때 제대로 동작되게 하는걸 수정하려고 넣어본 코드
+$('#prevButton').click(function () {
+    console.log("이전 버튼");
+    currentIndex = (currentIndex - 1 + matchingData.length) % matchingData.length;
+    console.log("현재 인덱스: " + currentIndex);
+    showMatchingData(currentIndex);
+});
+*/
 
 // 삭제 버튼 클릭시 리스트에서 삭제
 $('#matchingdel').click(function () {

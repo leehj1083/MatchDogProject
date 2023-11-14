@@ -83,7 +83,7 @@
 	.mainContainer {
 	    display: flex;
 	    width: 1280px;
-	    margin: auto;
+	    margin: 0 110px;
 	}
 
 	.sidebar {

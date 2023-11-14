@@ -111,6 +111,7 @@ LIMIT 10;
 	    AND m.member_quit = 'N'
 	    AND m.member_loginLock = 'N'
 	    AND p.pro_idx NOT IN (SELECT pro_idx FROM pro WHERE member_idx = #{param1}) 
+	    AND p.member_idx != #{param1} -- 수정된 부분
 	    AND p.pro_idx IN (
 	        SELECT c.pro_idx
 	        FROM `char` AS c
@@ -125,6 +126,61 @@ LIMIT 10;
 	    AND m.member_idx != #{param1}
 	ORDER BY RAND()
 	LIMIT 10;
+</select>
+
+<!-- 나 자신의 pro_idx 들을 제외한 나머지 매칭리스트 램덤으로 가져오기 -->
+<select id="noMeMatchingList" resultType="com.one.mat.member.dto.MatchAllDTO">
+SELECT
+    m.member_gender,
+    m.member_dongAddr,
+    p.pro_dogName,
+    p.pro_dogAge,
+    p.pro_dogGender,
+    p.pro_dogDesc,
+    p.pro_idx,
+    (
+        SELECT GROUP_CONCAT(ct.charType ORDER BY c.charType_code ASC SEPARATOR ' / ')
+        FROM `char` AS c
+        JOIN `chartype` AS ct ON c.charType_code = ct.charType_code
+        WHERE c.pro_idx = p.pro_idx
+    ) AS characteristics,
+    (
+        SELECT photo_id
+        FROM photo ph
+        WHERE ph.photo_idfNum = p.pro_idx
+            AND ph.photo_type = 4
+        ORDER BY ph.photo_id
+        LIMIT 1
+    ) AS min_photo_id,
+    (
+        SELECT photo_fileName
+        FROM photo ph
+        WHERE ph.photo_idfNum = p.pro_idx
+            AND ph.photo_type = 4
+            AND ph.photo_id = (
+                SELECT MIN(ph2.photo_id)
+                FROM photo ph2
+                WHERE ph2.photo_idfNum = p.pro_idx
+                AND ph2.photo_type = 4
+            )
+        LIMIT 1
+    ) AS min_photo_fileName
+FROM member AS m
+INNER JOIN pro AS p ON m.member_idx = p.member_idx
+    AND m.member_quit = 'N'
+    AND m.member_loginLock = 'N'
+    AND p.member_idx != #{param1}
+    AND p.pro_idx IN (
+        SELECT c.pro_idx
+        FROM `char` AS c
+        WHERE c.charType_code IN (
+            SELECT charType_code
+            FROM `char`
+        )
+        GROUP BY c.pro_idx
+    )
+ORDER BY RAND()
+LIMIT 10;
 </select>
 
 <select id="MatchingProOpenDo" resultType="com.one.mat.main.dto.ProOpenDTO">
