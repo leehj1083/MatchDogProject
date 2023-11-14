@@ -184,10 +184,10 @@
 		            if (HiddenGnd == 'N') {
 		                $('#ProdogGender').text('강아지 성별: ' + '(비공개)');
 		            } else {
-		                $('#ProdogGender').text('강아지 성별: ' + ${map.pro_dogGender});
+		                $('#ProdogGender').text('강아지 성별: ' + '${map.pro_dogGender}');
 		            }
 		        } else {
-		            $('#ProdogGender').text('강아지 성별: ' + ${map.pro_dogGender});
+		            $('#ProdogGender').text('강아지 성별: ' + '${map.pro_dogGender}');
 		        }
 		    },
 		    error: function (e) {

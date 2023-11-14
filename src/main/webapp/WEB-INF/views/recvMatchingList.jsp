@@ -180,9 +180,9 @@ function drawList(obj){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
+			content +='<button class="openModal" value='+item.pro_idx+'></button>'; // 버튼클릭시 상세보기 페이지 띄워줌
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
-			content +='<button class="openModal" value='+item.pro_idx+'></button>'
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
 			content +='<span class="breedType">'+item.breedType+'</span>';
 			content +='</span>'
@@ -210,7 +210,7 @@ function drawList(obj){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-			content +='<button class="openModal"></button>'
+			content +='<button class="openModal" value='+item.pro_idx+'></button>'; // 버튼클릭시 상세보기 페이지 띄워줌
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
@@ -273,7 +273,7 @@ $('#openAlarm').click(function (e) {
    });
 });
 
-// 상세보기
+// 상세보기(상위 document로 안할시 버튼클릭 이벤트가 안먹음)
 $(document).on('click', '.openModal', function (e) {
 	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
 	
