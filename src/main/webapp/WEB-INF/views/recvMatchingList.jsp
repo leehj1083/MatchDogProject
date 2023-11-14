@@ -180,9 +180,8 @@ function drawList(obj){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-			content += '<a id="openModal"> 상세보기 이동</a>'
 			content +='<span class="proDetail">'
-			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<button class="openModal"><img src="/photo/'+item.photo_fileName+'"/></button>';
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
 			content +='<span class="breedType">'+item.breedType+'</span>';
 			content +='</span>'
@@ -192,7 +191,6 @@ function drawList(obj){
 			content+='<span class="charTypeList">'
 			item.charType.forEach(function(charType,idx){
 				content +='<span class="charType">'+charType+'</span>';
-			pro_idx = item.pro_idx;
 			
 			});
 			content+='</span>'
@@ -211,7 +209,7 @@ function drawList(obj){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-			content += '<a id="openModal"> 상세보기 이동</a>'
+			content +='<button id="openModal" ></button>'
 			content +='<span class="proDetail">'
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
@@ -277,8 +275,6 @@ $('#openAlarm').click(function (e) {
 // 상세보기
 $('#openModal').click(function (e) {
 	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
-	var currentMatch = matchingData[currentIndex];
-	var matchingList = currentMatch && currentMatch.matchingList && currentMatch.matchingList[currentIndex];
 	
 	console.log("모달클릭");
 	console.log("pro_idx 값: "+pro_idx);
