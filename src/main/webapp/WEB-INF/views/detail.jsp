@@ -266,16 +266,6 @@ $('#replyForm').submit(function() {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
 function loadReplyList() {
     $.ajax({
         type: 'GET',
