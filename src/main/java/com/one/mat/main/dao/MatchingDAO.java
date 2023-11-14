@@ -26,6 +26,8 @@ public interface MatchingDAO {
 
 	ArrayList<ProOpenDTO> MatchingProOpenDo(int pro_idx);
 
+	ArrayList<MatchAllDTO> noMeMatchingList(int member_idx);
+
 
 
 }
