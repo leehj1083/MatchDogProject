@@ -394,6 +394,8 @@ opacity
 </style>
 </head>
 <body>
+
+
 	<form action="boardcompSave.do" method="post" id="myForm">
 
 		<h1>신고하기</h1>
@@ -487,6 +489,13 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
         }
     });
+    
+    function closeModal() {
+        $("#myModal").removeClass('active');
+    }
+    
+    
+    
 });
 </script>
 </html>

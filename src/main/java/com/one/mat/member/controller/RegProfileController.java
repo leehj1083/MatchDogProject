@@ -210,7 +210,7 @@ public class RegProfileController {
 		return "commentcomp";
 	}
 	@RequestMapping("/boardcompTypeList.do")
-	public String boardcompTypeList(@RequestParam(name = "board_id", required = false) String boardId,Model model,HttpSession session) {
+	public String boardcompTypeList(@RequestParam(name = "board_id", required = false) String boardId, Model model,HttpSession session) {
 		
 		session.setAttribute("boardId", boardId);
 		 logger.info("board_id: " + boardId);
@@ -262,31 +262,41 @@ public class RegProfileController {
 		    String boardIdStr = (String) session.getAttribute("boardId");
 
 		 // 문자열을 정수로 변환
-		 int boardId = Integer.parseInt(boardIdStr);
 		    
-		    logger.info("boardId : "+boardId);
-		    logger.info("Member Index: " + memberIdx);
 		    
-		
-		params.put("memberIdx", String.valueOf(memberIdx));
-		params.put("boardId", String.valueOf(boardId));
-	    logger.info("params : " + params);
-	   
-	    
-	    
-	    String photo = params.get("photo");
-      	session.setAttribute("photo", photo);
-	    service.boardcompSave(params);
-	    
-	    if (currentRequestURI.contains("/chattingcompSave.do")) {
-	        redirectURL = "redirect:/chattcompTypeList.do";
-	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
-	        redirectURL = "redirect:/commentcompTypeList.do";
-	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
-	        redirectURL = "redirect:/boardcompTypeList.do";
-	    }
-		
-		
+		    
+		    int boardId;
+		    
+		    if (boardIdStr != null && !boardIdStr.isEmpty()) {
+		        boardId = Integer.parseInt(boardIdStr);
+		        logger.info("boardId : "+boardId);
+			    logger.info("Member Index: " + memberIdx);
+			    
+			
+			params.put("memberIdx", String.valueOf(memberIdx));
+			params.put("boardId", String.valueOf(boardId));
+		    logger.info("params : " + params);
+		   
+		    
+		    
+		    String photo = params.get("photo");
+	      	session.setAttribute("photo", photo);
+		    service.boardcompSave(params);
+		    
+		    if (currentRequestURI.contains("/chattingcompSave.do")) {
+		        redirectURL = "redirect:/chattcompTypeList.do";
+		    } else if (currentRequestURI.contains("/commentcompSave.do")) {
+		        redirectURL = "redirect:/commentcompTypeList.do";
+		    } else if (currentRequestURI.contains("/boardcompSave.do")) {
+		        redirectURL = "redirect:/boardcompTypeList.do";
+		    }
+ 
+		    } else {
+		       logger.info("null 값입니다.");
+		    }
+		 
+		    
+		   
 		
 		// 일단은 신고를 하고나면 신고한 위치에 따라 돌아가는 요청을 다르게 설정 일단은 다시 신고창으로 들어가게 하였음 
 		return "redirect:/compHistory"; 
