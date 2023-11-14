@@ -174,7 +174,7 @@ textarea{
 		</div>
 		<div class="comp_deReason">
 		<div class="text reSelect">신고사유(자세히)</div>
-		<textarea name="comp_content" spellcheck="false" rows="8" cols="50">내용을입력해주세요</textarea>
+		<textarea name="comp_content" spellcheck="false" rows="8" cols="50" placeholder="내용을입력해주세요"></textarea>
 		<div class="comp_photo">
 		<div class="text">사진 첨부</div>
 			<div id="fileNameDisplay"></div>

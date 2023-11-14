@@ -168,6 +168,7 @@ public class CompController {
 		if ("Y".equals(member_loginLock)&&loginLock_sDate != null && loginLock_eDate != null) {
 	        service.loginLock(params);
 	        service.proRegistUpdate(params);
+	        service.memberUpdate(params);
 			
 	    }else {
 	   	service.proRegistUpdate(params);
