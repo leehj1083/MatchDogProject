@@ -261,9 +261,9 @@ public class RegProfileController {
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
 	        redirectURL = "redirect:/chattcompTypeList.do";
 	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
-	        redirectURL = "redirect:/commentcompTypeList.do";
+	        redirectURL = "redirect:/boardList.go";
 	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
-	        redirectURL = "redirect:/boardcompTypeList.do";
+	        redirectURL = "redirect:/boardList.go";
 	    }
 		
 		
@@ -299,9 +299,9 @@ public class RegProfileController {
 	    if (currentRequestURI.contains("/chattingcompSave.do")) {
 	        redirectURL = "redirect:/chattcompTypeList.do";
 	    } else if (currentRequestURI.contains("/commentcompSave.do")) {
-	        redirectURL = "redirect:/commentcompTypeList.do";
+	        redirectURL = "redirect:/boardList.go";
 	    } else if (currentRequestURI.contains("/boardcompSave.do")) {
-	        redirectURL = "redirect:/boardcompTypeList.do";
+	        redirectURL = "redirect:/boardList.go";
 	    }
 		
 		

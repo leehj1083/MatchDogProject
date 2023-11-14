@@ -254,4 +254,6 @@ public class CompService {
 		return dao.CompList(compIdx);
 	}
 
+
+
 }
