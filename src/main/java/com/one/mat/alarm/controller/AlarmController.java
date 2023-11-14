@@ -36,6 +36,9 @@ public class AlarmController {
 	 	   	int member_idx = dto.getMember_idx();
 	 			logger.info("member_idx : "+member_idx);
 	 			service.alarmListGo(model, member_idx);
+	 		
+	
+	 			
 	 		}
 	 	    return "alarm";
 		}

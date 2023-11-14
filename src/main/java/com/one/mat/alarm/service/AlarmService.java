@@ -24,5 +24,12 @@ public class AlarmService {
 		alarmList = dao.alarmListGo(member_idx);
 		logger.info("alarmList!! : "+alarmList );
 		model.addAttribute("alarmList",alarmList);
+	
 	}
+
+
+	
+
+    
+	
 }
