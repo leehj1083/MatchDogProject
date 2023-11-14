@@ -27,6 +27,11 @@ public class MatchingService {
 			return dao.matchingList(member_idx, pro_idx, count);
 		}
 		
+		public ArrayList<MatchAllDTO> noMeMatchingList(int member_idx) {
+			return dao.noMeMatchingList(member_idx);
+		}
+
+		
 		public ArrayList<MatchAllDTO> unloginedMatchingList() {
 			return dao.unloginedMatchingList();
 		}
@@ -54,7 +59,6 @@ public class MatchingService {
 		public ArrayList<ProOpenDTO> MatchingProOpenDo(int pro_idx) {
 			return dao.MatchingProOpenDo(pro_idx);
 		}
-
 	
 			
 }

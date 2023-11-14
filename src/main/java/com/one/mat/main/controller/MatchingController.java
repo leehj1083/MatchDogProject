@@ -59,7 +59,7 @@ public class MatchingController {
 
 	        // 결과를 저장할 리스트
 	        List<MatchAllDTO> resultList = new ArrayList<>();
-
+	        
 	        for (ProfileDTO profileDTO : myProfile) {
 	            if (profileDTO.getPro_rep().equals("Y")) {
 	                int pro_idx = profileDTO.getPro_idx();
@@ -71,7 +71,7 @@ public class MatchingController {
 	                    // 결과를 전체 리스트에 추가
 	                    resultList.addAll(list);
 	                }
-	    	        ArrayList<MatchAllDTO> list = service.unloginedMatchingList();
+	    	        ArrayList<MatchAllDTO> list = service.noMeMatchingList(member_idx);
 	    	        resultList.addAll(list);
 	            }
 	        }
