@@ -48,6 +48,8 @@ public interface ChattingDAO {
 
 	int subsType(int memberIdx);
 
+	int subsTypeCheck(int memberIdx);
+
 
 
 

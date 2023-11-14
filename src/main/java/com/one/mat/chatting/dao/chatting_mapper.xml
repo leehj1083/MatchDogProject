@@ -153,5 +153,8 @@
 		SELECT pro_recvIdx FROM review WHERE chat_idx = #{param1} AND pro_sendIdx = #{param2}
 	</select>
 	
+		<select id="subsTypeCheck" resultType="int">
+		SELECT subsType_code FROM subs WHERE member_idx = #{param1}
+	</select>
  
   </mapper>
