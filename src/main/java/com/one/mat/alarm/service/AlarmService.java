@@ -28,12 +28,5 @@ public class AlarmService {
 	}
 
 
-	public void prosendIdx(Model model, int member_idx) {
-
-		List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
-		alarmList = dao.alarmListGo(member_idx);
-		logger.info("alarmList!! : "+alarmList );
-		model.addAttribute("alarmList",alarmList);
-		
-	}
+	
 }

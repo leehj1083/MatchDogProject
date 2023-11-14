@@ -122,7 +122,7 @@
     <c:choose>
         <c:when test="${not empty alarmList}">
             <c:forEach var="alarm" items="${alarmList}">
-                <div class="alarmTable">
+                <div class="alarmTable">	
                            <img src="${alarm.photo_fileName}" alt="min_photo_fileName" class="noBorder">
                 	<div class="alarm_part">
                             <c:if test="${alarm.alarm_type == 1}">
