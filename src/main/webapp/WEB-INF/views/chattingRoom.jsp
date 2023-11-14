@@ -207,7 +207,7 @@
 	var review = '${review}';
 	var subsType = 0;
 	
-	//longPolling();
+	longPolling();
 
 
 	function longPolling(){
@@ -218,12 +218,12 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 1000);
 				},
 				timeout:3000,
 				error:function(e){
 					console.log(e);
-					setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 1000);
 				}
 			});
 		}
