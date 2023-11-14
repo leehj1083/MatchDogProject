@@ -25,8 +25,16 @@ public class BoardController {
 	@Autowired BoardService service;
 	
 	@RequestMapping(value="/boardList.go")
-	public String board() {
-		return "list";
+	public String board(HttpSession session, Model model) {
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		String page ="";
+		if(dto==null) {
+			model.addAttribute("msg","로그인해주세요.");
+			page = "login";
+		}else {
+			page="list";
+		}
+		return page;
 	}
 	
 	@RequestMapping(value="/list")
@@ -73,8 +81,16 @@ public class BoardController {
 	
 	@RequestMapping(value="/detail")
 	public String detail(HttpSession session, Model model, @RequestParam String board_id) {
-		service.detail(board_id,model);
-		return "detail";
+		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+		String page ="";
+		if(dto==null) {
+			model.addAttribute("msg","로그인해주세요.");
+			page = "login";
+		}else {
+			service.detail(board_id,model);
+			page="detail";
+		}
+		return page;
 	}
 	
 	@RequestMapping(value="/compSaveBoard.do")

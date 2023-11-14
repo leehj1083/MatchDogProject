@@ -16,9 +16,7 @@
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
-
-
-.pagination > .active > a,
+	.pagination > .active > a,
     .pagination > .active > a:focus,
     .pagination > .active > a:hover,
     .pagination > .active > span,
@@ -41,13 +39,11 @@
         background-color: #1FBF92; 
     }
     
-    #pageButton,
-    #writeButton
-    {
+    #pageButton, #writeButton{
     	text-align: right;
     }
 	    
-a, a:link, a:visited, a:active, a:hover {
+	a, a:link, a:visited, a:active, a:hover {
 		text-decoration: none;
 		color: var(--black);
 	}
@@ -70,7 +66,7 @@ a, a:link, a:visited, a:active, a:hover {
 	}
 	
 	/* 본인 페이지를 제외한 나머지 hover 적용 */
-  .btn_gnb.home:hover,
+ 	.btn_gnb.home:hover,
 	.btn_gnb.match:hover,
 	.btn_gnb.chatting:hover,	
 	/* .btn_gnb.board:hover,*/
@@ -78,16 +74,16 @@ a, a:link, a:visited, a:active, a:hover {
 	.btn_gnb.admin:hover{
 		background-color: var(--light);
 	}
-	    #modalContent{
-	    	width: 500px;
-	    	height: 500px;
-	    	text-align: left; 
+	#modalContent{
+    	width: 500px;
+    	height: 500px;
+    	text-align: left; 
 	}
 	.mainContainer {
-    display: flex;
-    width: 1280px;
-    margin: 0px;
-}
+	    display: flex;
+	    width: 1280px;
+	    margin: 0px;
+	}
 
 	.sidebar {
         height: 100%;
@@ -161,6 +157,9 @@ a, a:link, a:visited, a:active, a:hover {
 	    font-size: 26px;
 	    margin-left: 210px;
 	}
+	div#pageButton {
+    width: 1192px;
+	}
 </style>
 </head>
 <body>
@@ -174,15 +173,7 @@ a, a:link, a:visited, a:active, a:hover {
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
 				<a href="./logout.do"><span class="logout">로그아웃</span></a>
-			</div>
-			
-		</div>
-		<div id="pageButton">
-		<select id="pagePerNum">
-			<option value="10">10개씩</option>
-			<option value="15">15개씩</option>
-			<option value="20">20개씩</option>
-		</select>
+			</div>	
 		</div>
 	</div>
 	<div class="mainContainer">
@@ -208,22 +199,18 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
-	            	<span class="bi bi-gear-fill"></span>
-					<span>관리자페이지</span>
-	            </a>
 			</div>
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
-		<!-- 
-	<div>
-	안녕하세요 ${sessionScope.loginInfo.member_nickName} 님
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="logout">로그아웃</a>
-	</div>
-		 -->
-	<h4 id="mung">멍멍 게시판</h4>
+		<h4 id="mung">멍멍 게시판</h4>
+		<div id="pageButton">
+			<select id="pagePerNum">
+				<option value="10">10개씩</option>
+				<option value="15">15개씩</option>
+				<option value="20">20개씩</option>
+			</select>
+		</div>
 	<table>
 		<thead>
 		<tr>
@@ -248,7 +235,7 @@ a, a:link, a:visited, a:active, a:hover {
 					</nav>					
 				</div>
 				<div id="writeButton">
-			<button onclick="location.href='BoardWrite'">글쓰기</button>
+		 			<button onclick="location.href='BoardWrite'">글쓰기</button>
 				</div>
 			</td>
 		</tr>

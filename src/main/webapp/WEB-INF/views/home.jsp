@@ -412,18 +412,18 @@ function showMatchingData(index) {
 	        $('#pro_dogName').text(matchingList.pro_dogName);
 	        if (HiddenAge !== "") {
 	            if (HiddenAge == 'N') {
-	                $('#pro_dogAge').html(matchingList.pro_dogAge+'살&nbsp;&nbsp;&nbsp;&nbsp;/');
-	            } else {
 	                $('#pro_dogAge').text('(비공개)');
+	            } else {
+	                $('#pro_dogAge').html(matchingList.pro_dogAge+'살&nbsp;&nbsp;&nbsp;&nbsp;/');
 	            }
 	        } else {
 	            $('#pro_dogAge').html(matchingList.pro_dogAge+'살&nbsp;&nbsp;&nbsp;&nbsp;/');
 	        }
 	        if (HiddenGnd !== "") {
 	            if (HiddenGnd == 'N') {
-	                $('#pro_dogGender').text(matchingList.pro_dogGender+'아');
-	            } else {
 	                $('#pro_dogGender').text('(비공개)');
+	            } else {
+	                $('#pro_dogGender').text(matchingList.pro_dogGender+'아');
 	            }
 	        } else {
 	            $('#pro_dogGender').text(matchingList.pro_dogGender+'아');
