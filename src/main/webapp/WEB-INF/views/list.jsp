@@ -83,7 +83,7 @@
 	.mainContainer {
 	    display: flex;
 	    width: 1280px;
-	    margin: 0px;
+	    margin: auto;
 	}
 
 	.sidebar {
@@ -276,8 +276,10 @@ $('#pagePerNum').change(function () {
     
     // 검색한 상태인지 확인하고 이에 따라 listCall 또는 searchCall 함수를 호출
     if (searchType !== '' && searchKeyword !== '') {
+    	showPage = 1;
         searchCall(showPage, searchType, searchKeyword);
     } else {
+    	showPage = 1;
         listCall(showPage);
     }
 });
@@ -335,7 +337,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = 1;
+                        showPage = page;
                         searchCall(page, searchType, searchKeyword); // 검색 결과로 페이지 이동
                     }
                 }
@@ -347,7 +349,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = 1;
+                        showPage = page;
                         listCall(page); // 일반 목록으로 페이지 이동
                     }
                 }

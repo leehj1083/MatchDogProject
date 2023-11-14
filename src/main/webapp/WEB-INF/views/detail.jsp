@@ -126,12 +126,8 @@ a, a:link, a:visited, a:active, a:hover {
 		        <a href="./myPageList.do" class="btn_gnb myPage">
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
-		        </a>
-<<<<<<< HEAD
-		        <a href="./adminList.go" class="btn_gnb admin">
-=======
-	            <a href="./adminList.go" class="btn_gnb admin">
->>>>>>> origin/master
+				</a>
+		      	<a href="./adminList.go" class="btn_gnb admin">
 	            	<span class="bi bi-gear-fill"></span>
 					<span>관리자페이지</span>
 	            </a>
@@ -180,15 +176,9 @@ a, a:link, a:visited, a:active, a:hover {
 				    
 				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
 				</c:if>
-<<<<<<< HEAD
-
-					<c:if test="${board.member_idx != sessionScope.loginInfo.member_idx}">
-						<input class="moddButton" type="button" id = "openBoardComp" value="신고"/>
-					</c:if>
-=======
-				<!--  <input type="button" onclick="location.href='./boardcompTypeList.do?board_id=${board.board_id}'" value="신고"/> -->
-				   <input type="button" id = "openBoardComp" value="신고"/> 
->>>>>>> origin/master
+				<c:if test="${board.member_idx != sessionScope.loginInfo.member_idx}">
+					<input class="moddButton" type="button" id = "openBoardComp" value="신고"/>
+				</c:if>
 			</th>
 		</tr>
 	</table>
