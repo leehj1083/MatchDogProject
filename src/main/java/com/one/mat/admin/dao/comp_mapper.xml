@@ -206,12 +206,13 @@ LEFT JOIN comphistory ON comp.comp_idx = comphistory.comp_idx
 <insert id="loginLock" parameterType="com.one.mat.admin.dto.CompDTO">
 INSERT INTO loginlock (member_idx, compHistory_idx, loginLock_sDate, loginLock_eDate)
 VALUES (
-    (SELECT comp_memberIdx FROM comp WHERE comp_idx = #{comp_idx}),
+    (SELECT comp_reportIdx FROM comp WHERE comp_idx = #{comp_idx}),
     (SELECT compHistory_idx FROM comphistory WHERE comp_idx = #{comp_idx}),
     #{loginLock_sDate},
     #{loginLock_eDate}
 );
 </insert>
+
 <update id="proRegistUpdate" parameterType="com.one.mat.admin.dto.CompDTO">
 UPDATE comphistory
 SET admin_memberIdx = #{admin_memberIdx},
