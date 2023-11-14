@@ -79,8 +79,15 @@ select {
 }
 
 button{
-background-color: rgb(26, 188, 156); 
-    color: white; 
+ padding: 5px 10px;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 5px;
+        border: 1px solid #1abc9c;
+        cursor: pointer;
     border: none;
 }
 

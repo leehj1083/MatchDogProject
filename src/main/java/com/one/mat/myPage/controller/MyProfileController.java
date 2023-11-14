@@ -61,6 +61,8 @@ public class MyProfileController {
 		if (session.getAttribute("loginInfo") == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
 		} else {
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+			String id = dto.getMember_id();
 			service.MyProfileModList(pro_idx, model);
 			ArrayList<ProfileDTO> charTypeList=service.charTypeList();
 			ArrayList<ProfileDTO> breedTypeList=service.breedTypeList();
@@ -68,7 +70,8 @@ public class MyProfileController {
 			logger.info("breedTypeList:"+breedTypeList);
 			model.addAttribute("charTypeList", charTypeList);
 			model.addAttribute("breedTypeList", breedTypeList);
-				
+			MemberDTO member = pageService.MyPageListDo(id);
+			model.addAttribute("myPage", member);
 			
 			page = "myProfileMod";
 		}

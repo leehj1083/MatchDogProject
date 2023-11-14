@@ -203,8 +203,17 @@ textarea{
 	cursor:pointer;
 }
 
-
-
+/* #randomColorTag {
+        padding: 6px 20px;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 20px;
+/*         border: 1px solid #1abc9c; 
+    }
+ */
 
 </style>
 </head>
@@ -252,7 +261,7 @@ textarea{
 			</div>
 		</div>
 		<div class="subSide">
-			<div class="my_profile_h3">마이페이지</div>
+			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
 			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
 			<c:url value="/myPage" var="myPageUrl" />
 			<div class="myPageMenu">
@@ -281,7 +290,7 @@ textarea{
 			    				<c:if test="${photo.photo_id < minPhotoId}">
 			       		 			<c:set var="minPhotoId" value="${photo.photo_id}" />
 			       					<c:set var="minFileName" value="${photo.photo_fileName}" />
-									<div class="changePhoto"><img src="/photo/default.png" class="profilePhoto"/></div>
+									<div class="changePhoto"><img src="/photo/${photoName}" class="profilePhoto"/></div>
 			    				</c:if>
 							</c:forEach>
 							
@@ -380,11 +389,11 @@ textarea{
 									</div>
 								</div>
 								
-								<div class="dogCharType menu">
+								<div  class="dogCharType menu">
 									<div class="dog_text"> </div>
 									<div id="selectedCharTypes">
 										<c:forEach items="${MyProfileMod.charTypeList}" var="charType" varStatus="loop">
-					        					${charType.charType}
+					        					<span id="randomColorTag" class="charTag">${charType.charType}</span>
 					        				<input type="hidden" name="charTypeCodes" value="${charType.charType_code}" />
 					        				<c:if test="${!loop.last}">&nbsp;&nbsp;</c:if>
 				   						 </c:forEach>
@@ -423,6 +432,27 @@ textarea{
 	
 </body>
 <script>
+
+/* function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 랜덤 색상 적용
+    var charTags = document.querySelectorAll('.charTag');
+
+    charTags.forEach(function(tag) {
+        tag.style.backgroundColor = getRandomColor();
+    });
+}); */
+
+
+
 //성향 모달 스크립트
 var charModal = $(".charModal");
 var openCharModal = $("#openCharModal");

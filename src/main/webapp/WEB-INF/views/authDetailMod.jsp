@@ -148,7 +148,7 @@ th:first-child, td:first-child {
 
     .button-gray {
         padding: 10px 20px;
-        font-size: 16px;
+        font-size: 13px;
         text-align: center;
         text-decoration: none;
         background-color: #808080;
@@ -159,7 +159,7 @@ th:first-child, td:first-child {
     }
     .button-green {
         padding: 10px 20px;
-        font-size: 16px;
+        font-size: 13px;
         text-align: center;
         text-decoration: none;
         background-color: #1abc9c;
