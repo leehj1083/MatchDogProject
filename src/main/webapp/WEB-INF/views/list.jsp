@@ -151,7 +151,8 @@ a, a:link, a:visited, a:active, a:hover {
 	}
 
 	nav{
-		margin-left: -600px;
+		margin-left: 12px;
+  		width: 500px;
 	}
 	#openAlarm{
 		cursor: pointer;
@@ -226,12 +227,12 @@ a, a:link, a:visited, a:active, a:hover {
 	<table>
 		<thead>
 		<tr>
-			<th>번호</th>			
+			<th width="100px">번호</th>	
 			<th>제목</th>
-			<th>작성자</th>
-			<th>작성일</th>
-			<th>조회수</th>
-			<th>추천</th>
+			<th width="250px">작성자</th>
+			<th width="120px">작성일</th>
+			<th width="120px">조회수</th>
+			<th width="120px">추천</th>
 		</tr>
 		</thead>
 		<tbody id="list">		
