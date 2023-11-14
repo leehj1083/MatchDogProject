@@ -93,7 +93,7 @@
 		) AS combined_data
 		GROUP BY total_idx
 		HAVING MAX(photo_fileName) IS NULL OR MAX(photo_fileName) &lt;&gt; ''
-		ORDER BY MAX(DATE_FORMAT(chatMsg_regDate, '%Y-%m-%d %H:%i'))
+		ORDER BY MAX(DATE_FORMAT(chatMsg_regDate, '%Y-%m-%d %H:%i:%s'))
 	</select>
 	
 	<!-- 채팅 읽음여부 -->

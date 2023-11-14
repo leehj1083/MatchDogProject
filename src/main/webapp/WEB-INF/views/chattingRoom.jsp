@@ -218,12 +218,12 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					setTimeout(longPolling, 1000);
+					setTimeout(longPolling, 3000);
 				},
 				timeout:3000,
 				error:function(e){
 					console.log(e);
-					setTimeout(longPolling, 1000);
+					setTimeout(longPolling, 3000);
 				}
 			});
 		}
@@ -325,7 +325,7 @@
 		}
 		
 		
-		$('.chat').scrollTop($('.chat')[0].scrollHeight);
+		// $('.chat').scrollTop($('.chat')[0].scrollHeight);
 		$('.chat').empty();
 		$('.chat').append(content);
 		
@@ -334,7 +334,7 @@
 		console.log("subsType"+subsType);
 		console.log("my"+obj.toFrom.pro_me);
 			
-		if(subsType === 1 && count_me >= 10){
+		if(subsType === 1 && count_me > 10){
 			$('.send').off('click');
 			$('input[name="content"]').off("keyup");
 			$('.chatBlur').css('display', 'inline-block');
@@ -349,6 +349,21 @@
 			$('.chatBlur').empty();
 			$('.chatBlur').append(content);
 			$('input[name="content"]').blur();
+		}else if(subsType === 2 && count_me > 10){
+			$('.send').off('click');
+			$('input[name="content"]').off("keyup");
+			$('.chatBlur').css('display', 'inline-block');
+			$('.chatBlur').css('display', 'inline-block');
+			var content = '';
+			content +='<a href="./myPageList.do">'
+			content += '<div class="blur">';
+			content +='<span>채팅을 무제한으로 즐기시고 싶으시면 구독해주세요!</span> ';
+			content +='</div>'
+			content +='</a>'
+			
+			$('.chatBlur').empty();
+			$('.chatBlur').append(content);
+			$('input[name="content"]').blur();		
 		}
 	}
 	
