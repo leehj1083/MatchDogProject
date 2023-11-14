@@ -125,11 +125,19 @@ table{
 	border-collapse: collapse;	
 	table-layout: fixed;
 	font-size: 14px;
+	font-family:pretendard;
 }
 th,td{
 	border : 1px solid black;
 	text-align : center;
 	padding : 5px 7px;
+	font-family:pretendard;
+}
+th{
+	background-color: #bebebe;
+}
+#back{
+	text-align: right;
 }
 
 </style>
@@ -178,7 +186,7 @@ th,td{
 		</div>
 		<div class="content">	
 		<div id="alarmContent"></div>
-		<h2>회원 제재 이력 보기(${member_id}님)</h2><hr/>
+		<h2 style="font-family:pretendard">회원 제재 이력 보기(${member_id}님)</h2><hr/>
 		<table>			
 			<tr>
 				<th>신고이력번호</th>			
@@ -192,15 +200,15 @@ th,td{
 			</c:if>
 			<c:forEach items="${list}" var="sanc">
 				<tr>
-					<th>${sanc.compHistory_idx}</th>			
-					<th>${sanc.compType}</th>
-					<th>${sanc.loginLock_sDate}</th>
-					<th>${sanc.loginLock_eDate}</th>
-					<th>${sanc.comp_handleContent}</th>
+					<td>${sanc.compHistory_idx}</td>			
+					<td>${sanc.compType}</td>
+					<td>${sanc.loginLock_sDate}</td>
+					<td>${sanc.loginLock_eDate}</td>
+					<td>${sanc.comp_handleContent}</td>
 				</tr>
 			</c:forEach>				
-		</table>
-		<input type="button" onclick="location.href='./memberDetail?member_idx=${member_idx}'" value="뒤로가기"/>
+		</table><br>
+		<input type="button" onclick="location.href='./memberDetail?member_idx=${member_idx}'" value="뒤로가기" id="back"/>
 		</div>
 	</div>
 </div>	
