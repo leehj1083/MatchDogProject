@@ -8,6 +8,9 @@ public interface AlarmDAO {
 
 	List<AlarmDTO> alarmListGo(int member_idx);
 
+
+
+
 	
 
 }
