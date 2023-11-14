@@ -181,7 +181,8 @@ function drawList(obj){
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
 			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
 			content +='<span class="proDetail">'
-			content +='<button class="openModal"><img src="/photo/'+item.photo_fileName+'"/></button>';
+			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='<button class="openModal"></button>'
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
 			content +='<span class="breedType">'+item.breedType+'</span>';
 			content +='</span>'
@@ -273,7 +274,7 @@ $('#openAlarm').click(function (e) {
 });
 
 // 상세보기
-$('#openModal').click(function (e) {
+$('.openModal').click(function (e) {
 	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
 	
 	console.log("모달클릭");
