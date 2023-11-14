@@ -203,6 +203,9 @@
 </body>
 <script>
 
+	var chatContainer = $('.chat');
+	var userScrolledManually = false;
+
 	var chat_idx = ${chat_idx};
 	var review = '${review}';
 	var subsType = 0;
@@ -211,7 +214,12 @@
 		location.href="./chattingList.go";
 	});
 	
-	longPolling();
+	chatContainer.on('scroll', function() {
+	    userScrolledManually = true;
+	});
+	
+	
+	
 
 
 	function longPolling(){
@@ -222,12 +230,11 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					setTimeout(longPolling, 1000);
+					setTimeout(longPolling, 3000);
 				},
-				timeout:3000,
 				error:function(e){
 					console.log(e);
-					setTimeout(longPolling, 1000);
+					setTimeout(longPolling, 3000);
 				}
 			});
 		}
@@ -324,12 +331,10 @@
 						}
 					}
 				});
-			
-		
+
 		}
 		
 		
-		// $('.chat').scrollTop($('.chat')[0].scrollHeight);
 		$('.chat').empty();
 		$('.chat').append(content);
 		
@@ -525,7 +530,7 @@
 		   });
 		});
 	
-	
+	longPolling();
 	
 </script>
 </html>
