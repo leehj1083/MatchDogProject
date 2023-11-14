@@ -113,9 +113,11 @@ public class MatchListService {
 			// logger.info("list size : " +list.size());
 		} else {
 		}
+		
+		int subsType_check = dao.subsTypeCheck(memberIdx);
 
 		// logger.info("pages : " +pages);
-		map.put("subsType", subsType);
+		map.put("subsType", subsType_check);
 		map.put("currPage", p);
 		map.put("pages", pages); // 만들 수 있는 총 페이지 수
 		map.put("matList",list);

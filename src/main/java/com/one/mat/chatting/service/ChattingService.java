@@ -185,7 +185,9 @@ public class ChattingService {
 		}
 		ArrayList<ChattingDTO> totalMsg = dao.totalMsg(chat_id); // (채팅 텍스트 + 전송 사진) 가져오기
 		
-		map.put("subsType", subsType);
+		int subsType_check = dao.subsTypeCheck(memberIdx);
+		
+		map.put("subsType", subsType_check);
 		map.put("totalMsg", totalMsg);
 		map.put("dogName", dogName);
 		return map;
