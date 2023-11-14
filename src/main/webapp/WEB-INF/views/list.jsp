@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<jsp:include page="adminCheck.jsp" />
 <style>
 	.pagination > .active > a,
     .pagination > .active > a:focus,
@@ -82,7 +83,7 @@
 	.mainContainer {
 	    display: flex;
 	    width: 1280px;
-	    margin: 0px;
+	    margin: auto;
 	}
 
 	.sidebar {
@@ -199,6 +200,10 @@
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+		      	<a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
 		</div>
 		<div class="content">
@@ -271,8 +276,10 @@ $('#pagePerNum').change(function () {
     
     // 검색한 상태인지 확인하고 이에 따라 listCall 또는 searchCall 함수를 호출
     if (searchType !== '' && searchKeyword !== '') {
+    	showPage = 1;
         searchCall(showPage, searchType, searchKeyword);
     } else {
+    	showPage = 1;
         listCall(showPage);
     }
 });
@@ -330,7 +337,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = 1;
+                        showPage = page;
                         searchCall(page, searchType, searchKeyword); // 검색 결과로 페이지 이동
                     }
                 }
@@ -342,7 +349,7 @@ function drawList(obj) {
                 visiblePages: 5,
                 onPageClick: function (e, page) {
                     if (showPage != page) {
-                        showPage = 1;
+                        showPage = page;
                         listCall(page); // 일반 목록으로 페이지 이동
                     }
                 }
