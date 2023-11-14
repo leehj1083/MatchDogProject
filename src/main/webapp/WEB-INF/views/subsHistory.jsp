@@ -119,7 +119,7 @@ a, a:link, a:visited, a:active, a:hover {
 }
 
 table{
-	width :950px;
+	width :900px;
 	border: 1px solid black;
 	border-collapse: collapse;	
 	table-layout: fixed;
@@ -188,18 +188,16 @@ th{
 		<div id="alarmContent"></div>
 		<h2 style="font-family:pretendard">회원 구독 이력 보기(${member_id}님)</h2><hr/>
 		<table>			
-			<tr>
-				<th>번호</th>			
+			<tr>	
 				<th>구독권 종류</th>
 				<th>구독 시작일</th>
 				<th>구독 만료일</th>
 			</tr>
 			<c:if test="${list.size()==0}">
-				<tr><td colspan="4">구독 이력이 없습니다.</td></tr>
+				<tr><td colspan="3">구독 이력이 없습니다.</td></tr>
 			</c:if>
 			<c:forEach items="${list}" var="subs">
-				<tr>
-					<td>${subs.subsHistory_idx}</td>			
+				<tr>	
 					<td>${subs.subsType}</td>
 					<td>${subs.subsHistory_start}</td>
 					<td>${subs.subsHistory_exp}</td>
