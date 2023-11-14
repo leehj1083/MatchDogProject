@@ -85,36 +85,8 @@ a, a:link, a:visited, a:active, a:hover {
     #boardContent {
     	resize: none;
     }
-    .content{
-    	resize: none;
-    }
-    #editContent{
-    	resize: none;
-    }
     #replySubmit{
     	margin-left: 10px;
-    }
-    #openAlarm{
-		cursor: pointer;
-	}
-	.modButton{
-    	color: #fff;
-    	background-color: #1FBF92;    	
-    }
-    .moddButton{
-    	color: #fff;
-    	background-color: red;
-    }
-    #button{
-    	text-align: right;
-    }
-    #likeButton{
-    	color: #fff;
-    	background-color: blue;
-    }
-    #hateButton{
-    	color: #fff;
-    	background-color: red;
     }
     </style>
 </head>
@@ -155,7 +127,11 @@ a, a:link, a:visited, a:active, a:hover {
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+<<<<<<< HEAD
 		        <a href="./adminList.go" class="btn_gnb admin">
+=======
+	            <a href="./adminList.go" class="btn_gnb admin">
+>>>>>>> origin/master
 	            	<span class="bi bi-gear-fill"></span>
 					<span>관리자페이지</span>
 	            </a>
@@ -196,17 +172,23 @@ a, a:link, a:visited, a:active, a:hover {
 			</tr>
 		</c:if>
 		<tr>
-			<th id="button" colspan="2">
-				<input class="modButton" type="button" onclick="location.href='./boardList.go'" value="리스트"/>
+			<th colspan="2">
+				<input type="button" onclick="location.href='./boardList.go'" value="리스트"/>
 				<c:if test="${board.member_idx == sessionScope.loginInfo.member_idx}">
 				    <%-- <input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/> --%>
-				    <input class="modButton" type="button" onclick="confirmDelete(${board.board_id})" value="삭제"/>
-				    <input class="modButton" type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
+				    <input type="button" onclick="confirmDelete(${board.board_id})" value="삭제"/>
+				    
+				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
 				</c:if>
+<<<<<<< HEAD
 
 					<c:if test="${board.member_idx != sessionScope.loginInfo.member_idx}">
 						<input class="moddButton" type="button" id = "openBoardComp" value="신고"/>
 					</c:if>
+=======
+				<!--  <input type="button" onclick="location.href='./boardcompTypeList.do?board_id=${board.board_id}'" value="신고"/> -->
+				   <input type="button" id = "openBoardComp" value="신고"/> 
+>>>>>>> origin/master
 			</th>
 		</tr>
 	</table>
@@ -244,7 +226,7 @@ a, a:link, a:visited, a:active, a:hover {
     <div>
 	    <table>
 	    	</thead>
-			<tbody id="replyList">
+			<tbody id="replyList">		
 			</tbody>
 	    </table>
 	    
@@ -294,6 +276,16 @@ $('#replyForm').submit(function() {
     });
 });
 
+
+
+
+
+
+
+
+
+
+
 function loadReplyList() {
     $.ajax({
         type: 'GET',
@@ -326,10 +318,9 @@ function drawList(obj) {
             }
             replyList += item.member_nickName + '</td>';
             if (item.editing) {
-                // replyList += '<td><textarea id="editContent' + item.reply_id + '">' + item.reply_content + '</textarea></td>';
-                replyList += '<td><textarea style="width: 500px; height: 30px; resize: none;" id="editContent' + item.reply_id + '">' + item.reply_content + '</textarea></td>';
-                replyList += '<td><input class="modButton" type="button" onclick="cancelEdit(' + item.reply_id + ')" value="취소"/>';
-                replyList += '<input class="modButton" type="button" onclick="saveEdit(' + item.reply_id + ')" value="저장"/></td>';
+                replyList += '<td><textarea id="editContent' + item.reply_id + '">' + item.reply_content + '</textarea></td>';
+                replyList += '<td><input type="button" onclick="saveEdit(' + item.reply_id + ')" value="저장" />';
+                replyList += '<input type="button" onclick="cancelEdit(' + item.reply_id + ')" value="취소" /></td>';
             }else {
                 replyList += '<td>' + item.reply_content;
                 if (item.reply_modDate !== null) {
@@ -338,8 +329,8 @@ function drawList(obj) {
                 replyList += '</td>';
                 replyList += '<td width="90px">' + item.reply_regDate + '</td>';
                 if (item.member_idx === ${sessionScope.loginInfo.member_idx}) {
-                    replyList += '<td width="40px"><input class="modButton" type="button" onclick="deleteReply(' + item.reply_id + ')" value="삭제"/></td>';
-                    replyList += '<td width="40px"><input class="modButton" type="button" onclick="editReply(' + item.reply_id + ')" value="수정"/></td>';
+                    replyList += '<td width="40px"><input type="button" onclick="deleteReply(' + item.reply_id + ')" value="삭제"/></td>';
+                    replyList += '<td width="40px"><input type="button" onclick="editReply(' + item.reply_id + ')" value="수정"/></td>';
                 }else{
                 	replyList += '<td colspan="2" width="40px"><input type="button" id="openCommendComp_' + item.reply_id + '" class="openCommendCompBtn" value="신고"/></td>';
                 //	onclick="reportReply(' + item.reply_id + ')"
