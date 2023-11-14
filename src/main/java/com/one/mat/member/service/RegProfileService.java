@@ -139,6 +139,14 @@ public class RegProfileService {
 		String compStr = params.get("compType_code");
 		int compType_code = Integer.parseInt(compStr);
 		dto.setCompType_code(compType_code);
+		
+		String reportIdStr =params.get("reportId");
+		int reportId = Integer.parseInt(reportIdStr);
+		dto.setComp_reportIdx(reportId);
+		
+		String chattIdStr = params.get("chattId");
+		int chattId = Integer.parseInt(chattIdStr);
+		dto.setComp_idfNum(chattId);
 
 		dto.setComp_content(params.get("comp_content"));
 

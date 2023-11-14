@@ -13,7 +13,7 @@
 </insert>
 <insert id="chattingcompSave" parameterType="com.one.mat.admin.dto.CompDTO">
 
-INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},3,3,#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),3);
+INSERT INTO comp(comp_memberIdx,compType_code,comp_loc,comp_idfNum,comp_content,comp_receiveDate,comp_reportIdx) VALUES(#{member_idx},#{compType_code},3,#{comp_idfNum},#{comp_content},(select DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')),#{comp_reportIdx});
 </insert>
 
 <insert id="compPhoto" parameterType="String">
