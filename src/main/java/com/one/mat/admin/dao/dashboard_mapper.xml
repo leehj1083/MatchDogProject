@@ -6,12 +6,20 @@
 	
 	<select id="getTotalSubscriber" resultType="int">
 		SELECT IFNULL(COUNT(member_idx),0) from subshistory 
-			WHERE subsType_code = 2 OR subsType_code =3
+			WHERE subsHistory_state='Y'
 	</select>
 	
 	<select id="getMonthlySubscriber" resultType="int">
-		SELECT IFNULL(COUNT(member_idx),0) FROM subshistory 
-			WHERE month(subsHistory_start)=#{param1}
+		SELECT IFNULL(COUNT(DISTINCT s.member_idx), 0) 
+		    FROM subshistory s
+		    LEFT JOIN (
+		        SELECT DISTINCT member_idx
+		        FROM subshistory
+		        WHERE MONTH(subsHistory_start) <![CDATA[<]]> #{param1}
+		    ) AS pMembers
+		    ON s.member_idx = pMembers.member_idx
+		    WHERE MONTH(s.subsHistory_start) = #{param1}
+		    AND pMembers.member_idx IS NULL    
 	</select>		
 	
 	<select id="getTotalSales" resultType="int">
@@ -55,12 +63,15 @@
 	</select>
 	
  	<select id="getWeekCount" resultType="com.one.mat.admin.dto.VisitorDTO">
-		SELECT IFNULL(COUNT(member_idx),0) AS visit_count, DATE_FORMAT(visit_date, '%Y-%m-%d') AS visit_date 
-			FROM visitors 
-			WHERE visit_date 
-			BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()
-			GROUP BY visit_date
-			ORDER BY visit_date
+	 	SELECT IFNULL(COUNT(v.member_idx), 0) AS visit_count, DATE_FORMAT(date_range.visit_date, '%Y-%m-%d') AS visit_date
+			FROM 
+				(SELECT DATE_SUB(CURDATE(), INTERVAL n DAY) AS visit_date 
+				FROM (SELECT 0 AS n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6) AS numbers
+			    WHERE DATE_SUB(CURDATE(), INTERVAL n DAY) BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE()
+				) AS date_range
+			LEFT JOIN visitors v ON date_range.visit_date = DATE(v.visit_date)
+			GROUP BY date_range.visit_date
+			ORDER BY date_range.visit_date
 	</select>
 	
 	<select id="getSevenWeekCount" resultType="com.one.mat.admin.dto.VisitorDTO">
