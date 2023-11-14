@@ -86,10 +86,7 @@ public class MemberController {
 						
 		String member_id = dto.getMember_id();
 		String member_pw=dto.getMember_pw();
-		/*
-		 * String member_pw = encoder.encode(dto.getMember_pw());
-		 * dto.setMember_pw(member_pw);
-		 */
+		
 		
 		String member_name = dto.getMember_name();
 		String member_nickName = dto.getMember_nickName();

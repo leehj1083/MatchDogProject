@@ -15,6 +15,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<!-- chart.js 라이브러리 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <style>
 .banner{
@@ -135,6 +136,7 @@ table, th, td{
 	flex-direction: row;
     align-items: center;
     justify-content: center;
+    font-family: pretendard;
 }
 
 .visitorGraph{
@@ -150,6 +152,7 @@ table, th, td{
     align-items: center;
     justify-content: center;
     align-content: center;
+    font-family: pretendard;
 }
 
 .salesGraph{
@@ -208,7 +211,7 @@ table, th, td{
 		</div>
 		<div class="content">		
 		<div id="alarmContent"></div>
-		<h3>DASHBOARD</h3><hr/>
+		<h2 style="font-family:pretendard">DASHBOARD</h2><hr/>
 			<div class="visitorStatistics">
 				<div class="noticeToday" style="font-size:medium; display: flex; align-content:center;">
 					<span id="today"></span>&nbsp;기준&nbsp;&nbsp;
@@ -229,7 +232,7 @@ table, th, td{
 					<canvas id="salesGraph" width="400px" height="250px"></canvas>
 				</div>
 				<div class="dataTable">
-					<table>
+					<table style="width: 300px; height: 200px;">
 						<tr>
 							<select id="month" name="month">
 								<option value="1">1</option>
@@ -248,19 +251,19 @@ table, th, td{
 							<span>월 통계</span>
 						</tr>
 						<tr>
-							<th>총 구독자수</th>
+							<th style="background-color: #FDF5E6;">총 구독자수</th>
 							<td id="totalSubs"></td>
 						</tr>
 						<tr>
-							<th>총 매출액</th>
+							<th style="background-color: #FDF5E6;">총 매출액</th>
 							<td id="totalSales"></td>
 						</tr>
 						<tr>
-							<th>이달의 신규 구독자수</th>
+							<th style="background-color: #FDF5E6;">이달의 신규 구독자수</th>
 							<td id="monthlySubs"></td>
 						</tr>
 						<tr>
-							<th>이달의 매출액</th>
+							<th style="background-color: #FDF5E6;">이달의 매출액</th>
 							<td id="monthlySales"></td>
 						</tr>
 					</table>
@@ -504,7 +507,7 @@ var resetSalesCanvas = function(){
 		salesGraph.destroy();
 	}	
 	$('#salesGraph').remove();
-	$('.dataGraph').append('<canvas id="salesGraph" width="400px"></canvas>');
+	$('.dataGraph').append('<canvas id="salesGraph" width="400px" height="250px"></canvas>');
 }
 
 var msg = "${msg}";

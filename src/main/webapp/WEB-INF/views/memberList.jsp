@@ -125,11 +125,16 @@ table{
 	border-collapse: collapse;	
 	table-layout: fixed;
 	font-size: 14px;
+	font-family:pretendard;
 }
 th,td{
 	border : 1px solid black;
 	text-align : center;
 	padding : 5px 7px;
+	font-family:pretendard;
+}
+th{
+	background-color: #bebebe;
 }
 
 </style>
@@ -178,7 +183,7 @@ th,td{
 		</div>
 		<div class="content">
 		<div id="alarmContent"></div>
-		<h2>매칭해주개 회원 리스트</h2><hr/>
+		<h2 style="font-family:pretendard">매칭해주개 회원 리스트</h2><hr/>
 			<span style="font-size: medium; font-weight: bold;">총 회원 수&nbsp;<span id="totalUser"></span>&nbsp;명</span>
 			<select id="pagePerNum" style="float: right;">
 				<option value="10">10</option>

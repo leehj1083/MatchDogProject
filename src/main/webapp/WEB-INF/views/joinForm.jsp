@@ -667,7 +667,7 @@ function join(){
 		success : function(data){
 			if(data.success>0){
 				alert('회원가입에 성공했습니다.');
-				location.href='./HomeMatchingList.do';
+				location.href='./';
 			}else{
 				alert('회원가입에 실패했습니다.');
 			}
