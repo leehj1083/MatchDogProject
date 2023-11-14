@@ -244,7 +244,7 @@ function execDaumPostcode() {
             }
             // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
             if(extraRoadAddr !== ''){
-                extraRoadAddr = ' (' + extraRoadAddr + ')';
+                extraRoadAddr = extraRoadAddr;
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
@@ -268,7 +268,7 @@ function execDaumPostcode() {
 
             } else if(data.autoJibunAddress) {
                 var expJibunAddr = data.autoJibunAddress;
-                guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                guideTextBox.innerHTML = '';
                 guideTextBox.style.display = 'block';
                 document.getElementById("jibunAddress").value=expJibunAddr;
             } else {

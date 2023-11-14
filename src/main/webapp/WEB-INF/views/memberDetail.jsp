@@ -308,6 +308,11 @@ $('#openAlarm').click(function (e) {
 	       $("#alarmContent").html(data);
 	   });
 	});
+	
+	
+// 현재 구독 등급이 선택되어있게 하기
+var subscode = ${dto.subsType_code};
+$('#subsType_code').val(subscode).prop("selected",true);
 
 </script>
 </html>

@@ -120,7 +120,7 @@ a, a:link, a:visited, a:active, a:hover {
 }
 
 table{
-	width :950px;
+	width :900px;
 	border: 1px solid black;
 	border-collapse: collapse;	
 	table-layout: fixed;
