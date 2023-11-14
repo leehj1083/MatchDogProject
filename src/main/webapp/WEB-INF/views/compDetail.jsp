@@ -535,7 +535,7 @@ opacity
 	<div class="banner">
 		<div class="header">
 			<h1 class="logo">
-				<a href="./"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
+				<a href="./HomeMatchingList.do"><img src="./resources/img/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
 				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
