@@ -65,7 +65,7 @@
 			<p>견종: ${map.breed}</p>
         	<p id="ProdogAge"></p>
 			<p id="ProdogGender"></p>
-			<c:if test="${map.pro_dogScore > 5}"> <!-- 테스트를 위해 5이상이면 매너견!!과 함께 점수를 보여줌 -->
+			<c:if test="${map.pro_dogScore > 9}"> <!-- 테스트를 위해 10이상이면 매너견!!과 함께 점수를 보여줌 -->
 				<p>강아지 추천수: ${map.pro_dogScore} (매너견이에요!!)</p>
 			</c:if>
 			<p>강아지 성향: ${map.characteristics}</p>
