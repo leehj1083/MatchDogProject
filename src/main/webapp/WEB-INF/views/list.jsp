@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css'>
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
+<jsp:include page="adminCheck.jsp" />
 <style>
 	.pagination > .active > a,
     .pagination > .active > a:focus,
@@ -199,6 +200,10 @@
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+		      	<a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
 		</div>
 		<div class="content">
