@@ -14,7 +14,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
-<jsp:include page="chattingList4.jsp" />
+<jsp:include page="adminCheck.jsp" />
 <style>
 
 

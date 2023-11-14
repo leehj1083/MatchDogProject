@@ -17,176 +17,6 @@
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
 
-/* .filebox .upload-name {
-	display: inline-block;
-	height: 40px;
-	padding: 0 10px;
-	vertical-align: middle;
-	border: 1px solid #dddddd;
-	width: 160px;
-	color: #999999;
-}
-
-.filebox label {
-	display: inline-block;
-	padding: 2px 3px;
-	color: #77af9c;
-	background-color: #ffffff;
-	cursor: pointer;
-	width: 22px;
-	height: 45px;
-	margin-left: 37px;
-	font-size: small;
-	vertical-align: middle;
-	margin-top: -5px;
-}
-
- label::before {
-	content: '+';
-	vertical-align: middle;
-	font-size: 50px;
-	margin-right: 5px;
-	margin-top: -5px;
-	position: relative;
-	top: -17px;
-} 
-
-.filebox input[type="file"] {
-	position: absolute;
-	width: 0;
-	height: 0;
-	padding: 0;
-	overflow: hidden;
-	border: 0;
-} */
-
-#imgtable {
-	border: 1px solid black;
-}
-
-#imgtable td, tr {
-	border: 1px solid black;
-}
-
-#imgtable td {
-	width: 300px;
-	height: 200px;
-}
-
-textarea style ="resize: both ;"> </textarea>.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 500px;
-	height: 500px;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* .modal-content {
-	display: none;
-}
-
-.modal.active .modal-content {
-	display: block;
-}
-
-.modal-content {
-	background-color: #fff;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 60%;
-} */
-
-/* .close {
-	color: #888;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-} */
-
-.close:hover {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-
-.w-btn {
-	position: relative;
-	border: none;
-	display: inline-block;
-	padding: 15px 30px;
-	border-radius: 15px;
-	font-family: "paybooc-Light", sans-serif;
-	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-	text-decoration: none;
-	font-weight: 600;
-	transition: 0.25s;
-}
-
-.w-btn-green {
-    background-color: rgb(26, 188, 156);
-    color: #d7fff1;
-}
-
-.w-btn:hover {
-	letter-spacing: 2px;
-	transform: scale(1.2);
-	cursor: pointer;
-}
-
-
-.w-btn:active {
-	transform: scale(1.5);
-}
-
-
-
-#modalContent {
-	width: 500px;
-	height: 500px;
-	text-align: left;
-}
-.content {
-	padding: 20px;
-	text-align: center; /* "우리 동네 리스트"를 가운데 정렬 */
-}
-
-#modalContent {
-	width: 500px;
-	height: 500px;
-	text-align: left;
-}
-
-#imgBtn {
-	background: url('resources/img/Pbtn.png') no-repeat;
-	color: transparent; /* 텍스트 숨김 */
-	width: 100px;
-	height: 100px;
-	border: 0px;
-}
-
-#nameText, #breed1, #gender1, #char1, #age1 {
-	text-align: left;
-}
-
-#ph_td1, #ph_td2, #ph_td3, #ph_td4, #ph_td5, #ph_td6, #ph_td7, #ph_td8,
-	#ph_td9 {
-	vertical-align: bottom;
-}
-#openAlarm{
-cursor: pointer;
-}
-
-
-
-
-/*css 커스텀*/
-
 a, a:link, a:visited, a:active, a:hover {
 	text-decoration: none;
 	color: var(--black);
@@ -258,15 +88,15 @@ textarea{
 
 /*사진 모달창*/
 .photoModal {
-	display: none;
+	display: inline-block;
 	width: 480px;
 	height: 720px;
 	border: 1px solid var(--light);
 	box-shadow: 0 0 8px 1px var(--light);
 	border-radius: 12px;
     position: absolute; 
-    top:340px;
-    left:830px;
+    top:304px;
+    left:804px;
     z-index: 1000;
     background-color:var(--white);
 }
@@ -280,7 +110,7 @@ textarea{
 
 .close {
 	position: relative;
-	left: 130px;
+	left: 330px;
 	top: 20px;
 	cursor: pointer;
 	font-size: 32px;
@@ -346,7 +176,7 @@ textarea{
 	display:inline-block;
 	position:relative;
 	top:22px;
-	left:-150px;
+	left:32px;
 	font-size:24px;
 	font-family:Pretendard;
 	font-weight: 700;
@@ -373,15 +203,22 @@ textarea{
 	cursor:pointer;
 }
 
-
-
-
-
-
+/* #randomColorTag {
+        padding: 6px 20px;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #1abc9c;
+        color: #ffffff;
+        border-radius: 20px;
+/*         border: 1px solid #1abc9c; 
+    }
+ */
 
 </style>
 </head>
 <body>
+
 <div id="wrap">
 	<div class="banner">
 		<div class="header">
@@ -417,23 +254,46 @@ textarea{
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
+	            <a href="./adminList.go" class="btn_gnb admin">
+	            	<span class="bi bi-gear-fill"></span>
+					<span>관리자페이지</span>
+	            </a>
 			</div>
+		</div>
+		<div class="subSide">
+			<div class="my_profile_h3">${myPage.member_name} 님의 마이페이지</div>
+			<div><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			<c:url value="/myPage" var="myPageUrl" />
+			<div class="myPageMenu">
+				<a href="./myPageList.do" class="btn_gnb myPageInfo">
+					<span>회원 정보</span>
+			    </a>
+			    <a href="./myProfileList.do" class="btn_gnb myProfile">
+					<span>프로필</span>
+			    </a>
+		    </div>
 		</div>
 		
 		<div class="content">
 		<div id="alarmContent"></div>
-		
-			<form action="profileSave.do" method="post" id="myForm">
-				<h2>프로필 생성</h2>
-				<c:choose>
-			    <c:when test="${not empty photoName}">
-			        <div class="changePhoto"><img src="/photo/${photoName}" class="profilePhoto"/></div>
-			    </c:when>
-			    <c:otherwise>
-			        <div class="changePhoto"><img src="./resources/img/default.png" class="profilePhoto"/></div>
-			    </c:otherwise>
-				</c:choose>
-				
+
+
+			<span class="my_profile_h4">${MyProfileMod.pro_dogName}</span>
+			<span class="my_profile_h4 black">님의 프로필 페이지</span>
+			
+			<form id="form" action="myProfileModUpdate.do" method="post" enctype="multipart/form-data">
+			<!-- 		<input type="file" name="photos" multiple="multiple" value="사진 선택"> -->
+			<input type="hidden" name="pro_idx" value="${MyProfileMod.pro_idx}">
+					<c:set var="minPhotoId" value="9999" />
+						<c:set var="minFileName" value="" />
+							<c:forEach items="${MyProfileMod.photoList}" var="photo" varStatus="loop">
+			    				<c:if test="${photo.photo_id < minPhotoId}">
+			       		 			<c:set var="minPhotoId" value="${photo.photo_id}" />
+			       					<c:set var="minFileName" value="${photo.photo_fileName}" />
+									<div class="changePhoto"><img src="/photo/${photoName}" class="profilePhoto"/></div>
+			    				</c:if>
+							</c:forEach>
+							
 				
 							<!-- 사진 선택  -->
 							<div class="openPhotoModal">
@@ -470,19 +330,29 @@ textarea{
 
 							</div>
 							
+							
+			
+			
 							<div class="myProfileContent">
 							
 								<div class="dogName menu">
 									<div class="dog_text">내 강아지 이름</div>
-									<input type="text" name="pro_dogName" />
+									<input type="text" name="pro_dogName" value="${MyProfileMod.pro_dogName}" />
 								</div>
 								
 								<div class="dogBreed menu">
 									<div class="dog_text">내 강아지 견종</div>
 									<select name="breedType_code">
-									<c:forEach items="${list2}" var="breed">
-										<option value="${breed.breedType_code}">${breed.breedType}</option>
-									</c:forEach>
+									<c:forEach items="${breedTypeList}" var="breed">
+											<c:choose>
+												<c:when test="${MyProfileMod.breedType == breed.breedType}">
+													<option value="${MyProfileMod.breedType_code}" selected="selected">${MyProfileMod.breedType}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${breed.breedType_code}">${breed.breedType}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
 									</select>
 								</div>
 								
@@ -490,7 +360,14 @@ textarea{
 									<div class="dog_text">내 강아지 나이</div>
 									<select name="pro_dogAge">
 										<c:forEach var="i" begin="0" end="30">
-											<option value="${i}">${i}</option>
+											<c:choose>
+												<c:when test="${i == MyProfileMod.pro_dogAge}">
+													<option value="${i}" selected="selected">${i}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${i}">${i}</option>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
 									</select>
 								</div>
@@ -498,8 +375,10 @@ textarea{
 								<div class="dogGender menu">
 									<div class="dog_text">내 강아지 성별</div>
 									<select name="pro_dogGender">
-										<option value="남">남</option>
-										<option value="여">여</option>
+										<option value="남"
+												${MyProfileMod.pro_dogGender eq '남' ? 'selected' : ''}>남아</option>
+											<option value="여"
+												${MyProfileMod.pro_dogGender eq '여' ? 'selected' : ''}>여아</option>
 									</select>
 								</div>
 								
@@ -513,12 +392,17 @@ textarea{
 								<div  class="dogCharType menu">
 									<div class="dog_text"> </div>
 									<div id="selectedCharTypes">
+										<c:forEach items="${MyProfileMod.charTypeList}" var="charType" varStatus="loop">
+					        					<span id="randomColorTag" class="charTag">${charType.charType}</span>
+					        				<input type="hidden" name="charTypeCodes" value="${charType.charType_code}" />
+					        				<c:if test="${!loop.last}">&nbsp;&nbsp;</c:if>
+				   						 </c:forEach>
 									</div>
 								</div>
 								
 								<div class="dogDesc menu">
 									<div class="dog_text">내 강아지 소개</div>
-									<textarea class="pro_dogDesc" name="pro_dogDesc" spellcheck="false"></textarea>
+									<textarea class="pro_dogDesc" name="pro_dogDesc" spellcheck="false">${MyProfileMod.pro_dogDesc}</textarea>
 								</div>
 								
 							</div>
@@ -528,10 +412,10 @@ textarea{
 								<div class="charModal-content">
 									<span id="closeCharModal" style="float: right; cursor: pointer;">&times;</span>
 										내 강아지 성향을 선택해주세요
-									<c:forEach items="${list}" var="myChar">
+									<c:forEach items="${charTypeList}" var="charTypeList">
 									<p>
-										<input type="checkbox" name="selectedCharTypesCode" value="${myChar.charType_code}" data-char-type="${myChar.charType}" />
-										${myChar.charType}
+										<input type="checkbox" name="selectedCharTypesCode" value="${charTypeList.charType_code}" data-char-type="${charTypeList.charType}" charType_code="${charTypeList.charType_code}" />
+										${charTypeList.charType}
 									</p>
 									</c:forEach>
 								<button type="button" id="submitForm">선택 완료</button>
@@ -545,14 +429,29 @@ textarea{
 		</div>
 	</div>
 </div>	
-							
-
-
-
-
-		
+	
 </body>
 <script>
+
+/* function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 랜덤 색상 적용
+    var charTags = document.querySelectorAll('.charTag');
+
+    charTags.forEach(function(tag) {
+        tag.style.backgroundColor = getRandomColor();
+    });
+}); */
+
+
 
 //성향 모달 스크립트
 var charModal = $(".charModal");
@@ -589,7 +488,7 @@ submitFormButton.on("click", function (e) {
     console.log(selectedValuesCode);
     
     selectedOptions.each(function () {
-        var charType = $(this).data("charType");
+        var charType = $(this).data("char-type");
         selectedValues.push(charType);
 
         var charType_code = $(this).attr("charType_code");
@@ -613,7 +512,7 @@ submitFormButton.on("click", function (e) {
 
 //포토 모달 스크립트
 
-//var pro_idx = ${MyProfileMod.pro_idx};
+var pro_idx = ${MyProfileMod.pro_idx};
 	
 
 // 사진 모달창 팝업 오픈
@@ -807,5 +706,8 @@ $('#openAlarm').click(function (e) {
 	       $("#alarmContent").html(data);
 	   });
 	});
+
+
+
 </script>
 </html>

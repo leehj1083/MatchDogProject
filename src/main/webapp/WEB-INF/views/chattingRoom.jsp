@@ -14,7 +14,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>    
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
-<jsp:include page="chattingList4.jsp" />
+<jsp:include page="adminCheck.jsp" />
 <style>
 
 #input_img{
@@ -207,7 +207,7 @@
 	var review = '${review}';
 	var subsType = 0;
 	
-	longPolling();
+	//longPolling();
 
 
 	function longPolling(){
@@ -218,7 +218,7 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					//setTimeout(longPolling, 3000);
+					setTimeout(longPolling, 3000);
 				},
 				timeout:3000,
 				error:function(e){
@@ -401,7 +401,6 @@
     });
 	
 	
-	//longPolling();
 	
 	// --------------------------사진 전송 -----------------------------
 	// 사진 전송 전 모달창에 전송할 사진과 파일명 띄우기
