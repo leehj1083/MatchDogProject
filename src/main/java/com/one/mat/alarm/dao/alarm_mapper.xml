@@ -26,4 +26,7 @@ JOIN member m ON p.member_idx = m.member_idx
 WHERE p.member_idx = #{param1}
 ORDER BY a.alarm_genDate DESC
 </select>
+
+
+
 </mapper>

@@ -43,7 +43,9 @@ public interface CompDAO {
 
 	ArrayList<CompDTO> CompList(int compIdx);
 
-
+	void memberUpdate(CompDTO dto);
+	
+	
 
 	
 
