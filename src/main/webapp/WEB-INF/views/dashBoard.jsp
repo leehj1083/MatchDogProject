@@ -507,7 +507,7 @@ var resetSalesCanvas = function(){
 		salesGraph.destroy();
 	}	
 	$('#salesGraph').remove();
-	$('.dataGraph').append('<canvas id="salesGraph" width="400px"></canvas>');
+	$('.dataGraph').append('<canvas id="salesGraph" width="400px" height="250px"></canvas>');
 }
 
 var msg = "${msg}";
