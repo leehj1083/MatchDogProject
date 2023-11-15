@@ -375,7 +375,6 @@ $(document).on('click', '.openModal', function (e) {
    // JSP 파일을 가져와서 모달 창에 표시
 	if (pro_idx !== '') {
 	    $.get("./memberDetailList.go?pro_idx=" + pro_idx, function(data) {
-	        console.log(data);
 	        console.log("#modalContent");
 	        $("#modalContent").html(data);
 	    });
