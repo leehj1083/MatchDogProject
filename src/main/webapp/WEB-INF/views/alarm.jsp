@@ -131,7 +131,7 @@
                                 <p>${alarm.alarm_genDate}</p>
                             </c:if>
                             <c:if test="${alarm.alarm_type == 2}">
-                                <div class="alarm_text bold">${alarm.member_nickName}&nbsp${alarm.alarm_msg}😊</div>
+                                <div class="alarm_text bold">${alarm.member_nickName2}&nbsp${alarm.alarm_msg}😊</div>
                                 <p>${alarm.alarm_genDate}</p>
                             </c:if>
 					</div>
