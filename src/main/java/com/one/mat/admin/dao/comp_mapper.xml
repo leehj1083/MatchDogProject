@@ -220,7 +220,7 @@ WHERE member_idx IN (
     FROM loginlock
     WHERE compHistory_idx IN (
         SELECT compHistory_idx
-        FROM compHistory
+        FROM comphistory
         WHERE comp_idx = #{comp_idx}
     )
 );

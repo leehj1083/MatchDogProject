@@ -169,10 +169,10 @@ public class RegProfileService {
 		dto.setPro_dogGender(params.get("pro_dogGender"));
 		dto.setPro_dogDesc(params.get("pro_dogDesc"));
 		dto.setPro_dogScore(5);
-		if(checkPro != null) {
-			dto.setPro_rep("N");
-		}else {
+		if(checkPro.isEmpty()) {
 			dto.setPro_rep("Y");
+		}else {
+			dto.setPro_rep("N");
 		}
 		dto.setPro_quit("N");
 		

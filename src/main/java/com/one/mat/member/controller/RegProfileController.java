@@ -226,12 +226,12 @@ public class RegProfileController {
      @RequestMapping("/regProfile")
  	public String Home(Model model, HttpSession session) {
     	 
-    	 String page = "login";
-    	 MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
-    	 
-    	 if(dto == null) {
-    		 model.addAttribute("msg","로그인이 필요한 서비스입니다.");
-    	 }else {
+//    	 String page = "login";
+//    	 MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+//    	 
+//    	 if(dto == null) {
+//    		 model.addAttribute("msg","로그인이 필요한 서비스입니다.");
+//    	 }else {
     		 ArrayList<ProfileDTO> list = service.list();
     		 model.addAttribute("list", list);
     		 logger.info("list  ="+list);
@@ -240,8 +240,8 @@ public class RegProfileController {
     		 model.addAttribute("list2", list2);
     		 logger.info("list2 : "+list2);
     		 
-    		 page="regProfile";
-    	 }
+    		 String page="regProfile";
+//    	 }
  		
  		
  		return page;

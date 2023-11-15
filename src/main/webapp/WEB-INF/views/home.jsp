@@ -193,8 +193,8 @@
 	
 	.mat_flex{
 		position:absolute;
-		top:645px;
-		left:720px;
+		top:380px;
+		left:750px;
 		display:flex;
 		width:300px;
 		justify-content: space-around;
@@ -237,6 +237,17 @@
 	.bi-x-lg{
 		color:var(--green);
 	}
+	
+	heart{
+  cursor: pointer;
+  display: inline-block;
+  height: 150px;
+  width: 150px;
+  margin: 200px auto;
+  background-size: auto 100%;
+  background-position: 0 0;
+  background-image: url(https://abs.twimg.com/a/1446304541/img/t1/web_heart_animation.png);
+}
 
 	
 </style>
@@ -314,7 +325,7 @@
 			    </div>
 			    <div class="mat_flex">
 				    <button id="matchingdel"><span class="bi bi-x-lg"></span></button>
-				    <button id="matchingreq" ><span class="bi bi-heart-fill"></span></button>
+				    <button id="matchingreq" ><heart></heart></button>
 			    </div>
 			    <!-- 모달을 불러올 위치 -->
 			    <div id="modalContent"></div>
@@ -496,6 +507,13 @@ $('#matchingdel').click(function () {
 	showMatchingData(currentIndex);
 });
 
+
+function delayedAlert(){
+	setTimeout(function(){
+		alert("매칭 요청이 발송되었습니다");
+		},500);
+}
+
 //매칭요청 버튼 클릭시 매칭요청 보내기
 $('#matchingreq').click(function () {
 	console.log("매칭 버튼 클릭");
@@ -514,7 +532,7 @@ $('#matchingreq').click(function () {
 		success: function (response) {
 			console.log("stringify 성공 : " + JSON.stringify(request));
 		    console.log('매칭 요청 성공:', response);
-		    alert("매칭 요청이 발송되었습니다");
+		  
 		},
 		error: function (e) {
 		    // 오류 발생 시 처리하는 로직을 작성합니다
@@ -522,6 +540,7 @@ $('#matchingreq').click(function () {
 		    console.log("stringify 실패 : " + JSON.stringify(request));
 		}
 	}); 
+		    delayedAlert();
 });
 
 $('#openModal').click(function (e) {
@@ -554,6 +573,43 @@ $('#openAlarm').click(function (e) {
 var msg = "${msg}";
 if(msg != ""){
 	alert(msg);
+}
+
+var pos = 0,
+dpos = 3.5714,
+cycle,
+heart = false,
+animating = false;
+
+$('heart').click(function () {
+if (!animating) {
+    animating = true;
+    animate();
+}
+});
+
+function animate() {
+cycle = setInterval(increment, 30);
+}
+
+function increment() {
+pos += dpos;
+if (pos > 100) {
+    clearInterval(cycle);
+    animating = false;
+
+    // 애니메이션이 완료된 후 초기 상태로 되돌아감
+    resetHeart();
+} else {
+    $('heart').css('background-position', pos + '% 0');
+}
+}
+
+function resetHeart() {
+// 초기 상태로 되돌아가는 동작
+$('heart').css('background-position', '0 0');
+heart = !heart; // 상태를 반전시켜 다시 하트로 변경
+pos = 0;
 }
 
 </script>
