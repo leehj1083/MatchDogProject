@@ -48,6 +48,8 @@ public interface RegProfileDAO {
 	void charTypeSave(int pro_idx, int charType1, int charType2, int charType3, int charType4);
 
 	void photoInsert(int pro_idx, String fileName);
+
+	ArrayList<Integer> checkPro(int member_idx);
 	
 
 	
