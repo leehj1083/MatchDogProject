@@ -469,12 +469,22 @@
 			        console.log(result);
 			        console.log(characteristicsArray);
 			        
-			        // 4개로 끊기.
-			        for (var i = 0; i < characteristicsArray.length; i++) {
-		    			var characteristic = characteristicsArray[i];
-		    			var targetClass = "btnB" + (i + 1); // 각 요소에 해당하는 클래스 이름
-		    			ch.find("." + targetClass).html(characteristic);
-			        }
+			        var btnB1Element = ch.find('.btnB1');
+			        var btnB2Element = ch.find('.btnB2');
+			        var btnB3Element = ch.find('.btnB3');
+			        var btnB4Element = ch.find('.btnB4');
+			        
+			        btnB1Element.text(characteristicsArray[0]);
+			        btnB2Element.text(characteristicsArray[1]);
+			        btnB3Element.text(characteristicsArray[2]);
+			        btnB4Element.text(characteristicsArray[3]);
+			        // 값 추출 및 배열에 저장
+			        var characteristicsArray = [
+			            btnB1Element.text().trim(),
+			            btnB2Element.text().trim(),
+			            btnB3Element.text().trim(),
+			            btnB4Element.text().trim()
+			        ];
 		            
 		        }
 		    },
