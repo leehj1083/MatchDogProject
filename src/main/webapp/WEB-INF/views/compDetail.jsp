@@ -640,11 +640,7 @@ opacity
 				</div>
 				<div class="row7">
 					<p>신고사유</p>
-					<p>신고사진</p>
-				</div>
-				<div class="row8">
 					<p>${cpd.comp_content}</p>
-					<p>${cpd.photo_fileName}</p>
 				</div>
 				<div class="row9">
 					<p>관리자</p>
