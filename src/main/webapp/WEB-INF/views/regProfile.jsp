@@ -265,7 +265,7 @@ textarea{
 	box-shadow: 0 0 8px 1px var(--light);
 	border-radius: 12px;
     position: absolute; 
-    top:340px;
+    top:315px;
     left:830px;
     z-index: 1000;
     background-color:var(--white);
@@ -373,9 +373,46 @@ textarea{
 	cursor:pointer;
 }
 
+.openPhotoModal{
+	left:52px;
+}
 
+.regComp{
+	margin-top:132px;
+	margin-right:20px;
+	display: inline-block;
+	position: relative;
+	width: 120px;
+	height: 32px;
+	padding: 0 15px;
+	border: 1px solid var(--light);
+	background-color: var(--green);
+	color:var(--white);
+	border-radius: 8px;
+	font-family:Pretendard;
+	font-weight: 500;
+	text-align: center;
+	cursor:pointer;
+}
 
+.myProfileContent{
+	width: 530px;
+	margin: 0 234px;
+}
 
+.subject{
+	font-size:24px;
+	color:var(--green);
+	font-family:Pretendard;
+	font-weight: 600;
+	text-align: center;
+	margin: 30px 0px;
+}
+
+.profilePhoto{
+	margin-top: 0px;
+	margin-left: 0px;
+}
 
 
 
@@ -423,8 +460,8 @@ textarea{
 		<div class="content">
 		<div id="alarmContent"></div>
 		
-			<form action="profileSave.do" method="post" id="myForm">
-				<h2>프로필 생성</h2>
+			<form action="profileSave.do" method="post" id="myForm" enctype="multipart/form-data">
+				<div class="subject">프로필 생성</div>
 				<c:choose>
 			    <c:when test="${not empty photoName}">
 			        <div class="changePhoto"><img src="/photo/${photoName}" class="profilePhoto"/></div>
@@ -539,7 +576,7 @@ textarea{
 								</div>
 							</div>
 
-					 		<button class="cancelComp" type="button">등록 완료</button>
+					 		<button class="regComp" type="button">등록 완료</button>
 					 		
 			</form>
 		</div>
@@ -547,12 +584,10 @@ textarea{
 </div>	
 							
 
-
-
-
 		
 </body>
 <script>
+
 
 //성향 모달 스크립트
 var charModal = $(".charModal");
@@ -614,7 +649,7 @@ submitFormButton.on("click", function (e) {
 //포토 모달 스크립트
 
 //var pro_idx = ${MyProfileMod.pro_idx};
-	
+
 
 // 사진 모달창 팝업 오픈
 $('.openPhotoModal').on('click',function () {
@@ -784,17 +819,20 @@ function resetInputFile() {
     inputFile.val(''); // 파일 선택 상자의 값을 초기화
 }
 
-$('.cancelComp').on('click', function () {
+$('.regComp').on('click', function () {
 	
 	var parentContainer = $('.filebox').prev('.image-container');
     var imageTags = parentContainer.find('img');
     
-    if (imageTags.length > 0) {
+    var selectedCharTypes = $("#selectedCharTypes");
+    var dogDescValue = $('.pro_dogDesc').val().trim();
+
+    if (imageTags.length > 0 && selectedCharTypes.html().trim() !== "" && dogDescValue !== "") {
         // 이미지 태그가 하나라도 존재하면 모달창을 닫음
-	    $('form').submit();
+        $('form').submit();
     } else {
-        // 이미지가 하나도 없는 경우 alert 메시지 표시
-        alert('사진은 1개 이상 무조건 선택해주세요!');
+        // 모든 필수 정보가 입력되지 않은 경우 alert 메시지 표시
+        alert('모든 프로필 내용을 다 채워주세요!');
     }
 	
 });
@@ -807,5 +845,11 @@ $('#openAlarm').click(function (e) {
 	       $("#alarmContent").html(data);
 	   });
 	});
+	
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+
 </script>
 </html>

@@ -17,6 +17,11 @@
 <jsp:include page="adminCheck.jsp" />
 <style>
 
+button{
+	  border: 0;
+	  background-color: transparent;
+	  cursor : pointer;
+	}
 
 
 a, a:link, a:visited, a:active, a:hover {
@@ -52,10 +57,6 @@ a, a:link, a:visited, a:active, a:hover {
 	background-color: var(--light);
 }
 
-.proDetail{
-	display:inline-block;
-	width:240px;
-}
 
 .blur{
 	display:flex;
@@ -72,7 +73,80 @@ a, a:link, a:visited, a:active, a:hover {
   	font-family:Pretendard;
   	text-align:center;
   	
+}
 
+/*css 커스텀*/
+.container .left .people {
+	display:flex;
+	flex-direction: column;
+}
+.container .left .people .person {
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+  width: 100%;
+  height:124px;
+  padding: 10px 20px;
+  border-bottom:1px solid var(--light);
+}
+
+.myName{
+	position: relative;
+	font-family:Pretendard;
+	color:var(--grey);
+	font-weight:300;
+	font-size:12px;
+	margin: 0 0 8px 30px;
+}
+
+.proDetail{
+	display:flex;
+	width:100%;
+	justify-content: space-between;
+}
+
+.container .left .people .person img {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.container .left .people .person .time {
+  font-size: 14px;
+  top: 69px;
+  right: 489px;
+  padding: 0 0 5px 5px;
+  color: var(--grey);
+  font-family:Pretendard;
+}
+
+.mid_flex{
+	display:flex;
+	flex-direction: column;
+}
+
+.bi-hearts{
+	color: var(--light);
+	font-size: 32px;
+	margin-right:10px;
+	cursor: pointer;
+}
+
+.bi-hearts:hover{
+	color:var(--green);
+}
+
+.charTypeList{
+	display:flex;
+	flex-wrap: wrap;
+	width: 40%;
+}
+
+.open_flex{
+	display:flex;
 }
 
 </style>
@@ -170,7 +244,7 @@ function listCall(page){
 // 나에게 요청 보낸 리스트 보기
 function drawList(obj){
 	
-	if(obj.subsType != 1 && obj.matList.length <= 3){
+	if(obj.subsType != 1 && obj.matList.length >= 3){
 		
 		console.log("일반회원이 아닙니다!");
 	
@@ -179,21 +253,25 @@ function drawList(obj){
 		obj.matList.forEach(function(item, idx){
 			content +='<li class="person">';
 			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
-			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-			content +='<button class="openModal" value='+item.pro_idx+'></button>'; // 버튼클릭시 상세보기 페이지 띄워줌
-			content +='<span class="proDetail">'
+			content +='<span class="proDetail">';
+			content +='<span class="open_flex">'
+			content +='<button class="openModal" value='+item.pro_idx+'>'; // 버튼클릭시 상세보기 페이지 띄워줌
 			content +='<img src="/photo/'+item.photo_fileName+'"/>';
+			content +='</button>';
+			content +='<span class="mid_flex">'
+			content +='<span>'
 			content +='<span class="name">'+item.pro_dogName+'</span> ';
 			content +='<span class="breedType">'+item.breedType+'</span>';
 			content +='</span>'
-			content +='</a>'
 			content +='<span class="time">'+item.matchTime+'</span>';
-			content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
+			content +='</span>'
+			content +='</span>'
 			content+='<span class="charTypeList">'
 			item.charType.forEach(function(charType,idx){
 				content +='<span class="charType">'+charType+'</span>';
-			
 			});
+			content +='</span>';
+			content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
 			content+='</span>'
 			content +='</li>';
 		});
@@ -207,24 +285,37 @@ function drawList(obj){
 		for (var idx = 0; idx < 3; idx++) { // idx가 2까지 돌리려면 3으로 설정
 		    var item = obj.matList[idx];
 		
-			content +='<li class="person">';
-			content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
-			// content +='<a href="./memberDetailList.go?pro_idx='+item.pro_idx+'">';
-			content +='<button class="openModal" value='+item.pro_idx+'></button>'; // 버튼클릭시 상세보기 페이지 띄워줌
-			content +='<span class="proDetail">'
-			content +='<img src="/photo/'+item.photo_fileName+'"/>';
-			content +='<span class="name">'+item.pro_dogName+'</span> ';
-			content +='<span class="breedType">'+item.breedType+'</span>';
-			content +='</span>'
-			content +='</a>'
-			content +='<span class="time">'+item.matchTime+'</span>';
-			content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
-			content+='<span class="charTypeList">'
-			item.charType.forEach(function(charType,idx){
-				content +='<span class="charType">'+charType+'</span>';
-			});
-			content+='</span>'
-			content +='</li>';
+			if(item != null){
+				
+				console.log(item);
+				console.log(item.myDogName);
+			
+			    content +='<li class="person">';
+			    content +='<div class="myName">'+item.myDogName+' 님에게 온 매칭요청입니다.</div>';
+				content +='<span class="proDetail">';
+				content +='<span class="open_flex">'
+				content +='<button class="openModal" value='+item.pro_idx+'>'; // 버튼클릭시 상세보기 페이지 띄워줌
+				content +='<img src="/photo/'+item.photo_fileName+'"/>';
+				content +='</button>';
+				content +='<span class="mid_flex">'
+				content +='<span>'
+				content +='<span class="name">'+item.pro_dogName+'</span> ';
+				content +='<span class="breedType">'+item.breedType+'</span>';
+				content +='</span>'
+				content +='<span class="time">'+item.matchTime+'</span>';
+				content +='</span>'
+				content +='</span>'
+				content+='<span class="charTypeList">'
+				item.charType.forEach(function(charType,idx){
+					content +='<span class="charType">'+charType+'</span>';
+				});
+				content +='</span>';
+				content +='<a href="./chatOpen.do?match_idx='+item.match_idx+'"><span class="bi bi-hearts"></span></a>';
+				content+='</span>'
+				content +='</li>';
+				
+			}
+		
 		}
 		content +='<a href="./myPageList.do">';
 		content +='<li class="person blur">';

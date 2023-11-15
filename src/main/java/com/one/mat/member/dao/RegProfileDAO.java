@@ -30,8 +30,24 @@ public interface RegProfileDAO {
 	ArrayList<PhotoDTO> memberDetailListPhoto();
 
 	void historySave(int memberIdx);
-
+	
 	// ------------------------------------
+
+	ArrayList<ProfileDTO> list();
+
+	ArrayList<ProfileDTO> list2();
+
+	void profileSaveDo(ProfileDTO dto);
+
+	void proOpenAge(int pro_idx);
+
+	void proOpenGender(int pro_idx);
+
+	void breed(int pro_idx, int breedType_code);
+
+	void charTypeSave(int pro_idx, int charType1, int charType2, int charType3, int charType4);
+
+	void photoInsert(int pro_idx, String fileName);
 	
 
 	
