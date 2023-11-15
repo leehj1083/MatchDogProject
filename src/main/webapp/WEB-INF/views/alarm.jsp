@@ -123,6 +123,7 @@
         <c:when test="${not empty alarmList}">
             <c:forEach var="alarm" items="${alarmList}">
                 <div class="alarmTable">
+                <a href="recvMatchingList.go">
                            <img src="/photo/${alarm.photo_fileName}" alt="min_photo_fileName" class="noBorder">
                 	<div class="alarm_part">
                             <c:if test="${alarm.alarm_type == 1}">
@@ -134,6 +135,7 @@
                                 <p>${alarm.alarm_genDate}</p>
                             </c:if>
 					</div>
+					</a>
                 </div>
             </c:forEach>
         </c:when>

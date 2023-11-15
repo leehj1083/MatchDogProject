@@ -22,6 +22,9 @@ public class AlarmService {
 		logger.info("alaramListGO!");
 		List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
 		alarmList = dao.alarmListGo(member_idx);
+		int proSendIdx =dao.proSend(member_idx);
+		
+		logger.info("proSendIdx :" +proSendIdx);
 		logger.info("alarmList!! : "+alarmList );
 		model.addAttribute("alarmList",alarmList);
 	
