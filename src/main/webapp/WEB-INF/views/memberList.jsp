@@ -17,6 +17,24 @@
 <!-- 페이징 처리를 위한 라이브러리 -->
 <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <style>
+
+	.pagination > .active > a,
+    .pagination > .active > a:focus,
+    .pagination > .active > a:hover,
+    .pagination > .active > span,
+    .pagination > .active > span:focus,
+    .pagination > .active > span:hover {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #1FBF92; 
+        border-color: #1FBF92;
+    }
+    
+    .pagination > li > a,
+    .pagination > li > span {
+        color: black;
+    }
 .banner{
 	width:1500px;
 	display:inline-block;
@@ -136,7 +154,21 @@ th,td{
 th{
 	background-color: #bebebe;
 }
-
+#search{
+padding: 5px 10px;
+font-size: 12px;
+text-align: center;
+text-decoration: none;
+background-color: #1abc9c;
+color: #ffffff;
+border-radius: 5px;
+cursor: pointer;
+border: none;
+}
+a.highlight-link:hover {
+        color: #1abc9c; /* 마우스 오버 시 링크 색상 */
+    }
+    
 </style>
 </head>
 <body>	
@@ -320,7 +352,7 @@ function drawList(obj) {
             content += '<tr>';
             content += '<td>' + item.member_idx + '</td>';
             content += '<td>' + item.member_id + '</td>';
-            content += '<td>' + '<a href="./memberDetail?member_idx='+item.member_idx+'">'+ item.member_name +'</a>'+'</td>';
+            content += '<td>' + '<a href="./memberDetail?member_idx='+item.member_idx+'" class="highlight-link">'+ item.member_name +'</a>'+'</td>';
             content += '<td>' + item.member_phone + '</td>';
             content += '<td>' + item.member_email + '</td>';
             content += '<td>' + item.member_dongAddr + '</td>';
