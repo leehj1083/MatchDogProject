@@ -195,7 +195,7 @@ LIMIT 10;
 <!-- 매칭요청 보내기 알림테이블 insert 쿼리문 -->
 <insert id="matchingSendAlarm">
 INSERT INTO alarm (pro_sendIdx, pro_recvIdx, alarm_type, alarm_msg) 
-VALUES (#{param1}, #{param2}, 1, '님에게서 새로운 매칭 요청이 들어왔어요!')
+VALUES (#{param1}, #{param2}, 1, '님에게 새로운 매칭 요청이 들어왔어요!')
 </insert>
 
 <!-- 프로필 상세보기 쿼리문 -->
