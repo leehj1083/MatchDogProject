@@ -22,11 +22,15 @@ public class AlarmService {
 		logger.info("alaramListGO!");
 		List<AlarmDTO> alarmList = new ArrayList<AlarmDTO>();
 		alarmList = dao.alarmListGo(member_idx);
-		int proSendIdx =dao.proSend(member_idx);
-		dao.member_nickName2(proSendIdx);
 		
-		logger.info("proSendIdx :" +proSendIdx);
-		logger.info("alarmList!! : "+alarmList );
+		 for (AlarmDTO alarm : alarmList) {
+	            int proSendIdx = dao.proSend(member_idx);
+	            String member_nickName2 = dao.member_nickName2(proSendIdx);
+	            alarm.setMember_nickName2(member_nickName2);
+	            
+	            logger.info("proSendIdx: " + proSendIdx);
+	            logger.info("member_nickName2: " + member_nickName2);
+	        }
 		
 		model.addAttribute("alarmList",alarmList);
 	

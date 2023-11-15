@@ -36,6 +36,11 @@ WHERE pro_idx IN (
 )
 LIMIT 1;
 </select>
+<select id="member_nickName2" resultType="java.lang.String" parameterType="int">
+    SELECT member_nickName AS member_nickName2
+    FROM member
+    WHERE member_idx = #{param1}
+</select>
 
 
 
