@@ -91,14 +91,23 @@ a, a:link, a:visited, a:active, a:hover {
         .details-row {
         display: flex;
         align-items: center; /* 세로 가운데 정렬 */
+        margin-bottom: 10px;
+        font-family:Pretendard;
     }
-
+	.details-row img {
+            /* 다른 스타일들 */
+            margin-right: 10px; /* 이미지 사이 간격을 주는 부분 */
+            margin-bottom: 10px;
+  
+        }
     .details-row input {
         margin-right: 10px; /* 버튼과 제목 사이 간격 조절 */
+        font-family:Pretendard;
     }
     .details-row input[type="button"] {
         border: none;
         outline: none;
+        font-family:Pretendard;
         
     }
 
@@ -107,14 +116,17 @@ a, a:link, a:visited, a:active, a:hover {
     justify-content: flex-end;
         align-items: center;
         margin-bottom: 10px; /* 원하는 간격으로 조절 */
+        font-family:Pretendard;
     }
 
     .updel label {
         margin-right: 10px; /* 라벨과 값 간의 간격을 조절 */
+        font-family:Pretendard;
     }
 
 	.button-group {
         display: flex;
+        font-family:Pretendard;
     }
     .button-green {
         padding: 6px 20px;
@@ -127,6 +139,7 @@ a, a:link, a:visited, a:active, a:hover {
         border-radius: 5px;
         border: 1px solid #1abc9c;
         cursor: pointer;
+        font-family:Pretendard;
     } 
     .button-gray {
         padding: 6px 20px;
@@ -138,6 +151,7 @@ a, a:link, a:visited, a:active, a:hover {
         border-radius: 5px;
         border: 1px solid #808080;
         cursor: pointer;
+        font-family:Pretendard;
     }
     .boardContent {
     min-height: 300px;
@@ -145,17 +159,23 @@ a, a:link, a:visited, a:active, a:hover {
     border: 1px solid #aaa;
     padding: 0.6rem;
     font-family: pretendard;
+    margin-bottom: 20px;
+    font-family:Pretendard;
 }
 .button-container {
             display: flex;
     justify-content: center;
             align-items: center; /* 가운데 정렬 추가 */
+            font-family:Pretendard;
         }
 
         .button-container div {
             margin-left: 10px;
             margin-right: 10px; /* 왼쪽, 오른쪽 여백 추가 */
+            font-family:Pretendard;
         }
+        
+
     </style>
 </head>
 <body>
@@ -232,6 +252,7 @@ a, a:link, a:visited, a:active, a:hover {
         <div class="boardContent">
             <div id="boardContent">${board.board_content}
         </div>
+        
         <c:if test="${photos.size()>0}">
             <div class="details-row">
                 <c:forEach items="${photos}" var="photo">
@@ -251,19 +272,19 @@ a, a:link, a:visited, a:active, a:hover {
         <form id="recommendLike">
             <div>
                 <input type="button" id="likeButton" class="button-green" onclick="like('${board.board_id}')" value="좋아요👍"/>
-                <span id="likeCount">0</span>
+                <span id="likeCount" style="font-weight: bold;">0</span>
             </div>
         </form>
 
         <form id="recommendHate">
             <div>
                 <input type="button" id="hateButton" class="button-gray" onclick="hate('${board.board_id}')" value="싫어요👎"/>
-                <span id="hateCount">0</span>
+                <span id="hateCount" style="font-weight: bold;">0</span>
             </div>
         </form>
     </div>
 </form>
-	<h2>댓글</h2>
+	<h2 style="font-family:Pretendard;">댓글</h2>
 	<hr width="1000px" align="left">
     <form id="replyForm">
     	<table>
@@ -547,10 +568,10 @@ function like(board_id, member_idx) {
 	// 4초후 다시 버튼 활성화
 	setTimeout(function() {
         document.getElementById("likeButton").disabled = false;
-    }, 4000);
+    }, 2000);
 	setTimeout(function() {
         document.getElementById("hateButton").disabled = false;
-    }, 4000);
+    }, 2000);
 }
 
 // 싫어요 버튼 함수
@@ -605,10 +626,10 @@ function hate(board_id, member_idx) {
 	// 4초후 다시 버튼 활성화
 	setTimeout(function() {
         document.getElementById("likeButton").disabled = false;
-    }, 4000);
+    }, 2000);
 	setTimeout(function() {
         document.getElementById("hateButton").disabled = false;
-    }, 4000);
+    }, 2000);
 	recommendLike();
 	recommendHate();
 }
