@@ -144,6 +144,8 @@ public class RegProfileService {
 
 		logger.info("선택한 코드들 :"+selectedCharTypesCode);
 		
+		ArrayList<Integer> checkPro = dao.checkPro(member_idx);
+		
 		// Insert 한 pro_idx 값 가지고 오기
 		
 		// 값이 정상적으로 들어오는지 체크
@@ -167,7 +169,11 @@ public class RegProfileService {
 		dto.setPro_dogGender(params.get("pro_dogGender"));
 		dto.setPro_dogDesc(params.get("pro_dogDesc"));
 		dto.setPro_dogScore(5);
-		dto.setPro_rep("Y");
+		if(checkPro != null) {
+			dto.setPro_rep("N");
+		}else {
+			dto.setPro_rep("Y");
+		}
 		dto.setPro_quit("N");
 		
 		//dao 로 dto 에 삽입한 내용을 보내기.

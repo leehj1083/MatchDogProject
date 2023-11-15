@@ -466,6 +466,9 @@
 		            var result = '${map.characteristics}';
 			        var characteristicsArray = result.split(" / ");
 			        
+			        console.log(result);
+			        console.log(characteristicsArray);
+			        
 			        // 4개로 끊기.
 			        for (var i = 0; i < characteristicsArray.length; i++) {
 		    			var characteristic = characteristicsArray[i];
