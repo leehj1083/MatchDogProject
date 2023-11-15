@@ -203,6 +203,8 @@
 </body>
 <script>
 
+	var chatContainer = $('.chat');
+
 	var chat_idx = ${chat_idx};
 	var review = '${review}';
 	var subsType = 0;
@@ -211,7 +213,30 @@
 		location.href="./chattingList.go";
 	});
 	
-	longPolling();
+	// 스크롤 위치 저장 변수
+	   var userScrolled = false;
+	   
+	   // 스크롤 이벤트 처리
+	   $('.chat').on('scroll', function () {
+	       if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+	           // 사용자가 스크롤을 가장 아래로 내린 경우
+	           userScrolled = false;
+	       } else {
+	           // 사용자가 스크롤을 위로 올린 경우
+	           userScrolled = true;
+	       }
+	   });
+
+	   // 대화가 추가될 때마다 스크롤 이동
+	   function scrollToBottom() {
+	       // 사용자가 스크롤을 위로 올린 경우에는 자동 스크롤을 하지 않음
+	       if (!userScrolled) {
+	           $('.chat').animate({ scrollTop: $('.chat').prop("scrollHeight") }, 0);
+	       }
+	   }
+	
+	
+	
 
 
 	function longPolling(){
@@ -222,12 +247,11 @@
 				dataType:'JSON',
 				success:function(data){
 					drawList(data);
-					setTimeout(longPolling, 1000);
+					setTimeout(longPolling, 3000);
 				},
-				timeout:3000,
 				error:function(e){
 					console.log(e);
-					setTimeout(longPolling, 1000);
+					setTimeout(longPolling, 3000);
 				}
 			});
 		}
@@ -324,12 +348,14 @@
 						}
 					}
 				});
-			
-		
+				
+				if (!userScrolled) {
+			           scrollToBottom();
+			       }
+
 		}
 		
 		
-		// $('.chat').scrollTop($('.chat')[0].scrollHeight);
 		$('.chat').empty();
 		$('.chat').append(content);
 		
@@ -371,7 +397,7 @@
 		}
 	}
 	
-
+	scrollToBottom();
 	
 	// 채팅내용 보내기
 	$('.send').on('click',function(){
@@ -525,7 +551,7 @@
 		   });
 		});
 	
-	
+	longPolling();
 	
 </script>
 </html>

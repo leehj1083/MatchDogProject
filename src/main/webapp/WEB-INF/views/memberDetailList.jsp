@@ -6,75 +6,327 @@
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <style>
+    
+    button{
+	  border: 0;
+	  background-color: transparent;
+	  cursor : pointer;
+	}
 	/* 스타일을 추가할 부분 */
-	body {
-	    font-family: 'Arial', sans-serif;
-	    margin: 0;
-	    padding: 0;
-	    text-align: center;
-	}
-
-	.modalcontainer {
-		max-width: 800px;
-		position: relative;
-		top: -595px;
-		left: 223px;
-		z-index: 999;
-		margin: 20px auto;
-		background-color: #f4f4f4; /*모달 배경 색상변경*/
-		padding: 20px;
-		border-radius: 8px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
-
-	#image {
-	    max-width: 300px;
-	    height: 200px;
-	    border-radius: 8px;
-	    margin-bottom: 20px;
+	.detailModal {
+			display: inline-block;
+        	position:absolute;
+           	background-color: var(--white);
+			top: 284px;
+			left: 248px;
+			z-index: 1000;
+			width: 450px;
+			height: 620px;
+			border: 1px solid var(--light);
+			box-shadow: 0 0 8px 1px var(--light);
+			border-radius:10px;
+			overflow-y: auto;
+        }
+	.detailModal .closeButton {
+            position: absolute;
+			left: 370px;
+			top: 10px;
+			cursor: pointer;
+			font-size: 32px;
+			color:var(--white);
+        }
+	
+	.detailModal #image {
+		width: 432px;
+	    height: 360px;
+  		object-fit: cover;
+  		box-shadow: 0 0 8px 1px var(--light);
+  		text-align: center; 
 	}
 	
-	.text-overlay {
-	    position: absolute;
-	    top: 10px;
-	    left: 10px;
-	    background-color: rgba(255, 255, 255, 0.8);
-	    color: black;
-	    padding: 5px;
-	    border-radius: 5px;
+	.detailModal .btn{
+		display: inline-block;
+		width: 120px;
+		height: 32px;
+		padding: 8px 15px 0 15px;
+		background-color: var(--green);
+		border-radius: 20px;
+		color:var(--white);
+		font-family:Pretendard;
+		font-weight: 500;
+		font-size:12px;
+		text-align: center;
+		z-index:100;	
 	}
-	.closeButton {
-	    float: right;
-	    cursor: pointer;
-	    font-size: 40px;
+	
+	.detailModal .btn_ch{
+		display: inline-block;
+		position: relative;
+		width: 92px;
+		height: 28px;
+		padding: 6px 15px 0 15px;
+		background-color: var(--green);
+		border-radius: 14px;
+		color:var(--white);
+		font-family:Pretendard;
+		font-weight: 500;
+		font-size:14px;
+		text-align: center;
+		z-index:100;	
+		margin: 2px;
 	}
+	
+	.detailModal .main_text{
+			font-size:16px;
+			font-family:Pretendard;
+			color:var(--dark);
+			font-weight: 600;
+			margin-bottom:20px;
+	}
+	
+	.detailModal .text{
+        	display:inline-block;
+        	font-size:16px;
+			font-family:Pretendard;
+			color:var(--dark);
+			font-weight: 600;
+			word-break: break-all;
+			text-align:left;
+        }
+	
+	.detailModal .main_subject{
+        	display:inline-block;
+        	font-size:20px;
+			font-family:Pretendard;
+			color:var(--green);
+			font-weight: 800;
+			word-break: break-all;
+			text-align:left;
+			left:294px;
+			margin-bottom:20px;
+        }
+	
+	.detailModal #member_dongAddr{
+		position:absolute;
+		top:20px;
+		left:20px;
+	}
+	
+	#member_gender{
+	}
+	
+	.left #pro_dogName{
+		font-size:30px;
+		color:var(--dark);
+		margin:20px;
+	}
+	
+	#pro_dogAge{
+	}
+	
+	#pro_dogGender{
+	}
+	
+	#pro_dogBreed{
+	}
+	
+	.detailModal .ch_flex{
+		display:flex;
+		flex-wrap: wrap;
+		width:200px;
+	}
+	
+	.detailModal .mat_flex{
+		position:absolute;
+		top:645px;
+		left:720px;
+		display:flex;
+		width:300px;
+		justify-content: space-around;
+    	align-items: center;
+	}
+	
+	.detailModal .btn_flex{
+		position:absolute;
+		top: 410px;
+    	left: 424px;
+		display:flex;
+		width:910px;
+		justify-content: space-around;
+    	align-items: center;
+	}
+
+	.detailModal #characteristics{
+		margin: 20px 20px 10px 20px;
+	}
+
+	.detailModal #pro_dogDesc{
+		margin: 20px;
+		width:380px;
+		word-break: break-all;
+	}
+	
+	.bi-x-lg, .bi-heart-fill, .bi-chevron-compact-left, .bi-chevron-compact-right{
+		font-weight: 900;
+		font-size:42px;
+	}
+
+	.bi-heart-fill{
+		color:var(--red);
+	}
+	
+	.bi-x-lg{
+		color:var(--green);
+	}
+	
+	.dogInfo{
+		display:flex;
+		padding-bottom: 21px;
+    	border-bottom: 1px solid var(--light);
+	}
+	
+	.left{
+		display:flex;
+		flex-direction: column;
+	}
+	
+	.left .dog_name{
+		display:flex;
+		align-items: center;
+	}
+	
+	.left .dog_age{
+		display:flex;
+		align-items: center;
+	}
+	
+	.dogInfo .dog_text{
+		position: absolute;
+		top: 386px;
+	    left: 264px;
+   		text-allgn: left;
+		font-size:16px;
+		font-family:Pretendard;
+		color:var(--dark);
+		font-weight: 600;
+	    width: 160px;
+	}
+	
+	.button-green{
+		position: absolute;
+		top: 432px;
+    	left: 327px;
+    	text-align:center;
+    	ont-size:16px;
+		font-family:Pretendard;
+		font-weight:600;
+		color:var(--white);
+		z-index:3000;
+	}
+	
+	.bi-hand-thumbs-up-fill{
+		position:absolute;
+		top:416px;
+		left:312px;
+		font-size:40px;
+		color:var(--green);
+	}
+	
+	.dogInfo #ProdogAge{
+		margin: 0 20px;	
+	}
+	
+	.member_flex{
+		display: flex;
+		justify-content: space-between;
+    	align-items: center;
+	}
+	
+	.member_flex .name{
+		display:flex;
+		align-items: center;
+		margin-left:20px;
+	}
+	
+	.member_nickName{
+		font-size:24px;
+		color:var(--dark);
+		margin:20px;
+	}
+	
+	.member_gender{
+		margin-right:40px;
+	}
+	
+	 .right{
+		width:160px;
+	}
+	
+	.
+	
     </style>
 </head>
 <body>
-    <div class="modalcontainer">
-        <span class="closeButton" onclick="closeModal()">&times;</span>
-        <div>
-            <img id="image">
-            <div class="text-overlay">${map.member_dongAddr}</div>
-        </div>
-        <button id="prevImg" style="display:none;">이전</button>
-        <button id="nextImg" style="display:none;">다음</button>
-        <br>
-		<div>		
-			<p>강아지 이름: ${map.pro_dogName}</p>
-			<p>견종: ${map.breed}</p>
-        	<p id="ProdogAge"></p>
-			<p id="ProdogGender"></p>
-			<c:if test="${map.pro_dogScore > 9}"> <!-- 테스트를 위해 10이상이면 매너견!!과 함께 점수를 보여줌 -->
-				<p>강아지 추천수: ${map.pro_dogScore} (매너견이에요!!)</p>
-			</c:if>
-			<p>강아지 성향: ${map.characteristics}</p>
-			<hr>
-			<p>견주 닉네임: ${map.member_nickName}</p>
-			<p>견주 성별: ${map.member_gender}</p>
-			<p>소개글: ${map.pro_dogDesc}</p>
+<div class="detailModal">
+	<span class="closeButton" onclick="closeModal()">&times;</span>
+	<div>
+		<img id="image">
+	</div>
+	<div class="btn" id="member_dongAddr">${map.member_dongAddr}</div>
+    <button id="prevImg" style="display:none;">이전</button>
+    <button id="nextImg" style="display:none;">다음</button>
+    <div class="dogInfo">
+    	<div class="left">
+	    <div class="dog_name">
+			<div class="text" id="pro_dogName">${map.pro_dogName}</div>
+			<div class="btn" id="pro_dogBreed">${map.breed}</div>
+		</div>
+		<div class="dog_age">
+		<div class="text" id="ProdogAge"></div>
+		<div class="text" id="ProdogGender"></div>
+		</div>
+		<div id="characteristics">
+			<div class="ch_flex">
+				<div class="btn1 btn_ch"></div>
+				<div class="btn2 btn_ch"></div>
+				<div class="btn3 btn_ch"></div>
+				<div class="btn4 btn_ch"></div>
+			</div>
+		</div>
+		</div>
+		<div class="right">
+				<c:if test="${map.pro_dogScore >= 10}">
+					<span class="dog_text">매너견이에요!😊</span> 
+					<span class="button-green">${map.pro_dogScore}</span>
+				</c:if>
+				<c:if test="${map.pro_dogScore > 0 && map.pro_dogScore < 10}">
+					<span class="dog_text">매너견이 되어보세요😮</span>
+					<span class="button-green">${map.pro_dogScore}</span>
+				</c:if>
+				<c:if test="${map.pro_dogScore < 0}">
+					<span class="dog_text">비매너견이에요😢</span>
+					<span class="button-green">${map.pro_dogScore}</span>
+				</c:if>
 		</div>
     </div>
+    <div class="memberInfo">
+    	<div class="member_flex">
+    		<div class="name">
+	    		<div class="text">닉네임</div>
+	    		<div class="member_nickName text">${map.member_nickName}</div>
+    		</div>
+    		<div class="member_gender btn">${map.member_gender}</div>
+    	</div>
+		<div class="text" id="pro_dogDesc">${map.pro_dogDesc}</div>
+		<span class ="bi bi-hand-thumbs-up-fill"></span>
+    
+    </div>
+    
+    
+    </div>
+
+
+    
 </body>
 <script>
 	var matchingPtData = []; // 매칭 데이터 배열
@@ -173,21 +425,34 @@
 		        }
 		        if (HiddenAge !== "") {
 		            if (HiddenAge == 'N') {
-		                $('#ProdogAge').text('강아지 나이: ' + '(비공개)');
+		                $('#ProdogAge').text('(비공개)');
 		            } else {
-		                $('#ProdogAge').text('강아지 나이: ' + ${map.pro_dogAge});
+		                $('#ProdogAge').text(${map.pro_dogAge}+'살');
 		            }
 		        } else {
-		            $('#ProdogAge').text('강아지 나이: ' + ${map.pro_dogAge});
+		            $('#ProdogAge').text(${map.pro_dogAge}+'살');
 		        }
 		        if (HiddenGnd !== "") {
 		            if (HiddenGnd == 'N') {
-		                $('#ProdogGender').text('강아지 성별: ' + '(비공개)');
+		                $('#ProdogGender').text('(비공개)');
 		            } else {
-		                $('#ProdogGender').text('강아지 성별: ' + '${map.pro_dogGender}');
+		                $('#ProdogGender').text('${map.pro_dogGender}'+'아');
 		            }
 		        } else {
-		            $('#ProdogGender').text('강아지 성별: ' + '${map.pro_dogGender}');
+		            $('#ProdogGender').text('${map.pro_dogGender}'+'아');
+		            
+		            
+		            var ch = $('#characteristics');
+		            var result = '${map.characteristics}';
+			        var characteristicsArray = result.split(" / ");
+			        
+			        // 4개로 끊기.
+			        for (var i = 0; i < characteristicsArray.length; i++) {
+		    			var characteristic = characteristicsArray[i];
+		    			var targetClass = "btn" + (i + 1); // 각 요소에 해당하는 클래스 이름
+		    			ch.find("." + targetClass).html(characteristic);
+			        }
+		            
 		        }
 		    },
 		    error: function (e) {
@@ -196,6 +461,10 @@
 		    }
 		});
 	}
+	
+	function closeModal() {
+        $(".detailModal").hide();
+    }
 	
 </script>
 </html>

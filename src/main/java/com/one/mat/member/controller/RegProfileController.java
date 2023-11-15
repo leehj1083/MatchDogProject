@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.one.mat.admin.dto.CompDTO;
 import com.one.mat.member.dto.MemberDTO;
@@ -222,6 +223,58 @@ public class RegProfileController {
      
     // ----------------------------------regProfile --------------------------------
      
+     @RequestMapping("/regProfile")
+ 	public String Home(Model model, HttpSession session) {
+    	 
+    	 String page = "login";
+    	 MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+    	 
+    	 if(dto == null) {
+    		 model.addAttribute("msg","로그인이 필요한 서비스입니다.");
+    	 }else {
+    		 ArrayList<ProfileDTO> list = service.list();
+    		 model.addAttribute("list", list);
+    		 logger.info("list  ="+list);
+    		 
+    		 ArrayList<ProfileDTO> list2 = service.list2();
+    		 model.addAttribute("list2", list2);
+    		 logger.info("list2 : "+list2);
+    		 
+    		 page="regProfile";
+    	 }
+ 		
+ 		
+ 		return page;
+ 	}
+     
+     
+     @RequestMapping(value = "/profileSave.do")
+ 	public String profileSaveDo(Model model, HttpSession session,
+ 			@RequestParam Map<String, String> params,
+ 			@RequestParam(value = "selectedCharTypesCode", required = false) String selectedCharTypesCode,
+ 			// 세연 추가 코드
+ 			MultipartFile[] uploadFiles, @RequestParam String[] dataIndex, @RequestParam String delPhotoName){
+ 		
+ 		MemberDTO dto = (MemberDTO) session.getAttribute("loginInfo");
+ 		int member_idx = dto.getMember_idx();
+    	 
+    	 String page = "login";
+    	 
+    	 service.profileSaveDo(params,selectedCharTypesCode,uploadFiles,dataIndex,member_idx);
+
+ 		if (session.getAttribute("loginInfo") == null) {
+ 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+ 		} else {
+ 			/* service.MyProfileModList(pro_idx, model); */
+ 			
+ 			//service.myProfileModUpdateDo(params);
+
+ 			// 세연 추가 코드
+ 			//service.photoInsert(uploadFiles,pro_idx,dataIndex,delPhotoName);
+ 			page = "home";
+ 		}
+ 		return page;
+ 	}
      
      
      
