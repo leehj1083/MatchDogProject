@@ -85,21 +85,6 @@ ul{
 
 }
 
-.bi-hand-thumbs-up-fill{
-	display: inline-block;
-	position: relative;
-	top:13px;
-	left:326px;
-	width: 42px;
-	height: 42px;
-	margin-left: 10px;
-	color: var(--blue) ;
-	font-size: 26px;
-	line-height: 22px;
-	cursor:pointer;
-	z-index:2;
-}
-
 
 .container .right .chat {
   position: relative;
