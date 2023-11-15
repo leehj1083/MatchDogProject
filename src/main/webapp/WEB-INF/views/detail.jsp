@@ -146,7 +146,16 @@ a, a:link, a:visited, a:active, a:hover {
     padding: 0.6rem;
     font-family: pretendard;
 }
+.button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* 가운데 정렬 추가 */
+        }
 
+        .button-container div {
+            margin-left: 10px;
+            margin-right: 10px; /* 왼쪽, 오른쪽 여백 추가 */
+        }
     </style>
 </head>
 <body>
@@ -239,18 +248,21 @@ a, a:link, a:visited, a:active, a:hover {
             </div>
     </div>
 
-    <form id="recommendLike">
-        <div>
-            <input type="button" id="likeButton" class="button-green" onclick="like('${board.board_id}')" value="좋아요"/>
-            <span id="likeCount">0</span>
-        </div>
-    </form>
-    <form id="recommendHate">
-        <div>
-            <input type="button" id="hateButton" class="button-gray" onclick="hate('${board.board_id}')" value="싫어요"/>
-            <span id="hateCount">0</span>
-        </div>
-    </form>
+    <div class="button-container">
+        <form id="recommendLike">
+            <div>
+                <input type="button" id="likeButton" class="button-green" onclick="like('${board.board_id}')" value="좋아요"/>
+                <span id="likeCount">0</span>
+            </div>
+        </form>
+
+        <form id="recommendHate">
+            <div>
+                <input type="button" id="hateButton" class="button-gray" onclick="hate('${board.board_id}')" value="싫어요"/>
+                <span id="hateCount">0</span>
+            </div>
+        </form>
+    </div>
 </form>
 	<h2>댓글</h2>
 	<hr width="1000px" align="left">
