@@ -142,6 +142,9 @@
 		INSERT INTO photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate)
 		VALUES(4,#{param1},#{param2},NOW())
 	</insert>
+	<select id="checkPro" resultType="int">
+		SELECT pro_idx FROM pro WHERE member_idx = #{param1}
+	</select>
 	
 
 
