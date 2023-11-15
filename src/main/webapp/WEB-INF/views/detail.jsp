@@ -104,7 +104,7 @@ a, a:link, a:visited, a:active, a:hover {
 
     .updel {
         display: flex;
-        justify-content: space-between;
+    justify-content: flex-end;
         align-items: center;
         margin-bottom: 10px; /* 원하는 간격으로 조절 */
     }
@@ -141,14 +141,14 @@ a, a:link, a:visited, a:active, a:hover {
     }
     .boardContent {
     min-height: 300px;
-    width: 1000px;
+    width: 950px;
     border: 1px solid #aaa;
     padding: 0.6rem;
     font-family: pretendard;
 }
 .button-container {
             display: flex;
-            justify-content: space-between;
+    justify-content: center;
             align-items: center; /* 가운데 정렬 추가 */
         }
 
@@ -218,8 +218,7 @@ a, a:link, a:visited, a:active, a:hover {
             </c:forEach>
             <span>${board.member_nickName}</span>
         </div>
-        <div>
-    <span class="board-info">${board.board_regDate}</span></div>
+        <div><span class="board-info">${board.board_regDate}</span></div>
     <div><label class="board-info">조회수 :</label>
     <span class="board-info">${board.board_bHit}</span></div>
     <div class="updel">
@@ -251,14 +250,14 @@ a, a:link, a:visited, a:active, a:hover {
     <div class="button-container">
         <form id="recommendLike">
             <div>
-                <input type="button" id="likeButton" class="button-green" onclick="like('${board.board_id}')" value="좋아요"/>
+                <input type="button" id="likeButton" class="button-green" onclick="like('${board.board_id}')" value="좋아요👍"/>
                 <span id="likeCount">0</span>
             </div>
         </form>
 
         <form id="recommendHate">
             <div>
-                <input type="button" id="hateButton" class="button-gray" onclick="hate('${board.board_id}')" value="싫어요"/>
+                <input type="button" id="hateButton" class="button-gray" onclick="hate('${board.board_id}')" value="싫어요👎"/>
                 <span id="hateCount">0</span>
             </div>
         </form>
