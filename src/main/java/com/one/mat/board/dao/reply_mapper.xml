@@ -44,6 +44,7 @@
 		    LIMIT 1
 		)
 		AND photo_type = 4
+		LIMIT 1
 	</select>
 	
 	<insert 

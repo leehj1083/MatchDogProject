@@ -352,26 +352,22 @@ function loadReplyList() {
 
 function drawList(obj) {
     var replyList = '';
-
     if (obj) {
-    	var photoReply = obj.photoReply;
         obj.replyList.forEach(function(item) {
-        	var getPtReply_id = item.reply_id;
-        	getReplyPro(getPtReply_id);
-        	
             replyList += '<tr>';
             replyList += '<td width="100px">';
-            if (photoReply && photoReply.length > 0) {
-                photoReply.forEach(function(photoItem) {
-                    replyList += '<img src="/photo/' + photoItem.photo_fileName + '" width="20" height="20" alt="' + photoItem.photo_fileName + '" />';
-                });
-            }
+
+            // getReplyPro 함수를 동기적으로 호출하여 데이터를 가져옴
+            var poto = getReplyProSync(item.reply_id);
+            drawphoto(poto);
+
+            replyList += replyphoto; // replyphoto를 replyList에 추가
             replyList += item.member_nickName + '</td>';
             if (item.editing) {
                 replyList += '<td><textarea id="editContent' + item.reply_id + '">' + item.reply_content + '</textarea></td>';
                 replyList += '<td><input type="button" onclick="saveEdit(' + item.reply_id + ')" value="저장" />';
                 replyList += '<input type="button" onclick="cancelEdit(' + item.reply_id + ')" value="취소" /></td>';
-            }else {
+            } else {
                 replyList += '<td>' + item.reply_content;
                 if (item.reply_modDate !== null) {
                     replyList += ' (수정됨)';
@@ -381,9 +377,8 @@ function drawList(obj) {
                 if (item.member_idx === ${sessionScope.loginInfo.member_idx}) {
                     replyList += '<td width="40px"><input type="button" onclick="deleteReply(' + item.reply_id + ')" value="삭제"/></td>';
                     replyList += '<td width="40px"><input type="button" onclick="editReply(' + item.reply_id + ')" value="수정"/></td>';
-                }else{
-                	replyList += '<td colspan="2" width="40px"><input type="button" id="openCommendComp_' + item.reply_id + '" class="openCommendCompBtn" value="신고"/></td>';
-                //	onclick="reportReply(' + item.reply_id + ')"
+                } else {
+                    replyList += '<td colspan="2" width="40px"><input type="button" id="openCommendComp_' + item.reply_id + '" class="openCommendCompBtn" value="신고"/></td>';
                 }
             }
             replyList += '</tr>';
@@ -396,9 +391,9 @@ function drawList(obj) {
     $('#replyList').append(replyList);
 }
 
-// 사진 불러와야하는곳
-function getReplyPro(reply_id) {
-
+// 사진 불러와야 하는 곳
+function getReplyProSync(reply_id) {
+    var result;
     $.ajax({
         type: 'GET',
         url: 'getReplyPro',
@@ -406,15 +401,27 @@ function getReplyPro(reply_id) {
             reply_id: reply_id,
         },
         dataType: 'json',
+        async: false, // 비동기를 동기적으로 변경
         success: function(data) {
-            console.log('댓글쓴사람의 프로필: ', data);
-            poto = data;
-            drawList(poto);
+            result = data;
         },
         error: function(e) {
             console.log(e);
         }
     });
+    return result;
+}
+
+function drawphoto(poto) {
+    replyphoto = ''; // replyphoto를 전역으로 변경
+    if (poto) {
+        var photoReply = poto.photoReply;
+        if (photoReply && photoReply.length > 0) {
+            photoReply.forEach(function(photoItem) {
+                replyphoto += '<img src="/photo/' + photoItem.photo_fileName + '" width="20" height="20" alt="' + photoItem.photo_fileName + '" />';
+            });
+        }
+    }
 }
 
 function reportReply(reply_id) {
