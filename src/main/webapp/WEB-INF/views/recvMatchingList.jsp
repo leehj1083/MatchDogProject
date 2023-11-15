@@ -139,7 +139,7 @@ a, a:link, a:visited, a:active, a:hover {
 	color:var(--green);
 }
 
-.charTypeList{
+.person .charTypeList.recv{
 	display:flex;
 	flex-wrap: wrap;
 	width: 40%;
@@ -266,7 +266,7 @@ function drawList(obj){
 			content +='<span class="time">'+item.matchTime+'</span>';
 			content +='</span>'
 			content +='</span>'
-			content+='<span class="charTypeList">'
+			content+='<span class="charTypeList recv">'
 			item.charType.forEach(function(charType,idx){
 				content +='<span class="charType">'+charType+'</span>';
 			});
@@ -305,7 +305,7 @@ function drawList(obj){
 				content +='<span class="time">'+item.matchTime+'</span>';
 				content +='</span>'
 				content +='</span>'
-				content+='<span class="charTypeList">'
+				content+='<span class="charTypeList recv">'
 				item.charType.forEach(function(charType,idx){
 					content +='<span class="charType">'+charType+'</span>';
 				});

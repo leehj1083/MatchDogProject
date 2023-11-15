@@ -168,7 +168,7 @@
 	
 	#pro_dogName{
 		font-size:30px;
-		color:var(--green);
+		color:var(--white);
 		top:471px;
 		left:720px;
 	}
