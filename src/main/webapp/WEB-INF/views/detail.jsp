@@ -154,26 +154,39 @@ a, a:link, a:visited, a:active, a:hover {
         font-family:Pretendard;
     }
     .boardContent {
-    min-height: 300px;
-    width: 950px;
-    border: 1px solid #aaa;
-    padding: 0.6rem;
-    font-family: pretendard;
-    margin-bottom: 20px;
-    font-family:Pretendard;
-}
-.button-container {
-            display: flex;
-    justify-content: center;
-            align-items: center; /* 가운데 정렬 추가 */
-            font-family:Pretendard;
-        }
+	    min-height: 300px;
+	    width: 950px;
+	    border: 1px solid #aaa;
+	    padding: 0.6rem;
+	    font-family: pretendard;
+	    margin-bottom: 20px;
+	    font-family:Pretendard;
+	}
+	.button-container {
+		display: flex;
+		justify-content: center;
+		align-items: center; /* 가운데 정렬 추가 */
+		font-family:Pretendard;
+	}
 
-        .button-container div {
-            margin-left: 10px;
-            margin-right: 10px; /* 왼쪽, 오른쪽 여백 추가 */
-            font-family:Pretendard;
-        }
+	.button-container div {
+		margin-left: 10px;
+		margin-right: 10px; /* 왼쪽, 오른쪽 여백 추가 */
+		font-family:Pretendard;
+	}
+	*::-webkit-scrollbar {
+		width: 16px;
+	}
+	
+	*::-webkit-scrollbar-track {
+		background: var(--white);
+	}
+	
+	*::-webkit-scrollbar-thumb {
+		background-color: var(--green);
+		border-radius: 10px;
+		border: 3px solid #ffffff;
+	}
         
 
     </style>
@@ -234,7 +247,7 @@ a, a:link, a:visited, a:active, a:hover {
         <div class="details-row">
 
             <c:forEach items="${boardPro}" var="boardPro">
-                <img src="/photo/${boardPro.photo_fileName}" width="20" height="20" alt="${boardPro.photo_fileName}"/>
+                <img src="/photo/${boardPro.photo_fileName}" width="50" height="50" alt="${boardPro.photo_fileName}"/>
             </c:forEach>
             <span>${board.member_nickName}</span>
         </div>
@@ -376,12 +389,12 @@ function drawList(obj) {
     if (obj) {
         obj.replyList.forEach(function(item) {
             replyList += '<tr>';
-            replyList += '<td width="100px">';
+            replyList += '<td width="150px">';
 
             // getReplyPro 함수를 동기적으로 호출하여 데이터를 가져옴
             var poto = getReplyProSync(item.reply_id);
             drawphoto(poto);
-
+			
             replyList += replyphoto; // replyphoto를 replyList에 추가
             replyList += item.member_nickName + '</td>';
             if (item.editing) {
@@ -439,7 +452,7 @@ function drawphoto(poto) {
         var photoReply = poto.photoReply;
         if (photoReply && photoReply.length > 0) {
             photoReply.forEach(function(photoItem) {
-                replyphoto += '<img src="/photo/' + photoItem.photo_fileName + '" width="20" height="20" alt="' + photoItem.photo_fileName + '" />';
+                replyphoto += '<img src="/photo/' + photoItem.photo_fileName + '" width="50" height="50" alt="' + photoItem.photo_fileName + '" />';
             });
         }
     }

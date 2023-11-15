@@ -187,6 +187,20 @@ font-family:pretendard;
         border: 1px solid #1abc9c;
         cursor: pointer;
     } 
+    *::-webkit-scrollbar {
+    	width: 16px;
+	}
+
+	*::-webkit-scrollbar-track {
+    	background: var(--white);
+	}
+
+	*::-webkit-scrollbar-thumb {
+    	background-color: var(--green);
+    	border-radius: 10px;
+    	border: 3px solid #ffffff;
+	}
+    
 </style>
 </head>
 <body>

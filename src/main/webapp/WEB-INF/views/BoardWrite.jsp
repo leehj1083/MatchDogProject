@@ -111,6 +111,20 @@ a, a:link, a:visited, a:active, a:hover {
 	input {
  	   margin: 1px;
 	}
+	*::-webkit-scrollbar {
+		width: 16px;
+	}
+
+	*::-webkit-scrollbar-track {
+		background: var(--white);
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background-color: var(--green);
+		border-radius: 10px;
+		border: 3px solid #ffffff;
+	}
+	
 </style>
 </head>
 <body>
