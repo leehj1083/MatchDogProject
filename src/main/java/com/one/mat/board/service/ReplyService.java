@@ -26,17 +26,26 @@ public class ReplyService {
 		int board_id = Integer.parseInt(boardId);
 		logger.info("board_id: "+board_id);
 		ArrayList<ReplyDTO> replyList = dao.replyList(board_id);
-		int member_idx = 0;
-		for (ReplyDTO reply : replyList) {
-			member_idx = reply.getMember_idx();
-		}
-		ArrayList<PhotoReplyProDTO> photoReply = dao.replyPro(String.valueOf(member_idx));
-		map.put("photoReply", photoReply);
+		// int member_idx = 0;
+		// for (ReplyDTO reply : replyList) {
+		//	member_idx = reply.getMember_idx();
+		// }
+		// ArrayList<PhotoReplyProDTO> photoReply = dao.replyPro(String.valueOf(member_idx));
+		// logger.info("댓글프사 누구 member+idx?: "+member_idx);
+		// map.put("photoReply", photoReply);
 		map.put("replyList", replyList);
-		logger.info("replyList: "+replyList);
-		logger.info("photoReply: "+photoReply);
+		// logger.info("replyList: "+replyList);
+		// logger.info("photoReply: "+photoReply);
 		return map;
 	}
+	
+	public Map<String, Object> getReplyPro(String reply_id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<PhotoReplyProDTO> photoReply = dao.getReplyPro(reply_id);
+		map.put("photoReply", photoReply);
+		return map;
+	}
+	
 	
 	public Map<String, Object> replyWrite(Map<String, String> params) {
 		ReplyDTO dto = new ReplyDTO();

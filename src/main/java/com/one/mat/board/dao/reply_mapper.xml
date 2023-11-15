@@ -20,12 +20,30 @@
 		ORDER BY r.reply_id DESC
 	</select>
 	
-	<select id="replyPro" resultType="com.one.mat.board.dto.PhotoReplyProDTO">
-		SELECT * FROM photo pt
-		INNER JOIN pro p on p.member_idx = #{param1}
-			WHERE photo_type = 4 AND p.pro_idx = pt.photo_idfNum
-		ORDER BY pt.photo_id
-		LIMIT 1;
+	<!-- 
+		<select id="replyPro" resultType="com.one.mat.board.dto.PhotoReplyProDTO">
+			SELECT * FROM photo pt
+			INNER JOIN pro p on p.member_idx = #{param1}
+				WHERE photo_type = 4 AND p.pro_idx = pt.photo_idfNum
+			ORDER BY pt.photo_id
+			LIMIT 1;
+		</select>
+	 -->
+	 
+ 	<select id="getReplyPro" resultType="com.one.mat.board.dto.PhotoReplyProDTO">
+		SELECT * FROM photo
+		WHERE photo_idfNum = (
+		    SELECT pro_idx
+		    FROM pro
+		    WHERE member_idx = (
+		        SELECT member_idx
+		        FROM reply
+		        WHERE reply_id = #{param1}
+		    )
+		    ORDER BY pro_idx
+		    LIMIT 1
+		)
+		AND photo_type = 4
 	</select>
 	
 	<insert 

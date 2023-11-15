@@ -18,7 +18,9 @@ public interface ReplyDAO {
 
 	void replyDel(String reply_id);
 
-	ArrayList<PhotoReplyProDTO> replyPro(String member_idx);
+	// ArrayList<PhotoReplyProDTO> replyPro(String member_idx);
+
+	ArrayList<PhotoReplyProDTO> getReplyPro(String reply_id);
 
 
 }

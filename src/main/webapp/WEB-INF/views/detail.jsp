@@ -356,6 +356,9 @@ function drawList(obj) {
     if (obj) {
     	var photoReply = obj.photoReply;
         obj.replyList.forEach(function(item) {
+        	var getPtReply_id = item.reply_id;
+        	getReplyPro(getPtReply_id);
+        	
             replyList += '<tr>';
             replyList += '<td width="100px">';
             if (photoReply && photoReply.length > 0) {
@@ -391,6 +394,27 @@ function drawList(obj) {
 
     $('#replyList').empty();
     $('#replyList').append(replyList);
+}
+
+// 사진 불러와야하는곳
+function getReplyPro(reply_id) {
+
+    $.ajax({
+        type: 'GET',
+        url: 'getReplyPro',
+        data: {
+            reply_id: reply_id,
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log('댓글쓴사람의 프로필: ', data);
+            poto = data;
+            drawList(poto);
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
 }
 
 function reportReply(reply_id) {

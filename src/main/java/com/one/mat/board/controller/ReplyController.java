@@ -29,6 +29,13 @@ public class ReplyController {
         return service.replyList(boardId);
     }
 	
+	@RequestMapping(value = "/getReplyPro")
+    @ResponseBody
+    public Map<String, Object> getReplyPro(HttpSession session,@RequestParam String reply_id) {
+		logger.info("댓글사진가져올 reply_id: " + reply_id);
+        return service.getReplyPro(reply_id);
+    }
+	
 	@RequestMapping(value = "/replyWrite")
 	@ResponseBody
 	public Map<String, Object> replyWrite(HttpSession session, @RequestParam Map <String, String> params){
