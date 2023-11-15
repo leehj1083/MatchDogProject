@@ -12,6 +12,10 @@ public interface AlarmDAO {
 
 
 
+	String member_nickName2(int proSendIdx);
+
+
+
 
 	
 
