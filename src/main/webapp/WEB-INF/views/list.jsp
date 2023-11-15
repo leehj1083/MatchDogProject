@@ -155,8 +155,8 @@ font-family:pretendard;
 	    color: black;
 	}
 	/* 링크 스타일 (검은색) */
-	a:hover {
-	    color: black;
+	a.icon:hover {
+	    color: #1abc0c;
 	}
 
 	nav{
