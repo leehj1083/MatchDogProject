@@ -359,6 +359,23 @@
 	matchingPhoto();
 	proOpen();
 	
+	var ch = $('#characteristicsDo');
+    var result = '${map.characteristics}';
+    var characteristicsArray = result.split(" / ");
+    
+    console.log(result);
+    console.log(characteristicsArray);
+    
+    var btnB1Element = ch.find('.btnB1');
+    var btnB2Element = ch.find('.btnB2');
+    var btnB3Element = ch.find('.btnB3');
+    var btnB4Element = ch.find('.btnB4');
+    
+    btnB1Element.text(characteristicsArray[0]);
+    btnB2Element.text(characteristicsArray[1]);
+    btnB3Element.text(characteristicsArray[2]);
+    btnB4Element.text(characteristicsArray[3]);
+	
 	// 모달창 닫기
     function closeModal() {
         $(".modalcontainer").hide();
@@ -443,14 +460,36 @@
 		        	HiddenAge = "";
 		        	HiddenGnd = "";
 		        }
+		        
 		        if (HiddenAge !== "") {
 		            if (HiddenAge == 'N') {
 		                $('#ProdogAge').text('(비공개)');
 		            } else {
 		                $('#ProdogAge').text(${map.pro_dogAge}+'살');
+		               
 		            }
 		        } else {
 		            $('#ProdogAge').text(${map.pro_dogAge}+'살');
+		            
+		            var ch = $('#characteristicsDo');
+		            var result = '${map.characteristics}';
+			        var characteristicsArray = result.split(" / ");
+			        
+			        console.log(result);
+			        console.log(characteristicsArray);
+			        
+			        var btnB1Element = ch.find('.btnB1');
+			        var btnB2Element = ch.find('.btnB2');
+			        var btnB3Element = ch.find('.btnB3');
+			        var btnB4Element = ch.find('.btnB4');
+			        
+			        btnB1Element.text(characteristicsArray[0]);
+			        btnB2Element.text(characteristicsArray[1]);
+			        btnB3Element.text(characteristicsArray[2]);
+			        btnB4Element.text(characteristicsArray[3]);
+			        // 값 추출 및 배열에 저장
+
+		            
 		        }
 		        if (HiddenGnd !== "") {
 		            if (HiddenGnd == 'N') {
@@ -479,12 +518,7 @@
 			        btnB3Element.text(characteristicsArray[2]);
 			        btnB4Element.text(characteristicsArray[3]);
 			        // 값 추출 및 배열에 저장
-			        var characteristicsArray = [
-			            btnB1Element.text().trim(),
-			            btnB2Element.text().trim(),
-			            btnB3Element.text().trim(),
-			            btnB4Element.text().trim()
-			        ];
+
 		            
 		        }
 		    },
