@@ -44,7 +44,7 @@
   		text-align: center; 
 	}
 	
-	.detailModal .btn{
+	.detailModal .detail_btn{
 		display: inline-block;
 		width: 120px;
 		height: 32px;
@@ -84,7 +84,7 @@
 			margin-bottom:20px;
 	}
 	
-	.detailModal .text{
+	.detailModal .detail_text{
         	display:inline-block;
         	font-size:16px;
 			font-family:Pretendard;
@@ -156,7 +156,7 @@
     	align-items: center;
 	}
 
-	.detailModal #characteristics{
+	.detailModal #characteristicsDo{
 		margin: 20px 20px 10px 20px;
 	}
 
@@ -213,18 +213,20 @@
 	}
 	
 	.button-green{
-		position: absolute;
-		top: 432px;
-    	left: 327px;
     	text-align:center;
-    	ont-size:16px;
 		font-family:Pretendard;
 		font-weight:600;
 		color:var(--white);
-		z-index:3000;
 	}
 	
-	.bi-hand-thumbs-up-fill{
+	.what{
+		position: absolute;
+		top: 436px;
+    	left: 327px;
+    	z-index:3000;
+	}
+	
+	.thumb-up-fill{
 		position:absolute;
 		top:416px;
 		left:312px;
@@ -262,7 +264,23 @@
 		width:160px;
 	}
 	
-	.
+	#prevImg{
+		font-size:40px;
+		color:white;
+		position:absolute;
+		top:160px;
+		left:20px;
+		z-index:3000;
+	}
+	
+	#nextImg{
+		font-size:40px;
+		color:white;
+		position:absolute;
+		top:155px;
+		left:372px;
+		z-index:3000;
+	}
 	
     </style>
 </head>
@@ -272,53 +290,55 @@
 	<div>
 		<img id="image">
 	</div>
-	<div class="btn" id="member_dongAddr">${map.member_dongAddr}</div>
-    <button id="prevImg" style="display:none;">이전</button>
-    <button id="nextImg" style="display:none;">다음</button>
+	<div class="detail_btn" id="member_dongAddr">${map.member_dongAddr}</div>
+    <button id="prevImg" style="display:none;"><span class="bi bi-chevron-left"></span></button>
+    <button id="nextImg" style="display:none;"><span class="bi bi-chevron-right"></span></button>
     <div class="dogInfo">
     	<div class="left">
 	    <div class="dog_name">
-			<div class="text" id="pro_dogName">${map.pro_dogName}</div>
-			<div class="btn" id="pro_dogBreed">${map.breed}</div>
+			<div class="detail_text" id="pro_dogName">${map.pro_dogName}</div>
+			<div class="detail_btn" id="pro_dogBreed">${map.breed}</div>
 		</div>
 		<div class="dog_age">
-		<div class="text" id="ProdogAge"></div>
-		<div class="text" id="ProdogGender"></div>
+		<div class="detail_text" id="ProdogAge"></div>
+		<div class="detail_text" id="ProdogGender"></div>
 		</div>
-		<div id="characteristics">
+		<div id="characteristicsDo">
 			<div class="ch_flex">
-				<div class="btn1 btn_ch"></div>
-				<div class="btn2 btn_ch"></div>
-				<div class="btn3 btn_ch"></div>
-				<div class="btn4 btn_ch"></div>
+				<div class="btnB1 btn_ch"></div>
+				<div class="btnB2 btn_ch"></div>
+				<div class="btnB3 btn_ch"></div>
+				<div class="btnB4 btn_ch"></div>
 			</div>
 		</div>
 		</div>
 		<div class="right">
 				<c:if test="${map.pro_dogScore >= 10}">
 					<span class="dog_text">매너견이에요!😊</span> 
-					<span class="button-green">${map.pro_dogScore}</span>
+					<span class="what"><span class="button-green">${map.pro_dogScore}</span></span>
 				</c:if>
 				<c:if test="${map.pro_dogScore > 0 && map.pro_dogScore < 10}">
 					<span class="dog_text">매너견이 되어보세요😮</span>
-					<span class="button-green">${map.pro_dogScore}</span>
+					<span class="what"><span class="button-green">${map.pro_dogScore}</span></span>
 				</c:if>
 				<c:if test="${map.pro_dogScore < 0}">
+				
+				
 					<span class="dog_text">비매너견이에요😢</span>
-					<span class="button-green">${map.pro_dogScore}</span>
+					<span class="what"><span class="button-green">${map.pro_dogScore}</span></span>
 				</c:if>
 		</div>
     </div>
     <div class="memberInfo">
     	<div class="member_flex">
     		<div class="name">
-	    		<div class="text">닉네임</div>
-	    		<div class="member_nickName text">${map.member_nickName}</div>
+	    		<div class="detail_text">닉네임</div>
+	    		<div class="member_nickName detail_text">${map.member_nickName}</div>
     		</div>
-    		<div class="member_gender btn">${map.member_gender}</div>
+    		<div class="member_gender detail_btn">${map.member_gender}</div>
     	</div>
-		<div class="text" id="pro_dogDesc">${map.pro_dogDesc}</div>
-		<span class ="bi bi-hand-thumbs-up-fill"></span>
+		<div class="detail_text" id="pro_dogDesc">${map.pro_dogDesc}</div>
+		<span class="thumb-up-fill"><span class ="bi bi-hand-thumbs-up-fill memberDetail"></span></span>
     
     </div>
     
@@ -442,14 +462,14 @@
 		            $('#ProdogGender').text('${map.pro_dogGender}'+'아');
 		            
 		            
-		            var ch = $('#characteristics');
+		            var ch = $('#characteristicsDo');
 		            var result = '${map.characteristics}';
 			        var characteristicsArray = result.split(" / ");
 			        
 			        // 4개로 끊기.
 			        for (var i = 0; i < characteristicsArray.length; i++) {
 		    			var characteristic = characteristicsArray[i];
-		    			var targetClass = "btn" + (i + 1); // 각 요소에 해당하는 클래스 이름
+		    			var targetClass = "btnB" + (i + 1); // 각 요소에 해당하는 클래스 이름
 		    			ch.find("." + targetClass).html(characteristic);
 			        }
 		            
