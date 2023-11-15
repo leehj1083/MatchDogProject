@@ -9,7 +9,7 @@
   --bg: #f8f8f8;
   --grey: #999;
   --dark: #1a1a1a;
-  --light: #e6e6e6;
+  --light: #c0c0c0;
   --wrapper: 1000px;
   --blue: #00b0ff;
   --red: #e85151;
@@ -505,4 +505,18 @@ ul{
 	color: var(--white);
     background-color: var(--green);
 }
+
+*::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--white);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--green);
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
 
