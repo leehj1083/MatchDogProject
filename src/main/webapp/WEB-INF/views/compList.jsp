@@ -209,7 +209,9 @@ nav {
 	margin-left:60px;
 }
     
-    
+    a.atag:hover {
+        color: #1abc9c; /* 마우스 오버 시 링크 색상 */
+    }
     
     
     
@@ -418,17 +420,14 @@ nav {
 								+ '</td>';
 						content += '<td>' + item.comp_idfNum + '</td>';
 						content += '<td>'
-								+ '<a href="compDetail?comp_idx='
-								+ item.comp_idx
-								+ '"style="color: blue;">'
-								+ (item.comp_content.length > 10 ? item.comp_content
-										.substring(0, 10)
-										+ '...'
-										: item.comp_content) + '('
-								+ getCompType(item.compType) + ')' + '</a>' + '</td>';
-						content += '<td>' + '<a href="sancHistory.go?comp_idx=' 
-								+ item.comp_reportIdx + '" style="color: blue;">'
-								+ item.comp_reportIdx + '</a>' + '</td>';
+						    + '<a href="compDetail?comp_idx='
+						    + item.comp_idx
+						    + '"class="atag">'
+						    + (item.comp_content.length > 10 ? item.comp_content.substring(0, 10) + '...' : item.comp_content)
+						    + '(' + getCompType(item.compType) + ')' + '</a>' + '</td>';
+						    content += '<td>' 
+						        + '<a href="sancHistory.go?comp_idx=' + item.comp_reportIdx + '" class="atag" >'
+						        + item.comp_reportIdx + '</a>' + '</td>';
 						var regDate = new Date(item.comp_receiveDate);
 						var formattedRegDate = regDate.getFullYear() + "-"
 								+ (regDate.getMonth() + 1) + "-"

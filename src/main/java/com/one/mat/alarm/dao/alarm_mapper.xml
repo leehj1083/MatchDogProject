@@ -26,6 +26,21 @@ JOIN member m ON p.member_idx = m.member_idx
 WHERE p.member_idx = #{param1}
 ORDER BY a.alarm_genDate DESC
 </select>
+<select id="proSend" resultType="int" parameterType="int">
+   SELECT member_idx
+FROM pro
+WHERE pro_idx IN (
+    SELECT pro_sendIdx
+    FROM alarm
+    WHERE pro_recvIdx = #{param1}
+)
+LIMIT 1;
+</select>
+<select id="member_nickName2" resultType="java.lang.String" parameterType="int">
+    SELECT member_nickName AS member_nickName2
+    FROM member
+    WHERE member_idx = #{param1}
+</select>
 
 
 

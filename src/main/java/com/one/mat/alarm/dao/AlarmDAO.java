@@ -8,6 +8,12 @@ public interface AlarmDAO {
 
 	List<AlarmDTO> alarmListGo(int member_idx);
 
+	int proSend(int member_idx);
+
+
+
+	String member_nickName2(int proSendIdx);
+
 
 
 

@@ -1,7 +1,5 @@
 package com.one.mat.alarm.dto;
 
-import java.sql.Date;
-
 public class AlarmDTO {
 	private int alarm_id;
 	private int pro_recvIdx;  // 로그인한 사용자
@@ -13,6 +11,14 @@ public class AlarmDTO {
 	private String alarm_readCheck;
 	private String photo_fileName;
 	private String member_nickName;
+	private String member_nickName2;
+	
+	public String getMember_nickName2() {
+		return member_nickName2;
+	}
+	public void setMember_nickName2(String member_nickName2) {
+		this.member_nickName2 = member_nickName2;
+	}
 	public int getAlarm_id() {
 		return alarm_id;
 	}
