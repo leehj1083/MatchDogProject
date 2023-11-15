@@ -82,9 +82,67 @@
 		WHERE pro.pro_idx = 13;
 	</select>
 
+
+	<!-- regProfile -->
+
+	<select id="list" resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT charType_code,charType FROM chartype
+	</select>
+	<select id="list2" resultType="com.one.mat.member.dto.ProfileDTO">
+		SELECT breedType_code,breedType FROM breedtype
+	</select>
 	
-
-
+	<!-- generatedKey 사용 -->
+	<insert useGeneratedKeys="true" keyColumn="pro_idx"
+		keyProperty="pro_idx" id="profileSaveDo"
+		parameterType="com.one.mat.member.dto.ProfileDTO">
+		INSERT INTO pro(
+			member_idx,
+			pro_dogName,
+			pro_dogAge,
+			pro_dogGender,
+			pro_dogDesc,
+			pro_dogScore,
+			pro_rep,
+			pro_quit
+		)
+		VALUES(
+		#{member_idx},
+		#{pro_dogName},
+		#{pro_dogAge},
+		#{pro_dogGender},
+		#{pro_dogDesc},
+		#{pro_dogScore},
+		#{pro_rep},
+		#{pro_quit}
+		)
+	</insert>
+	<!-- proOpen 여부 -->
+	<insert id="proOpenAge">
+		INSERT INTO proopen(pro_idx,openType_code,open_hide)
+		VALUES(#{param1},1,"Y")
+	</insert>
+	<insert id="proOpenGender">
+		INSERT INTO proopen(pro_idx,openType_code,open_hide)
+		VALUES(#{param1},2,"Y")
+	</insert>
+	<insert id="breed">
+		INSERT INTO breed(pro_idx, breedType_code)
+		VALUES(#{param1},#{param2})
+	</insert>
+	<insert id="charTypeSave">
+		INSERT INTO `char` (pro_idx, charType_code)
+		VALUES
+		(#{param1}, #{param2}),
+		(#{param1}, #{param3}),
+		(#{param1}, #{param4}),
+		(#{param1}, #{param5})
+	</insert>
+	<insert id="photoInsert">
+		INSERT INTO photo(photo_type,photo_idfNum,photo_fileName,photo_uploadDate)
+		VALUES(4,#{param1},#{param2},NOW())
+	</insert>
+	
 
 
 

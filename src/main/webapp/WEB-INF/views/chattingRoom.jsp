@@ -204,7 +204,6 @@
 <script>
 
 	var chatContainer = $('.chat');
-	var userScrolledManually = false;
 
 	var chat_idx = ${chat_idx};
 	var review = '${review}';
@@ -214,9 +213,27 @@
 		location.href="./chattingList.go";
 	});
 	
-	chatContainer.on('scroll', function() {
-	    userScrolledManually = true;
-	});
+	// 스크롤 위치 저장 변수
+	   var userScrolled = false;
+	   
+	   // 스크롤 이벤트 처리
+	   $('.chat').on('scroll', function () {
+	       if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+	           // 사용자가 스크롤을 가장 아래로 내린 경우
+	           userScrolled = false;
+	       } else {
+	           // 사용자가 스크롤을 위로 올린 경우
+	           userScrolled = true;
+	       }
+	   });
+
+	   // 대화가 추가될 때마다 스크롤 이동
+	   function scrollToBottom() {
+	       // 사용자가 스크롤을 위로 올린 경우에는 자동 스크롤을 하지 않음
+	       if (!userScrolled) {
+	           $('.chat').animate({ scrollTop: $('.chat').prop("scrollHeight") }, 0);
+	       }
+	   }
 	
 	
 	
@@ -331,6 +348,10 @@
 						}
 					}
 				});
+				
+				if (!userScrolled) {
+			           scrollToBottom();
+			       }
 
 		}
 		
@@ -376,7 +397,7 @@
 		}
 	}
 	
-
+	scrollToBottom();
 	
 	// 채팅내용 보내기
 	$('.send').on('click',function(){

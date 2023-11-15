@@ -70,7 +70,7 @@
     	text-align: center; 
     	z-index:1000
     }
-	#openModal #photo {
+	#photo {
 	    position: relative;
     	left: 0px;
 		width: 360px;
@@ -85,9 +85,11 @@
 		cursor: pointer;
 	}
 	
+
 	.mainContent{
 		display:flex;
 		flex-direction: column;
+		cursor:pointer;
 	}
 	
 
@@ -237,7 +239,21 @@
 	.bi-x-lg{
 		color:var(--green);
 	}
-
+	
+	.filter{
+		position:absolute;
+		top:182px;
+		left:640px;
+		width:480px;
+		height:560px;
+		background-color:rgba(0,0,0,0.0);
+		backdrop-filter: blur(4px);
+		z-index:9999;
+	}
+	
+	.gnb{
+		left:770px;
+	}
 	
 </style>
 </head>
@@ -250,15 +266,15 @@
 				<a href="./HomeMatchingList.do"><img src="/photo/logo.png" class="logo_matchDog"/></a>
 			</h1>
 			<div class="gnb">
-				<a id="openAlarm" class="alarm"><span class="bi bi-bell-fill"></span></a>
-				<a href="./logout.do"><span class="logout">로그아웃</span></a>
+				<a href="./login.go"><span class="login logout">로그인</span></a>
+				<a href="./joinForm.go"><span class="logout">회원가입</span></a>
 			</div>
 		</div>
 	</div>
 	<div class="mainContainer">
 		<div class="side">
 			<div class="menu">
-				<a href="./HomeMatchingList.do" class="btn_gnb home">
+				<a href="./" class="btn_gnb home">
 					<span class="bi bi-house-door-fill"></span>
 					<span>홈</span>
 				</a>
@@ -278,16 +294,13 @@
 		        	<span class="bi bi-person-circle"></span>
 					<span>마이페이지</span>
 		        </a>
-	            <a href="./adminList.go" class="btn_gnb admin">
-	            	<span class="bi bi-gear-fill"></span>
-					<span>관리자페이지</span>
-	            </a>
 			</div>
 		</div>
 	<div class="content">
 		<div class="mainContent">
 			<div class="main_subject">우리동네 매칭리스트</div>
 			<div class="main_text">우리 동네의 만나고 싶은 강아지들과 매칭을 이용해보세요!</div>
+			<div class="filter"></div>
 			<div class="mat_card">
 			    <button id="openModal" ><img id="photo"></button>
 		        <div class="btn" id="member_dongAddr"></div>
@@ -327,6 +340,17 @@
 </div>
 </body>	
 <script>
+
+
+$('.mat_card').on('click',function(){
+	alert('로그인이 필요한 서비스입니다');
+});
+
+$('.filter').on('click',function(){
+	alert('로그인이 필요한 서비스입니다');
+});
+
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -459,26 +483,6 @@ function showMatchingData(index) {
     console.log("매칭리스트 + 성향 값 : " + currentMatch);
 }
 
-// 다음 버튼 클릭 시 다음 매칭 데이터 표시
-$('#nextButton').click(function () {
-		console.log("다음 버튼");
-    currentIndex = (currentIndex + 1) % matchingData.length;
-    showMatchingData(currentIndex);
-});
-
-// 이전 버튼 클릭 시 이전 매칭 데이터 표시
-$('#prevButton').click(function () {
-	console.log("이전 버튼");
-    currentIndex = (currentIndex - 1) % matchingData.length;
-    console.log("인덱스 -1 = "+currentIndex);
-    if(currentIndex < 0){
-   	 currentIndex = matchingData.length-1;
-   	 console.log("마지막 인덱스 = "+currentIndex);
-     showMatchingData(currentIndex);
-    }else{
-   	 showMatchingData(currentIndex);
-    }
-});
 
 /* 이거는 이전버튼 누르고 삭제 눌렀을때 제대로 동작되게 하는걸 수정하려고 넣어본 코드
 $('#prevButton').click(function () {
@@ -490,66 +494,6 @@ $('#prevButton').click(function () {
 */
 
 // 삭제 버튼 클릭시 리스트에서 삭제
-$('#matchingdel').click(function () {
-	console.log("삭제 버튼");
-	matchingData.splice(currentIndex,1);
-	showMatchingData(currentIndex);
-});
-
-//매칭요청 버튼 클릭시 매칭요청 보내기
-$('#matchingreq').click(function () {
-	console.log("매칭 버튼 클릭");
-	  	 
-	var currentMatch = matchingData[currentIndex];
-	var matchingList = currentMatch && currentMatch.matchingList && currentMatch.matchingList[currentIndex];
-	var request = {
-    		  pro_idx: pro_idx
-    };
-	$.ajax({
-		type: 'POST',  // HTTP 요청 방식 선택 (GET, POST 등)
-		url: 'HomeSend.do',  // 서버로 요청을 보낼 URL
-		data: JSON.stringify(request),  // 데이터를 JSON 형식으로 변환하여 보냅니다
-		contentType: 'application/json',  // 보내는 데이터의 유형 (JSON)
-		dataType: 'Json',  // 서버로부터의 응답 데이터 타입 (JSON)
-		success: function (response) {
-			console.log("stringify 성공 : " + JSON.stringify(request));
-		    console.log('매칭 요청 성공:', response);
-		    alert("매칭 요청이 발송되었습니다");
-		},
-		error: function (e) {
-		    // 오류 발생 시 처리하는 로직을 작성합니다
-		    console.error('매칭 요청 실패:', e);
-		    console.log("stringify 실패 : " + JSON.stringify(request));
-		}
-	}); 
-});
-
-$('#openModal').click(function (e) {
-	e.stopPropagation(); // 모달의 영향을 받지 않도록 이벤트 전파 막기
-	var currentMatch = matchingData[currentIndex];
-	var matchingList = currentMatch && currentMatch.matchingList && currentMatch.matchingList[currentIndex];
-	
-	console.log("모달클릭");
-	console.log("pro_idx 값: "+pro_idx);
-
-   // JSP 파일을 가져와서 모달 창에 표시
-	if (pro_idx !== '') {
-	    $.get("./memberDetailList.go?pro_idx=" + pro_idx, function(data) {
-	        console.log(data);
-	        console.log("#modalContent");
-	        $("#modalContent").html(data);
-	    });
-	}
-});
-
-$('#openAlarm').click(function (e) {
-   // JSP 파일을 가져와서 모달 창에 표시
-   $.get("./alarmList.go", function(data) {
-   	console.log(data);
-   	console.log("#alarmContent");
-       $("#alarmContent").html(data);
-   });
-});
 
 var msg = "${msg}";
 if(msg != ""){
