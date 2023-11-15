@@ -75,64 +75,52 @@
 	.btn_gnb.admin:hover{
 		background-color: var(--light);
 	}
+	#modalContent{
+    	width: 500px;
+    	height: 500px;
+    	text-align: left; 
+	}
+	.mainContainer {
+	    display: flex;
+	    width: 1280px;
+	    margin: auto;
+	}
 
-.content {
-padding: 1.6rem;
-margin: 1.6rem;
-text-align: center;
-font-family:pretendard;
-}
+	.sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #255,255,255;
+        padding-top: 20px;
+    }
 
-.close {
-	position: relative;
-	left: 330px;
-	top: 20px;
-	cursor: pointer;
-	font-size: 32px;
-	color:var(--grey);
-}
+    .sidebar h2 {
+        color: black;
+        text-align: center;
+    }
 
-.fileContent{
-	display:inline-block;
-}
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
 
-.write-link.attach{
-	display: inline-block;
-	position:relative;
-	top:100px;
-	right:20px;
-	cursor: pointer;
-	color: #1abc9c;
-	color:var(--green);
-	font-size: 33px;
-}
+    .sidebar ul li {
+        padding: 10px;
+        text-align: center;
+    }
 
-
-.image-container{
-	display:inline-block;
-	width: 104px;
-	height: 120px;
-	border: 1px solid var(--light);
-	border-radius: 8px;
-	box-shadow: 0 0 4px 1px var(--light);
-	margin-left:10px;
-	margin-bottom:40px;
-}
-
-
-.imgtable .image-container img{
-	display:inline-block;
-	right:10px;
-	width: 104px;
-	height: 120px;
-	border-radius: 8px;
-    object-fit: cover;
-}
-
-
+    .sidebar a {
+        color: black;
+        text-decoration: none;
+    }
+	.content {
+        text-align: center;
+    }
 
 	table, th, td{
-		border: 1px solid #696969;
+		border: 1px solid black;
 		border-collapse: collapse;
 		padding: 5px 10px;
 	}
@@ -173,20 +161,6 @@ font-family:pretendard;
 	div#pageButton {
     width: 1192px;
 	}
-	a.highlight-link:hover {
-        color: #1abc9c; /* 마우스 오버 시 링크 색상 */
-    }
-	.button-green {
-        padding: 5px 20px;
-        font-size: 12px;
-        text-align: center;
-        text-decoration: none;
-        background-color: #1abc9c;
-        color: #ffffff;
-        border-radius: 5px;
-        border: 1px solid #1abc9c;
-        cursor: pointer;
-    } 
 </style>
 </head>
 <body>
@@ -246,7 +220,7 @@ font-family:pretendard;
 		<thead>
 		<tr>
 			<th width="100px">번호</th>	
-			<th >제목</th>
+			<th>제목</th>
 			<th width="250px">작성자</th>
 			<th width="120px">작성일</th>
 			<th width="120px">조회수</th>
@@ -279,7 +253,7 @@ font-family:pretendard;
 						<option value="member_nickName">작성자</option>
 					</select>
 					 <input type="text" id="searchKey" placeholder="검색어 입력">
-	  				 <button id="search" class="button-green">검색</button>
+	  				 <button id="search">검색</button>
   				 </div>
 			</td>
 		</tr>

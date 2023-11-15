@@ -88,74 +88,6 @@ a, a:link, a:visited, a:active, a:hover {
     #replySubmit{
     	margin-left: 10px;
     }
-        .details-row {
-        display: flex;
-        align-items: center; /* 세로 가운데 정렬 */
-    }
-
-    .details-row input {
-        margin-right: 10px; /* 버튼과 제목 사이 간격 조절 */
-    }
-    .details-row input[type="button"] {
-        border: none;
-        outline: none;
-        
-    }
-
-    .updel {
-        display: flex;
-    justify-content: flex-end;
-        align-items: center;
-        margin-bottom: 10px; /* 원하는 간격으로 조절 */
-    }
-
-    .updel label {
-        margin-right: 10px; /* 라벨과 값 간의 간격을 조절 */
-    }
-
-	.button-group {
-        display: flex;
-    }
-    .button-green {
-        padding: 6px 20px;
-        margin:3px;
-        font-size: 12px;
-        text-align: center;
-        text-decoration: none;
-        background-color: #1abc9c;
-        color: #ffffff;
-        border-radius: 5px;
-        border: 1px solid #1abc9c;
-        cursor: pointer;
-    } 
-    .button-gray {
-        padding: 6px 20px;
-        font-size: 12px;
-        text-align: center;
-        text-decoration: none;
-        background-color: #808080;
-        color: #ffffff;
-        border-radius: 5px;
-        border: 1px solid #808080;
-        cursor: pointer;
-    }
-    .boardContent {
-    min-height: 300px;
-    width: 950px;
-    border: 1px solid #aaa;
-    padding: 0.6rem;
-    font-family: pretendard;
-}
-.button-container {
-            display: flex;
-    justify-content: center;
-            align-items: center; /* 가운데 정렬 추가 */
-        }
-
-        .button-container div {
-            margin-left: 10px;
-            margin-right: 10px; /* 왼쪽, 오른쪽 여백 추가 */
-        }
     </style>
 </head>
 <body>
@@ -206,63 +138,64 @@ a, a:link, a:visited, a:active, a:hover {
 		<div id="boardContent"></div>
 		<div id="commendContent"></div>
 	<form action="detail" method="post">
-    <div class="board-details">
-        <div class="details-row">
-    <input type="button" onclick="location.href='./boardList.go'" value="<"/>
-    <h3>${board.board_subject}</h3>
-</div>
-        <div class="details-row">
+	<table>
+		<tr>
+			<td cols="2">제목 : &nbsp&nbsp&nbsp${board.board_subject}</td>
+		</tr>
+		<tr>
+			<td cols="">작성자 : &nbsp&nbsp
+				<c:forEach items="${boardPro}" var="boardPro">
+					<img src="/photo/${boardPro.photo_fileName}" width="20" height="20" alt="${boardPro.photo_fileName}"/>
+				</c:forEach> ${board.member_nickName}
+			</td>
+		</tr>
+		<tr>
+			<td cols="2">작성일 :  &nbsp&nbsp ${board.board_regDate}</td>
+		</tr>
+		<tr>
+			<td cols="2">조회수 :  &nbsp&nbsp ${board.board_bHit}</td>
+		</tr>
+		<tr>
+			<td cols="2"><textarea id="boardContent" rows="15" cols="140" readonly >${board.board_content}</textarea></td>
+		</tr>
+		<c:if test="${photos.size()>0}">
+			<tr>
+				<td cols="2"> 사진 &nbsp&nbsp
+				<c:forEach items="${photos}" var="photo">
+					<img src="/photo/${photo.photo_fileName}" width="100" height="100" alt="${photo.photo_fileName}"/>
+				</c:forEach>
+				</td>
+			</tr>
+		</c:if>
+		<tr>
+			<th colspan="2">
+				<input type="button" onclick="location.href='./boardList.go'" value="리스트"/>
+				<c:if test="${board.member_idx == sessionScope.loginInfo.member_idx}">
+				    <%-- <input type="button" onclick="location.href='./del?board_id=${board.board_id}'" value="삭제"/> --%>
+				    <input type="button" onclick="confirmDelete(${board.board_id})" value="삭제"/>
+				    
+				    <input type="button" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
+				</c:if>
+				<c:if test="${board.member_idx != sessionScope.loginInfo.member_idx}">
+					<input class="moddButton" type="button" id = "openBoardComp" value="신고"/>
+				</c:if>
+			</th>
+		</tr>
+	</table>
+	<form id="recommendLike">
+		<div>
+			<input type="button" id="likeButton" onclick="like('${board.board_id}')" value="좋아요"/>
+			<span id="likeCount">0</span>
+		</div>
+	</form>
+	<form id="recommendHate">
+		<div>
+			<input type="button" id="hateButton" onclick="hate('${board.board_id}')" value="싫어요"/>
+			<span id="hateCount">0</span>
+		</div>
+	</form>
 
-            <c:forEach items="${boardPro}" var="boardPro">
-                <img src="/photo/${boardPro.photo_fileName}" width="20" height="20" alt="${boardPro.photo_fileName}"/>
-            </c:forEach>
-            <span>${board.member_nickName}</span>
-        </div>
-        <div><span class="board-info">${board.board_regDate}</span></div>
-    <div><label class="board-info">조회수 :</label>
-    <span class="board-info">${board.board_bHit}</span></div>
-    <div class="updel">
-    <c:if test="${board.member_idx == sessionScope.loginInfo.member_idx}">
-        <div class="button-group">
-            <input type="button" class="button-green" onclick="confirmDelete(${board.board_id})" value="삭제"/>
-            <input type="button" class="button-green" onclick="location.href='./updateForm?board_id=${board.board_id}'" value="수정"/>
-        </div>
-    </c:if>
-</div>
-        <div class="boardContent">
-            <div id="boardContent">${board.board_content}
-        </div>
-        <c:if test="${photos.size()>0}">
-            <div class="details-row">
-                <c:forEach items="${photos}" var="photo">
-                    <img src="/photo/${photo.photo_fileName}" width="100" height="100" alt="${photo.photo_fileName}"/>
-                </c:forEach>
-            </div>
-        </c:if>
-        </div>
-        <div class="buttons">
-                <c:if test="${board.member_idx != sessionScope.loginInfo.member_idx}">
-                    <input class="moddButton" type="button" id="openBoardComp" value="신고"/>
-                </c:if>
-            </div>
-    </div>
-
-    <div class="button-container">
-        <form id="recommendLike">
-            <div>
-                <input type="button" id="likeButton" class="button-green" onclick="like('${board.board_id}')" value="좋아요👍"/>
-                <span id="likeCount">0</span>
-            </div>
-        </form>
-
-        <form id="recommendHate">
-            <div>
-                <input type="button" id="hateButton" class="button-gray" onclick="hate('${board.board_id}')" value="싫어요👎"/>
-                <span id="hateCount">0</span>
-            </div>
-        </form>
-    </div>
-</form>
+	</form>
 	<h2>댓글</h2>
 	<hr width="1000px" align="left">
     <form id="replyForm">
