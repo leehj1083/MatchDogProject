@@ -579,11 +579,11 @@ height: 30px;
 			  		</div>
 			  	</div>
 				<!-- 프로필 삭제 버튼  -->
-				<button class='profileDelDo' value="${Profile.pro_idx}">-</button>
+				<button class='profileDelDo' value="${Profile.pro_idx}" pro_rep="${Profile.pro_rep}">-</button>
 			</c:if>
 			
 			<c:if test="${Profile.pro_quit == 'N' && myProfile.size() >= 3}">
-				<button class='profileDelDo' value="${Profile.pro_idx}">-</button><input type="hidden" value="${Profile.pro_idx}"/>
+				<button class='profileDelDo' value="${Profile.pro_idx}" pro_rep="${Profile.pro_rep}">-</button><input type="hidden" value="${Profile.pro_idx}"/>
 			</c:if>
 			
 		    
@@ -760,11 +760,32 @@ var pro_idx = null;
 
 //프로필 삭제(숨김) 스크립트
 
-profileDelDo.on("click", function (e) {
+/* profileDelDo.on("click", function (e) {
+	
 	console.log("삭제");
 	pro_idx = $(this).attr("value");
 	console.log(pro_idx);
+	
+	
+	
 	profileDelDoModal.css("display", "block");
+}); */
+
+
+profileDelDo.on("click", function (e) {
+	var pro_rep = $(this).attr("pro_rep");
+
+    console.log("pro_rep:", pro_rep);
+
+    if (pro_rep === 'Y') {
+        console.log('대표프로필');
+        alert('대표프로필은 삭제할 수 없습니다.');
+    } else if (pro_rep === 'N') {
+        console.log("삭제");
+        pro_idx = $(this).attr("value");
+        console.log(pro_idx);
+        profileDelDoModal.css("display", "block");
+    }
 });
 
 

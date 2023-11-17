@@ -8,7 +8,7 @@
 SELECT *
 FROM pro p
 INNER JOIN breed b ON p.pro_idx = b.pro_idx
-INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code where member_idx=#{idx}
+INNER JOIN breedtype bt ON b.breedType_code = bt.breedType_code and pro_quit="N" where member_idx=#{idx}
 
 </select>
 <select id="charType" resultType = "com.one.mat.member.dto.ProfileDTO">
