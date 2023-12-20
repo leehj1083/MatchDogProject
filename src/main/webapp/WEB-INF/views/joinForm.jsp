@@ -151,8 +151,8 @@ select {
 		    <p/>아이디<br/>  
 		    <input type="text" name="member_id" style="width: 70%;"/>
 		    <input type="button" class="button" id="overlayId" value="중복확인"/>
-		    <p/><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해 주세요.</span>
-		    <p/><span class="idChk"></span>
+			</p><span class="idValid" style="font-size : 8pt"> ※ 아이디는 영문, 숫자로 구성하여 4~14자 까지 입력해 주세요.</span>
+			</p><span class="idChk"></span>
 		    
 		
 			 <p/>비밀번호<br/>  

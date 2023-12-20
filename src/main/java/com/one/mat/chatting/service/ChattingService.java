@@ -32,6 +32,7 @@ public class ChattingService {
 	ChattingDAO dao;
 
 	private String root = "C:/upload/";
+	/* private String root = "/usr/local/tomcat/upload/"; */
 
 	ArrayList<ProfileDTO> proIdx = new ArrayList<ProfileDTO>();
 	ChattingDTO chatDTO = new ChattingDTO();

@@ -28,8 +28,7 @@ public class RegProfileController {
 	String redirectURL = "";
 	 
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
-	RegProfileService service;
+	@Autowired	RegProfileService service;
 
 	@RequestMapping("/chattcompTypeList.do")
 	public String compTypeList(Model model,@RequestParam(name = "comp_idfNum", required = false) String chattId,@RequestParam(name="comp_reportIdx", required = false)String reportId, HttpSession session) {

@@ -30,6 +30,8 @@ public class MyProfileService {
 
 	private String root = "C:/upload/";
 	private String temp = "C:/upload/temp";
+	/* private String root = "/usr/local/tomcat/upload/"; */
+	/* private String temp = "/usr/local/tomcat/upload/temp"; */
 
 	public void MyProfileListDo(int idx, Model model) {
 

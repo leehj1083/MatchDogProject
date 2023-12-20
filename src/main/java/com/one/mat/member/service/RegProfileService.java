@@ -32,6 +32,7 @@ public class RegProfileService {
 	RegProfileDAO dao;
 
 	private String root = "C:/upload/";
+	/* private String root = "/usr/local/tomcat/upload/"; */
 	
 	public ArrayList<CompDTO> compList() {
 		return dao.compList();

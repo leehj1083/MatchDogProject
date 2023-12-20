@@ -28,6 +28,7 @@ public class BoardService {
 	@Autowired BoardDAO dao;
 	
 	private String root = "C:/upload/";
+	/* private String root = "/usr/local/tomcat/upload/"; */
 	
 	public Map<String, Object> list(String pagePerNum, String page) {
 		
